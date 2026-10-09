@@ -201,7 +201,7 @@ export default async function IslamicTheme({ taklif }: ThemeProps) {
           <Section title={t("countdown.title")}>
             <Countdown
               eventAt={taklif.eventAt}
-              boxClassName="bg-[#0b3b31] text-[#f5e2a8] ring-1 ring-[#c9a45c]/40"
+              boxClassName="rounded-2xl bg-[#0b3b31] py-3 text-[#f5e2a8] ring-1 ring-[#c9a45c]/40"
             />
           </Section>
 

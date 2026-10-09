@@ -27,7 +27,7 @@ const noClock = () => null;
 /** Live countdown to the event; placeholders until it runs in the browser. */
 export default function Countdown({
   eventAt,
-  boxClassName = "",
+  boxClassName = "rounded-2xl py-3",
 }: {
   eventAt: string;
   boxClassName?: string;
@@ -46,7 +46,7 @@ export default function Countdown({
       {UNITS.map((unit) => (
         <div
           key={unit}
-          className={`flex flex-col items-center rounded-2xl py-3 ${boxClassName}`}
+          className={`flex flex-col items-center ${boxClassName}`}
         >
           <span className="font-serif text-3xl tabular-nums">
             {left ? String(left[unit]).padStart(2, "0") : "––"}

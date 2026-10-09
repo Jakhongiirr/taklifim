@@ -102,7 +102,7 @@ export default async function HomePage() {
               {demos.map((demo) => (
                 <li
                   key={demo.id}
-                  className="w-[78%] shrink-0 snap-center sm:w-[calc(50%-12px)] lg:w-[calc((100%-48px)/3)]"
+                  className="w-[68%] shrink-0 snap-center sm:w-[calc(50%-12px)] sm:max-w-[280px] lg:w-[calc((100%-72px)/4)]"
                 >
                   <TemplateCard demo={demo} />
                 </li>

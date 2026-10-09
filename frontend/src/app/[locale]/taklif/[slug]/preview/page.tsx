@@ -24,7 +24,8 @@ export default async function InvitationPreviewPage({
     <>
       {/* Above the theme's cover, so the owner can always get back. */}
       <div className="sticky top-0 z-50 flex items-center justify-between gap-3 bg-ink px-4 py-2.5 text-xs text-paper">
-        <span>{t("banner")}</span>
+        {/* "Guests will see it once published" is only true before that. */}
+        {taklif.status === "published" ? <span /> : <span>{t("banner")}</span>}
         <span className="flex shrink-0 gap-2">
           <Link
             href={`/cabinet/edit/${taklif.slug}`}

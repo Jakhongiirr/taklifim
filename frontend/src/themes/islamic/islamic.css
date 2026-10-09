@@ -93,13 +93,14 @@
     animation: islamic-twinkle 3.2s ease-in-out infinite;
   }
 
-  /* Sections fade up as they scroll into view. Where scroll-driven
-     animations aren't supported, they're simply shown. */
+  /* Sections fade up as they scroll into view, done once fully on screen
+     (so the last one finishes too, at the end of the page). Where
+     scroll-driven animations aren't supported, they're simply shown. */
   @supports (animation-timeline: view()) {
     .islamic-reveal {
       animation: islamic-reveal linear both;
       animation-timeline: view();
-      animation-range: entry 0% cover 28%;
+      animation-range: entry 0% entry 100%;
     }
   }
 }

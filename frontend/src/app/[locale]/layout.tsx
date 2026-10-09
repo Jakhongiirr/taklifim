@@ -24,6 +24,12 @@ const cormorant = Cormorant_Garamond({
   style: ["normal", "italic"],
 });
 
+const OG_LOCALES: Record<string, string> = {
+  uz: "uz_UZ",
+  ru: "ru_RU",
+  en: "en_US",
+};
+
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
@@ -34,7 +40,20 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(routing.locales, locale)) return {};
   const t = await getTranslations({ locale, namespace: "Metadata" });
-  return { title: t("title"), description: t("description") };
+  return {
+    // Preview images and links need absolute URLs.
+    metadataBase: new URL(process.env.SITE_URL ?? "http://localhost:3001"),
+    title: t("title"),
+    description: t("description"),
+    openGraph: {
+      title: t("title"),
+      description: t("description"),
+      siteName: "taklifim.uz",
+      locale: OG_LOCALES[locale],
+      type: "website",
+    },
+    twitter: { card: "summary_large_image" },
+  };
 }
 
 export default async function LocaleLayout({

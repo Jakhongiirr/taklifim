@@ -15,7 +15,11 @@
       "rights": "© {year} Taklifim",
       "top": "Yuqoriga"
     },
-    "cabinet": "Kabinet"
+    "cabinet": "Kabinet",
+    "legal": {
+      "terms": "Ommaviy oferta",
+      "privacy": "Maxfiylik siyosati"
+    }
   },
   "HomePage": {
     "hero": {
@@ -66,7 +70,7 @@
       "eyebrow": "Dizaynlar toʻplami",
       "title": "Taklifnoma dizaynlari",
       "subtitle": "Didingizga mosini tanlang — har bir dizaynni jonli koʻrish mumkin.",
-      "view": "Jonli koʻrish",
+      "view": "Koʻrish",
       "price": "{price} soʻm",
       "free": "Bepul",
       "empty": "Dizaynlar tez orada qoʻshiladi.",
@@ -147,7 +151,8 @@
       "tooMany": "Urinishlar juda koʻp. Birozdan soʻng qayta urinib koʻring.",
       "delivery": "Kodni yuborib boʻlmadi. Bu raqamda Telegram borligini tekshiring.",
       "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
-    }
+    },
+    "consent": "Kirish orqali siz <terms>ommaviy oferta</terms> va <privacy>maxfiylik siyosati</privacy> shartlariga rozilik bildirasiz."
   },
   "Cabinet": {
     "metaTitle": "Kabinet",
@@ -209,6 +214,21 @@
       "payshanba",
       "juma",
       "shanba"
+    ],
+    "weekdaysShort": ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"],
+    "monthsStandalone": [
+      "yanvar",
+      "fevral",
+      "mart",
+      "aprel",
+      "may",
+      "iyun",
+      "iyul",
+      "avgust",
+      "sentabr",
+      "oktabr",
+      "noyabr",
+      "dekabr"
     ]
   },
   "Invitation": {
@@ -354,5 +374,9 @@
     "duaTitle": "Yangi oila uchun duo",
     "duaTranslation": "Alloh sizlarga baraka bersin, ustingizga barakasini yogʻdirsin va ikkovingizni yaxshilikda jamlasin.",
     "closing": "Tashrifingizni intizorlik bilan kutamiz!"
+  },
+  "Legal": {
+    "updated": "Oxirgi yangilanish: {date}",
+    "contents": "Mundarija"
   }
 }

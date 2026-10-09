@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import type { FormEvent } from "react";
+import { Link } from "@/i18n/navigation";
 import { ApiError } from "@/lib/api-client";
 import { useOtpLogin } from "@/lib/use-otp-login";
 
@@ -120,6 +121,26 @@ export default function LoginForm({ next }: { next: string }) {
         )}
         {step === "phone" ? t("send") : t("verify")}
       </button>
+      <p className="text-center text-xs leading-relaxed text-muted">
+        {t.rich("consent", {
+          terms: (chunks) => (
+            <Link
+              href="/terms"
+              className="underline underline-offset-2 hover:text-ink"
+            >
+              {chunks}
+            </Link>
+          ),
+          privacy: (chunks) => (
+            <Link
+              href="/privacy"
+              className="underline underline-offset-2 hover:text-ink"
+            >
+              {chunks}
+            </Link>
+          ),
+        })}
+      </p>
     </form>
   );
 }

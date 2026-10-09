@@ -5,8 +5,8 @@ import { coupleNames } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 
 /**
- * Title, description and image for link previews in Telegram and other
- * messengers. Not indexed: invitations are private.
+ * Title and description for link previews in Telegram and other messengers
+ * (the image is opengraph-image.tsx). Not indexed: invitations are private.
  */
 export async function invitationMetadata(
   taklif: PublicTaklif,
@@ -21,17 +21,12 @@ export async function invitationMetadata(
     names: coupleNames(taklif),
   });
   const description = `${tDates("dateTime", { day, month: months[month], year, time })} · ${taklif.venueName}`;
-  const image = taklif.photos[0]?.url;
-
   return {
     title,
     description,
     robots: { index: false, follow: false },
-    openGraph: {
-      title,
-      description,
-      type: "website",
-      ...(image && { images: [{ url: image }] }),
-    },
+    // The image comes from opengraph-image.tsx next to the page.
+    openGraph: { title, description, type: "website", siteName: "taklifim.uz" },
+    twitter: { card: "summary_large_image" },
   };
 }

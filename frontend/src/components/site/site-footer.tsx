@@ -25,11 +25,19 @@ export default async function SiteFooter() {
         </nav>
       </div>
       <div className="border-t border-line">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 text-xs text-muted sm:px-6">
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-xs text-muted sm:px-6">
           <span>{t("footer.rights", { year: new Date().getFullYear() })}</span>
-          <a href="#top" className="hover:text-ink">
-            {t("footer.top")} ↑
-          </a>
+          <span className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/terms" className="hover:text-ink">
+              {t("legal.terms")}
+            </Link>
+            <Link href="/privacy" className="hover:text-ink">
+              {t("legal.privacy")}
+            </Link>
+            <a href="#top" className="hover:text-ink">
+              {t("footer.top")} ↑
+            </a>
+          </span>
         </div>
       </div>
     </footer>
