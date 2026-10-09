@@ -1,0 +1,358 @@
+{
+  "Metadata": {
+    "title": "Taklifim — elektron taklifnomalar",
+    "description": "Toʻy va oilaviy marosimlar uchun goʻzal elektron taklifnomalar. Dizayn tanlang, telefoningizda yarating va bitta havola bilan ulashing."
+  },
+  "Site": {
+    "nav": {
+      "templates": "Dizaynlar",
+      "how": "Qanday ishlaydi",
+      "faq": "Savollar"
+    },
+    "cta": "Yaratish",
+    "footer": {
+      "tagline": "Toʻy, nikoh va oilaviy marosimlar uchun elektron taklifnomalar.",
+      "rights": "© {year} Taklifim",
+      "top": "Yuqoriga"
+    },
+    "cabinet": "Kabinet"
+  },
+  "HomePage": {
+    "hero": {
+      "eyebrow": "Toʻy va oilaviy marosimlar uchun",
+      "title": "Mehmonlaringizni <accent>goʻzal taklifnoma</accent> bilan chorlang",
+      "subtitle": "Dizayn tanlang, maʼlumotlarni telefoningizda kiriting va taklifnomani bitta havola orqali yuboring.",
+      "priceFrom": "{price} soʻmdan",
+      "primary": "Taklifnoma yaratish",
+      "secondary": "Dizaynlarni koʻrish",
+      "note": "Bepul yarating va koʻrib chiqing — toʻlov faqat eʼlon qilishda."
+    },
+    "mock": {
+      "invite": "Sizni toʻyimizga taklif qilamiz",
+      "groom": "Jasur",
+      "bride": "Madina",
+      "weekday": "Shanba",
+      "day": "24",
+      "month": "Oktabr",
+      "year": "2026",
+      "time": "Soat 18:00",
+      "venue": "Navroʻz toʻyxonasi",
+      "map": "Xaritada ochish",
+      "eyebrow": "Taklifnoma",
+      "musicTitle": "Musiqa bilan",
+      "musicText": "Ochilganda yangraydi",
+      "daysLeft": "14 kun",
+      "daysLeftText": "toʻygacha qoldi"
+    },
+    "features": {
+      "photos": {
+        "title": "Fotosuratlar",
+        "text": "6 tagacha surat bilan hikoyangizni ulashing"
+      },
+      "music": {
+        "title": "Musiqa",
+        "text": "Taklifnoma ochilganda yoqimli kuy yangraydi"
+      },
+      "map": {
+        "title": "Manzil va xarita",
+        "text": "Mehmonlar toʻyxonani bir bosishda topadi"
+      },
+      "gift": {
+        "title": "Toʻyona",
+        "text": "Karta raqamini qoʻshing — uzoqdagilar ham tabriklay oladi"
+      }
+    },
+    "templates": {
+      "eyebrow": "Dizaynlar toʻplami",
+      "title": "Taklifnoma dizaynlari",
+      "subtitle": "Didingizga mosini tanlang — har bir dizaynni jonli koʻrish mumkin.",
+      "view": "Jonli koʻrish",
+      "price": "{price} soʻm",
+      "free": "Bepul",
+      "empty": "Dizaynlar tez orada qoʻshiladi.",
+      "choose": "Tanlash"
+    },
+    "how": {
+      "eyebrow": "Uch qadam",
+      "title": "Taklifnoma bir necha daqiqada",
+      "s1": {
+        "title": "Dizayn tanlang",
+        "text": "Toʻyingiz ruhiga mos dizaynni tanlang."
+      },
+      "s2": {
+        "title": "Maʼlumotlarni kiriting",
+        "text": "Ismlar, sana, manzil, suratlar va musiqa — hammasi telefoningizdan."
+      },
+      "s3": {
+        "title": "Havolani ulashing",
+        "text": "Toʻlovdan soʻng taklifnoma eʼlon qilinadi. Havolani Telegram yoki istalgan messenjerda yuboring."
+      }
+    },
+    "faq": {
+      "eyebrow": "Savollar",
+      "title": "Koʻp soʻraladigan savollar",
+      "q1": {
+        "q": "Taklifnoma yaratish pullikmi?",
+        "a": "Yaratish va koʻrib chiqish bepul. Toʻlov taklifnomani eʼlon qilganingizda, tanlangan dizayn narxi boʻyicha olinadi."
+      },
+      "q2": {
+        "q": "Mehmonlarga qanday yuboraman?",
+        "a": "Eʼlon qilingach, taklifnomaning shaxsiy havolasi paydo boʻladi. Uni Telegram, WhatsApp yoki SMS orqali yuboring — mehmonlar hech narsa oʻrnatishi shart emas."
+      },
+      "q3": {
+        "q": "Eʼlon qilgandan keyin oʻzgartirsa boʻladimi?",
+        "a": "Ha. Vaqt, manzil yoki suratlarni istalgan payt tahrirlashingiz mumkin, havola oʻzgarmaydi."
+      },
+      "q4": {
+        "q": "Taklifnoma qancha vaqt ochiq turadi?",
+        "a": "Tadbir kunidan keyin yana bir oy. Soʻngra taklifnoma va uning suratlari butunlay oʻchiriladi."
+      },
+      "q5": {
+        "q": "Tugallanmagan qoralama nima boʻladi?",
+        "a": "24 soat davomida tahrirlanmagan qoralamalar avtomatik oʻchiriladi. Bir vaqtda 30 tagacha qoralama saqlash mumkin."
+      }
+    },
+    "cta": {
+      "title": "Katta kuningizga birinchi qadam",
+      "text": "Hoziroq bepul boshlang — bir necha daqiqa kifoya.",
+      "button": "Taklifnoma yaratish"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Til",
+    "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Nomaʼlum}}"
+  },
+  "NotFound": {
+    "title": "Sahifa topilmadi",
+    "text": "Havola notoʻgʻri yoki eskirgan boʻlishi mumkin. Agar bu taklifnoma boʻlsa, u yashirilgan yoki tadbirdan soʻng oʻchirilgan boʻlishi mumkin.",
+    "back": "Bosh sahifaga qaytish",
+    "designs": "Dizaynlarni koʻrish"
+  },
+  "Auth": {
+    "metaTitle": "Kirish",
+    "title": "Kabinetga kirish",
+    "subtitle": "Telefon raqamingizni kiriting — tasdiqlash kodi Telegram orqali keladi.",
+    "phone": "Telefon raqam",
+    "code": "Tasdiqlash kodi",
+    "codeHint": "Kod {phone} raqamiga bogʻlangan Telegram akkauntga yuborildi.",
+    "send": "Kod olish",
+    "verify": "Kirish",
+    "resend": "Kodni qayta yuborish",
+    "resendIn": "Qayta yuborish: {seconds} s",
+    "change": "Raqamni oʻzgartirish",
+    "errors": {
+      "phone": "Telefon raqam notoʻgʻri.",
+      "code": "Kod notoʻgʻri yoki muddati oʻtgan.",
+      "codeSent": "Kod yaqinda yuborilgan — Telegramdagi kodni kiriting.",
+      "tooMany": "Urinishlar juda koʻp. Birozdan soʻng qayta urinib koʻring.",
+      "delivery": "Kodni yuborib boʻlmadi. Bu raqamda Telegram borligini tekshiring.",
+      "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+    }
+  },
+  "Cabinet": {
+    "metaTitle": "Kabinet",
+    "title": "Mening taklifnomalarim",
+    "logout": "Chiqish",
+    "create": "Yangi taklifnoma",
+    "drafts": "Qoralamalar: {count}/{max}",
+    "loadError": "Taklifnomalarni yuklab boʻlmadi. Sahifani yangilang.",
+    "empty": {
+      "title": "Hali taklifnoma yoʻq",
+      "text": "Dizayn tanlang va birinchi taklifnomangizni yarating.",
+      "button": "Dizaynlarni koʻrish"
+    },
+    "status": {
+      "draft": "Qoralama",
+      "published": "Eʼlon qilingan",
+      "unpublished": "Yashirilgan"
+    },
+    "eventAt": "Tadbir: {date}",
+    "draftExpires": "Tahrirlanmasa {date} oʻchiriladi",
+    "liveUntil": "{date} gacha ochiq turadi",
+    "actions": {
+      "delete": "Oʻchirish",
+      "confirmDelete": "Qoralama va uning suratlari butunlay oʻchiriladi. Davom etasizmi?",
+      "copied": "{lang} havola nusxalandi",
+      "unpublish": "Yashirish",
+      "publish": "Qayta eʼlon qilish",
+      "pay": "Toʻlash va eʼlon qilish",
+      "paySoon": "Toʻlov tez orada qoʻshiladi",
+      "error": "Amalni bajarib boʻlmadi. Qayta urinib koʻring.",
+      "preview": "Koʻrish",
+      "edit": "Tahrirlash",
+      "confirmDeleteTitle": "Qoralamani oʻchirasizmi?",
+      "cancel": "Bekor qilish",
+      "copyLink": "Havolani nusxalash:"
+    }
+  },
+  "Dates": {
+    "months": [
+      "yanvar",
+      "fevral",
+      "mart",
+      "aprel",
+      "may",
+      "iyun",
+      "iyul",
+      "avgust",
+      "sentabr",
+      "oktabr",
+      "noyabr",
+      "dekabr"
+    ],
+    "dateTime": "{day}-{month} {year}, {time}",
+    "weekdays": [
+      "yakshanba",
+      "dushanba",
+      "seshanba",
+      "chorshanba",
+      "payshanba",
+      "juma",
+      "shanba"
+    ]
+  },
+  "Invitation": {
+    "metaTitle": "{names} — toʻyga taklifnoma",
+    "cover": {
+      "eyebrow": "Taklifnoma",
+      "invite": "Sizni toʻyimizga taklif qilamiz",
+      "open": "Taklifnomani ochish"
+    },
+    "greeting": "Hurmatli mehmon!",
+    "text": "Hayotimizning eng quvonchli kunida yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning nikoh toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
+    "signature": "Hurmat bilan, {host}",
+    "date": {
+      "title": "Toʻy sanasi",
+      "time": "Soat {time}"
+    },
+    "countdown": {
+      "title": "Toʻygacha qoldi",
+      "days": "kun",
+      "hours": "soat",
+      "minutes": "daqiqa",
+      "seconds": "soniya",
+      "passed": "Toʻy boʻlib oʻtdi. Tashrifingiz uchun rahmat!"
+    },
+    "venue": {
+      "title": "Manzil",
+      "map": "Xaritada ochish"
+    },
+    "gallery": {
+      "title": "Lahzalarimiz"
+    },
+    "gift": {
+      "title": "Toʻyona",
+      "text": "Tabrigingizni karta orqali ham yuborishingiz mumkin",
+      "copy": "Nusxa olish",
+      "copied": "Nusxalandi"
+    },
+    "contact": {
+      "title": "Savollar boʻlsa",
+      "call": "Qoʻngʻiroq qilish"
+    },
+    "closing": "Sizni intiqlik bilan kutamiz!",
+    "music": {
+      "play": "Musiqani yoqish",
+      "pause": "Musiqani toʻxtatish"
+    },
+    "madeWith": "Taklifim.uz orqali yaratilgan",
+    "preview": {
+      "banner": "Oldindan koʻrish — mehmonlar taklifnomani eʼlon qilingandan soʻng koʻradi.",
+      "back": "Kabinet",
+      "edit": "Tahrirlash"
+    }
+  },
+  "Builder": {
+    "metaNew": "Yangi taklifnoma",
+    "metaEdit": "Taklifnomani tahrirlash",
+    "titleNew": "Yangi taklifnoma",
+    "titleEdit": "Taklifnomani tahrirlash",
+    "subtitle": "Maʼlumotlarni toʻldiring — saqlagach, taklifnomani oldindan koʻrasiz. Toʻlov faqat eʼlon qilishda.",
+    "publishedNote": "Bu taklifnoma eʼlon qilingan: oʻzgarishlar mehmonlarga bir daqiqa ichida koʻrinadi.",
+    "back": "Kabinet",
+    "sections": {
+      "design": "Dizayn",
+      "couple": "Kelin va kuyov",
+      "event": "Toʻy tafsilotlari",
+      "photos": "Suratlar",
+      "music": "Musiqa",
+      "extras": "Qoʻshimcha"
+    },
+    "fields": {
+      "brideName": "Kelinning ismi",
+      "groomName": "Kuyovning ismi",
+      "hostName": "Taklif qiluvchi",
+      "hostHint": "Masalan: Karimovlar oilasi",
+      "eventAt": "Sana va vaqt",
+      "eventHint": "Toshkent vaqti bilan",
+      "venueName": "Toʻyxona nomi",
+      "venueAddress": "Manzil",
+      "locationUrl": "Xarita havolasi",
+      "locationHint": "Google yoki Yandex xaritada joyni oching, «Ulashish»ni bosing va havolani shu yerga qoʻying.",
+      "cardNumber": "Toʻyona uchun karta raqami",
+      "cardHint": "Ixtiyoriy. Mehmonlar raqamni nusxalab, pul oʻtkazishi mumkin.",
+      "phone": "Aloqa uchun telefon",
+      "phoneHint": "Ixtiyoriy. Savollari boʻlsa, mehmonlar qoʻngʻiroq qiladi.",
+      "eventLimitHint": "Eʼlon qilingan taklifnoma sanasini koʻpi bilan {date} gacha surish mumkin."
+    },
+    "design": {
+      "free": "Bepul",
+      "price": "{price} soʻm",
+      "preview": "Koʻrish",
+      "selected": "Tanlangan"
+    },
+    "photos": {
+      "hint": "Ixtiyoriy. Suratsiz ham taklifnoma chiroyli koʻrinadi. 6 tagacha surat qoʻshish mumkin — birinchisi asosiy surat boʻladi.",
+      "add": "Surat qoʻshish",
+      "main": "Asosiy",
+      "remove": "Olib tashlash",
+      "moveUp": "Oldinga",
+      "moveDown": "Orqaga",
+      "tooMany": "Koʻpi bilan 6 ta surat qoʻshish mumkin.",
+      "badType": "Faqat JPG, PNG yoki WEBP suratlar.",
+      "tooBig": "Surat juda katta: 10 MB gacha boʻlishi kerak."
+    },
+    "music": {
+      "none": "Musiqasiz",
+      "play": "Tinglash",
+      "stop": "Toʻxtatish",
+      "showAll": "Barcha musiqalar ({count})",
+      "showLess": "Kamroq koʻrsatish"
+    },
+    "save": {
+      "create": "Saqlash va koʻrish",
+      "edit": "Oʻzgarishlarni saqlash",
+      "uploading": "Suratlar yuklanmoqda: {index}/{total}",
+      "saving": "Saqlanmoqda…"
+    },
+    "errors": {
+      "required": "Toʻldirilishi shart.",
+      "tooLong": "Juda uzun.",
+      "url": "Havola http:// yoki https:// bilan boshlanishi kerak.",
+      "card": "Karta raqami 16 ta raqamdan iborat boʻlishi kerak.",
+      "phone": "Telefon raqam notoʻgʻri.",
+      "design": "Dizaynni tanlang.",
+      "form": "Ayrim maydonlarni tekshiring.",
+      "draftLimit": "Sizda 30 ta qoralama bor. Keraksizlarini oʻchiring yoki eʼlon qiling.",
+      "generic": "Saqlab boʻlmadi. Qayta urinib koʻring.",
+      "upload": "Suratni yuklab boʻlmadi. Qayta urinib koʻring.",
+      "postpone": "Sanani {date} dan keyinga surib boʻlmaydi."
+    },
+    "leave": {
+      "title": "Oʻzgarishlar saqlanmagan",
+      "text": "Kiritgan maʼlumotlaringiz saqlanmaydi. Baribir chiqasizmi?",
+      "confirm": "Chiqish",
+      "cancel": "Qolish"
+    }
+  },
+  "Islamic": {
+    "eyebrow": "Nikoh toʻyiga taklifnoma",
+    "greeting": "Assalomu alaykum, aziz mehmon!",
+    "text": "Alloh taoloning marhamati bilan farzandlarimiz {groom} va {bride}ning nikoh toʻyi boʻlib oʻtadi. Ushbu quvonchli kunimizda sizni aziz mehmonimiz sifatida koʻrishdan mamnun boʻlamiz.",
+    "ayahTranslation": "Uning alomatlaridan biri — sizlar xotirjamlik topishingiz uchun oʻzlaringizdan juftlar yaratgani va oralaringizga muhabbat va mehr-shafqat solganidir.",
+    "ayahRef": "Rum surasi, 21-oyat",
+    "duaTitle": "Yangi oila uchun duo",
+    "duaTranslation": "Alloh sizlarga baraka bersin, ustingizga barakasini yogʻdirsin va ikkovingizni yaxshilikda jamlasin.",
+    "closing": "Tashrifingizni intizorlik bilan kutamiz!"
+  }
+}

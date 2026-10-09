@@ -1,0 +1,48 @@
+export default () => ({
+  nodeEnv: process.env.NODE_ENV ?? 'development',
+  port: parseInt(process.env.PORT ?? '3000', 10),
+  trustProxy: parseInt(process.env.TRUST_PROXY ?? '0', 10),
+  swaggerEnabled: process.env.SWAGGER_ENABLED === 'true',
+  internalApiSecret: process.env.INTERNAL_API_SECRET || undefined,
+  database: {
+    host: process.env.DB_HOST,
+    port: parseInt(process.env.DB_PORT ?? '5432', 10),
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    name: process.env.DB_NAME,
+    synchronize: process.env.DB_SYNCHRONIZE === 'true',
+    logging: process.env.DB_LOGGING === 'true',
+  },
+  redis: {
+    host: process.env.REDIS_HOST,
+    port: parseInt(process.env.REDIS_PORT ?? '6379', 10),
+    password: process.env.REDIS_PASSWORD || undefined,
+    db: parseInt(process.env.REDIS_DB ?? '0', 10),
+  },
+  jwt: {
+    accessSecret: process.env.JWT_ACCESS_SECRET,
+    accessTtl: parseInt(process.env.JWT_ACCESS_TTL ?? '900', 10),
+    refreshSecret: process.env.JWT_REFRESH_SECRET,
+    refreshTtl: parseInt(process.env.JWT_REFRESH_TTL ?? '2592000', 10),
+  },
+  otp: {
+    ttlSeconds: parseInt(process.env.OTP_TTL_SECONDS ?? '300', 10),
+    length: parseInt(process.env.OTP_LENGTH ?? '6', 10),
+  },
+  storage: {
+    endpoint: process.env.S3_ENDPOINT || undefined,
+    region: process.env.S3_REGION ?? 'us-east-1',
+    accessKey: process.env.S3_ACCESS_KEY,
+    secretKey: process.env.S3_SECRET_KEY,
+    bucket: process.env.S3_BUCKET,
+    forcePathStyle: process.env.S3_FORCE_PATH_STYLE === 'true',
+    publicUrl: process.env.S3_PUBLIC_URL,
+  },
+  upload: {
+    imageMaxSizeMb: parseFloat(process.env.UPLOAD_IMAGE_MAX_SIZE_MB ?? '10'),
+    audioMaxSizeMb: parseFloat(process.env.UPLOAD_AUDIO_MAX_SIZE_MB ?? '50'),
+  },
+  telegram: {
+    gatewayToken: process.env.TELEGRAM_GATEWAY_TOKEN || undefined,
+  },
+});

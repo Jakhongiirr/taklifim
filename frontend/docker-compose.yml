@@ -1,0 +1,28 @@
+name: taklifim-frontend
+
+# Joins the backend's network (start ../backend first), so the Next.js server
+# reaches the API by its service name.
+services:
+  web:
+    # Separate tags per target, so `up` without --build never runs the wrong one.
+    image: taklifim-frontend-web:dev
+    build:
+      context: .
+      target: development
+    environment:
+      API_URL: http://api:3000
+    ports:
+      - "${WEB_HOST_PORT:-3001}:3001"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    networks:
+      - default
+      - backend
+    restart: unless-stopped
+
+networks:
+  backend:
+    name: ${BACKEND_NETWORK:-taklifim_default}
+    external: true

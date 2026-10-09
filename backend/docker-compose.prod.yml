@@ -1,0 +1,21 @@
+# Usage: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  api:
+    image: taklifim-backend-api:prod
+    build:
+      target: production
+    environment:
+      NODE_ENV: production
+    volumes: !reset []
+
+  postgres:
+    ports: !reset []
+
+  redis:
+    ports: !reset []
+
+  # Port 9000 stays published so public file URLs resolve; put it behind
+  # your reverse proxy or CDN (S3_PUBLIC_URL). The console is not exposed.
+  minio:
+    ports: !override
+      - "${MINIO_HOST_PORT:-9000}:9000"

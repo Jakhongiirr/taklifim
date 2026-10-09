@@ -1,0 +1,38 @@
+# Project-wide rules. backend/ and frontend/ have their own .gitignore for
+# app-specific files (dist/, .next/, ...); these apply everywhere.
+
+# Dependencies
+node_modules/
+
+# Env files: secrets stay local. .env.example files document the variables.
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Caches and build info
+.eslintcache
+.cache/
+*.tsbuildinfo
+
+# Editors and IDEs
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Claude Code local settings
+.claude/settings.local.json

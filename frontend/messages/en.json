@@ -1,0 +1,358 @@
+{
+  "Metadata": {
+    "title": "Taklifim — digital invitations",
+    "description": "Beautiful digital invitations for weddings and family celebrations. Pick a design, fill it in on your phone and share it with one link."
+  },
+  "Site": {
+    "nav": {
+      "templates": "Designs",
+      "how": "How it works",
+      "faq": "FAQ"
+    },
+    "cta": "Create",
+    "footer": {
+      "tagline": "Digital invitations for weddings, nikah and family celebrations.",
+      "rights": "© {year} Taklifim",
+      "top": "Back to top"
+    },
+    "cabinet": "My account"
+  },
+  "HomePage": {
+    "hero": {
+      "eyebrow": "For weddings and family celebrations",
+      "title": "Invite your guests with a <accent>beautiful invitation</accent>",
+      "subtitle": "Pick a design, fill in the details on your phone and send the invitation with a single link.",
+      "priceFrom": "from {price} UZS",
+      "primary": "Create an invitation",
+      "secondary": "See designs",
+      "note": "Create and preview for free — you only pay when you publish."
+    },
+    "mock": {
+      "invite": "We invite you to our wedding",
+      "groom": "Jasur",
+      "bride": "Madina",
+      "weekday": "Saturday",
+      "day": "24",
+      "month": "October",
+      "year": "2026",
+      "time": "At 6:00 PM",
+      "venue": "Navruz Wedding Hall",
+      "map": "Open in maps",
+      "eyebrow": "Invitation",
+      "musicTitle": "With music",
+      "musicText": "Plays when opened",
+      "daysLeft": "14 days",
+      "daysLeftText": "until the wedding"
+    },
+    "features": {
+      "photos": {
+        "title": "Photos",
+        "text": "Tell your story with up to 6 photos"
+      },
+      "music": {
+        "title": "Music",
+        "text": "A melody plays when the invitation opens"
+      },
+      "map": {
+        "title": "Address & map",
+        "text": "Guests find the venue in one tap"
+      },
+      "gift": {
+        "title": "Gifts",
+        "text": "Add a card number so guests far away can send a gift"
+      }
+    },
+    "templates": {
+      "eyebrow": "Design collection",
+      "title": "Invitation designs",
+      "subtitle": "Choose the one you love — every design has a live preview.",
+      "view": "Live preview",
+      "price": "{price} UZS",
+      "free": "Free",
+      "empty": "Designs are coming soon.",
+      "choose": "Choose"
+    },
+    "how": {
+      "eyebrow": "Three steps",
+      "title": "Your invitation in minutes",
+      "s1": {
+        "title": "Pick a design",
+        "text": "Choose a design that fits the mood of your celebration."
+      },
+      "s2": {
+        "title": "Fill in the details",
+        "text": "Names, date, venue, photos and music — all from your phone."
+      },
+      "s3": {
+        "title": "Share the link",
+        "text": "After payment the invitation goes live. Send the link on Telegram or any messenger."
+      }
+    },
+    "faq": {
+      "eyebrow": "FAQ",
+      "title": "Frequently asked questions",
+      "q1": {
+        "q": "Is creating an invitation paid?",
+        "a": "Creating and previewing are free. You pay when you publish, at the price of the design you chose."
+      },
+      "q2": {
+        "q": "How do I send it to guests?",
+        "a": "Once published, your invitation gets its own link. Send it on Telegram, WhatsApp or by SMS — guests don't need to install anything."
+      },
+      "q3": {
+        "q": "Can I edit it after publishing?",
+        "a": "Yes. Change the time, venue or photos any time; the link stays the same."
+      },
+      "q4": {
+        "q": "How long does the invitation stay online?",
+        "a": "For one month after the event. Then the invitation and its photos are permanently deleted."
+      },
+      "q5": {
+        "q": "What happens to an unfinished draft?",
+        "a": "Drafts not edited for 24 hours are deleted automatically. You can keep up to 30 drafts at a time."
+      }
+    },
+    "cta": {
+      "title": "The first step to your big day",
+      "text": "Start for free right now — it only takes a few minutes.",
+      "button": "Create an invitation"
+    }
+  },
+  "LocaleSwitcher": {
+    "label": "Language",
+    "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Unknown}}"
+  },
+  "NotFound": {
+    "title": "Page not found",
+    "text": "The link may be wrong or out of date. If it was an invitation, it may have been hidden or removed after the event.",
+    "back": "Back to the home page",
+    "designs": "See designs"
+  },
+  "Auth": {
+    "metaTitle": "Log in",
+    "title": "Log in to your account",
+    "subtitle": "Enter your phone number — the confirmation code arrives in Telegram.",
+    "phone": "Phone number",
+    "code": "Confirmation code",
+    "codeHint": "The code was sent to the Telegram account linked to {phone}.",
+    "send": "Get code",
+    "verify": "Log in",
+    "resend": "Resend code",
+    "resendIn": "Resend in {seconds}s",
+    "change": "Change number",
+    "errors": {
+      "phone": "Invalid phone number.",
+      "code": "The code is wrong or has expired.",
+      "codeSent": "A code was sent recently — enter the code from Telegram.",
+      "tooMany": "Too many attempts. Please try again a bit later.",
+      "delivery": "Couldn't send the code. Check that this number has Telegram.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "Cabinet": {
+    "metaTitle": "My account",
+    "title": "My invitations",
+    "logout": "Log out",
+    "create": "New invitation",
+    "drafts": "Drafts: {count}/{max}",
+    "loadError": "Couldn't load your invitations. Refresh the page.",
+    "empty": {
+      "title": "No invitations yet",
+      "text": "Pick a design and create your first invitation.",
+      "button": "See designs"
+    },
+    "status": {
+      "draft": "Draft",
+      "published": "Published",
+      "unpublished": "Hidden"
+    },
+    "eventAt": "Event: {date}",
+    "draftExpires": "Deleted {date} unless edited",
+    "liveUntil": "Online until {date}",
+    "actions": {
+      "delete": "Delete",
+      "confirmDelete": "The draft and its photos will be permanently deleted. Continue?",
+      "copied": "{lang} link copied",
+      "unpublish": "Hide",
+      "publish": "Publish again",
+      "pay": "Pay and publish",
+      "paySoon": "Payment is coming soon",
+      "error": "Couldn't do that. Please try again.",
+      "preview": "Preview",
+      "edit": "Edit",
+      "confirmDeleteTitle": "Delete this draft?",
+      "cancel": "Cancel",
+      "copyLink": "Copy link:"
+    }
+  },
+  "Dates": {
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
+    "dateTime": "{month} {day}, {year}, {time}",
+    "weekdays": [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday"
+    ]
+  },
+  "Invitation": {
+    "metaTitle": "{names} — wedding invitation",
+    "cover": {
+      "eyebrow": "Invitation",
+      "invite": "We invite you to our wedding",
+      "open": "Open the invitation"
+    },
+    "greeting": "Dear guest!",
+    "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
+    "signature": "With respect, {host}",
+    "date": {
+      "title": "Wedding date",
+      "time": "At {time}"
+    },
+    "countdown": {
+      "title": "Time until the wedding",
+      "days": "days",
+      "hours": "hours",
+      "minutes": "min",
+      "seconds": "sec",
+      "passed": "The wedding has taken place. Thank you for being with us!"
+    },
+    "venue": {
+      "title": "Venue",
+      "map": "Open in maps"
+    },
+    "gallery": {
+      "title": "Our moments"
+    },
+    "gift": {
+      "title": "Gifts",
+      "text": "You can also send your gift to this card",
+      "copy": "Copy",
+      "copied": "Copied"
+    },
+    "contact": {
+      "title": "Any questions?",
+      "call": "Call"
+    },
+    "closing": "We look forward to seeing you!",
+    "music": {
+      "play": "Play music",
+      "pause": "Pause music"
+    },
+    "madeWith": "Made with Taklifim.uz",
+    "preview": {
+      "banner": "Preview — guests will see the invitation once it's published.",
+      "back": "My account",
+      "edit": "Edit"
+    }
+  },
+  "Builder": {
+    "metaNew": "New invitation",
+    "metaEdit": "Edit invitation",
+    "titleNew": "New invitation",
+    "titleEdit": "Edit invitation",
+    "subtitle": "Fill in the details — after saving you'll see a preview. You only pay when you publish.",
+    "publishedNote": "This invitation is published: guests will see your changes within a minute.",
+    "back": "My account",
+    "sections": {
+      "design": "Design",
+      "couple": "The couple",
+      "event": "Wedding details",
+      "photos": "Photos",
+      "music": "Music",
+      "extras": "Extras"
+    },
+    "fields": {
+      "brideName": "Bride's name",
+      "groomName": "Groom's name",
+      "hostName": "Hosted by",
+      "hostHint": "For example: the Karimov family",
+      "eventAt": "Date and time",
+      "eventHint": "Tashkent time",
+      "venueName": "Venue name",
+      "venueAddress": "Address",
+      "locationUrl": "Map link",
+      "locationHint": "Open the place in Google or Yandex Maps, tap “Share” and paste the link here.",
+      "cardNumber": "Card number for gifts",
+      "cardHint": "Optional. Guests can copy it to send a gift.",
+      "phone": "Contact phone",
+      "phoneHint": "Optional. Guests can call with questions.",
+      "eventLimitHint": "A published invitation's date can be moved to {date} at the latest."
+    },
+    "design": {
+      "free": "Free",
+      "price": "{price} UZS",
+      "preview": "Preview",
+      "selected": "Selected"
+    },
+    "photos": {
+      "hint": "Optional. Your invitation looks great without photos too. Add up to 6 — the first one becomes the main photo.",
+      "add": "Add photos",
+      "main": "Main",
+      "remove": "Remove",
+      "moveUp": "Earlier",
+      "moveDown": "Later",
+      "tooMany": "You can add up to 6 photos.",
+      "badType": "Only JPG, PNG or WEBP photos.",
+      "tooBig": "The photo is too large: up to 10 MB."
+    },
+    "music": {
+      "none": "No music",
+      "play": "Listen",
+      "stop": "Stop",
+      "showAll": "All music ({count})",
+      "showLess": "Show less"
+    },
+    "save": {
+      "create": "Save and preview",
+      "edit": "Save changes",
+      "uploading": "Uploading photos: {index}/{total}",
+      "saving": "Saving…"
+    },
+    "errors": {
+      "required": "Required.",
+      "tooLong": "Too long.",
+      "url": "The link must start with http:// or https://.",
+      "card": "A card number has 16 digits.",
+      "phone": "Invalid phone number.",
+      "design": "Choose a design.",
+      "form": "Please check the marked fields.",
+      "draftLimit": "You already have 30 drafts. Delete some or publish them.",
+      "generic": "Couldn't save. Please try again.",
+      "upload": "Couldn't upload a photo. Please try again.",
+      "postpone": "The date can't be later than {date}."
+    },
+    "leave": {
+      "title": "Unsaved changes",
+      "text": "What you've entered won't be saved. Leave anyway?",
+      "confirm": "Leave",
+      "cancel": "Stay"
+    }
+  },
+  "Islamic": {
+    "eyebrow": "Nikah invitation",
+    "greeting": "Assalamu alaykum, dear guest!",
+    "text": "By the grace of Allah, we joyfully invite you to the nikah of our children {groom} and {bride}. Your presence and prayers would mean a great deal to us.",
+    "ayahTranslation": "And among His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy.",
+    "ayahRef": "Surah Ar-Rum, 30:21",
+    "duaTitle": "A prayer for the couple",
+    "duaTranslation": "May Allah bless you both, shower His blessings upon you, and unite you in goodness.",
+    "closing": "We look forward to welcoming you!"
+  }
+}

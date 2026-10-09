@@ -1,0 +1,8 @@
+{
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    // The dev container compiles outside the bind-mounted source folder, so
+    // builds on the host and in the container never delete each other's output.
+    "outDir": "/tmp/nest-dist"
+  }
+}
