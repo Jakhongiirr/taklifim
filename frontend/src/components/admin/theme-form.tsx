@@ -102,7 +102,7 @@ export default function ThemeForm({
             className="pr-14 tabular-nums"
           />
           <span className="pointer-events-none absolute inset-y-0 right-3 flex items-center text-sm text-zinc-500">
-            UZS
+            so&apos;m
           </span>
         </div>
       </Field>

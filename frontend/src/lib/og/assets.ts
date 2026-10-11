@@ -27,7 +27,7 @@ const VARIANTS = [
 type OgFont = {
   name: string;
   data: Buffer;
-  weight: 500 | 600;
+  weight: 400 | 500 | 600;
   style: "normal" | "italic";
 };
 
@@ -51,6 +51,99 @@ export function ogFonts() {
     ),
   );
   return fonts;
+}
+
+/**
+ * The themes' typefaces for the couple's names (WOFF, in assets/fonts/<key>),
+ * one family name per subset like Cormorant's.
+ */
+const NAME_FONTS = {
+  "great-vibes": {
+    name: "GreatVibes",
+    subsets: ["latin", "latin-ext", "cyrillic"],
+  },
+  // Latin only: Cyrillic names fall back to Great Vibes, like the page.
+  parisienne: {
+    name: "Parisienne",
+    subsets: ["latin", "latin-ext"],
+    fallback: "great-vibes",
+  },
+  "marck-script": {
+    name: "MarckScript",
+    subsets: ["latin", "latin-ext", "cyrillic"],
+  },
+  "playfair-display": {
+    name: "PlayfairItalic",
+    subsets: ["latin", "latin-ext", "cyrillic"],
+    variant: "400-italic",
+  },
+  "yeseva-one": {
+    name: "YesevaOne",
+    subsets: ["latin", "latin-ext", "cyrillic"],
+  },
+  // No Latin Extended: Uzbek ʻ falls back to Cormorant.
+  prata: { name: "Prata", subsets: ["latin", "cyrillic"] },
+} as const;
+
+export type NameFont = keyof typeof NAME_FONTS;
+
+const nameFonts = new Map<NameFont, Promise<OgFont[]>>();
+
+/**
+ * A theme's name typeface: its fonts (add them to `ogFonts()`'s) and the
+ * `fontFamily` to use, falling back to Cormorant for missing letters.
+ */
+export async function ogNameFont(
+  key: NameFont,
+): Promise<{ fonts: OgFont[]; family: string }> {
+  const font: {
+    name: string;
+    subsets: readonly string[];
+    variant?: string;
+    fallback?: NameFont;
+  } = NAME_FONTS[key];
+  const { name, subsets, variant = "400-normal", fallback } = font;
+  const family = subsets.map((subset) => `${name}-${subset}`);
+  if (!nameFonts.has(key)) {
+    nameFonts.set(
+      key,
+      Promise.all(
+        subsets.map(async (subset, i) => ({
+          name: family[i],
+          data: await readFile(
+            join(
+              process.cwd(),
+              `assets/fonts/${key}/${key}-${subset}-${variant}.woff`,
+            ),
+          ),
+          weight: 400 as const,
+          style: "normal" as const,
+        })),
+      ),
+    );
+  }
+  const own = await nameFonts.get(key)!;
+  // A Latin-only script borrows another one's Cyrillic, then Cormorant.
+  const extra = fallback ? await ogNameFont(fallback) : null;
+  return {
+    fonts: extra ? [...own, ...extra.fonts] : own,
+    family: [...family, extra?.family ?? OG_FONT].join(", "),
+  };
+}
+
+const publicImages = new Map<string, Promise<string>>();
+
+/** A JPEG from public/ (e.g. a theme's art) as a data URI. */
+export function ogPublicImage(path: string) {
+  if (!publicImages.has(path)) {
+    publicImages.set(
+      path,
+      readFile(join(process.cwd(), "public", path)).then(
+        (data) => `data:image/jpeg;base64,${data.toString("base64")}`,
+      ),
+    );
+  }
+  return publicImages.get(path)!;
 }
 
 let logo: Promise<string> | undefined;

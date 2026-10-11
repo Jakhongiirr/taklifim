@@ -53,6 +53,58 @@ export function Button({
   );
 }
 
+/**
+ * A square button with just an icon, for row actions in dense tables. The
+ * label is the tooltip and what screen readers announce.
+ */
+export function IconButton({
+  label,
+  tone = "neutral",
+  className,
+  children,
+  ...props
+}: ButtonHTMLAttributes<HTMLButtonElement> & {
+  label: string;
+  tone?: "neutral" | "danger";
+}) {
+  return (
+    <button
+      type="button"
+      title={label}
+      aria-label={label}
+      className={cx(
+        "inline-flex size-8 shrink-0 items-center justify-center rounded-md text-zinc-500 transition-colors disabled:cursor-not-allowed disabled:opacity-50",
+        tone === "danger"
+          ? "hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-950/50 dark:hover:text-red-400"
+          : "hover:bg-zinc-100 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-100",
+        className,
+      )}
+      {...props}
+    >
+      <svg
+        aria-hidden
+        viewBox="0 0 24 24"
+        className="size-4"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        {children}
+      </svg>
+    </button>
+  );
+}
+
+/** Paths for IconButton. */
+export const iconPaths = {
+  edit: <path d="M4 20h4L18.5 9.5a2.1 2.1 0 0 0-3-3L5 17v3ZM14 8l3 3" />,
+  trash: (
+    <path d="M4 7h16M10 11v6M14 11v6M5 7l1 12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2l1-12M9 7V4h6v3" />
+  ),
+};
+
 export function Spinner({ className }: { className?: string }) {
   return (
     <span
@@ -200,7 +252,12 @@ export function Modal({
     >
       {open && (
         <div className="flex flex-col gap-4 p-6">
-          <h2 className="text-lg font-semibold">{title}</h2>
+          <div className="flex items-start justify-between gap-4">
+            <h2 className="text-lg font-semibold">{title}</h2>
+            <IconButton label="Close" onClick={onClose} className="-mt-1 -mr-2">
+              <path d="M6 6l12 12M18 6 6 18" />
+            </IconButton>
+          </div>
           {children}
         </div>
       )}

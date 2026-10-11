@@ -32,6 +32,8 @@
       "note": "Create and preview for free — you only pay when you publish."
     },
     "mock": {
+      "eyebrow": "Invitation",
+      "venue": "Navruz Wedding Hall",
       "invite": "We invite you to our wedding",
       "groom": "Jasur",
       "bride": "Madina",
@@ -40,13 +42,10 @@
       "month": "October",
       "year": "2026",
       "time": "At 6:00 PM",
-      "venue": "Navruz Wedding Hall",
-      "map": "Open in maps",
-      "eyebrow": "Invitation",
       "musicTitle": "With music",
       "musicText": "Plays when opened",
-      "daysLeft": "14 days",
-      "daysLeftText": "until the wedding"
+      "videoTitle": "Opens with a video",
+      "videoText": "In every design"
     },
     "features": {
       "photos": {
@@ -105,15 +104,15 @@
       },
       "q3": {
         "q": "Can I edit it after publishing?",
-        "a": "Yes. Change the time, venue or photos any time; the link stays the same."
+        "a": "Yes. Change the time, venue or photos any time; the link stays the same. Only the design can’t change after payment."
       },
       "q4": {
         "q": "How long does the invitation stay online?",
-        "a": "For one month after the event. Then the invitation and its photos are permanently deleted."
+        "a": "It stays online after the event too. One month after the event its photos are deleted; the text is kept."
       },
       "q5": {
         "q": "What happens to an unfinished draft?",
-        "a": "Drafts not edited for 24 hours are deleted automatically. You can keep up to 30 drafts at a time."
+        "a": "Drafts not edited for 7 days automatically lose their photos; the draft itself is kept. You can keep up to 30 drafts at a time."
       }
     },
     "cta": {
@@ -128,7 +127,7 @@
   },
   "NotFound": {
     "title": "Page not found",
-    "text": "The link may be wrong or out of date. If it was an invitation, it may have been hidden or removed after the event.",
+    "text": "The link may be wrong or out of date. If it was an invitation, it may have been hidden or removed.",
     "back": "Back to the home page",
     "designs": "See designs"
   },
@@ -172,8 +171,18 @@
       "unpublished": "Hidden"
     },
     "eventAt": "Event: {date}",
-    "draftExpires": "Deleted {date} unless edited",
-    "liveUntil": "Online until {date}",
+    "draftExpires": "Photos deleted {date} unless edited",
+    "liveUntil": "Photos kept until {date}",
+    "payment": {
+      "pending": "Confirming your payment…",
+      "pendingText": "Your invitation is published as soon as Payme confirms the payment. It takes a few seconds.",
+      "done": "Payment received!",
+      "doneText": "Your invitation is published. You can send the link to your guests.",
+      "open": "Open the invitation",
+      "slow": "The payment isn’t confirmed yet",
+      "slowText": "If the money was charged, refresh this page in a few minutes. If you cancelled the payment, you can try again.",
+      "dismiss": "Close"
+    },
     "actions": {
       "delete": "Delete",
       "confirmDelete": "The draft and its photos will be permanently deleted. Continue?",
@@ -181,13 +190,23 @@
       "unpublish": "Hide",
       "publish": "Publish again",
       "pay": "Pay and publish",
-      "paySoon": "Payment is coming soon",
+      "payHint": "{price} UZS · published as soon as it’s paid",
+      "payHintFree": "Free design — published right away",
+      "paying": "Going to payment…",
+      "payUnavailable": "Payment isn’t available right now. Please try again a little later.",
+      "publishedFree": "Your invitation is published!",
       "error": "Couldn't do that. Please try again.",
       "preview": "Preview",
       "edit": "Edit",
       "confirmDeleteTitle": "Delete this draft?",
+      "confirmDeleteLiveTitle": "Delete this invitation?",
+      "confirmDeleteLive": "The invitation, its photos and guests' replies will be permanently deleted, and its link will stop working. This can't be undone.",
       "cancel": "Cancel",
-      "copyLink": "Copy link:"
+      "copyLink": "Copy link:",
+      "responses": "Replies",
+      "download": "Download PNG",
+      "downloading": "Preparing…",
+      "downloadError": "Couldn't create the image. Please try again."
     }
   },
   "Dates": {
@@ -236,7 +255,8 @@
     "cover": {
       "eyebrow": "Invitation",
       "invite": "We invite you to our wedding",
-      "open": "Open the invitation"
+      "open": "Open the invitation",
+      "skip": "Skip"
     },
     "greeting": "Dear guest!",
     "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
@@ -276,6 +296,7 @@
       "pause": "Pause music"
     },
     "madeWith": "Made with Taklifim.uz",
+    "cardMadeWith": "Made with Taklifim.uz",
     "preview": {
       "banner": "Preview — guests will see the invitation once it's published.",
       "back": "My account",
@@ -319,7 +340,8 @@
       "free": "Free",
       "price": "{price} UZS",
       "preview": "Preview",
-      "selected": "Selected"
+      "selected": "Selected",
+      "locked": "The design can’t be changed after payment."
     },
     "photos": {
       "hint": "Optional. Your invitation looks great without photos too. Add up to 6 — the first one becomes the main photo.",
@@ -356,7 +378,8 @@
       "draftLimit": "You already have 30 drafts. Delete some or publish them.",
       "generic": "Couldn't save. Please try again.",
       "upload": "Couldn't upload a photo. Please try again.",
-      "postpone": "The date can't be later than {date}."
+      "postpone": "The date can't be later than {date}.",
+      "eventRange": "Choose a date from now up to {date}."
     },
     "leave": {
       "title": "Unsaved changes",
@@ -365,18 +388,57 @@
       "cancel": "Stay"
     }
   },
-  "Islamic": {
-    "eyebrow": "Nikah invitation",
-    "greeting": "Assalamu alaykum, dear guest!",
-    "text": "By the grace of Allah, we joyfully invite you to the nikah of our children {groom} and {bride}. Your presence and prayers would mean a great deal to us.",
-    "ayahTranslation": "And among His signs is that He created for you from yourselves mates that you may find tranquillity in them; and He placed between you affection and mercy.",
-    "ayahRef": "Surah Ar-Rum, 30:21",
-    "duaTitle": "A prayer for the couple",
-    "duaTranslation": "May Allah bless you both, shower His blessings upon you, and unite you in goodness.",
-    "closing": "We look forward to welcoming you!"
-  },
   "Legal": {
     "updated": "Last updated: {date}",
     "contents": "Contents"
+  },
+  "Rsvp": {
+    "title": "RSVP",
+    "subtitle": "Please let us know if you can come",
+    "name": "Your name",
+    "namePlaceholder": "For example: Aziza",
+    "attending": "Will you come?",
+    "yes": "Yes, I'll be there",
+    "no": "Sorry, I can't make it",
+    "guests": "How many of you?",
+    "wish": "Your wishes (optional)",
+    "wishPlaceholder": "Wishes for the couple…",
+    "send": "Send reply",
+    "sending": "Sending…",
+    "thanks": "Thank you, {name}!",
+    "thanksText": "Your reply has been passed to the couple.",
+    "again": "Send another reply",
+    "wishesTitle": "Wishes",
+    "liked": "Liked by the couple",
+    "noWishes": "No wishes yet — be the first!",
+    "previewNote": "Replies work once the invitation is published.",
+    "errors": {
+      "name": "Please enter your name.",
+      "links": "Links aren't allowed in wishes.",
+      "tooMany": "Too many attempts. Please try again a bit later.",
+      "full": "This invitation has reached its reply limit.",
+      "generic": "Couldn't send. Please try again."
+    }
+  },
+  "Responses": {
+    "metaTitle": "Replies",
+    "title": "Guest replies",
+    "back": "My account",
+    "coming": "Coming",
+    "declined": "Not coming",
+    "guests": "Total guests",
+    "empty": "No replies yet. Send the invitation link — replies will show up here.",
+    "yes": "Coming",
+    "no": "Not coming",
+    "people": "{count} people",
+    "noWish": "No wish left",
+    "like": "Like",
+    "unlike": "Remove like",
+    "delete": "Delete",
+    "confirmTitle": "Delete this reply?",
+    "confirmText": "The reply and its wish will be permanently deleted.",
+    "cancel": "Cancel",
+    "error": "Couldn't do that. Please try again.",
+    "loadError": "Couldn't load replies. Refresh the page."
   }
 }

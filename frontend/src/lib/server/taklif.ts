@@ -1,5 +1,10 @@
 import "server-only";
-import type { ApiBody, PublicTaklif, Taklif } from "@/lib/api-types";
+import type {
+  ApiBody,
+  PublicTaklif,
+  Taklif,
+  TaklifResponses,
+} from "@/lib/api-types";
 import { clientIp, getAccessToken } from "./current-user";
 import { API_URL, backendHeaders, internalHeaders } from "./session";
 
@@ -52,6 +57,24 @@ export async function getTaklifPreview(slug: string): Promise<Taklif | null> {
       },
     );
     const body = (await res.json()) as ApiBody<Taklif>;
+    return body.success ? body.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** Guests' replies to the owner's invitation; null if loading failed. */
+export async function getTaklifResponses(
+  id: string,
+): Promise<TaklifResponses | null> {
+  const accessToken = await getAccessToken();
+  if (!accessToken) return null;
+  try {
+    const res = await fetch(`${API_URL}/taklif/${id}/responses`, {
+      headers: backendHeaders(accessToken, await clientIp()),
+      cache: "no-store",
+    });
+    const body = (await res.json()) as ApiBody<TaklifResponses>;
     return body.success ? body.data : null;
   } catch {
     return null;

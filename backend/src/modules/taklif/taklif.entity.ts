@@ -59,6 +59,14 @@ export class Taklif {
   @Column({ type: 'timestamptz', nullable: true })
   lockedEventAt: Date | null;
 
+  /**
+   * When it was paid for (payment publishes it); null while unpaid. Once
+   * paid, the owner publishes and hides it freely, but can't change the
+   * theme the price was paid for.
+   */
+  @Column({ type: 'timestamptz', nullable: true })
+  paidAt: Date | null;
+
   @Column({ length: 200 })
   venueName: string;
 

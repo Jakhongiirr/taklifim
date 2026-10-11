@@ -36,9 +36,14 @@ import {
   TaklifDto,
 } from './dto/taklif.dto';
 import { UpdateTaklifDto } from './dto/update-taklif.dto';
-import { eventAtLimit, MAX_POSTPONE_DAYS } from './event-at-limit';
+import {
+  eventAtLimit,
+  eventAtRangeError,
+  MAX_POSTPONE_DAYS,
+} from './event-at-limit';
 import { generateSlug } from './slug';
 import { TaklifPhoto } from './taklif-photo.entity';
+import { TaklifResponse } from './taklif-response.entity';
 import { TaklifStatus } from './taklif-status.enum';
 import { Taklif } from './taklif.entity';
 
@@ -77,6 +82,7 @@ export class TaklifService {
 
   async create(dto: CreateTaklifDto, user: JwtPayload): Promise<TaklifDto> {
     const { photoIds = [], eventAt, ...fields } = dto;
+    this.assertEventAtRange(new Date(eventAt), user);
     if (fields.musicId) await this.assertMusic(fields.musicId);
     await this.assertTheme(fields.themeId);
     await this.assertPhotos(photoIds, user);
@@ -138,6 +144,8 @@ export class TaklifService {
         Object.assign(changes, { [key]: value });
       }
     }
+    // Only a new date is checked: other edits keep working after the event.
+    if (changes.eventAt) this.assertEventAtRange(changes.eventAt, user);
     if (changes.eventAt && !isAdmin(user)) {
       const limit = eventAtLimit(taklif);
       if (limit && changes.eventAt > limit) {
@@ -147,7 +155,13 @@ export class TaklifService {
       }
     }
     if (changes.musicId) await this.assertMusic(changes.musicId);
-    if (changes.themeId) await this.assertTheme(changes.themeId);
+    if (changes.themeId) {
+      // The price paid was for this design (admins may still switch it).
+      if (taklif.paidAt && !isAdmin(user)) {
+        throw new ConflictException("A paid invitation's design can't change");
+      }
+      await this.assertTheme(changes.themeId);
+    }
 
     const currentIds = taklif.photos.map((photo) => photo.fileId);
     const photosChanged =
@@ -222,78 +236,79 @@ export class TaklifService {
   }
 
   /**
-   * Admins delete any invitation; owners only their drafts (paid ones are
-   * kept). Also deletes the photos.
+   * Owners delete their own invitations in any status, published ones
+   * included; admins delete any. Also deletes the photos (and, by cascade,
+   * the guests' replies).
    */
   async remove(id: string, user: JwtPayload) {
     const taklif = await this.findOrFail(id);
     this.assertCanEdit(taklif, user);
-    const where: FindOptionsWhere<Taklif> = { id };
-    if (!isAdmin(user)) {
-      if (taklif.status !== TaklifStatus.Draft) {
-        throw new ConflictException('Only drafts can be deleted');
-      }
-      // Re-checked by the delete, in case it was published meanwhile.
-      where.status = TaklifStatus.Draft;
-    }
-    const { affected } = await this.taklifs.delete(where);
-    if (!affected) {
-      if (isAdmin(user)) throw new NotFoundException('Invitation not found');
-      throw new ConflictException('Only drafts can be deleted');
-    }
+    const { affected } = await this.taklifs.delete({ id });
+    if (!affected) throw new NotFoundException('Invitation not found');
     await this.deleteFiles(taklif.photos.map((photo) => photo.fileId));
   }
 
-  /** Deletes drafts last edited before `before`, with their photos. */
-  deleteStaleDrafts(before: Date): Promise<number> {
-    return this.deleteMatching({
+  /**
+   * Removes the photos of drafts last edited before `before`; the drafts
+   * themselves are kept.
+   */
+  deleteStaleDraftPhotos(before: Date): Promise<number> {
+    return this.deletePhotosMatching({
       status: TaklifStatus.Draft,
       updatedAt: LessThan(before),
     });
   }
 
-  /** Deletes invitations of any status whose event was before `before`. */
-  deleteEnded(before: Date): Promise<number> {
-    return this.deleteMatching({ eventAt: LessThan(before) });
+  /**
+   * Removes the photos of invitations of any status whose event was before
+   * `before`; the invitations themselves are kept.
+   */
+  deleteEndedPhotos(before: Date): Promise<number> {
+    return this.deletePhotosMatching({ eventAt: LessThan(before) });
   }
 
   /**
-   * Deletes the matching invitations with their photos, in batches. Returns
-   * how many were deleted. One that stops matching meanwhile (e.g. edited or
-   * published) is kept.
+   * Deletes the photos (and their files) of the matching invitations, in
+   * batches, keeping the invitations. Returns how many invitations lost
+   * their photos. Only invitations that still have photos are picked, so
+   * the loop ends; one that stops matching meanwhile (e.g. edited) keeps
+   * its photos.
    */
-  private async deleteMatching(where: FindOptionsWhere<Taklif>) {
-    let deleted = 0;
+  private async deletePhotosMatching(where: FindOptionsWhere<Taklif>) {
+    const hasPhotos = `EXISTS (SELECT 1 FROM taklif_photos p WHERE p."taklifId" = taklif.id)`;
+    let cleared = 0;
     for (;;) {
-      const batch = await this.taklifs.find({
-        select: { id: true },
-        where,
-        take: CLEANUP_BATCH_SIZE,
-      });
-      if (!batch.length) return deleted;
+      const batch = await this.taklifs
+        .createQueryBuilder('taklif')
+        .select('taklif.id')
+        .where(where)
+        .andWhere(hasPhotos)
+        .take(CLEANUP_BATCH_SIZE)
+        .getMany();
+      if (!batch.length) return cleared;
 
-      const ids = batch.map((row) => row.id);
-      const photos = await this.taklifs.manager.find(TaklifPhoto, {
-        select: { taklifId: true, fileId: true },
-        where: { taklifId: In(ids) },
-      });
-      // Re-checked here: the row may have changed since the select.
-      const result = await this.taklifs
+      // Re-checked here: the invitation may have changed since the select.
+      const stillMatching = this.taklifs
+        .createQueryBuilder('taklif')
+        .select('taklif.id')
+        .where(where)
+        .andWhere({ id: In(batch.map((row) => row.id)) });
+      const result = await this.taklifs.manager
         .createQueryBuilder()
         .delete()
-        .from(Taklif)
-        .where({ ...where, id: In(ids) })
-        .returning('id')
+        .from(TaklifPhoto)
+        .where(
+          `"taklifId" IN (${stillMatching.getQuery()})`,
+          stillMatching.getParameters(),
+        )
+        .returning(['taklifId', 'fileId'])
         .execute();
-      const rows = result.raw as { id: string }[];
-      const removed = new Set(rows.map((row) => row.id));
-      await this.deleteFiles(
-        photos
-          .filter((photo) => removed.has(photo.taklifId))
-          .map((photo) => photo.fileId),
-      );
-      deleted += removed.size;
-      if (batch.length < CLEANUP_BATCH_SIZE) return deleted;
+      const rows = result.raw as { taklifId: string; fileId: string }[];
+      await this.deleteFiles(rows.map((row) => row.fileId));
+      cleared += new Set(rows.map((row) => row.taklifId)).size;
+      // A batch whose invitations all changed meanwhile deletes nothing and
+      // would be picked again: stop instead of looping.
+      if (!rows.length || batch.length < CLEANUP_BATCH_SIZE) return cleared;
     }
   }
 
@@ -332,9 +347,11 @@ export class TaklifService {
 
   /** Newest first; `id` breaks ties so pages never overlap. */
   async listAll(query: ListTaklifQueryDto): Promise<AdminTaklifPageDto> {
-    const { status, q, page, limit } = query;
+    const { status, q, userId, themeId, page, limit } = query;
     const where: FindOptionsWhere<Taklif> = {};
     if (status) where.status = status;
+    if (userId) where.userId = userId;
+    if (themeId) where.themeId = themeId;
     if (q) {
       if (isUUID(q)) where.id = q;
       // Slugs are [a-z0-9]; escape LIKE wildcards in anything else typed.
@@ -359,10 +376,21 @@ export class TaklifService {
     const byId = new Map(rows.map((taklif) => [taklif.id, taklif]));
     // flatMap: a row deleted between the two queries is skipped.
     const taklifs = ids.flatMap((row) => byId.get(row.id) ?? []);
+    const counts = ids.length
+      ? await this.taklifs.manager
+          .createQueryBuilder(TaklifResponse, 'r')
+          .select('r.taklifId', 'taklifId')
+          .addSelect('COUNT(*)', 'count')
+          .where({ taklifId: In(ids.map((row) => row.id)) })
+          .groupBy('r.taklifId')
+          .getRawMany<{ taklifId: string; count: string }>()
+      : [];
+    const responses = new Map(counts.map((c) => [c.taklifId, Number(c.count)]));
     return {
       items: taklifs.map((taklif) => ({
         ...this.toDto(taklif),
         owner: { id: taklif.userId, phone: taklif.user!.phone },
+        responseCount: responses.get(taklif.id) ?? 0,
       })),
       total,
       page,
@@ -376,6 +404,13 @@ export class TaklifService {
       taklif.userId === user?.sub ||
       isAdmin(user)
     );
+  }
+
+  /** Owners set events in the future, not too far ahead; admins anything. */
+  private assertEventAtRange(eventAt: Date, user: JwtPayload) {
+    if (isAdmin(user)) return;
+    const error = eventAtRangeError(eventAt);
+    if (error) throw new BadRequestException(error);
   }
 
   private assertCanEdit(taklif: Taklif, user: JwtPayload) {
@@ -495,6 +530,7 @@ export class TaklifService {
       hostName: taklif.hostName,
       eventAt: taklif.eventAt,
       eventAtLimit: eventAtLimit(taklif),
+      paidAt: taklif.paidAt,
       venueName: taklif.venueName,
       venueAddress: taklif.venueAddress,
       locationUrl: taklif.locationUrl,

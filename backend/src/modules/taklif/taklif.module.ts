@@ -8,18 +8,28 @@ import { Theme } from '../themes/theme.entity';
 import { ThemesModule } from '../themes/themes.module';
 import { TaklifCleanupService } from './taklif-cleanup.service';
 import { TaklifPhoto } from './taklif-photo.entity';
+import { TaklifResponse } from './taklif-response.entity';
+import { TaklifResponsesController } from './taklif-responses.controller';
+import { TaklifResponsesService } from './taklif-responses.service';
 import { TaklifController } from './taklif.controller';
 import { Taklif } from './taklif.entity';
 import { TaklifService } from './taklif.service';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Taklif, TaklifPhoto, Music, Theme, File]),
+    TypeOrmModule.forFeature([
+      Taklif,
+      TaklifPhoto,
+      TaklifResponse,
+      Music,
+      Theme,
+      File,
+    ]),
     FilesModule,
     MusicModule,
     ThemesModule,
   ],
-  controllers: [TaklifController],
-  providers: [TaklifService, TaklifCleanupService],
+  controllers: [TaklifController, TaklifResponsesController],
+  providers: [TaklifService, TaklifCleanupService, TaklifResponsesService],
 })
 export class TaklifModule {}

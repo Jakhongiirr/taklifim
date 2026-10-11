@@ -7,6 +7,7 @@ import {
   useEffect,
   useRef,
   useState,
+  useSyncExternalStore,
 } from "react";
 import { useRouter as useAppRouter } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
@@ -62,6 +63,18 @@ const REQUIRED: FieldKey[] = [
   "locationUrl",
 ];
 
+// Mirrors the backend (event-at-limit.ts): owners set events after now, at
+// most this many days ahead.
+const MAX_DAYS_AHEAD = 730;
+const DAY_MS = 24 * 60 * 60 * 1000;
+const latestEventAt = () => new Date(Date.now() + MAX_DAYS_AHEAD * DAY_MS);
+
+const noSubscribe = () => () => {};
+/** Today in Tashkent ("2026-10-10"); null on the server, so hydration matches. */
+const tashkentToday = () =>
+  toTashkentInput(new Date().toISOString()).slice(0, 10);
+const noToday = () => null;
+
 const deleteFile = (id: string) =>
   api(`/files/${id}`, { method: "DELETE" }).catch(() => undefined);
 
@@ -110,6 +123,10 @@ export default function InvitationBuilder({
   const when = useTashkentDate();
   // Published invitations can be moved at most 30 days later (backend rule).
   const eventLimit = taklif?.eventAtLimit ?? null;
+  // Bounds for the date picker (the real check is in validate()).
+  const today = useSyncExternalStore(noSubscribe, tashkentToday, noToday);
+  const rangeError = () =>
+    t("errors.eventRange", { date: when(latestEventAt()) });
 
   // Warn before leaving with unsaved changes. Reloading, closing the tab and
   // going to another site only allow the browser's own prompt; links within
@@ -198,9 +215,20 @@ export default function InvitationBuilder({
     ) {
       found.locationUrl = t("errors.url");
     }
+    // Only a new date: an invitation whose event has passed stays editable.
+    const eventChanged =
+      !taklif || fields.eventAt !== toTashkentInput(taklif.eventAt);
+    if (fields.eventAt && eventChanged) {
+      // NaN (an unparseable date) fails both comparisons, so it's caught too.
+      const at = new Date(fromTashkentInput(fields.eventAt)).getTime();
+      if (!(at > Date.now() && at <= latestEventAt().getTime())) {
+        found.eventAt = rangeError();
+      }
+    }
     if (
       eventLimit &&
       fields.eventAt &&
+      !found.eventAt &&
       new Date(fromTashkentInput(fields.eventAt)) > new Date(eventLimit)
     ) {
       found.eventAt = t("errors.postpone", { date: when(eventLimit) });
@@ -234,6 +262,13 @@ export default function InvitationBuilder({
     if (!(error instanceof ApiError)) return setFormError(t("errors.generic"));
     if (error.status === 409 && !taklif && /draft/i.test(error.message)) {
       return setFormError(t("errors.draftLimit"));
+    }
+    if (
+      /^eventAt (must be in the future|can be .* days ahead)/.test(
+        error.message,
+      )
+    ) {
+      return showErrors({ eventAt: rangeError() });
     }
     if (eventLimit && /^eventAt can be at most/.test(error.message)) {
       return showErrors({
@@ -339,12 +374,15 @@ export default function InvitationBuilder({
   return (
     <form ref={form} onSubmit={save} noValidate className="pb-32">
       {dialog}
-      <fieldset disabled={busy} className="flex flex-col gap-4">
+      {/* min-w-0: a fieldset is as wide as its content by default, so the
+          design picker's scrolling row would widen the whole page. */}
+      <fieldset disabled={busy} className="flex min-w-0 flex-col gap-4">
         <Section n={1} title={t("sections.design")} id="section-design">
           <DesignPicker
             designs={designs}
             value={fields.themeId}
             onChange={(id) => set("themeId", id)}
+            locked={!!taklif?.paidAt}
           />
           {errors.themeId && (
             <p className="mt-2 text-sm text-red-700">{errors.themeId}</p>
@@ -394,7 +432,16 @@ export default function InvitationBuilder({
             <input
               className={inputClass}
               type="datetime-local"
-              max={eventLimit ? toTashkentInput(eventLimit) : undefined}
+              min={today ? `${today}T00:00` : undefined}
+              max={
+                today
+                  ? toTashkentInput(
+                      eventLimit && new Date(eventLimit) < latestEventAt()
+                        ? eventLimit
+                        : latestEventAt().toISOString(),
+                    )
+                  : undefined
+              }
               {...input("eventAt")}
             />
           </Field>

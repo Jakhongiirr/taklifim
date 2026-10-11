@@ -1,5 +1,8 @@
-import { redirect } from "next/navigation";
+import type { Metadata } from "next";
+import Dashboard from "@/components/admin/dashboard";
+
+export const metadata: Metadata = { title: "Dashboard" };
 
 export default function AdminHome() {
-  redirect("/admin/users");
+  return <Dashboard />;
 }

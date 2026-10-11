@@ -41,7 +41,7 @@ export default async function InvitationPreviewPage({
           </Link>
         </span>
       </div>
-      <ThemedInvitation taklif={taklif} />
+      <ThemedInvitation taklif={taklif} preview />
     </>
   );
 }

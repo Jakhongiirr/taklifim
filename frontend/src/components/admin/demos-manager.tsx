@@ -50,6 +50,18 @@ export default function DemosManager() {
     );
   }, [demos.data, search]);
 
+  // Moves a demo one place up or down and saves the whole order.
+  const reorder = useMutation({
+    mutationFn: ({ index, by }: { index: number; by: -1 | 1 }) => {
+      const ids = (demos.data ?? []).map((demo) => demo.id);
+      [ids[index], ids[index + by]] = [ids[index + by], ids[index]];
+      return api<Demo[]>("/demos/order", { method: "PATCH", json: { ids } });
+    },
+    onSuccess: refresh,
+  });
+  // Ordering works on the full list, so it's off while searching.
+  const canReorder = !search.trim() && !reorder.isPending;
+
   const toggleArchive = useMutation({
     mutationFn: (demo: Demo) =>
       api<Demo>(
@@ -65,6 +77,7 @@ export default function DemosManager() {
         <div>
           <h1 className="text-2xl font-semibold">Demos</h1>
           <p className="text-sm text-zinc-500">
+            Shown on the home page in this order: use the arrows to move a demo.
             Archived demos are hidden from users and can be restored.
           </p>
         </div>
@@ -100,6 +113,14 @@ export default function DemosManager() {
         />
       </div>
 
+      {reorder.isError && (
+        <Alert>
+          {reorder.error instanceof ApiError
+            ? reorder.error.fullMessage
+            : "Could not save the order"}
+        </Alert>
+      )}
+
       {toggleArchive.isError && (
         <Alert>
           {toggleArchive.error instanceof ApiError
@@ -131,6 +152,7 @@ export default function DemosManager() {
           <table className="w-full text-left text-sm">
             <thead className="border-b border-zinc-200 text-xs uppercase text-zinc-500 dark:border-zinc-800">
               <tr>
+                <th className="w-20 px-4 py-3 font-medium">Order</th>
                 <th className="px-4 py-3 font-medium">Demo</th>
                 <th className="px-4 py-3 font-medium">Theme</th>
                 <th className="px-4 py-3 font-medium">Added</th>
@@ -139,12 +161,41 @@ export default function DemosManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-              {visible.map((demo) => {
+              {visible.map((demo, index) => {
                 const busy =
                   toggleArchive.isPending &&
                   toggleArchive.variables.id === demo.id;
                 return (
                   <tr key={demo.id} className="align-middle">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 text-zinc-400 tabular-nums">
+                          {index + 1}
+                        </span>
+                        <div className="flex flex-col">
+                          <button
+                            type="button"
+                            aria-label={`Move ${demo.title} up`}
+                            disabled={!canReorder || index === 0}
+                            onClick={() => reorder.mutate({ index, by: -1 })}
+                            className="rounded px-1.5 leading-none text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 disabled:opacity-25 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Move ${demo.title} down`}
+                            disabled={
+                              !canReorder || index === visible.length - 1
+                            }
+                            onClick={() => reorder.mutate({ index, by: 1 })}
+                            className="rounded px-1.5 leading-none text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 disabled:opacity-25 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      </div>
+                    </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-3">
                         {/* eslint-disable-next-line @next/next/no-img-element -- user uploads */}

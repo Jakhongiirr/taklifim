@@ -9,6 +9,7 @@ import {
   ogImageData,
   ogLocale,
 } from "@/lib/og/assets";
+import { OgDivider, ogPalette } from "@/lib/og/palettes";
 import { getPublishedTaklif } from "@/lib/server/taklif";
 import { tashkentParts } from "@/lib/tashkent-date";
 
@@ -18,28 +19,6 @@ import { tashkentParts } from "@/lib/tashkent-date";
 export const alt = "taklifim.uz";
 export const size = OG_SIZE;
 export const contentType = "image/png";
-
-const PALETTES = {
-  classic: {
-    background: "radial-gradient(circle at 70% 40%, #f2ece1 0%, #faf7f1 60%)",
-    ink: "#2a2723",
-    names: "#2a2723",
-    accent: "#46523f",
-    gold: "#a8844f",
-    muted: "#6f675d",
-    photoRadius: "28px",
-  },
-  islamic: {
-    background: "radial-gradient(circle at 70% 40%, #12493d 0%, #0b3b31 60%)",
-    ink: "#f7f1e3",
-    names: "#f5e2a8",
-    accent: "#e9d29b",
-    gold: "#c9a45c",
-    muted: "#f7f1e3bb",
-    // A mihrab-like arch.
-    photoRadius: "999px 999px 24px 24px",
-  },
-};
 
 export default async function Image({
   params,
@@ -51,10 +30,9 @@ export default async function Image({
   const taklif = await getPublishedTaklif(slug);
   if (!taklif) notFound();
 
-  const islamic = taklif.theme.themeId === "islamic";
-  const c = islamic ? PALETTES.islamic : PALETTES.classic;
+  const c = ogPalette(taklif.theme.themeId);
   const [t, tDates, fonts, photo] = await Promise.all([
-    getTranslations({ locale, namespace: islamic ? "Islamic" : "Invitation" }),
+    getTranslations({ locale, namespace: "Invitation" }),
     getTranslations({ locale, namespace: "Dates" }),
     ogFonts(),
     taklif.photos[0] ? ogImageData(taklif.photos[0].url) : null,
@@ -62,7 +40,7 @@ export default async function Image({
   const months = tDates.raw("months") as string[];
   const { year, month, day, time } = tashkentParts(taklif.eventAt);
   const date = tDates("dateTime", { day, month: months[month], year, time });
-  const eyebrow = islamic ? t("eyebrow") : t("cover.eyebrow");
+  const eyebrow = t("cover.eyebrow");
   // Long names get a smaller size so two lines always fit.
   const longest = Math.max(taklif.groomName.length, taklif.brideName.length);
   const nameSize = longest > 16 ? 58 : longest > 11 ? 70 : 84;
@@ -79,7 +57,7 @@ export default async function Image({
         padding: "0 40px",
       }}
     >
-      <Divider color={c.gold} />
+      <OgDivider color={c.gold} />
       <div
         style={{
           marginTop: 22,
@@ -131,7 +109,7 @@ export default async function Image({
         {taklif.venueName}
       </div>
       <div style={{ marginTop: 22, display: "flex" }}>
-        <Divider color={c.gold} />
+        <OgDivider color={c.gold} />
       </div>
     </div>
   );
@@ -200,23 +178,5 @@ export default async function Image({
       </div>
     </div>,
     { ...size, fonts },
-  );
-}
-
-/** Thin lines with a small diamond, like the themes' ornaments. */
-function Divider({ color }: { color: string }) {
-  return (
-    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div style={{ width: 70, height: 1.5, background: color }} />
-      <div
-        style={{
-          width: 10,
-          height: 10,
-          border: `1.5px solid ${color}`,
-          transform: "rotate(45deg)",
-        }}
-      />
-      <div style={{ width: 70, height: 1.5, background: color }} />
-    </div>
   );
 }

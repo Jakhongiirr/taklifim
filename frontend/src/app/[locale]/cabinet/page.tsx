@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import LogoutButton from "@/components/site/cabinet/logout-button";
+import PaymentReturn from "@/components/site/cabinet/payment-return";
 import TaklifCard from "@/components/site/cabinet/taklif-card";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
@@ -61,6 +62,9 @@ export default async function CabinetPage({
             </Link>
           )}
         </div>
+
+        {/* Back from Payme: confirms the payment. */}
+        <PaymentReturn />
 
         {taklifs === null ? (
           <p

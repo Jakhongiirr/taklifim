@@ -1,17 +1,33 @@
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import PhoneMockup from "@/components/site/phone-mockup";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import TemplateCard from "@/components/site/template-card";
 import { Link } from "@/i18n/navigation";
-import { formatSum } from "@/lib/format";
 import { getDemos } from "@/lib/server/demos";
 
 // Rebuilt in the background at most every 5 minutes, like the demos fetch.
 export const revalidate = 300;
 
 const FEATURES = ["photos", "music", "map", "gift"] as const;
+
+/**
+ * Of `options`, the column count whose last row is fullest (6 → 3, 10 → 5,
+ * 11 → 4); `preferred` wins ties, then the larger count. Fewer items than
+ * the smallest option just sit in one row.
+ */
+function evenColumns(count: number, options: number[], preferred: number) {
+  const gaps = (cols: number) => (cols - (count % cols)) % cols;
+  return options.reduce((best, cols) => {
+    if (cols > count && best <= count) return best;
+    const better =
+      gaps(cols) < gaps(best) ||
+      (gaps(cols) === gaps(best) &&
+        (cols === preferred || (best !== preferred && cols > best)));
+    return better ? cols : best;
+  }, preferred);
+}
 const STEPS = ["s1", "s2", "s3"] as const;
 const QUESTIONS = ["q1", "q2", "q3", "q4", "q5"] as const;
 
@@ -20,9 +36,6 @@ export default async function HomePage() {
     getTranslations("HomePage"),
     getDemos(),
   ]);
-  // "From" price in the hero: the cheapest paid design on show.
-  const prices = demos.map((demo) => demo.theme.price).filter((p) => p > 0);
-  const minPrice = prices.length ? Math.min(...prices) : null;
 
   return (
     <>
@@ -42,12 +55,6 @@ export default async function HomePage() {
             <p className="mt-5 max-w-md text-base text-muted sm:text-lg">
               {t("hero.subtitle")}
             </p>
-            {minPrice !== null && (
-              <p className="mt-6 inline-flex items-center gap-2 rounded-full border border-gold/40 bg-white/60 px-4 py-1.5 text-sm text-ink">
-                <span className="size-1.5 rounded-full bg-gold" />
-                {t("hero.priceFrom", { price: formatSum(minPrice) })}
-              </p>
-            )}
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link
                 href="/cabinet/new"
@@ -97,12 +104,25 @@ export default async function HomePage() {
             subtitle={t("templates.subtitle")}
           />
           {demos.length ? (
-            // Mobile: a swipeable row. From sm: wrapped rows, centered when few.
-            <ul className="mt-10 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-4 [scrollbar-width:none] sm:flex-wrap sm:justify-center sm:gap-6 sm:overflow-visible sm:px-6">
+            // Wrapped rows centered, so a short last row sits in the middle;
+            // the column count per breakpoint leaves the fewest gaps.
+            <ul
+              className="mt-10 flex flex-wrap justify-center gap-(--gap) px-4 [--cols:2] [--gap:0.75rem] sm:px-6 sm:[--cols:var(--cols-sm)] sm:[--gap:1.25rem] lg:[--cols:var(--cols-lg)] lg:[--gap:1.5rem]"
+              style={
+                {
+                  "--cols-sm": evenColumns(demos.length, [2, 3], 3),
+                  "--cols-lg": evenColumns(demos.length, [3, 4, 5], 4),
+                } as CSSProperties
+              }
+            >
               {demos.map((demo) => (
                 <li
                   key={demo.id}
-                  className="w-[68%] shrink-0 snap-center sm:w-[calc(50%-12px)] sm:max-w-[280px] lg:w-[calc((100%-72px)/4)]"
+                  className="max-w-[300px]"
+                  style={{
+                    width:
+                      "calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols))",
+                  }}
                 >
                   <TemplateCard demo={demo} />
                 </li>

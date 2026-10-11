@@ -120,9 +120,7 @@ export class TaklifController {
   @ApiBadRequestResponse({
     description: 'Invalid body, inactive music/theme, or unusable photos',
   })
-  @ApiForbiddenResponse({
-    description: 'Not the owner of a published invitation',
-  })
+  @ApiForbiddenResponse({ description: 'Not the owner' })
   @ApiNotFoundResponse()
   @ApiConflictResponse({ description: 'A photo is used by another invitation' })
   update(
@@ -145,9 +143,7 @@ export class TaklifController {
     status: HttpStatus.PAYMENT_REQUIRED,
     description: 'Still a draft: published after payment',
   })
-  @ApiForbiddenResponse({
-    description: 'Not the owner of a published invitation',
-  })
+  @ApiForbiddenResponse({ description: 'Not the owner' })
   @ApiNotFoundResponse()
   publish(
     @Param('id', ParseUUIDPipe) id: string,
@@ -163,9 +159,7 @@ export class TaklifController {
     summary: 'Unpublish an invitation (owner or admin)',
     description: 'Hides it from the public again. Publish it again any time.',
   })
-  @ApiForbiddenResponse({
-    description: 'Not the owner of a published invitation',
-  })
+  @ApiForbiddenResponse({ description: 'Not the owner' })
   @ApiNotFoundResponse()
   @ApiConflictResponse({ description: 'Still a draft' })
   unpublish(
@@ -196,12 +190,10 @@ export class TaklifController {
   @ApiOperation({
     summary: 'Delete an invitation and its photos',
     description:
-      'Owners can delete their own drafts; admins can delete any invitation.',
+      'Owners can delete their own invitations in any status; admins can delete any invitation. The replies go with it.',
   })
   @ApiNoContentResponse()
-  @ApiForbiddenResponse({
-    description: 'Not the owner of a published invitation',
-  })
+  @ApiForbiddenResponse({ description: 'Not the owner' })
   @ApiNotFoundResponse()
   @ApiConflictResponse({ description: 'Owner tried to delete a non-draft' })
   remove(

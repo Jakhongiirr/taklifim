@@ -1,0 +1,117 @@
+/* Animations of the "dove" theme. All are off for visitors who prefer
+   reduced motion, and content is never hidden without them. */
+
+@keyframes dove-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes dove-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The hero keeps walking down the aisle, slowly. */
+@keyframes dove-drift {
+  from {
+    transform: scale(1) translateY(0);
+  }
+  to {
+    transform: scale(1.1) translateY(1.5%);
+  }
+}
+
+/* A feather sways down across the hero. */
+@keyframes dove-feather {
+  0% {
+    transform: translate3d(0, -12vh, 0) rotate(-20deg);
+    opacity: 0;
+  }
+  12% {
+    opacity: 0.9;
+  }
+  50% {
+    transform: translate3d(var(--sway, 30px), 45vh, 0) rotate(25deg);
+  }
+  88% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(0, 105vh, 0) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+/* The doves' wings, drawing in. */
+@keyframes dove-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dove-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero comes in as the cover fades (VideoCover adds the class). */
+  .dove-opened .dove-rise {
+    animation: dove-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 180ms + 250ms);
+  }
+  .dove-opened .dove-drift {
+    animation: dove-drift 26s ease-out both;
+  }
+
+  .dove-feather {
+    animation: dove-feather var(--dur, 14s) linear infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .dove-hint {
+    animation: dove-hint 2.2s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .dove-reveal {
+      animation: dove-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    /* Each pair of doves draws itself as it scrolls in (a named
+       timeline on the <svg>: its paths have no box of their own). */
+    .dove-pair {
+      view-timeline: --dove-pair block;
+    }
+    .dove-pair path {
+      stroke-dasharray: 1;
+      animation: dove-draw linear both;
+      animation-timeline: --dove-pair;
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}

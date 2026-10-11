@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import type { JwtPayload } from '../auth/auth.types';
 import { IMAGE_FILE_TYPES } from '../files/file-types';
 import { FilesService } from '../files/files.service';
@@ -38,8 +38,14 @@ export class DemosService {
   async create(dto: CreateDemoDto): Promise<DemoDto> {
     await this.assertImageFile(dto.imageId);
     await this.assertTheme(dto.themeId);
+    // New demos go last.
+    const { max } = (await this.demos
+      .createQueryBuilder('demo')
+      .select('MAX(demo.position)', 'max')
+      .getRawOne<{ max: number | null }>()) ?? { max: null };
     const { id } = await this.demos.save(
       this.demos.create({
+        position: (max ?? -1) + 1,
         title: dto.title,
         text: dto.text,
         demoUrl: dto.demoUrl,
@@ -79,7 +85,7 @@ export class DemosService {
     const demos = await this.demos.find({
       where: ARCHIVED_FILTER[query.status],
       relations: RELATIONS,
-      order: { createdAt: 'DESC' },
+      order: { position: 'ASC', createdAt: 'DESC' },
     });
     return demos.map((demo) => this.toDto(demo));
   }
@@ -91,6 +97,30 @@ export class DemosService {
       throw new NotFoundException('Demo not found');
     }
     return this.toDto(demo);
+  }
+
+  /**
+   * Sets the site order: `ids` from first to last. Demos left out keep their
+   * position after the listed ones.
+   */
+  async reorder(ids: string[]): Promise<DemoDto[]> {
+    const found = await this.demos.countBy({ id: In(ids) });
+    if (found !== ids.length) {
+      throw new BadRequestException('ids contains an unknown demo');
+    }
+    await this.demos.manager.transaction(async (manager) => {
+      // Unlisted demos move behind the listed ones, keeping their order.
+      await manager
+        .createQueryBuilder()
+        .update(Demo)
+        .set({ position: () => `"position" + ${ids.length}` })
+        .where('id NOT IN (:...ids)', { ids })
+        .execute();
+      for (const [position, id] of ids.entries()) {
+        await manager.update(Demo, id, { position });
+      }
+    });
+    return this.list({ status: 'all' }, { role: Role.Admin } as JwtPayload);
   }
 
   async archive(id: string): Promise<DemoDto> {
@@ -141,6 +171,7 @@ export class DemosService {
       title: demo.title,
       text: demo.text,
       demoUrl: demo.demoUrl,
+      position: demo.position,
       image: this.files.toDto(demo.image),
       theme: this.themesService.toDto(demo.theme),
       archivedAt: demo.archivedAt,

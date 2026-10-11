@@ -6,16 +6,22 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
+import Link from "next/link";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { api, ApiError } from "@/lib/api-client";
-import type { AdminTaklif, Page, TaklifStatus } from "@/lib/api-types";
+import { copyText } from "@/lib/copy-text";
+import type { AdminTaklif, Page, TaklifStatus, Theme } from "@/lib/api-types";
 import { formatDateTime, formatEventAt, coupleNames } from "@/lib/format";
+import { invitationUrl, repliesUrl } from "./links";
 import TaklifForm from "./taklif-form";
 import {
   Alert,
   Button,
   cx,
   EmptyState,
+  IconButton,
+  iconPaths,
   Input,
   Modal,
   Select,
@@ -60,12 +66,49 @@ function toQuery(input: string) {
   return text.split("/").filter(Boolean).pop() ?? "";
 }
 
-export default function TaklifManager() {
+const isStatus = (value: string | null): value is TaklifStatus =>
+  value === "draft" || value === "published" || value === "unpublished";
+
+/**
+ * All invitations, or one user's (`userId`, on their page: no header, no
+ * owner column). On its own page the filters live in the URL
+ * (?status, ?theme, ?q), so the dashboard can link to a filtered list and a
+ * view can be shared or reloaded.
+ */
+export default function TaklifManager({ userId }: { userId?: string } = {}) {
   const queryClient = useQueryClient();
-  const [status, setStatus] = useState<TaklifStatus | "all">("all");
+  const router = useRouter();
+  const pathname = usePathname();
+  const params = useSearchParams();
+  const embedded = !!userId;
+  const [status, setStatus] = useState<TaklifStatus | "all">(() => {
+    const value = embedded ? null : params.get("status");
+    return isStatus(value) ? value : "all";
+  });
+  const [themeId, setThemeId] = useState(() =>
+    embedded ? "" : (params.get("theme") ?? ""),
+  );
   const [page, setPage] = useState(1);
-  const [search, setSearch] = useState("");
-  const [q, setQ] = useState("");
+  const [search, setSearch] = useState(() =>
+    embedded ? "" : (params.get("q") ?? ""),
+  );
+  const [q, setQ] = useState(() => toQuery(search));
+
+  // Mirror the filters in the URL (replace: no history entry per keystroke).
+  useEffect(() => {
+    if (embedded) return;
+    const next = new URLSearchParams();
+    if (status !== "all") next.set("status", status);
+    if (themeId) next.set("theme", themeId);
+    if (q) next.set("q", q);
+    const url = next.size ? `${pathname}?${next}` : pathname;
+    router.replace(url, { scroll: false });
+  }, [embedded, status, themeId, q, pathname, router]);
+
+  const themes = useQuery({
+    queryKey: ["themes", "all"],
+    queryFn: () => api<Theme[]>("/themes?status=all"),
+  });
   const debounce = useRef<ReturnType<typeof setTimeout>>(undefined);
   useEffect(() => () => clearTimeout(debounce.current), []);
 
@@ -81,15 +124,17 @@ export default function TaklifManager() {
   const [deleting, setDeleting] = useState<AdminTaklif | null>(null);
 
   const taklifs = useQuery({
-    queryKey: ["taklif", status, q, page],
+    queryKey: ["taklif", status, q, themeId, userId, page],
     queryFn: () => {
-      const params = new URLSearchParams({
+      const query = new URLSearchParams({
         page: String(page),
         limit: String(PAGE_SIZE),
       });
-      if (status !== "all") params.set("status", status);
-      if (q) params.set("q", q);
-      return api<Page<AdminTaklif>>(`/taklif?${params}`);
+      if (status !== "all") query.set("status", status);
+      if (q) query.set("q", q);
+      if (themeId) query.set("themeId", themeId);
+      if (userId) query.set("userId", userId);
+      return api<Page<AdminTaklif>>(`/taklif?${query}`);
     },
     // Keep the current page on screen while the next one loads.
     placeholderData: keepPreviousData,
@@ -120,18 +165,20 @@ export default function TaklifManager() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-semibold">Invitations</h1>
-          <p className="text-sm text-zinc-500">
-            Only published invitations are public; drafts and unpublished ones
-            are visible to their owner and admins.
-          </p>
+      {!embedded && (
+        <div className="flex flex-wrap items-end justify-between gap-4">
+          <div>
+            <h1 className="text-2xl font-semibold">Invitations</h1>
+            <p className="text-sm text-zinc-500">
+              Only published invitations are public; drafts and unpublished
+              ones are visible to their owner and admins.
+            </p>
+          </div>
+          <Button onClick={() => setEditing({ mode: "create" })}>
+            New invitation
+          </Button>
         </div>
-        <Button onClick={() => setEditing({ mode: "create" })}>
-          New invitation
-        </Button>
-      </div>
+      )}
 
       <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex gap-1">
@@ -154,16 +201,38 @@ export default function TaklifManager() {
             </button>
           ))}
         </div>
-        <Input
-          type="search"
-          value={search}
-          onChange={(e) => onSearch(e.target.value)}
-          placeholder="Find by ID, slug or link"
-          aria-label="Find by ID, slug or link"
-          spellCheck={false}
-          autoComplete="off"
-          className="mb-2 h-9 w-full font-mono sm:w-72"
-        />
+        <div className="mb-2 flex w-full gap-2 sm:w-auto">
+          {/* Select is full width by default: the wrapper sizes it. */}
+          <div className="w-36 shrink-0">
+            <Select
+              aria-label="Theme"
+              value={themeId}
+              onChange={(e) => {
+                setThemeId(e.target.value);
+                setPage(1);
+              }}
+              className="h-9"
+            >
+              <option value="">All themes</option>
+              {themes.data?.map((theme) => (
+                <option key={theme.id} value={theme.id}>
+                  {theme.themeId}
+                  {theme.archivedAt ? " (archived)" : ""}
+                </option>
+              ))}
+            </Select>
+          </div>
+          <Input
+            type="search"
+            value={search}
+            onChange={(e) => onSearch(e.target.value)}
+            placeholder="Find by ID, slug or link"
+            aria-label="Find by ID, slug or link"
+            spellCheck={false}
+            autoComplete="off"
+            className="h-9 w-full min-w-0 font-mono sm:w-64"
+          />
+        </div>
       </div>
 
       {changeStatus.isError && (
@@ -182,9 +251,11 @@ export default function TaklifManager() {
         <EmptyState>
           {q
             ? `No ${status === "all" ? "" : `${statusLabels[status].toLowerCase()} `}invitation matches “${q}”.`
-            : status === "all"
-              ? "No invitations yet."
-              : `No ${statusLabels[status].toLowerCase()} invitations.`}
+            : status === "all" && !themeId
+              ? embedded
+                ? "This user has no invitations."
+                : "No invitations yet."
+              : `No ${status === "all" ? "" : `${statusLabels[status].toLowerCase()} `}invitations${themeId ? " in this theme" : ""}.`}
         </EmptyState>
       ) : (
         <div
@@ -197,13 +268,15 @@ export default function TaklifManager() {
             <table className="w-full text-left text-sm">
               <thead className="border-b border-zinc-200 text-xs uppercase text-zinc-500 dark:border-zinc-800">
                 <tr>
-                  <th className="px-4 py-3 font-medium">Couple</th>
-                  <th className="px-4 py-3 font-medium">Event</th>
-                  <th className="px-4 py-3 font-medium">Venue</th>
-                  <th className="px-4 py-3 font-medium">Theme · Music</th>
-                  <th className="px-4 py-3 font-medium">Owner</th>
-                  <th className="px-4 py-3 font-medium">Status</th>
-                  <th className="px-4 py-3" />
+                  <th className="px-3 py-3 font-medium">Couple</th>
+                  <th className="px-3 py-3 font-medium">Event · Venue</th>
+                  <th className="px-3 py-3 font-medium">Theme · Music</th>
+                  {!embedded && (
+                    <th className="px-3 py-3 font-medium">Owner</th>
+                  )}
+                  <th className="px-3 py-3 font-medium">Replies</th>
+                  <th className="px-3 py-3 font-medium">Status</th>
+                  <th className="px-3 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
@@ -213,43 +286,48 @@ export default function TaklifManager() {
                     changeStatus.variables.id === taklif.id;
                   return (
                     <tr key={taklif.id} className="align-middle">
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-3">
                         <div className="flex items-center gap-3">
                           <Thumbnail taklif={taklif} />
                           <div className="min-w-0">
-                            <div className="font-medium whitespace-nowrap">
-                              {coupleNames(taklif)}
-                            </div>
+                            <a
+                              href={invitationUrl(taklif.slug, taklif.status)}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title={
+                                taklif.status === "published"
+                                  ? "Open the guest page"
+                                  : "Open the preview"
+                              }
+                              className="font-medium whitespace-nowrap hover:underline"
+                            >
+                              {coupleNames(taklif)} ↗
+                            </a>
                             <div className="text-zinc-500">
                               {taklif.hostName}
                             </div>
-                            <CopySlug slug={taklif.slug} />
+                            <CopyLink slug={taklif.slug} />
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap">
-                        {formatEventAt(taklif.eventAt)}
-                        <div className="text-xs text-zinc-500">
-                          Added {formatDateTime(taklif.createdAt)}
+                      <td className="max-w-60 px-3 py-3">
+                        <div className="whitespace-nowrap">
+                          {formatEventAt(taklif.eventAt)}
                         </div>
-                      </td>
-                      <td className="max-w-56 px-4 py-3">
                         <a
                           href={taklif.locationUrl}
                           target="_blank"
                           rel="noreferrer"
-                          className="font-medium hover:underline"
-                        >
-                          {taklif.venueName}
-                        </a>
-                        <div
-                          className="truncate text-zinc-500"
                           title={taklif.venueAddress}
+                          className="block truncate text-zinc-500 hover:underline"
                         >
-                          {taklif.venueAddress}
+                          {taklif.venueName} · {taklif.venueAddress}
+                        </a>
+                        <div className="text-xs whitespace-nowrap text-zinc-400">
+                          Added {formatDateTime(taklif.createdAt)}
                         </div>
                       </td>
-                      <td className="px-4 py-3">
+                      <td className="px-3 py-3">
                         <div className="font-mono">{taklif.theme.themeId}</div>
                         <div
                           className="max-w-48 truncate text-zinc-500"
@@ -258,11 +336,32 @@ export default function TaklifManager() {
                           {taklif.music?.title ?? "No music"}
                         </div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap tabular-nums">
-                        {taklif.owner.phone}
+                      {!embedded && (
+                        <td className="px-3 py-3 whitespace-nowrap tabular-nums">
+                          <Link
+                            href={`/admin/users/${taklif.owner.id}`}
+                            className="hover:underline"
+                          >
+                            {taklif.owner.phone}
+                          </Link>
+                        </td>
+                      )}
+                      <td className="px-3 py-3 whitespace-nowrap tabular-nums">
+                        {taklif.responseCount > 0 ? (
+                          <a
+                            href={repliesUrl(taklif.slug)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="hover:underline"
+                          >
+                            {taklif.responseCount} ↗
+                          </a>
+                        ) : (
+                          <span className="text-zinc-400">0</span>
+                        )}
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex items-center gap-2">
+                      <td className="px-3 py-3">
+                        <div className="flex w-32 items-center gap-2">
                           <Select
                             aria-label="Status"
                             value={taklif.status}
@@ -273,10 +372,7 @@ export default function TaklifManager() {
                                 status: e.target.value as TaklifStatus,
                               })
                             }
-                            className={cx(
-                              "h-8 w-40 shrink-0",
-                              statusTones[taklif.status],
-                            )}
+                            className={cx("h-8", statusTones[taklif.status])}
                           >
                             {Object.entries(statusLabels).map(
                               ([value, label]) => (
@@ -289,25 +385,24 @@ export default function TaklifManager() {
                           {statusBusy && <Spinner />}
                         </div>
                       </td>
-                      <td className="px-4 py-3">
-                        <div className="flex justify-end gap-2">
-                          <Button
-                            variant="secondary"
-                            size="sm"
+                      <td className="px-3 py-3">
+                        <div className="flex justify-end gap-1">
+                          <IconButton
+                            label="Edit"
                             onClick={() => setEditing({ mode: "edit", taklif })}
                           >
-                            Edit
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="sm"
+                            {iconPaths.edit}
+                          </IconButton>
+                          <IconButton
+                            label="Delete"
+                            tone="danger"
                             onClick={() => {
                               remove.reset();
                               setDeleting(taklif);
                             }}
                           >
-                            Delete
-                          </Button>
+                            {iconPaths.trash}
+                          </IconButton>
                         </div>
                       </td>
                     </tr>
@@ -459,7 +554,11 @@ function Pagination({
 }
 
 /** The slug as a button that copies it, with brief "Copied" feedback. */
-function CopySlug({ slug }: { slug: string }) {
+/**
+ * Shows the slug and copies the invitation's full link, the short form
+ * owners share (it opens in Uzbek; guests switch language on the page).
+ */
+function CopyLink({ slug }: { slug: string }) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
 
   useEffect(() => {
@@ -469,20 +568,15 @@ function CopySlug({ slug }: { slug: string }) {
   }, [state]);
 
   async function copy() {
-    try {
-      await navigator.clipboard.writeText(slug);
-      setState("copied");
-    } catch {
-      // Clipboard access needs HTTPS (or localhost) and permission.
-      setState("failed");
-    }
+    const link = `${window.location.origin}/taklif/${slug}`;
+    setState((await copyText(link)) ? "copied" : "failed");
   }
 
   return (
     <button
       type="button"
       onClick={copy}
-      title="Copy slug"
+      title="Copy the invitation link"
       className="group inline-flex items-center gap-1 rounded font-mono text-xs text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-100"
     >
       {slug}
@@ -499,7 +593,7 @@ function CopySlug({ slug }: { slug: string }) {
           ? "Copied"
           : state === "failed"
             ? "Copy failed"
-            : "Copy"}
+            : "Copy link"}
       </span>
     </button>
   );

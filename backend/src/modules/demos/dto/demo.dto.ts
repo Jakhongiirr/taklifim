@@ -18,6 +18,9 @@ export class DemoDto {
   theme: ThemeDto;
 
   /** Null while active. */
+  /** Order on the site: lower comes first. */
+  position: number;
+
   archivedAt: Date | null;
 
   createdAt: Date;

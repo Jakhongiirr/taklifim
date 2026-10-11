@@ -1,0 +1,103 @@
+import { Injectable } from '@nestjs/common';
+import { InjectDataSource } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import {
+  RecentResponseDto,
+  RecentTaklifDto,
+  ResponseStatsDto,
+  StatsDto,
+  TaklifStatsDto,
+  ThemeStatsDto,
+  UpcomingTaklifDto,
+  UserStatsDto,
+} from './dto/stats.dto';
+
+const RECENT = 6;
+const UPCOMING = 8;
+
+/** Read-only numbers for the admin dashboard (plain SQL, run in parallel). */
+@Injectable()
+export class StatsService {
+  constructor(@InjectDataSource() private readonly db: DataSource) {}
+
+  async get(): Promise<StatsDto> {
+    const [
+      [users],
+      [invitations],
+      [responses],
+      [revenue],
+      themes,
+      upcoming,
+      recentInvitations,
+      recentResponses,
+    ] = await Promise.all([
+      this.db.query<UserStatsDto[]>(`
+        SELECT COUNT(*)::int AS total,
+          COUNT(*) FILTER (WHERE role = 'admin')::int AS admins,
+          COUNT(*) FILTER (WHERE "createdAt" > now() - interval '7 days')::int AS "new7d",
+          COUNT(*) FILTER (WHERE "lastLoginAt" > now() - interval '7 days')::int AS "active7d"
+        FROM users`),
+      this.db.query<TaklifStatsDto[]>(`
+        SELECT COUNT(*)::int AS total,
+          COUNT(*) FILTER (WHERE status = 'draft')::int AS draft,
+          COUNT(*) FILTER (WHERE status = 'published')::int AS published,
+          COUNT(*) FILTER (WHERE status = 'unpublished')::int AS unpublished,
+          COUNT(*) FILTER (WHERE "createdAt" > now() - interval '7 days')::int AS "new7d"
+        FROM taklif`),
+      this.db.query<ResponseStatsDto[]>(`
+        SELECT COUNT(*)::int AS total,
+          COUNT(*) FILTER (WHERE "createdAt" > now() - interval '7 days')::int AS "new7d",
+          COALESCE(SUM(guests) FILTER (WHERE attending), 0)::int AS guests
+        FROM taklif_responses`),
+      this.db.query<{ total: string; week: string; orders: number }[]>(`
+        SELECT COALESCE(SUM(amount), 0)::bigint AS total,
+          COALESCE(SUM(amount) FILTER (WHERE "paidAt" > now() - interval '7 days'), 0)::bigint AS week,
+          COUNT(*)::int AS orders
+        FROM orders WHERE status = 'paid'`),
+      this.db.query<ThemeStatsDto[]>(`
+        SELECT th.id, th."themeId",
+          COUNT(t.id)::int AS total,
+          COUNT(t.id) FILTER (WHERE t.status = 'published')::int AS published
+        FROM themes th LEFT JOIN taklif t ON t."themeId" = th.id
+        WHERE th."archivedAt" IS NULL
+        GROUP BY th.id
+        ORDER BY total DESC, th."themeId"`),
+      this.db.query<UpcomingTaklifDto[]>(
+        `SELECT t.id, t.slug, t."groomName", t."brideName", t."eventAt", th."themeId",
+          (SELECT COUNT(*)::int FROM taklif_responses r WHERE r."taklifId" = t.id) AS "responseCount"
+        FROM taklif t JOIN themes th ON th.id = t."themeId"
+        WHERE t.status = 'published' AND t."eventAt" BETWEEN now() AND now() + interval '30 days'
+        ORDER BY t."eventAt" LIMIT $1`,
+        [UPCOMING],
+      ),
+      this.db.query<RecentTaklifDto[]>(
+        `SELECT t.id, t.slug, t."groomName", t."brideName", t.status, t."createdAt",
+          th."themeId", u.id AS "ownerId", u.phone AS "ownerPhone"
+        FROM taklif t JOIN themes th ON th.id = t."themeId" JOIN users u ON u.id = t."userId"
+        ORDER BY t."createdAt" DESC LIMIT $1`,
+        [RECENT],
+      ),
+      this.db.query<RecentResponseDto[]>(
+        `SELECT r.id, r.name, r.attending, r.guests, r.message, r."createdAt",
+          t.id AS "taklifId", t.slug, t."groomName", t."brideName"
+        FROM taklif_responses r JOIN taklif t ON t.id = r."taklifId"
+        ORDER BY r."createdAt" DESC LIMIT $1`,
+        [RECENT],
+      ),
+    ]);
+    return {
+      users,
+      invitations,
+      responses,
+      revenue: {
+        total: Number(revenue.total),
+        week: Number(revenue.week),
+        orders: revenue.orders,
+      },
+      themes,
+      upcoming,
+      recentInvitations,
+      recentResponses,
+    };
+  }
+}

@@ -2,15 +2,18 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { type ReactNode, useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { api } from "@/lib/api-client";
+import { api, ApiError } from "@/lib/api-client";
 import { copyText } from "@/lib/copy-text";
-import { coupleNames } from "@/lib/format";
+import { coupleNames, formatSum } from "@/lib/format";
 import type { Taklif } from "@/lib/api-types";
-import { deletedAfterEventAt, draftDeletedAt } from "@/lib/retention";
+import {
+  draftPhotosDeletedAt,
+  photosDeletedAfterEventAt,
+} from "@/lib/retention";
 import { useConfirm } from "../confirm-dialog";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
 
@@ -27,9 +30,11 @@ function invitationUrl(slug: string, locale: string) {
 
 export default function TaklifCard({ taklif }: { taklif: Taklif }) {
   const t = useTranslations("Cabinet");
+  const locale = useLocale();
   const router = useRouter();
   const { confirm, dialog } = useConfirm();
   const [busy, setBusy] = useState(false);
+  const [downloading, setDownloading] = useState(false);
   const [notice, setNotice] = useState<{ text: string; error?: boolean }>();
 
   const when = useTashkentDate();
@@ -49,11 +54,65 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
     }
   }
 
+  /**
+   * Pays for the draft: off to Payme's checkout, which returns to the
+   * cabinet (#paid-<slug>) to confirm. A free design is published at once.
+   */
+  async function pay() {
+    setBusy(true);
+    setNotice(undefined);
+    try {
+      const result = await api<{ url?: string; published: boolean }>(
+        `/payments/checkout/${taklif.id}`,
+        { method: "POST", json: { lang: locale } },
+      );
+      if (result.url) {
+        window.location.assign(result.url);
+        return; // busy until the page goes
+      }
+      setNotice({ text: t("actions.publishedFree") });
+      router.refresh();
+    } catch (error) {
+      setNotice({
+        text: t(
+          error instanceof ApiError && error.status === 503
+            ? "actions.payUnavailable"
+            : "actions.error",
+        ),
+        error: true,
+      });
+    }
+    setBusy(false);
+  }
+
   async function copyLink(locale: string) {
     if (!(await copyText(invitationUrl(taklif.slug, locale)))) {
       return setNotice({ text: t("actions.error"), error: true });
     }
     setNotice({ text: t("actions.copied", { lang: locale.toUpperCase() }) });
+  }
+
+  /** Saves the invitation as a PNG, rendered by the server in this language. */
+  async function downloadPng() {
+    setDownloading(true);
+    setNotice(undefined);
+    try {
+      const res = await fetch(`/${locale}/cabinet/download/${taklif.slug}`);
+      // A lost session redirects to the login page (HTML), not an error.
+      if (!res.ok || res.headers.get("content-type") !== "image/png") {
+        throw new Error(`Download failed (${res.status})`);
+      }
+      const url = URL.createObjectURL(await res.blob());
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `taklifim-${taklif.slug}.png`;
+      link.click();
+      setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    } catch {
+      setNotice({ text: t("actions.downloadError"), error: true });
+    } finally {
+      setDownloading(false);
+    }
   }
 
   return (
@@ -92,13 +151,18 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
         </div>
       </div>
 
-      <p className="mt-3 text-xs text-muted">
-        {taklif.status === "draft"
-          ? t("draftExpires", { date: when(draftDeletedAt(taklif.updatedAt)) })
-          : t("liveUntil", {
-              date: when(deletedAfterEventAt(taklif.eventAt)),
-            })}
-      </p>
+      {/* When the nightly cleanup will remove the photos (none left: no line). */}
+      {photo && (
+        <p className="mt-3 text-xs text-muted">
+          {taklif.status === "draft"
+            ? t("draftExpires", {
+                date: when(draftPhotosDeletedAt(taklif.updatedAt)),
+              })
+            : t("liveUntil", {
+                date: when(photosDeletedAfterEventAt(taklif.eventAt)),
+              })}
+        </p>
+      )}
 
       {taklif.status === "published" && (
         <div className="mt-4 flex flex-wrap items-center gap-2">
@@ -131,32 +195,22 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
         >
           {t("actions.edit")}
         </Link>
+        <ActionButton disabled={downloading} onClick={() => void downloadPng()}>
+          {downloading ? t("actions.downloading") : t("actions.download")}
+        </ActionButton>
+        {taklif.status !== "draft" && (
+          <Link
+            href={`/cabinet/responses/${taklif.slug}`}
+            className="inline-flex h-10 items-center rounded-full px-4 text-sm font-medium text-ink ring-1 ring-line transition-colors hover:ring-ink/30"
+          >
+            {t("actions.responses")}
+          </Link>
+        )}
         {taklif.status === "draft" && (
-          <>
-            {/* Drafts are published by paying; payments aren't built yet. */}
-            <ActionButton primary disabled title={t("actions.paySoon")}>
-              {t("actions.pay")}
-            </ActionButton>
-            <ActionButton
-              danger
-              disabled={busy}
-              onClick={async () => {
-                const ok = await confirm({
-                  title: t("actions.confirmDeleteTitle"),
-                  message: t("actions.confirmDelete"),
-                  confirmLabel: t("actions.delete"),
-                  cancelLabel: t("actions.cancel"),
-                  danger: true,
-                });
-                if (!ok) return;
-                void run(() =>
-                  api(`/taklif/${taklif.id}`, { method: "DELETE" }),
-                );
-              }}
-            >
-              {t("actions.delete")}
-            </ActionButton>
-          </>
+          // Paying publishes the draft.
+          <ActionButton primary disabled={busy} onClick={() => void pay()}>
+            {busy ? t("actions.paying") : t("actions.pay")}
+          </ActionButton>
         )}
         {taklif.status === "published" && (
           <>
@@ -185,10 +239,40 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
             {t("actions.publish")}
           </ActionButton>
         )}
+        {/* Owners delete in any status; a live link stops working, so it
+            gets a stronger warning than a draft. */}
+        <ActionButton
+          danger
+          disabled={busy}
+          onClick={async () => {
+            const draft = taklif.status === "draft";
+            const ok = await confirm({
+              title: t(
+                draft
+                  ? "actions.confirmDeleteTitle"
+                  : "actions.confirmDeleteLiveTitle",
+              ),
+              message: t(
+                draft ? "actions.confirmDelete" : "actions.confirmDeleteLive",
+              ),
+              confirmLabel: t("actions.delete"),
+              cancelLabel: t("actions.cancel"),
+              danger: true,
+            });
+            if (!ok) return;
+            void run(() => api(`/taklif/${taklif.id}`, { method: "DELETE" }));
+          }}
+        >
+          {t("actions.delete")}
+        </ActionButton>
       </div>
 
       {taklif.status === "draft" && (
-        <p className="mt-2 text-xs text-muted">{t("actions.paySoon")}</p>
+        <p className="mt-2 text-xs text-muted">
+          {taklif.theme.price === 0
+            ? t("actions.payHintFree")
+            : t("actions.payHint", { price: formatSum(taklif.theme.price) })}
+        </p>
       )}
       {notice && (
         <p

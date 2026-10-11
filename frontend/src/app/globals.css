@@ -65,3 +65,38 @@
     transform: translateY(-8px);
   }
 }
+
+/* The hero phone's designs taking turns (six, 4s each; see
+   phone-mockup.tsx, and change these with the number of designs): each is
+   shown for a sixth of the cycle, fading at the ends. */
+@keyframes mock-turn {
+  0%,
+  14% {
+    opacity: 1;
+  }
+  18%,
+  96% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* The art inside the phone drifting closer while it's on (same cycle;
+   it resets while hidden). */
+@keyframes mock-zoom {
+  0% {
+    transform: scale(1.02);
+  }
+  18% {
+    transform: scale(1.1);
+  }
+  21%,
+  96% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.02);
+  }
+}

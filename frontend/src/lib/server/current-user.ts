@@ -25,7 +25,7 @@ export function safeAdminPath(next: string | string[] | undefined) {
     next.startsWith("/admin/") &&
     !next.startsWith("//")
     ? next
-    : "/admin/users";
+    : "/admin";
 }
 
 /**

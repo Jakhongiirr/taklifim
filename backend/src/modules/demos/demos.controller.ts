@@ -26,6 +26,7 @@ import { Roles } from '../auth/decorators/roles.decorator';
 import { Role } from '../users/role.enum';
 import { CreateDemoDto } from './dto/create-demo.dto';
 import { DemoDto } from './dto/demo.dto';
+import { ReorderDemosDto } from './dto/reorder-demos.dto';
 import { ListDemosQueryDto } from './dto/list-demos-query.dto';
 import { UpdateDemoDto } from './dto/update-demo.dto';
 import { DemosService } from './demos.service';
@@ -41,7 +42,7 @@ export class DemosController {
   @ApiOperation({
     summary: 'List demos (no auth needed)',
     description:
-      'Newest first. Everyone sees active demos; admins (with a token) can pass status=archived|all.',
+      'In the order set by admins (PATCH /demos/order), then newest first. Everyone sees active demos; admins (with a token) can pass status=archived|all.',
   })
   @ApiForbiddenResponse({ description: 'Non-admin asked for archived demos' })
   list(
@@ -77,6 +78,20 @@ export class DemosController {
   @ApiForbiddenResponse({ description: 'Not an admin' })
   create(@Body() dto: CreateDemoDto): Promise<DemoDto> {
     return this.demosService.create(dto);
+  }
+
+  @Patch('order')
+  @Roles(Role.Admin)
+  @ApiUnauthorizedResponse({ description: 'Missing or invalid access token' })
+  @ApiOperation({
+    summary: 'Set the order of demos on the site (admin)',
+    description:
+      'Pass all demo ids, first to last. Demos left out go after the listed ones.',
+  })
+  @ApiBadRequestResponse({ description: 'Unknown or duplicate ids' })
+  @ApiForbiddenResponse({ description: 'Not an admin' })
+  reorder(@Body() dto: ReorderDemosDto): Promise<DemoDto[]> {
+    return this.demosService.reorder(dto.ids);
   }
 
   @Patch(':id')

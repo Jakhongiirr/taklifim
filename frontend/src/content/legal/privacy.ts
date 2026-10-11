@@ -60,8 +60,8 @@ const uz: LegalDoc = {
       body: [
         {
           list: [
-            "Qoralamalar — oxirgi tahrirdan 24 soat oʻtgach suratlari bilan birga oʻchiriladi.",
-            "Eʼlon qilingan taklifnomalar va ularning suratlari — tadbir sanasidan bir oy oʻtgach oʻchiriladi.",
+            "Qoralamalar — saqlanadi; ularning suratlari oxirgi tahrirdan 7 kun oʻtgach oʻchiriladi.",
+            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — egasi kabinetda oʻchirguncha yoki hisobni oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan bir oy oʻtgach oʻchiriladi.",
             "Taklifnomaga biriktirilmagan suratlar — 24 soatdan soʻng oʻchiriladi.",
             "Telefon raqami (hisob) — hisobni oʻchirish soʻralguncha saqlanadi.",
             "Kirish sessiyasi — 30 kungacha amal qiladi.",
@@ -95,7 +95,7 @@ const uz: LegalDoc = {
           list: [
             "Oʻz maʼlumotlaringiz haqida maʼlumot olish.",
             "Maʼlumotlarni tuzatish — taklifnomani kabinetda tahrirlash orqali.",
-            "Maʼlumotlarni oʻchirish — qoralamalarni kabinetda oʻchirish yoki hisobni oʻchirishni soʻrash orqali.",
+            "Maʼlumotlarni oʻchirish — taklifnomalarni kabinetda oʻchirish yoki hisobni oʻchirishni soʻrash orqali.",
             "Maʼlumotlarni qayta ishlashga rozilikni qaytarib olish.",
           ],
         },
@@ -181,8 +181,8 @@ const ru: LegalDoc = {
       body: [
         {
           list: [
-            "Черновики — удаляются вместе с фотографиями через 24 часа после последнего редактирования.",
-            "Опубликованные приглашения и их фотографии — удаляются через месяц после даты торжества.",
+            "Черновики — хранятся; их фотографии удаляются через 7 дней после последнего редактирования.",
+            "Приглашения (текст: имена, дата, место, номера карты и телефона) — хранятся, пока владелец не удалит их в личном кабинете или не запросит удаление учётной записи; их фотографии удаляются через месяц после даты торжества.",
             "Фотографии, не прикреплённые к приглашению, — удаляются через 24 часа.",
             "Номер телефона (учётная запись) — хранится до запроса на удаление учётной записи.",
             "Сессия входа — действует до 30 дней.",
@@ -216,7 +216,7 @@ const ru: LegalDoc = {
           list: [
             "Получать сведения о своих данных.",
             "Исправлять данные — через редактирование приглашения в кабинете.",
-            "Удалять данные — удаляя черновики в кабинете или запросив удаление учётной записи.",
+            "Удалять данные — удаляя приглашения в личном кабинете или запросив удаление учётной записи.",
             "Отозвать согласие на обработку данных.",
           ],
         },
@@ -302,8 +302,8 @@ const en: LegalDoc = {
       body: [
         {
           list: [
-            "Drafts — deleted with their photos 24 hours after the last edit.",
-            "Published invitations and their photos — deleted one month after the event date.",
+            "Drafts — kept; their photos are deleted 7 days after the last edit.",
+            "Invitations (text: names, date, venue, card and phone numbers) — kept until you delete them in your account or ask for the account to be deleted; their photos are deleted one month after the event date.",
             "Photos not attached to an invitation — deleted after 24 hours.",
             "Phone number (account) — kept until you ask for the account to be deleted.",
             "Login session — valid for up to 30 days.",
@@ -337,7 +337,7 @@ const en: LegalDoc = {
           list: [
             "To get information about your data.",
             "To correct your data — by editing your invitation in your account.",
-            "To delete your data — by deleting drafts in your account or asking for your account to be deleted.",
+            "To delete your data — by deleting invitations in your account or asking for your account to be deleted.",
             "To withdraw your consent to processing.",
           ],
         },

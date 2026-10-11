@@ -28,9 +28,12 @@ const noClock = () => null;
 export default function Countdown({
   eventAt,
   boxClassName = "rounded-2xl py-3",
+  digitClassName,
 }: {
   eventAt: string;
   boxClassName?: string;
+  /** Replayed each time a number changes (e.g. a flip animation). */
+  digitClassName?: string;
 }) {
   const t = useTranslations("Invitation.countdown");
   const target = new Date(eventAt).getTime();
@@ -49,7 +52,10 @@ export default function Countdown({
           className={`flex flex-col items-center ${boxClassName}`}
         >
           <span className="font-serif text-3xl tabular-nums">
-            {left ? String(left[unit]).padStart(2, "0") : "––"}
+            {/* A new key per value restarts digitClassName's animation. */}
+            <span key={left?.[unit]} className={digitClassName}>
+              {left ? String(left[unit]).padStart(2, "0") : "––"}
+            </span>
           </span>
           <span className="text-[11px] tracking-wide uppercase opacity-70">
             {t(unit)}

@@ -35,6 +35,12 @@ export class TaklifDto {
    */
   eventAtLimit: Date | null;
 
+  /**
+   * When it was paid for; null while unpaid. Once paid it can be published
+   * and hidden freely, but its theme can't change.
+   */
+  paidAt: Date | null;
+
   /** @example "Navruz to'yxonasi" */
   venueName: string;
 
@@ -70,9 +76,12 @@ export class TaklifOwnerDto {
   phone: string;
 }
 
-/** Admin list item: adds the owner's phone. */
+/** Admin list item: adds the owner's phone and the guests' reply count. */
 export class AdminTaklifDto extends TaklifDto {
   owner: TaklifOwnerDto;
+
+  /** @example 12 */
+  responseCount: number;
 }
 
 export class AdminTaklifPageDto {

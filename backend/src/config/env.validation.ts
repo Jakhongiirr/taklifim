@@ -55,4 +55,18 @@ export const envValidationSchema = Joi.object({
     then: Joi.string().required(),
     otherwise: Joi.string().allow('').optional(),
   }),
+
+  // The site's public address, for the page Payme returns buyers to.
+  SITE_URL: Joi.string().uri().default('http://localhost:3001'),
+
+  // Payme Merchant API. Without them checkout answers 503 and Payme's calls
+  // are refused (they can't authenticate).
+  PAYME_MERCHANT_ID: Joi.string().allow('').optional(),
+  PAYME_KEY: Joi.string().allow('').optional(),
+  PAYME_CHECKOUT_URL: Joi.string().uri().default('https://checkout.paycom.uz'),
+  // Fiscal receipt (optional until Payme asks for it): the service's IKPU
+  // (MXIK) code, its package code and the VAT percent.
+  PAYME_IKPU: Joi.string().allow('').optional(),
+  PAYME_PACKAGE_CODE: Joi.string().allow('').optional(),
+  PAYME_VAT_PERCENT: Joi.number().min(0).max(100).default(0),
 });

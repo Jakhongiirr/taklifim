@@ -110,7 +110,8 @@ Admins showcase themes with demos and archive them instead of deleting. Fields: 
 
 | Method | Path | Notes |
 | --- | --- | --- |
-| GET | `/demos` | Public. Newest first. Everyone sees active demos; admins can pass `status=archived` or `status=all` |
+| GET | `/demos` | Public. In the order set by admins (`position`), then newest first. Everyone sees active demos; admins can pass `status=archived` or `status=all` |
+| PATCH | `/demos/order` | Admin. `{ ids }`: demo ids first to last. Demos left out go after the listed ones. New demos go last |
 | GET | `/demos/:id` | Public. Archived demos: admin only (404 for others) |
 | POST | `/demos` | Admin. `{ title, text, demoUrl, imageId, themeId }` |
 | PATCH | `/demos/:id` | Admin. Any of `{ title, text, demoUrl, imageId, themeId }`. Replacing `imageId` leaves the old file in storage (delete it via `DELETE /files/:id`) |
@@ -149,6 +150,20 @@ With several API instances a Redis lock makes only one run it.
 | DELETE | `/taklif/:id` | Owner: their own drafts only (409 otherwise). Admin: any invitation. Also deletes its photos |
 
 Photos are uploaded first via `POST /files`. Users can only attach images they uploaded themselves; a file can be a photo of only one invitation (409). Photos removed from an invitation, or of a deleted one, are deleted from storage. Archiving a track or theme doesn't affect invitations that already use it.
+
+## RSVP (guest replies)
+
+Guests reply to published invitations; owners see all replies and like or delete them. Replies are deleted with their invitation.
+
+| Method | Path | Notes |
+| --- | --- | --- |
+| POST | `/taklif/:slug/responses` | Public. `{ name, attending, guests?, message?, website?, elapsedMs }`. Published only (404 otherwise). 5 per 10 minutes per visitor |
+| GET | `/taklif/:slug/wishes` | Public. Replies with a wish: `{ id, name, message, liked, createdAt }`, liked first, then newest (max 100). Attendance isn't shown |
+| GET | `/taklif/:id/responses` | Owner or admin. All replies plus totals `{ items, attending, declined, guests }` |
+| PATCH | `/taklif/:id/responses/:responseId` | Owner or admin. `{ liked }` |
+| DELETE | `/taklif/:id/responses/:responseId` | Owner or admin |
+
+Spam protection: `website` is a honeypot (hidden in the form) and `elapsedMs` must be at least 3 s; either failing returns a normal success without saving, so bots can't tell. Duplicate replies (same name and wish) are also accepted silently and not saved. Wishes with links are rejected (400), there's a per-visitor rate limit, and an invitation accepts at most 500 replies (409).
 
 ## Rate limiting
 

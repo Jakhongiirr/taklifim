@@ -20,8 +20,10 @@ import { RedisModule } from './redis/redis.module';
 import { DemosModule } from './modules/demos/demos.module';
 import { FilesModule } from './modules/files/files.module';
 import { MusicModule } from './modules/music/music.module';
+import { PaymentsModule } from './modules/payments/payments.module';
 import { TaklifModule } from './modules/taklif/taklif.module';
 import { ThemesModule } from './modules/themes/themes.module';
+import { StatsModule } from './modules/stats/stats.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { UsersModule } from './modules/users/users.module';
 
@@ -52,6 +54,8 @@ import { UsersModule } from './modules/users/users.module';
     ThemesModule,
     TaklifModule,
     DemosModule,
+    StatsModule,
+    PaymentsModule,
   ],
   controllers: [AppController],
   providers: [

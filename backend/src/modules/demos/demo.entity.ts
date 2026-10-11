@@ -43,6 +43,10 @@ export class Demo {
   @JoinColumn({ name: 'themeId' })
   theme: Theme;
 
+  /** Order on the site: lower comes first (set from the admin panel). */
+  @Column({ type: 'integer', default: 0 })
+  position: number;
+
   /** Set when archived; archived demos are hidden from regular users. */
   @Index()
   @Column({ type: 'timestamptz', nullable: true })

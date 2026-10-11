@@ -1,17 +1,21 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useMemo, useState } from "react";
 import { api, ApiError } from "@/lib/api-client";
-import type { User } from "@/lib/api-types";
+import type { AdminUser } from "@/lib/api-types";
 import { formatDateTime } from "@/lib/format";
 import { Alert, Badge, EmptyState, Input, Spinner } from "./ui";
 
+/** Everyone with an account; a row opens the user's page. */
 export default function UsersTable() {
+  const router = useRouter();
   const [search, setSearch] = useState("");
   const users = useQuery({
     queryKey: ["users"],
-    queryFn: () => api<User[]>("/users"),
+    queryFn: () => api<AdminUser[]>("/users"),
   });
 
   const filtered = useMemo(() => {
@@ -63,18 +67,40 @@ export default function UsersTable() {
               <tr>
                 <th className="px-4 py-3 font-medium">Phone</th>
                 <th className="px-4 py-3 font-medium">Role</th>
+                <th className="px-4 py-3 font-medium">Invitations</th>
                 <th className="px-4 py-3 font-medium">Last login</th>
                 <th className="px-4 py-3 font-medium">Joined</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
               {filtered.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-4 py-3 font-mono">{user.phone}</td>
+                <tr
+                  key={user.id}
+                  onClick={() => router.push(`/admin/users/${user.id}`)}
+                  className="cursor-pointer hover:bg-zinc-50 dark:hover:bg-zinc-800/50"
+                >
+                  <td className="px-4 py-3 font-mono">
+                    <Link
+                      href={`/admin/users/${user.id}`}
+                      className="hover:underline"
+                      onClick={(e) => e.stopPropagation()}
+                    >
+                      {user.phone}
+                    </Link>
+                  </td>
                   <td className="px-4 py-3">
                     <Badge tone={user.role === "admin" ? "blue" : "neutral"}>
                       {user.role}
                     </Badge>
+                  </td>
+                  <td className="px-4 py-3 tabular-nums">
+                    {user.taklifCount}
+                    {user.publishedCount > 0 && (
+                      <span className="text-zinc-500">
+                        {" "}
+                        · {user.publishedCount} published
+                      </span>
+                    )}
                   </td>
                   <td className="px-4 py-3 text-zinc-500">
                     {formatDateTime(user.lastLoginAt)}

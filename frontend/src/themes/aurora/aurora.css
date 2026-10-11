@@ -1,0 +1,85 @@
+/* Animations of the "aurora" theme. All are off for visitors who prefer
+   reduced motion, and content is never hidden without them. */
+
+@keyframes aurora-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes aurora-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The hero's frame keeps drifting closer, continuing the video's walk. */
+@keyframes aurora-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+@keyframes aurora-shimmer {
+  0%,
+  100% {
+    opacity: 0.25;
+  }
+  50% {
+    opacity: 0.9;
+  }
+}
+
+@keyframes aurora-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero comes in as the cover fades (VideoCover adds the class). */
+  .aurora-opened .aurora-rise {
+    animation: aurora-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 180ms + 250ms);
+  }
+  .aurora-opened .aurora-drift {
+    animation: aurora-drift 24s ease-out both;
+  }
+
+  .aurora-sparkle {
+    animation: aurora-shimmer 3.2s ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .aurora-hint {
+    animation: aurora-hint 2.2s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .aurora-reveal {
+      animation: aurora-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}

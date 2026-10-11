@@ -7,8 +7,6 @@ export function formatDateTime(value: string | null) {
   return value ? dateTime.format(new Date(value)) : "—";
 }
 
-const sum = new Intl.NumberFormat("en-GB");
-
 // Weddings happen in Uzbekistan: show and enter event times in Tashkent time
 // (UTC+5, no daylight saving) whatever the admin's own time zone is.
 const TASHKENT = "Asia/Tashkent";
@@ -36,8 +34,9 @@ export function fromTashkentInput(value: string) {
 }
 
 /** Prices are whole so'm. */
+/** Admin prices, written like the site's: "129 000 so'm". */
 export function formatPrice(value: number) {
-  return value === 0 ? "Free" : `${sum.format(value)} UZS`;
+  return value === 0 ? "Free" : `${formatSum(value)} so'm`;
 }
 
 /** "8600123456789012" -> "8600 1234 5678 9012" */

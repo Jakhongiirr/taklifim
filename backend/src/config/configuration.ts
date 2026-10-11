@@ -45,4 +45,13 @@ export default () => ({
   telegram: {
     gatewayToken: process.env.TELEGRAM_GATEWAY_TOKEN || undefined,
   },
+  siteUrl: process.env.SITE_URL ?? 'http://localhost:3001',
+  payme: {
+    merchantId: process.env.PAYME_MERCHANT_ID || undefined,
+    key: process.env.PAYME_KEY || undefined,
+    checkoutUrl: process.env.PAYME_CHECKOUT_URL ?? 'https://checkout.paycom.uz',
+    ikpu: process.env.PAYME_IKPU || undefined,
+    packageCode: process.env.PAYME_PACKAGE_CODE || undefined,
+    vatPercent: parseFloat(process.env.PAYME_VAT_PERCENT ?? '0'),
+  },
 });

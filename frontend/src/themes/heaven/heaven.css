@@ -1,0 +1,130 @@
+/* Animations of the "heaven" theme. All are off for visitors who prefer
+   reduced motion, and content is never hidden without them. */
+
+@keyframes heaven-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes heaven-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* The hero keeps walking toward the palace, slowly. */
+@keyframes heaven-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08) translateY(-1%);
+  }
+}
+
+/* A rose petal tumbling down across the hero. */
+@keyframes heaven-petal {
+  0% {
+    transform: translate3d(0, -10vh, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.9;
+  }
+  90% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(var(--drift, 40px), 105vh, 0) rotate(520deg);
+    opacity: 0;
+  }
+}
+
+/* The lantern's glow behind the date, breathing. */
+@keyframes heaven-glow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.06);
+  }
+}
+
+/* The ironwork scrolls, drawing in. */
+@keyframes heaven-draw {
+  from {
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes heaven-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero comes in as the cover fades (VideoCover adds the class). */
+  .heaven-opened .heaven-rise {
+    animation: heaven-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 180ms + 250ms);
+  }
+  .heaven-opened .heaven-drift {
+    animation: heaven-drift 24s ease-out both;
+  }
+
+  .heaven-petal {
+    animation: heaven-petal var(--dur, 13s) linear infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .heaven-glow {
+    animation: heaven-glow 4s ease-in-out infinite;
+  }
+  .heaven-hint {
+    animation: heaven-hint 2.2s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .heaven-reveal {
+      animation: heaven-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+    /* Each ironwork divider draws itself as it scrolls in (a named
+       timeline on the <svg>: its paths have no box of their own). */
+    .heaven-iron {
+      view-timeline: --heaven-iron block;
+    }
+    .heaven-iron path {
+      stroke-dasharray: 1;
+      animation: heaven-draw linear both;
+      animation-timeline: --heaven-iron;
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}

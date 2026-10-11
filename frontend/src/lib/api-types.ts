@@ -52,6 +52,8 @@ export interface Demo {
   demoUrl: string;
   image: FileDto;
   theme: Theme;
+  /** Order on the site: lower comes first. */
+  position: number;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
@@ -74,6 +76,11 @@ export interface Taklif {
   eventAt: string;
   /** Latest eventAt the owner may set (30 days after it at first publish). */
   eventAtLimit: string | null;
+  /**
+   * When it was paid for; null while unpaid. Paid invitations are published
+   * and hidden freely, but their design can't change.
+   */
+  paidAt: string | null;
   venueName: string;
   venueAddress: string;
   locationUrl: string;
@@ -109,6 +116,91 @@ export interface PublicTaklif {
 
 export interface AdminTaklif extends Taklif {
   owner: { id: string; phone: string };
+  responseCount: number;
+}
+
+/** A user as admins see it (GET /users, /users/:id). */
+export interface AdminUser {
+  id: string;
+  phone: string;
+  role: Role;
+  lastLoginAt: string | null;
+  createdAt: string;
+  /** Invitations in any status. */
+  taklifCount: number;
+  publishedCount: number;
+}
+
+export type OrderStatus = "pending" | "paid";
+
+/** Payme's transaction states: created, performed, cancelled before/after. */
+export type PaymeState = 1 | 2 | -1 | -2;
+
+/** An order as admins see it (GET /payments). */
+export interface AdminOrder {
+  id: string;
+  title: string;
+  /** Whole so'm. */
+  amount: number;
+  status: OrderStatus;
+  paidAt: string | null;
+  createdAt: string;
+  /** Null once the invitation is deleted. */
+  taklif: { id: string; slug: string } | null;
+  /** Null once the user is deleted. */
+  user: { id: string; phone: string } | null;
+  themeId: string | null;
+  /** The newest Payme transaction, if any. */
+  payme: { id: string; state: PaymeState; reason: number | null } | null;
+}
+
+/** The admin dashboard (GET /stats). */
+export interface Stats {
+  users: { total: number; admins: number; new7d: number; active7d: number };
+  invitations: {
+    total: number;
+    draft: number;
+    published: number;
+    unpublished: number;
+    new7d: number;
+  };
+  responses: { total: number; new7d: number; guests: number };
+  /** Paid orders, in so'm. */
+  revenue: { total: number; week: number; orders: number };
+  /** Most used first. */
+  themes: { id: string; themeId: string; total: number; published: number }[];
+  upcoming: {
+    id: string;
+    slug: string;
+    groomName: string;
+    brideName: string;
+    eventAt: string;
+    themeId: string;
+    responseCount: number;
+  }[];
+  recentInvitations: {
+    id: string;
+    slug: string;
+    groomName: string;
+    brideName: string;
+    status: TaklifStatus;
+    createdAt: string;
+    themeId: string;
+    ownerId: string;
+    ownerPhone: string;
+  }[];
+  recentResponses: {
+    id: string;
+    name: string;
+    attending: boolean;
+    guests: number;
+    message: string | null;
+    createdAt: string;
+    taklifId: string;
+    slug: string;
+    groomName: string;
+    brideName: string;
+  }[];
 }
 
 export interface Page<T> {
@@ -140,3 +232,33 @@ export interface ApiErrorBody {
 }
 
 export type ApiBody<T> = { success: true; data: T } | ApiErrorBody;
+
+/** A wish on a published invitation (GET /taklif/:slug/wishes). */
+export interface PublicWish {
+  id: string;
+  name: string;
+  message: string;
+  /** The couple liked it. */
+  liked: boolean;
+  createdAt: string;
+}
+
+/** A guest's reply, as the owner sees it. */
+export interface TaklifResponse {
+  id: string;
+  name: string;
+  attending: boolean;
+  /** People coming including the guest. */
+  guests: number;
+  message: string | null;
+  liked: boolean;
+  createdAt: string;
+}
+
+export interface TaklifResponses {
+  items: TaklifResponse[];
+  attending: number;
+  declined: number;
+  /** People coming in total. */
+  guests: number;
+}

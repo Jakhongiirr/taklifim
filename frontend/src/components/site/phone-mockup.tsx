@@ -1,123 +1,235 @@
-import type { ReactNode } from "react";
+import Image from "next/image";
+import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
-import Ornament from "./ornament";
+import { yeseva } from "@/themes/arcade/fonts";
+import { greatVibes } from "@/themes/aurora/fonts";
+import { marck } from "@/themes/ether/fonts";
+import { playfair } from "@/themes/paris/fonts";
+import { doveScript } from "@/themes/dove/fonts";
+import { prata } from "@/themes/heaven/fonts";
+
+/** Seconds each design stays on the phone. */
+const TURN = 4;
 
 /**
- * The hero's sample invitation: a phone showing a "classic" invitation, a
- * gold arch behind it and two floating feature cards. Pure HTML/SVG.
+ * The real designs, as their opened invitation's hero: the last frame of
+ * the opening video, the names in the theme's typeface and colours.
+ */
+const DESIGNS = [
+  {
+    name: "Aurora",
+    art: "/themes/aurora/opening-end.jpg",
+    bg: "#fbf6ec",
+    font: greatVibes.className,
+    names: "text-[2.4rem] leading-[1.05] text-[#7a5a2c]",
+    amp: "text-[#b08a4e]",
+    text: "text-[#5c4325]",
+    accent: "text-[#8a6a3a]",
+    line: "border-[#b08a4e]/50",
+  },
+  {
+    name: "Dove",
+    art: "/themes/dove/opening-end.jpg",
+    bg: "#fbf3ee",
+    font: doveScript,
+    names: "text-[2.3rem] leading-[1.05] text-[#6b3f4a]",
+    amp: "text-[#6f8597]",
+    text: "text-[#5a3e45]",
+    accent: "text-[#6b3f4a]",
+    line: "border-[#c98b8b]/60",
+  },
+  {
+    name: "Heaven",
+    art: "/themes/heaven/opening-end.jpg",
+    bg: "#f4efe6",
+    font: prata.className,
+    names: "text-[1.65rem] leading-[1.15] text-[#2f3a2c]",
+    amp: "text-[#b5707a]",
+    text: "text-[#2f3a2c]",
+    accent: "text-[#8a4f58]",
+    line: "border-[#2b2a28]/35",
+  },
+  {
+    name: "Arcade",
+    art: "/themes/arcade/opening-end.jpg",
+    bg: "#fdf8f4",
+    font: yeseva.className,
+    names: "text-[1.8rem] leading-[1.1] text-[#4d3a52]",
+    amp: "text-[#d27f93]",
+    text: "text-[#4d3a52]",
+    accent: "text-[#8a5a74]",
+    line: "border-[#d27f93]/50",
+  },
+  {
+    name: "Ether",
+    art: "/themes/ether/opening-end.jpg",
+    bg: "#1b1430",
+    font: marck.className,
+    names:
+      "text-[2.3rem] leading-[1.05] text-[#f7f2ff] [text-shadow:0_0_14px_rgba(185,156,232,0.9)]",
+    amp: "text-[#f5c27a]",
+    text: "text-[#f1ecfa]",
+    accent: "text-[#e6dcfa]",
+    line: "border-[#b79ce8]/50",
+  },
+  {
+    name: "Paris",
+    art: "/themes/paris/opening-end.jpg",
+    bg: "#fbf7f2",
+    font: `${playfair.className} italic`,
+    names: "text-[1.8rem] leading-[1.1] text-[#2c3550]",
+    amp: "text-[#b8925a]",
+    text: "text-[#2c3550]",
+    accent: "text-[#8a6d3f]",
+    line: "border-[#b8925a]/50",
+  },
+] as const;
+
+/** Design `i`'s turn in the cycle (negative delays: all start at once). */
+const turn = (i: number, animation: string): CSSProperties => ({
+  animation: `${animation} ${TURN * DESIGNS.length}s linear infinite`,
+  animationDelay: `-${((DESIGNS.length - i) % DESIGNS.length) * TURN}s`,
+});
+
+/**
+ * The hero's sample: a phone showing the real designs in turn (each as
+ * its opened invitation), a gold arch behind and two floating feature
+ * cards. With reduced motion the first design stays.
  */
 export default async function PhoneMockup() {
-  const [t, tCount] = await Promise.all([
-    getTranslations("HomePage.mock"),
-    getTranslations("Invitation.countdown"),
-  ]);
+  const t = await getTranslations("HomePage.mock");
 
   return (
     <div className="relative mx-auto w-[228px] py-6 sm:w-[260px]">
       {/* Glow and a thin wedding arch behind the phone. */}
       <div
         aria-hidden
-        className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[160%] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(168,132,79,0.22),rgba(70,82,63,0.08)_45%,transparent_70%)] blur-2xl"
+        className="absolute top-1/2 left-1/2 -z-10 aspect-square w-[160%] -translate-1/2 rounded-full bg-[radial-gradient(circle,rgba(168,132,79,0.24),rgba(70,82,63,0.08)_45%,transparent_70%)] blur-2xl"
       />
       <div
         aria-hidden
-        className="absolute inset-x-[-14%] top-0 bottom-[8%] -z-10 rounded-t-full border border-b-0 border-gold/35 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]"
+        className="absolute inset-x-[-14%] top-0 bottom-[14%] -z-10 rounded-t-full border border-b-0 border-gold/35 [mask-image:linear-gradient(to_bottom,black_55%,transparent)]"
       />
       <div
         aria-hidden
-        className="absolute inset-x-[-8%] top-[4%] bottom-[8%] -z-10 rounded-t-full border border-b-0 border-gold/20 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
+        className="absolute inset-x-[-8%] top-[4%] bottom-[14%] -z-10 rounded-t-full border border-b-0 border-gold/20 [mask-image:linear-gradient(to_bottom,black_45%,transparent)]"
       />
 
       <Phone>
-        <div className="flex h-full flex-col items-center justify-between px-5 pt-1 pb-4 text-center">
-          <div className="flex flex-col items-center">
-            <Branch />
-            <p className="mt-2 text-[9px] tracking-[0.35em] text-gold uppercase">
-              {t("eyebrow")}
-            </p>
-            <p className="mt-3 font-serif text-[2rem] leading-[1.05] text-ink italic">
-              {t("groom")}
-              <span className="my-0.5 block text-xl text-gold not-italic">
-                &
-              </span>
-              {t("bride")}
-            </p>
-            <p className="mt-3 text-[10px] leading-snug text-muted">
-              {t("invite")}
-            </p>
-          </div>
-
-          <div className="flex w-full flex-col items-center">
-            {/* The theme's date row: weekday | day | month. */}
-            <div className="flex w-full items-center justify-center gap-2">
-              <span className="flex h-8 flex-1 items-center justify-center border-y border-gold/50 text-[8px] tracking-[0.15em] text-muted uppercase">
-                {t("weekday")}
-              </span>
-              <span className="font-serif text-[2.6rem] leading-none text-sage">
-                {t("day")}
-              </span>
-              <span className="flex h-8 flex-1 flex-col items-center justify-center border-y border-gold/50 text-[8px] leading-tight tracking-[0.15em] text-muted uppercase">
-                {t("month")}
-                <span>{t("year")}</span>
-              </span>
+        {DESIGNS.map((d, i) => (
+          <div
+            key={d.name}
+            aria-hidden={i > 0}
+            className={`absolute inset-0 motion-reduce:!animate-none ${i > 0 ? "motion-reduce:hidden" : ""}`}
+            style={turn(i, "mock-turn")}
+          >
+            <div
+              className="absolute inset-0 motion-reduce:!animate-none"
+              style={turn(i, "mock-zoom")}
+            >
+              <Image
+                src={d.art}
+                alt=""
+                fill
+                sizes="260px"
+                priority={i === 0}
+                className="object-cover"
+              />
             </div>
-            <p className="mt-2 font-serif text-sm text-ink">{t("time")}</p>
-
-            <div className="mt-3 grid w-full grid-cols-3 gap-1.5">
-              {(
-                [
-                  ["14", "days"],
-                  ["06", "hours"],
-                  ["32", "minutes"],
-                ] as const
-              ).map(([n, unit]) => (
+            <div
+              className="absolute inset-0"
+              style={{
+                background: `linear-gradient(to bottom, transparent 28%, ${d.bg}d9 55%, ${d.bg} 68%)`,
+              }}
+            />
+            <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-4 pb-7 text-center">
+              <p
+                className={`text-[8px] tracking-[0.3em] uppercase ${d.accent}`}
+              >
+                {t("invite")}
+              </p>
+              <p className={`mt-2 ${d.font} ${d.names}`}>
+                {t("groom")}
                 <span
-                  key={unit}
-                  className="flex flex-col items-center rounded-xl bg-paper py-1.5 ring-1 ring-line"
+                  className={`my-0.5 block font-serif text-lg italic ${d.amp}`}
                 >
-                  <span className="font-serif text-base leading-tight text-ink">
-                    {n}
-                  </span>
-                  <span className="text-[7px] tracking-wide text-muted uppercase">
-                    {tCount(unit)}
-                  </span>
+                  &amp;
                 </span>
-              ))}
+                {t("bride")}
+              </p>
+              <div
+                className={`mt-3 flex w-full items-center justify-center gap-2 ${d.text}`}
+              >
+                <span
+                  className={`flex h-7 flex-1 items-center justify-center border-y text-[7px] tracking-[0.15em] uppercase ${d.line}`}
+                >
+                  {t("weekday")}
+                </span>
+                <span className="font-serif text-[2rem] leading-none">
+                  {t("day")}
+                </span>
+                <span
+                  className={`flex h-7 flex-1 flex-col items-center justify-center border-y text-[7px] leading-tight tracking-[0.15em] uppercase ${d.line}`}
+                >
+                  {t("month")}
+                  <span>{t("year")}</span>
+                </span>
+              </div>
+              <p className={`mt-1.5 font-serif text-xs ${d.text}`}>
+                {t("time")}
+              </p>
             </div>
           </div>
-
-          <div className="flex flex-col items-center">
-            <p className="text-[11px] font-medium text-ink">{t("venue")}</p>
-            <span className="mt-2 inline-flex h-7 items-center gap-1 rounded-full bg-sage px-3.5 text-[10px] font-medium text-paper">
-              <svg aria-hidden viewBox="0 0 24 24" className="size-3">
-                <path
-                  d="M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12ZM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                />
-              </svg>
-              {t("map")}
-            </span>
-            <Ornament className="mt-3 h-3 w-20 rotate-180" />
-          </div>
-        </div>
+        ))}
       </Phone>
 
-      {/* Floating feature cards. */}
-      <FloatingCard className="top-[16%] -right-10 sm:-right-16">
-        <p className="font-serif text-2xl leading-none text-sage">
-          {t("daysLeft")}
-        </p>
-        <p className="mt-1 text-[11px] text-muted">{t("daysLeftText")}</p>
+      {/* Which design is on: its name over three dots. */}
+      <div aria-hidden className="mt-5 flex flex-col items-center gap-2">
+        <span className="relative h-5 w-24">
+          {DESIGNS.map((d, i) => (
+            <span
+              key={d.name}
+              className={`${d.font} absolute inset-0 text-center text-lg leading-5 text-ink/80 motion-reduce:!animate-none ${i > 0 ? "motion-reduce:hidden" : ""}`}
+              style={turn(i, "mock-turn")}
+            >
+              {d.name}
+            </span>
+          ))}
+        </span>
+        <span className="flex gap-1.5">
+          {DESIGNS.map((d, i) => (
+            <span
+              key={d.name}
+              className="relative h-1.5 w-1.5 overflow-hidden rounded-full bg-gold/25"
+            >
+              <span
+                className={`absolute inset-0 rounded-full bg-gold motion-reduce:!animate-none ${i > 0 ? "motion-reduce:hidden" : ""}`}
+                style={turn(i, "mock-turn")}
+              />
+            </span>
+          ))}
+        </span>
+      </div>
+
+      {/* Floating feature cards, over the art (never the text). */}
+      <FloatingCard className="top-[13%] -right-10 sm:-right-16">
+        <div className="flex items-center gap-2.5">
+          <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-gold text-paper">
+            <svg aria-hidden viewBox="0 0 24 24" className="ml-0.5 size-3.5">
+              <path d="M7 4.5v15l12-7.5z" fill="currentColor" />
+            </svg>
+          </span>
+          <span className="text-left">
+            <span className="block text-xs font-medium text-ink">
+              {t("videoTitle")}
+            </span>
+            <span className="block text-[11px] text-muted">
+              {t("videoText")}
+            </span>
+          </span>
+        </div>
       </FloatingCard>
-      {/* In the gap between the countdown and the venue where there's room
-          next to the phone; on phones and narrow two-column layouts, below
-          the map button instead. */}
-      <FloatingCard
-        className="bottom-[3%] -left-10 sm:top-[71%] sm:bottom-auto sm:-left-[116px] md:top-auto md:bottom-[3%] md:-left-20 lg:top-[71%] lg:bottom-auto lg:-left-[116px]"
-        delay="1.5s"
-      >
+      <FloatingCard className="top-[29%] -left-10 sm:top-[36%] sm:-left-20" delay="1.5s">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-paper">
             <span aria-hidden className="flex h-3.5 items-end gap-[3px]">
@@ -154,8 +266,10 @@ function Phone({ children }: { children: ReactNode }) {
       <span className="absolute top-[24%] -right-[3px] h-16 w-[3px] rounded-r bg-[#3a3530]" />
 
       <div className="aspect-[9/19.5] rounded-[3rem] bg-gradient-to-b from-[#3d3832] to-[#25221f] p-[7px] shadow-[0_40px_80px_-20px_rgba(42,39,35,0.45),0_0_0_1px_rgba(255,255,255,0.06)_inset]">
-        <div className="relative flex h-full flex-col overflow-hidden rounded-[2.55rem] bg-[radial-gradient(120%_80%_at_50%_0%,#f8f3ea,#f2ece1_60%,#ece4d6)]">
-          <div className="flex h-9 shrink-0 items-center justify-between px-6 pt-1 text-[10px] font-semibold text-ink">
+        <div className="relative h-full overflow-hidden rounded-[2.55rem] bg-cream">
+          {children}
+          {/* Status bar over the art, on a soft light band. */}
+          <div className="absolute inset-x-0 top-0 flex h-9 items-center justify-between bg-gradient-to-b from-white/50 to-transparent px-6 pt-1 text-[10px] font-semibold text-ink">
             <span>9:41</span>
             <span className="flex items-center gap-1" aria-hidden>
               <svg viewBox="0 0 18 12" className="h-2.5">
@@ -173,11 +287,10 @@ function Phone({ children }: { children: ReactNode }) {
             aria-hidden
             className="absolute top-2 left-1/2 h-[22px] w-[76px] -translate-x-1/2 rounded-full bg-[#1d1b18]"
           />
-          <div className="min-h-0 flex-1">{children}</div>
           {/* Soft glass reflection. */}
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.35)_0%,transparent_28%)]"
+            className="pointer-events-none absolute inset-0 bg-[linear-gradient(115deg,rgba(255,255,255,0.3)_0%,transparent_28%)]"
           />
         </div>
       </div>
@@ -202,39 +315,5 @@ function FloatingCard({
     >
       {children}
     </div>
-  );
-}
-
-/** An olive branch in gold, above the names. */
-function Branch() {
-  return (
-    <svg aria-hidden viewBox="0 0 120 34" className="h-7 w-24 text-gold">
-      <g
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-      >
-        <path d="M10 26c18-3 34-9 50-20 16 11 32 17 50 20" />
-        {[
-          [22, 23, -30],
-          [34, 19, -38],
-          [46, 13, -48],
-          [74, 13, 48],
-          [86, 19, 38],
-          [98, 23, 30],
-        ].map(([x, y, r]) => (
-          <ellipse
-            key={x}
-            cx={x}
-            cy={y - 4}
-            rx="2.4"
-            ry="6"
-            transform={`rotate(${r} ${x} ${y - 4})`}
-          />
-        ))}
-        <circle cx="60" cy="6" r="2.2" fill="currentColor" />
-      </g>
-    </svg>
   );
 }

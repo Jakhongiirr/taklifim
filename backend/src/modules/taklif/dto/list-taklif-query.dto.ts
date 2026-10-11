@@ -3,6 +3,7 @@ import {
   IsEnum,
   IsInt,
   IsOptional,
+  IsUUID,
   IsString,
   Max,
   MaxLength,
@@ -28,6 +29,16 @@ export class ListTaklifQueryDto {
   @IsString()
   @MaxLength(64)
   q?: string;
+
+  /** Only this user's invitations. */
+  @IsOptional()
+  @IsUUID()
+  userId?: string;
+
+  /** Only invitations in this theme (the theme row's id). */
+  @IsOptional()
+  @IsUUID()
+  themeId?: string;
 
   /** 1-based. */
   @Type(() => Number)

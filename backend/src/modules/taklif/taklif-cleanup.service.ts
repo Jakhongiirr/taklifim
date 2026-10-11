@@ -5,9 +5,9 @@ import { REDIS_CLIENT } from '../../redis/redis.constants';
 import { FilesService } from '../files/files.service';
 import { TaklifService } from './taklif.service';
 
-/** Drafts untouched this long are deleted (they were never paid for). */
-const DRAFT_MAX_AGE_HOURS = 24;
-/** Every invitation is deleted this many months after its event. */
+/** Drafts untouched this long lose their photos (they were never paid for). */
+const DRAFT_MAX_AGE_HOURS = 7 * 24;
+/** Every invitation loses its photos this many months after its event. */
 const KEEP_AFTER_EVENT_MONTHS = 1;
 /** Uploaded images nothing uses are deleted after this long. */
 const UNATTACHED_MAX_AGE_HOURS = 24;
@@ -41,9 +41,10 @@ export class TaklifCleanupService {
     const draftCutoff = new Date(
       Date.now() - DRAFT_MAX_AGE_HOURS * 60 * 60 * 1000,
     );
+    // Invitations themselves are kept: only their photos are deleted.
     await this.run(
-      `draft(s) last edited before ${draftCutoff.toISOString()}`,
-      () => this.taklifService.deleteStaleDrafts(draftCutoff),
+      `photos of draft(s) last edited before ${draftCutoff.toISOString()}`,
+      () => this.taklifService.deleteStaleDraftPhotos(draftCutoff),
     );
 
     const eventCutoff = new Date();
@@ -51,11 +52,11 @@ export class TaklifCleanupService {
       eventCutoff.getUTCMonth() - KEEP_AFTER_EVENT_MONTHS,
     );
     await this.run(
-      `invitation(s) with an event before ${eventCutoff.toISOString()}`,
-      () => this.taklifService.deleteEnded(eventCutoff),
+      `photos of invitation(s) with an event before ${eventCutoff.toISOString()}`,
+      () => this.taklifService.deleteEndedPhotos(eventCutoff),
     );
 
-    // Last, so photos of invitations deleted above don't wait another night.
+    // Last: also retries photo files the steps above failed to delete.
     const uploadCutoff = new Date(
       Date.now() - UNATTACHED_MAX_AGE_HOURS * 60 * 60 * 1000,
     );

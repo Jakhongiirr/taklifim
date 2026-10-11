@@ -1,0 +1,149 @@
+/* Animations of the "ether" theme. All are off for visitors who prefer
+   reduced motion, and content is never hidden without them. */
+
+@keyframes ether-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes ether-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+/* The hero keeps floating toward the castle. */
+@keyframes ether-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08) translateY(1%);
+  }
+}
+
+/* A sky lantern rising and swaying, fading out high up. */
+@keyframes ether-lantern {
+  0% {
+    transform: translate3d(0, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translate3d(var(--sway, 14px), -45vh, 0);
+  }
+  85% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate3d(0, -95vh, 0);
+    opacity: 0;
+  }
+}
+
+/* The lantern's flame flickering. */
+@keyframes ether-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  45% {
+    opacity: 0.75;
+  }
+  60% {
+    opacity: 0.95;
+  }
+}
+
+@keyframes ether-twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* The moon behind the date, breathing light. */
+@keyframes ether-moon {
+  0%,
+  100% {
+    box-shadow:
+      0 0 40px 10px rgba(185, 156, 232, 0.35),
+      0 0 90px 30px rgba(185, 156, 232, 0.15);
+  }
+  50% {
+    box-shadow:
+      0 0 55px 16px rgba(185, 156, 232, 0.5),
+      0 0 120px 40px rgba(185, 156, 232, 0.2);
+  }
+}
+
+@keyframes ether-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* The hero comes in as the cover fades (VideoCover adds the class). */
+  .ether-opened .ether-rise {
+    animation: ether-rise 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 200ms + 250ms);
+  }
+  .ether-opened .ether-drift {
+    animation: ether-drift 26s ease-out both;
+  }
+
+  .ether-lantern {
+    animation: ether-lantern var(--dur, 18s) linear infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .ether-flame {
+    animation: ether-flicker 1.8s ease-in-out infinite;
+  }
+  .ether-star {
+    animation: ether-twinkle var(--dur, 3s) ease-in-out infinite;
+    animation-delay: var(--d, 0s);
+  }
+  .ether-moon {
+    animation: ether-moon 5s ease-in-out infinite;
+  }
+  .ether-hint {
+    animation: ether-hint 2.2s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .ether-reveal {
+      animation: ether-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}

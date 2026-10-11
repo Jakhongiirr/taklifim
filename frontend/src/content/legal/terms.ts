@@ -2,7 +2,8 @@ import { OPERATOR as O } from "./operator";
 import type { LegalDoc } from "./types";
 
 // Public offer (terms of service). Mirrors how the product actually works:
-// free drafts, payment on publishing, retention and postponement rules.
+// free drafts, payment (Payme) publishing the invitation, a paid design
+// being locked, retention and postponement rules.
 // Not legal advice: have it reviewed by a lawyer before launch.
 
 const uz: LegalDoc = {
@@ -37,7 +38,8 @@ const uz: LegalDoc = {
       title: "Narx va toʻlov",
       body: [
         "Xizmat narxi tanlangan dizaynga bogʻliq va Saytda soʻmda koʻrsatiladi. Toʻlov paytida koʻrsatilgan narx amal qiladi; keyingi narx oʻzgarishlari toʻlangan taklifnomaga taʼsir qilmaydi.",
-        "Toʻlov Saytda koʻrsatilgan toʻlov tizimlari orqali amalga oshiriladi. Xizmat taklifnoma eʼlon qilingan paytdan boshlab koʻrsatilgan hisoblanadi.",
+        "Toʻlov Payme toʻlov tizimi orqali amalga oshiriladi. Toʻlov tasdiqlangach, taklifnoma avtomatik ravishda eʼlon qilinadi; xizmat shu paytdan boshlab koʻrsatilgan hisoblanadi.",
+        "Toʻlovdan soʻng Foydalanuvchi taklifnomani istalgancha yashirishi va qayta eʼlon qilishi mumkin, qoʻshimcha toʻlov olinmaydi. Toʻlangan taklifnomaning dizaynini oʻzgartirib boʻlmaydi.",
       ],
     },
     {
@@ -45,8 +47,8 @@ const uz: LegalDoc = {
       body: [
         {
           list: [
-            "24 soat davomida tahrirlanmagan qoralamalar suratlari bilan birga avtomatik oʻchiriladi. Bir vaqtda 30 tagacha qoralama saqlash mumkin.",
-            "Eʼlon qilingan taklifnoma tadbir sanasidan keyin bir oy davomida ochiq turadi, soʻngra suratlari bilan birga butunlay oʻchiriladi.",
+            "7 kun davomida tahrirlanmagan qoralamalarning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin.",
+            "Eʼlon qilingan taklifnoma tadbirdan keyin ham ochiq qoladi; tadbir sanasidan bir oy oʻtgach uning suratlari oʻchiriladi.",
             "Eʼlon qilingandan soʻng tadbir sanasini birinchi eʼlon qilingan sanadan koʻpi bilan 30 kun keyinga surish mumkin.",
             "Taklifnomaga biriktirilmagan suratlar 24 soatdan soʻng oʻchiriladi.",
           ],
@@ -150,7 +152,8 @@ const ru: LegalDoc = {
       title: "Стоимость и оплата",
       body: [
         "Стоимость услуги зависит от выбранного дизайна и указана на Сайте в сумах. Действует цена на момент оплаты; последующие изменения цен не влияют на оплаченное приглашение.",
-        "Оплата производится через платёжные системы, указанные на Сайте. Услуга считается оказанной с момента публикации приглашения.",
+        "Оплата производится через платёжную систему Payme. После подтверждения оплаты приглашение публикуется автоматически; с этого момента услуга считается оказанной.",
+        "После оплаты Пользователь может скрывать и снова публиковать приглашение без ограничений и доплат. Дизайн оплаченного приглашения изменить нельзя.",
       ],
     },
     {
@@ -158,8 +161,8 @@ const ru: LegalDoc = {
       body: [
         {
           list: [
-            "Черновики, не редактировавшиеся 24 часа, автоматически удаляются вместе с фотографиями. Одновременно можно хранить до 30 черновиков.",
-            "Опубликованное приглашение доступно ещё месяц после даты торжества, затем удаляется навсегда вместе с фотографиями.",
+            "У черновиков, не редактировавшихся 7 дней, автоматически удаляются фотографии; сам черновик сохраняется. Одновременно можно хранить до 30 черновиков.",
+            "Опубликованное приглашение остаётся доступным и после торжества; через месяц после даты торжества его фотографии удаляются.",
             "После публикации дату торжества можно перенести не более чем на 30 дней позже даты первой публикации.",
             "Фотографии, не прикреплённые к приглашению, удаляются через 24 часа.",
           ],
@@ -263,7 +266,8 @@ const en: LegalDoc = {
       title: "Prices and payment",
       body: [
         "The price depends on the chosen design and is shown on the Site in Uzbek so'm. The price at the time of payment applies; later price changes don't affect a paid invitation.",
-        "Payment is made through the payment systems shown on the Site. The service is deemed provided once the invitation is published.",
+        "Payment is made through the Payme payment system. Once the payment is confirmed, the invitation is published automatically, and the service is deemed provided from then on.",
+        "After payment, the User may hide and republish the invitation any number of times at no extra cost. The design of a paid invitation can't be changed.",
       ],
     },
     {
@@ -271,8 +275,8 @@ const en: LegalDoc = {
       body: [
         {
           list: [
-            "Drafts not edited for 24 hours are deleted automatically together with their photos. Up to 30 drafts can be kept at a time.",
-            "A published invitation stays online for one month after the event date, then it is permanently deleted together with its photos.",
+            "Drafts not edited for 7 days automatically lose their photos; the draft itself is kept. Up to 30 drafts can be kept at a time.",
+            "A published invitation stays online after the event; one month after the event date its photos are deleted.",
             "After publishing, the event date can be moved at most 30 days later than the date at first publication.",
             "Photos not attached to any invitation are deleted after 24 hours.",
           ],
