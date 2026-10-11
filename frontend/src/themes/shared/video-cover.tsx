@@ -202,6 +202,7 @@ export default function VideoCover({
           type="button"
           onClick={toggleMusic}
           aria-label={playing ? t("music.pause") : t("music.play")}
+          data-music-button
           className={`fixed right-4 bottom-4 z-30 flex size-12 items-center justify-center rounded-full shadow-lg backdrop-blur ${musicClass}`}
         >
           <svg

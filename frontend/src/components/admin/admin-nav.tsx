@@ -58,6 +58,11 @@ const icons = {
       <circle cx="15" cy="7.5" r="1" />
     </>,
   ),
+  statistics: icon(
+    <>
+      <path d="M4 20V10M10 20V4M16 20v-7M22 20H2" />
+    </>,
+  ),
   payments: icon(
     <>
       <rect x="2.5" y="5" width="19" height="14" rx="2" />
@@ -82,6 +87,11 @@ const groups: {
     label: "Overview",
     links: [
       { href: "/admin", label: "Dashboard", icon: icons.dashboard, exact: true },
+      {
+        href: "/admin/statistics",
+        label: "Statistics",
+        icon: icons.statistics,
+      },
     ],
   },
   {

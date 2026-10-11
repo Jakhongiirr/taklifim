@@ -47,8 +47,8 @@ export class TaklifDto {
   /** @example "Toshkent, Chilonzor tumani, Bunyodkor ko'chasi 1" */
   venueAddress: string;
 
-  /** @example "https://maps.app.goo.gl/abc123" */
-  locationUrl: string;
+  /** Null without one. @example "https://maps.app.goo.gl/abc123" */
+  locationUrl: string | null;
 
   /** In display order. */
   photos: FileDto[];
@@ -154,8 +154,8 @@ export class PublicTaklifDto {
   /** @example "Toshkent, Chilonzor tumani, Bunyodkor ko'chasi 1" */
   venueAddress: string;
 
-  /** @example "https://maps.app.goo.gl/abc123" */
-  locationUrl: string;
+  /** Null without one. @example "https://maps.app.goo.gl/abc123" */
+  locationUrl: string | null;
 
   /** In display order. */
   photos: PublicPhotoDto[];

@@ -5,13 +5,16 @@
   },
   "Site": {
     "nav": {
+      "features": "Features",
       "templates": "Designs",
       "how": "How it works",
-      "faq": "FAQ"
+      "faq": "FAQ",
+      "contact": "Contact"
     },
     "cta": "Create",
     "footer": {
       "tagline": "Digital invitations for weddings, nikah and family celebrations.",
+      "follow": "Follow us",
       "rights": "© {year} Taklifim",
       "top": "Back to top"
     },
@@ -48,21 +51,56 @@
       "videoText": "In every design"
     },
     "features": {
+      "eyebrow": "Features",
+      "title": "Everything in one invitation",
+      "subtitle": "Invite your guests, collect their replies and keep the memories — all in one link.",
+      "video": {
+        "title": "Video opening",
+        "text": "Every design opens with its own video — gates, arches, palaces."
+      },
+      "designs": {
+        "title": "Unique designs",
+        "text": "Each with its own colours, lettering and ornaments."
+      },
       "photos": {
-        "title": "Photos",
-        "text": "Tell your story with up to 6 photos"
+        "title": "Photo gallery",
+        "text": "Up to 6 photos in beautiful frames."
       },
       "music": {
         "title": "Music",
-        "text": "A melody plays when the invitation opens"
+        "text": "Your chosen song plays as the invitation opens."
+      },
+      "countdown": {
+        "title": "Countdown",
+        "text": "Days, hours and minutes counted live."
       },
       "map": {
-        "title": "Address & map",
-        "text": "Guests find the venue in one tap"
+        "title": "Venue and map",
+        "text": "Guests find the venue in one tap."
+      },
+      "rsvp": {
+        "title": "Guest replies",
+        "text": "See who's coming and how many, right in your account."
+      },
+      "wishes": {
+        "title": "Wishes",
+        "text": "Guests leave wishes — mark the ones you love."
       },
       "gift": {
         "title": "Gifts",
-        "text": "Add a card number so guests far away can send a gift"
+        "text": "Add a card number — guests copy it in one tap."
+      },
+      "card": {
+        "title": "PNG card",
+        "text": "Download the invitation as an image and share it anywhere."
+      },
+      "languages": {
+        "title": "Three languages",
+        "text": "Guests choose Uzbek, Russian or English."
+      },
+      "edit": {
+        "title": "Edit any time",
+        "text": "Change the time, venue or photos — the link stays the same."
       }
     },
     "templates": {
@@ -115,6 +153,11 @@
         "a": "Drafts not edited for 7 days automatically lose their photos; the draft itself is kept. You can keep up to 30 drafts at a time."
       }
     },
+    "contact": {
+      "title": "Still have questions?",
+      "text": "Message us on Telegram — we reply quickly.",
+      "button": "Message on Telegram"
+    },
     "cta": {
       "title": "The first step to your big day",
       "text": "Start for free right now — it only takes a few minutes.",
@@ -137,7 +180,7 @@
     "subtitle": "Enter your phone number — the confirmation code arrives in Telegram.",
     "phone": "Phone number",
     "code": "Confirmation code",
-    "codeHint": "The code was sent to the Telegram account linked to {phone}.",
+    "codeHint": "Find the code in Telegram’s “Verification Codes” chat, on the account linked to {phone}.",
     "send": "Get code",
     "verify": "Log in",
     "resend": "Resend code",
@@ -146,7 +189,7 @@
     "errors": {
       "phone": "Invalid phone number.",
       "code": "The code is wrong or has expired.",
-      "codeSent": "A code was sent recently — enter the code from Telegram.",
+      "codeSent": "A code was sent recently — find it in Telegram’s “Verification Codes” chat.",
       "tooMany": "Too many attempts. Please try again a bit later.",
       "delivery": "Couldn't send the code. Check that this number has Telegram.",
       "generic": "Something went wrong. Please try again."
@@ -199,8 +242,6 @@
       "preview": "Preview",
       "edit": "Edit",
       "confirmDeleteTitle": "Delete this draft?",
-      "confirmDeleteLiveTitle": "Delete this invitation?",
-      "confirmDeleteLive": "The invitation, its photos and guests' replies will be permanently deleted, and its link will stop working. This can't be undone.",
       "cancel": "Cancel",
       "copyLink": "Copy link:",
       "responses": "Replies",
@@ -298,9 +339,21 @@
     "madeWith": "Made with Taklifim.uz",
     "cardMadeWith": "Made with Taklifim.uz",
     "preview": {
-      "banner": "Preview — guests will see the invitation once it's published.",
       "back": "My account",
-      "edit": "Edit"
+      "edit": "Edit",
+      "label": "Preview",
+      "readyTitle": "Your invitation is ready!",
+      "readyText": "Pay and it’s published right away — ready to share with your guests.",
+      "readyTextFree": "This design is free — publish it in one tap and share the link.",
+      "publishFree": "Publish for free",
+      "secure": "Secure payment with Payme",
+      "published": "Your invitation is published!",
+      "open": "Open",
+      "statusPublished": "Published",
+      "statusUnpublished": "Hidden",
+      "hiddenNote": "Guests can’t see it right now. You can republish it from your account.",
+      "fold": "Fold",
+      "unfold": "Details"
     }
   },
   "Builder": {
@@ -325,11 +378,12 @@
       "hostName": "Hosted by",
       "hostHint": "For example: the Karimov family",
       "eventAt": "Date and time",
+      "eventTime": "Time",
       "eventHint": "Tashkent time",
       "venueName": "Venue name",
       "venueAddress": "Address",
       "locationUrl": "Map link",
-      "locationHint": "Open the place in Google or Yandex Maps, tap “Share” and paste the link here.",
+      "locationHint": "Optional. Open the place in Google or Yandex Maps, tap “Share” and paste the link here.",
       "cardNumber": "Card number for gifts",
       "cardHint": "Optional. Guests can copy it to send a gift.",
       "phone": "Contact phone",

@@ -47,7 +47,7 @@ const uz: LegalDoc = {
       body: [
         {
           list: [
-            "7 kun davomida tahrirlanmagan qoralamalarning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin.",
+            "Oxirgi tahrirdan 7 kundan keyin qoralamaning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin.",
             "Eʼlon qilingan taklifnoma tadbirdan keyin ham ochiq qoladi; tadbir sanasidan bir oy oʻtgach uning suratlari oʻchiriladi.",
             "Eʼlon qilingandan soʻng tadbir sanasini birinchi eʼlon qilingan sanadan koʻpi bilan 30 kun keyinga surish mumkin.",
             "Taklifnomaga biriktirilmagan suratlar 24 soatdan soʻng oʻchiriladi.",
@@ -109,9 +109,7 @@ const uz: LegalDoc = {
           list: [
             O.name,
             `STIR: ${O.tin}`,
-            `Manzil: ${O.address}`,
             `Email: ${O.email}`,
-            `Telefon: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },
@@ -223,9 +221,7 @@ const ru: LegalDoc = {
           list: [
             O.name,
             `ИНН: ${O.tin}`,
-            `Адрес: ${O.address}`,
             `Email: ${O.email}`,
-            `Телефон: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },
@@ -337,9 +333,7 @@ const en: LegalDoc = {
           list: [
             O.name,
             `Taxpayer ID: ${O.tin}`,
-            `Address: ${O.address}`,
             `Email: ${O.email}`,
-            `Phone: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },

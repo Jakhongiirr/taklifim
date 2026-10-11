@@ -190,7 +190,7 @@ export class TaklifController {
   @ApiOperation({
     summary: 'Delete an invitation and its photos',
     description:
-      'Owners can delete their own invitations in any status; admins can delete any invitation. The replies go with it.',
+      'Owners can delete their own drafts; a published one (live or hidden) only an admin can delete. The replies go with it.',
   })
   @ApiNoContentResponse()
   @ApiForbiddenResponse({ description: 'Not the owner' })

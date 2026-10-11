@@ -83,7 +83,8 @@ export interface Taklif {
   paidAt: string | null;
   venueName: string;
   venueAddress: string;
-  locationUrl: string;
+  /** Null without one. */
+  locationUrl: string | null;
   /** In display order. */
   photos: FileDto[];
   cardNumber: string | null;
@@ -105,7 +106,8 @@ export interface PublicTaklif {
   eventAt: string;
   venueName: string;
   venueAddress: string;
-  locationUrl: string;
+  /** Null without one. */
+  locationUrl: string | null;
   /** In display order. */
   photos: { id: string; url: string }[];
   cardNumber: string | null;
@@ -261,4 +263,62 @@ export interface TaklifResponses {
   declined: number;
   /** People coming in total. */
   guests: number;
+}
+
+/** The admin Statistics page (GET /stats/details). */
+export interface StatsDetails {
+  days: 30 | 90 | 365;
+  /** "day" up to 90 days, "month" for a year. */
+  unit: "day" | "month";
+  trend: {
+    /** Bucket start, YYYY-MM-DD (Tashkent). */
+    date: string;
+    invitations: number;
+    paid: number;
+    /** So'm. */
+    revenue: number;
+    users: number;
+    replies: number;
+  }[];
+  themes: {
+    id: string;
+    themeId: string;
+    price: number;
+    archived: boolean;
+    total: number;
+    published: number;
+    paid: number;
+    revenue: number;
+  }[];
+  /** `id` null: invitations without music. */
+  music: {
+    id: string | null;
+    title: string | null;
+    artist: string | null;
+    archived: boolean;
+    invitations: number;
+  }[];
+  funnel: { users: number; created: number; published: number; paid: number };
+  features: {
+    total: number;
+    withPhotos: number;
+    avgPhotos: number;
+    withMusic: number;
+    withMap: number;
+    withCard: number;
+    withPhone: number;
+  };
+  guests: {
+    invitations: number;
+    withReplies: number;
+    replies: number;
+    attending: number;
+    guests: number;
+    wishes: number;
+    liked: number;
+  };
+  checkout: { orders: number; paid: number; cancelled: number; timedOut: number };
+  eventWeekdays: { key: number; count: number }[];
+  eventHours: { key: number; count: number }[];
+  eventMonths: { key: number; count: number }[];
 }

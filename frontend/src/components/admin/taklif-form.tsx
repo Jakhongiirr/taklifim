@@ -135,12 +135,12 @@ export default function TaklifForm({
       ["eventAt", "Date and time"],
       ["venueName", "Venue name"],
       ["venueAddress", "Venue address"],
-      ["locationUrl", "Location URL"],
       ["themeId", "Theme"],
     ];
     const missing = required.find(([key]) => !fields[key].trim());
     if (missing) return `${missing[1]} is required`;
-    if (!/^https?:\/\/\S+$/i.test(fields.locationUrl.trim())) {
+    const url = fields.locationUrl.trim();
+    if (url && !/^https?:\/\/\S+$/i.test(url)) {
       return "Location URL must start with http:// or https://";
     }
     const card = fields.cardNumber.replace(/[\s-]/g, "");
@@ -177,7 +177,7 @@ export default function TaklifForm({
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
         venueAddress: fields.venueAddress.trim(),
-        locationUrl: fields.locationUrl.trim(),
+        locationUrl: fields.locationUrl.trim() || null,
         themeId: fields.themeId,
       };
 
@@ -282,14 +282,16 @@ export default function TaklifForm({
           />
         </Field>
         <div className="sm:col-span-2">
-          <Field label="Location URL" hint="A Google Maps or Yandex Maps link">
+          <Field
+            label="Location URL"
+            hint="Optional. A Google Maps or Yandex Maps link"
+          >
             <Input
               type="url"
               value={fields.locationUrl}
               onChange={set("locationUrl")}
               maxLength={500}
               placeholder="https://maps.app.goo.gl/…"
-              required
             />
           </Field>
         </div>

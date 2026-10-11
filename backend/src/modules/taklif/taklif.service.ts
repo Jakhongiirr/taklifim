@@ -13,6 +13,7 @@ import {
   EntityManager,
   FindOptionsWhere,
   In,
+  IsNull,
   LessThan,
   Like,
   Repository,
@@ -59,8 +60,9 @@ const CLEANUP_BATCH_SIZE = 100;
 
 type Writable = Omit<
   UpdateTaklifDto,
-  'photoIds' | 'cardNumber' | 'phone' | 'eventAt'
+  'photoIds' | 'locationUrl' | 'cardNumber' | 'phone' | 'eventAt'
 > & {
+  locationUrl?: string | null;
   cardNumber?: string | null;
   phone?: string | null;
   eventAt?: Date;
@@ -97,6 +99,7 @@ export class TaklifService {
                 ...fields,
                 eventAt: new Date(eventAt),
                 musicId: fields.musicId ?? null,
+                locationUrl: fields.locationUrl ?? null,
                 cardNumber: fields.cardNumber ?? null,
                 phone: fields.phone ?? null,
                 slug: generateSlug(),
@@ -236,15 +239,27 @@ export class TaklifService {
   }
 
   /**
-   * Owners delete their own invitations in any status, published ones
-   * included; admins delete any. Also deletes the photos (and, by cascade,
-   * the guests' replies).
+   * Owners delete their own drafts only; once published (live or hidden,
+   * paid or not) only admins can delete it. Also deletes the photos (and,
+   * by cascade, the guests' replies).
    */
   async remove(id: string, user: JwtPayload) {
     const taklif = await this.findOrFail(id);
     this.assertCanEdit(taklif, user);
-    const { affected } = await this.taklifs.delete({ id });
-    if (!affected) throw new NotFoundException('Invitation not found');
+    const where: FindOptionsWhere<Taklif> = { id };
+    if (!isAdmin(user)) {
+      if (taklif.status !== TaklifStatus.Draft || taklif.paidAt) {
+        throw new ConflictException('Only drafts can be deleted');
+      }
+      // Re-checked by the delete, in case it was paid (published) meanwhile.
+      where.status = TaklifStatus.Draft;
+      where.paidAt = IsNull();
+    }
+    const { affected } = await this.taklifs.delete(where);
+    if (!affected) {
+      if (isAdmin(user)) throw new NotFoundException('Invitation not found');
+      throw new ConflictException('Only drafts can be deleted');
+    }
     await this.deleteFiles(taklif.photos.map((photo) => photo.fileId));
   }
 

@@ -13,6 +13,9 @@ export default async function SiteHeader() {
           <Logo compact />
         </Link>
         <nav className="ml-8 hidden gap-7 text-sm text-muted md:flex">
+          <Link href="/#features" className="hover:text-ink">
+            {t("nav.features")}
+          </Link>
           <Link href="/#templates" className="hover:text-ink">
             {t("nav.templates")}
           </Link>

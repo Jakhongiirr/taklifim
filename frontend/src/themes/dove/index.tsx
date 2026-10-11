@@ -207,14 +207,16 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#8a6f73]">{taklif.venueAddress}</p>
-            <a
-              href={taklif.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fff7f2] uppercase hover:bg-[#5a3e45]`}
-            >
-              {t("venue.map")}
-            </a>
+            {taklif.locationUrl && (
+              <a
+                href={taklif.locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fff7f2] uppercase hover:bg-[#5a3e45]`}
+              >
+                {t("venue.map")}
+              </a>
+            )}
           </div>
         </Section>
 

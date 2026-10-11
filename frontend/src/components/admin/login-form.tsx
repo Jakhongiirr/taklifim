@@ -51,7 +51,7 @@ export default function LoginForm({ next }: { next: string }) {
           label="Code"
           hint={
             <span className="flex items-center justify-between">
-              <span>Sent to Telegram.</span>
+              <span>Check Telegram’s “Verification Codes” chat.</span>
               <span className="flex gap-3">
                 <button
                   type="button"

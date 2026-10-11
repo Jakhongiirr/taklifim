@@ -60,13 +60,14 @@ const REQUIRED: FieldKey[] = [
   "eventAt",
   "venueName",
   "venueAddress",
-  "locationUrl",
 ];
 
 // Mirrors the backend (event-at-limit.ts): owners set events after now, at
 // most this many days ahead.
 const MAX_DAYS_AHEAD = 730;
 const DAY_MS = 24 * 60 * 60 * 1000;
+/** Weddings usually start in the evening. */
+const DEFAULT_EVENT_TIME = "18:00";
 const latestEventAt = () => new Date(Date.now() + MAX_DAYS_AHEAD * DAY_MS);
 
 const noSubscribe = () => () => {};
@@ -112,6 +113,12 @@ export default function InvitationBuilder({
     phone: taklif?.phone ?? "",
     musicId: taklif?.music?.id ?? "",
   });
+  // The event's time of day, kept while no date is picked yet: weddings
+  // usually start in the evening, so a new invitation starts at 18:00.
+  const [eventTime, setEventTime] = useState(
+    taklif ? toTashkentInput(taklif.eventAt).slice(11, 16) : DEFAULT_EVENT_TIME,
+  );
+  const eventDate = fields.eventAt.slice(0, 10);
   const [photos, setPhotos] = useState<Photo[]>(
     taklif?.photos.map((file) => ({ key: file.id, existing: file })) ?? [],
   );
@@ -327,7 +334,8 @@ export default function InvitationBuilder({
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
         venueAddress: fields.venueAddress.trim(),
-        locationUrl: fields.locationUrl.trim(),
+        // Optional: empty saves as none (and clears an earlier one).
+        locationUrl: fields.locationUrl.trim() || null,
       };
 
       let saved: Taklif;
@@ -429,21 +437,56 @@ export default function InvitationBuilder({
             }
             error={errors.eventAt}
           >
-            <input
-              className={inputClass}
-              type="datetime-local"
-              min={today ? `${today}T00:00` : undefined}
-              max={
-                today
-                  ? toTashkentInput(
-                      eventLimit && new Date(eventLimit) < latestEventAt()
-                        ? eventLimit
-                        : latestEventAt().toISOString(),
+            {/* Date and time apart, so the time can start at 18:00 (a
+                datetime picker's clock can't be given a default). */}
+            {/* inputClass is full width: the wrappers size them. */}
+            <div className="flex gap-2">
+              <div className="min-w-0 flex-1">
+                <input
+                  className={inputClass}
+                  type="date"
+                  name="eventAt"
+                  aria-invalid={!!errors.eventAt}
+                  min={today || undefined}
+                  max={
+                    today
+                      ? toTashkentInput(
+                          eventLimit && new Date(eventLimit) < latestEventAt()
+                            ? eventLimit
+                            : latestEventAt().toISOString(),
+                        ).slice(0, 10)
+                      : undefined
+                  }
+                  value={eventDate}
+                  onChange={(e) =>
+                    set(
+                      "eventAt",
+                      e.target.value && eventTime
+                        ? `${e.target.value}T${eventTime}`
+                        : "",
                     )
-                  : undefined
-              }
-              {...input("eventAt")}
-            />
+                  }
+                />
+              </div>
+              <div className="w-32 shrink-0">
+                <input
+                  className={inputClass}
+                  type="time"
+                  aria-label={t("fields.eventTime")}
+                  aria-invalid={!!errors.eventAt}
+                  value={eventTime}
+                  onChange={(e) => {
+                    setEventTime(e.target.value);
+                    if (eventDate) {
+                      set(
+                        "eventAt",
+                        e.target.value ? `${eventDate}T${e.target.value}` : "",
+                      );
+                    }
+                  }}
+                />
+              </div>
+            </div>
           </Field>
           <Field label={t("fields.venueName")} error={errors.venueName}>
             <input className={inputClass} {...input("venueName")} />

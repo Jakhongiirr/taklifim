@@ -36,9 +36,10 @@ export class CreateTaklifDto {
   @Text(300)
   venueAddress: string;
 
-  /** @example "https://maps.app.goo.gl/abc123" */
+  /** Optional. @example "https://maps.app.goo.gl/abc123" */
+  @IsOptional()
   @LocationUrl()
-  locationUrl: string;
+  locationUrl?: string;
 
   /**
    * Up to 6 image ids from POST /files, in display order. Users can only use

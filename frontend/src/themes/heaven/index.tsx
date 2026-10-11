@@ -212,14 +212,16 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
           <div className="heaven-reveal">
             <p className={`${prata.className} text-2xl`}>{taklif.venueName}</p>
             <p className="mt-2 text-sm text-[#6d7262]">{taklif.venueAddress}</p>
-            <a
-              href={taklif.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#2f3a2c] px-7 text-base tracking-[0.15em] text-[#f4efe6] hover:bg-[#232c21]`}
-            >
-              {t("venue.map")}
-            </a>
+            {taklif.locationUrl && (
+              <a
+                href={taklif.locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#2f3a2c] px-7 text-base tracking-[0.15em] text-[#f4efe6] hover:bg-[#232c21]`}
+              >
+                {t("venue.map")}
+              </a>
+            )}
           </div>
         </Section>
 

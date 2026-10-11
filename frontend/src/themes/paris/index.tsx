@@ -224,14 +224,16 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#6b7088]">{taklif.venueAddress}</p>
-            <a
-              href={taklif.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${poiret.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#2c3550] px-6 text-sm font-semibold tracking-[0.15em] text-[#fbf7f2] uppercase hover:bg-[#222a41]`}
-            >
-              {t("venue.map")}
-            </a>
+            {taklif.locationUrl && (
+              <a
+                href={taklif.locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${poiret.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#2c3550] px-6 text-sm font-semibold tracking-[0.15em] text-[#fbf7f2] uppercase hover:bg-[#222a41]`}
+              >
+                {t("venue.map")}
+              </a>
+            )}
           </div>
         </Section>
 

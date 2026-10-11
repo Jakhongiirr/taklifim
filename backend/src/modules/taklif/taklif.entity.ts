@@ -73,8 +73,9 @@ export class Taklif {
   @Column({ length: 300 })
   venueAddress: string;
 
-  @Column({ length: 500 })
-  locationUrl: string;
+  /** A Google or Yandex Maps link; optional. */
+  @Column({ type: 'varchar', length: 500, nullable: true })
+  locationUrl: string | null;
 
   /** Digits only. */
   @Column({ type: 'varchar', length: 19, nullable: true })

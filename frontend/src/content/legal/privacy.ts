@@ -1,8 +1,9 @@
 import { OPERATOR as O } from "./operator";
 import type { LegalDoc } from "./types";
 
-// Privacy policy. Lists what the product actually collects, who receives it
-// (Telegram for login codes, storage and payment providers) and the real
+// Privacy policy. Lists what the product actually collects (accounts,
+// invitations, guests' replies, payments), who receives it (Telegram for
+// login codes, hosting and storage, Payme for payments) and the real
 // retention rules. Keep in sync when data handling changes. Not legal advice.
 
 const uz: LegalDoc = {
@@ -19,11 +20,13 @@ const uz: LegalDoc = {
           list: [
             "Telefon raqami — roʻyxatdan oʻtish va kirish uchun.",
             "Tasdiqlash kodi — faqat shifrlangan koʻrinishda, 5 daqiqagacha saqlanadi.",
-            "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, xarita havolasi, suratlar, tanlangan musiqa, ixtiyoriy ravishda karta raqami va aloqa telefoni.",
+            "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, suratlar, tanlangan musiqa, ixtiyoriy ravishda xarita havolasi, karta raqami va aloqa telefoni.",
+            "Mehmonlarning javoblari — ism, kelish yoki kelmasligi, mehmonlar soni va ixtiyoriy tilak.",
+            "Toʻlov maʼlumotlari — buyurtma (summa, dizayn, taklifnoma), Payme tranzaksiya raqami va vaqtlari. Bank kartasi maʼlumotlari faqat Payme sahifasida kiritiladi; Operator ularni olmaydi va saqlamaydi.",
             "Texnik maʼlumotlar — IP manzil (xavfsizlik va suiisteʼmolning oldini olish uchun), brauzer soʻrovlari jurnallari.",
           ],
         },
-        "Mehmonlardan shaxsiy maʼlumot soʻralmaydi; xavfsizlik uchun faqat IP manzil vaqtincha ishlatiladi. Saytda reklama yoki tahliliy kuzatuv vositalari ishlatilmaydi.",
+        "Mehmonlardan maʼlumot faqat ular oʻz xohishi bilan taklifnomaga javob yuborganda olinadi; xavfsizlik uchun IP manzil vaqtincha ishlatiladi. Saytda reklama yoki tahliliy kuzatuv vositalari ishlatilmaydi.",
       ],
     },
     {
@@ -32,7 +35,8 @@ const uz: LegalDoc = {
         {
           list: [
             "Xizmatni koʻrsatish: hisobga kirish, taklifnomani yaratish, saqlash va mehmonlarga koʻrsatish.",
-            "Toʻlovlarni qayta ishlash.",
+            "Mehmonlarning javoblarini taklifnoma egasiga yetkazish va tilaklarni taklifnomada koʻrsatish.",
+            "Toʻlovlarni qayta ishlash va buxgalteriya hisobini yuritish.",
             "Xavfsizlik: soʻrovlar sonini cheklash va suiisteʼmolning oldini olish.",
             "Foydalanuvchi murojaatlariga javob berish va qonun talablarini bajarish.",
           ],
@@ -43,12 +47,13 @@ const uz: LegalDoc = {
       title: "Maʼlumotlarni kim koʻradi",
       body: [
         "Eʼlon qilingan taklifnoma mazmuni (ismlar, sana, manzil, suratlar, karta raqami va telefon) havolaga ega har qanday shaxsga koʻrinadi. Havolani kimga yuborishni Foydalanuvchining oʻzi hal qiladi.",
+        "Mehmon qoldirgan tilak uning ismi bilan taklifnomada barcha mehmonlarga koʻrinadi. Javoblarning toʻliq roʻyxatini (kelish yoki kelmaslik, mehmonlar soni) faqat taklifnoma egasi va administratorlar koʻradi.",
         "Maʼlumotlar faqat xizmat koʻrsatish uchun zarur hollarda uzatiladi:",
         {
           list: [
             "Telegram — tasdiqlash kodini yetkazish uchun telefon raqami Telegram Gateway xizmatiga yuboriladi.",
             "Hosting va fayl saqlash provayderlari — saytni va suratlarni saqlash uchun.",
-            "Toʻlov tizimlari — toʻlov amalga oshirilganda, toʻlov uchun zarur maʼlumotlar.",
+            "Payme toʻlov tizimi — toʻlov uchun buyurtma raqami va summasi, chek uchun esa xizmat nomi (kelin-kuyov ismlari bilan). Karta maʼlumotlarini Payme oʻzi qabul qiladi.",
             "Davlat organlari — faqat qonunda nazarda tutilgan hollarda.",
           ],
         },
@@ -61,7 +66,9 @@ const uz: LegalDoc = {
         {
           list: [
             "Qoralamalar — saqlanadi; ularning suratlari oxirgi tahrirdan 7 kun oʻtgach oʻchiriladi.",
-            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — egasi kabinetda oʻchirguncha yoki hisobni oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan bir oy oʻtgach oʻchiriladi.",
+            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — qoralamalarini egasi kabinetda oʻchirishi mumkin; eʼlon qilinganlari hisobni yoki taklifnomani oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan bir oy oʻtgach oʻchiriladi.",
+            "Mehmonlarning javoblari — taklifnoma bilan birga oʻchiriladi; taklifnoma egasi ularni istalgan payt oʻchirishi mumkin.",
+            "Toʻlov maʼlumotlari — buxgalteriya va soliq hisobi uchun qonunchilikda belgilangan muddat davomida, taklifnoma yoki hisob oʻchirilganidan keyin ham saqlanadi.",
             "Taklifnomaga biriktirilmagan suratlar — 24 soatdan soʻng oʻchiriladi.",
             "Telefon raqami (hisob) — hisobni oʻchirish soʻralguncha saqlanadi.",
             "Kirish sessiyasi — 30 kungacha amal qiladi.",
@@ -79,6 +86,7 @@ const uz: LegalDoc = {
             "NEXT_LOCALE — tanlangan til.",
           ],
         },
+        "Bundan tashqari, mehmon javob yuborganda bu brauzer xotirasida (localStorage) eslab qolinadi, javob qayta-qayta yuborilmasligi uchun. U faqat mehmonning qurilmasida qoladi.",
       ],
     },
     {
@@ -95,8 +103,9 @@ const uz: LegalDoc = {
           list: [
             "Oʻz maʼlumotlaringiz haqida maʼlumot olish.",
             "Maʼlumotlarni tuzatish — taklifnomani kabinetda tahrirlash orqali.",
-            "Maʼlumotlarni oʻchirish — taklifnomalarni kabinetda oʻchirish yoki hisobni oʻchirishni soʻrash orqali.",
+            "Maʼlumotlarni oʻchirish — qoralamalarni kabinetda oʻchirish, eʼlon qilingan taklifnomalarni yoki hisobni esa oʻchirishni soʻrash orqali.",
             "Maʼlumotlarni qayta ishlashga rozilikni qaytarib olish.",
+            "Mehmonlar oʻz javobi yoki tilagini oʻchirishni taklifnoma egasidan yoki Operatordan soʻrashi mumkin.",
           ],
         },
         `Soʻrovlarni ${O.email} yoki ${O.telegram} orqali yuboring.`,
@@ -115,9 +124,7 @@ const uz: LegalDoc = {
         {
           list: [
             O.name,
-            `Manzil: ${O.address}`,
             `Email: ${O.email}`,
-            `Telefon: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },
@@ -140,11 +147,13 @@ const ru: LegalDoc = {
           list: [
             "Номер телефона — для регистрации и входа.",
             "Код подтверждения — хранится только в зашифрованном виде, до 5 минут.",
-            "Данные приглашения — имена, дата торжества, название и адрес заведения, ссылка на карту, фотографии, выбранная музыка, по желанию номер карты и контактный телефон.",
+            "Данные приглашения — имена, дата торжества, название и адрес заведения, фотографии, выбранная музыка, по желанию ссылка на карту, номер карты и контактный телефон.",
+            "Ответы гостей — имя, придёт ли гость, количество человек и пожелание (по желанию).",
+            "Платёжные данные — заказ (сумма, дизайн, приглашение), номер и время транзакции Payme. Данные банковской карты вводятся только на странице Payme; Оператор их не получает и не хранит.",
             "Технические данные — IP-адрес (для безопасности и предотвращения злоупотреблений), журналы запросов.",
           ],
         },
-        "У гостей личные данные не запрашиваются; для безопасности временно используется только IP-адрес. Рекламные и аналитические трекеры на Сайте не используются.",
+        "Данные гостей поступают, только когда гость сам отправляет ответ на приглашение; для безопасности временно используется IP-адрес. Рекламные и аналитические трекеры на Сайте не используются.",
       ],
     },
     {
@@ -153,7 +162,8 @@ const ru: LegalDoc = {
         {
           list: [
             "Оказание услуги: вход в учётную запись, создание, хранение и показ приглашения гостям.",
-            "Обработка платежей.",
+            "Передача ответов гостей владельцу приглашения и показ пожеланий на приглашении.",
+            "Обработка платежей и ведение бухгалтерского учёта.",
             "Безопасность: ограничение числа запросов и предотвращение злоупотреблений.",
             "Ответы на обращения пользователей и выполнение требований закона.",
           ],
@@ -164,12 +174,13 @@ const ru: LegalDoc = {
       title: "Кто видит данные",
       body: [
         "Содержимое опубликованного приглашения (имена, дата, адрес, фотографии, номер карты и телефон) видно любому, у кого есть ссылка. Кому отправлять ссылку, решает сам Пользователь.",
+        "Пожелание гостя вместе с его именем видно на приглашении всем гостям. Полный список ответов (придёт ли гость, количество человек) видят только владелец приглашения и администраторы.",
         "Данные передаются только когда это необходимо для оказания услуги:",
         {
           list: [
             "Telegram — для доставки кода подтверждения номер телефона передаётся в сервис Telegram Gateway.",
             "Провайдеры хостинга и хранения файлов — для работы сайта и хранения фотографий.",
-            "Платёжные системы — при оплате, данные, необходимые для платежа.",
+            "Платёжная система Payme — номер заказа и сумма для оплаты, а для чека — название услуги (с именами молодожёнов). Данные карты Payme принимает сама.",
             "Государственные органы — только в случаях, предусмотренных законом.",
           ],
         },
@@ -182,7 +193,9 @@ const ru: LegalDoc = {
         {
           list: [
             "Черновики — хранятся; их фотографии удаляются через 7 дней после последнего редактирования.",
-            "Приглашения (текст: имена, дата, место, номера карты и телефона) — хранятся, пока владелец не удалит их в личном кабинете или не запросит удаление учётной записи; их фотографии удаляются через месяц после даты торжества.",
+            "Приглашения (текст: имена, дата, место, номера карты и телефона) — черновики владелец может удалить в личном кабинете; опубликованные хранятся до запроса на удаление приглашения или учётной записи; их фотографии удаляются через месяц после даты торжества.",
+            "Ответы гостей — удаляются вместе с приглашением; владелец приглашения может удалить их в любой момент.",
+            "Платёжные данные — хранятся в течение срока, установленного законодательством для бухгалтерского и налогового учёта, в том числе после удаления приглашения или учётной записи.",
             "Фотографии, не прикреплённые к приглашению, — удаляются через 24 часа.",
             "Номер телефона (учётная запись) — хранится до запроса на удаление учётной записи.",
             "Сессия входа — действует до 30 дней.",
@@ -200,6 +213,7 @@ const ru: LegalDoc = {
             "NEXT_LOCALE — выбранный язык.",
           ],
         },
+        "Кроме того, когда гость отправляет ответ, это запоминается в памяти браузера (localStorage), чтобы ответ не отправлялся повторно. Эти данные остаются только на устройстве гостя.",
       ],
     },
     {
@@ -216,8 +230,9 @@ const ru: LegalDoc = {
           list: [
             "Получать сведения о своих данных.",
             "Исправлять данные — через редактирование приглашения в кабинете.",
-            "Удалять данные — удаляя приглашения в личном кабинете или запросив удаление учётной записи.",
+            "Удалять данные — удаляя черновики в личном кабинете, а опубликованные приглашения или учётную запись — по запросу.",
             "Отозвать согласие на обработку данных.",
+            "Гости могут попросить владельца приглашения или Оператора удалить свой ответ или пожелание.",
           ],
         },
         `Запросы направляйте на ${O.email} или в ${O.telegram}.`,
@@ -236,9 +251,7 @@ const ru: LegalDoc = {
         {
           list: [
             O.name,
-            `Адрес: ${O.address}`,
             `Email: ${O.email}`,
-            `Телефон: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },
@@ -261,11 +274,13 @@ const en: LegalDoc = {
           list: [
             "Phone number — to register and log in.",
             "Confirmation code — stored only in encrypted form, for up to 5 minutes.",
-            "Invitation data — names, event date, venue name and address, map link, photos, chosen music, and optionally a card number and contact phone.",
+            "Invitation data — names, event date, venue name and address, photos, chosen music, and optionally a map link, card number and contact phone.",
+            "Guests' replies — name, whether they're coming, how many people, and an optional wish.",
+            "Payment data — the order (amount, design, invitation) and the Payme transaction number and times. Bank card details are entered only on Payme's page; the Operator never receives or stores them.",
             "Technical data — IP address (for security and abuse prevention) and request logs.",
           ],
         },
-        "Guests are not asked for personal data; only their IP address is used temporarily for security. The Site uses no advertising or analytics trackers.",
+        "Guests share data only when they choose to reply to an invitation; their IP address is used temporarily for security. The Site uses no advertising or analytics trackers.",
       ],
     },
     {
@@ -274,7 +289,8 @@ const en: LegalDoc = {
         {
           list: [
             "To provide the service: logging in, creating, storing and showing invitations to guests.",
-            "To process payments.",
+            "To pass guests' replies to the invitation's owner and show their wishes on the invitation.",
+            "To process payments and keep accounting records.",
             "For security: rate limiting and abuse prevention.",
             "To answer user requests and meet legal obligations.",
           ],
@@ -285,12 +301,13 @@ const en: LegalDoc = {
       title: "Who sees your data",
       body: [
         "The content of a published invitation (names, date, address, photos, card number and phone) is visible to anyone with the link. The User decides whom to send the link to.",
+        "A guest's wish is shown on the invitation with their name, to all guests. The full list of replies (who's coming, how many people) is seen only by the invitation's owner and administrators.",
         "Data is shared only where needed to provide the service:",
         {
           list: [
             "Telegram — the phone number is sent to the Telegram Gateway service to deliver the confirmation code.",
             "Hosting and file storage providers — to run the site and store photos.",
-            "Payment systems — when paying, the data required for the payment.",
+            "Payme — the order number and amount for the payment, and for the receipt the service name (with the couple's names). Card details are taken by Payme itself.",
             "Government authorities — only where required by law.",
           ],
         },
@@ -303,7 +320,9 @@ const en: LegalDoc = {
         {
           list: [
             "Drafts — kept; their photos are deleted 7 days after the last edit.",
-            "Invitations (text: names, date, venue, card and phone numbers) — kept until you delete them in your account or ask for the account to be deleted; their photos are deleted one month after the event date.",
+            "Invitations (text: names, date, venue, card and phone numbers) — drafts you can delete in your account; published ones are kept until you ask for the invitation or the account to be deleted; their photos are deleted one month after the event date.",
+            "Guests' replies — deleted together with the invitation; its owner can delete them at any time.",
+            "Payment data — kept for the period the law requires for accounting and tax records, including after the invitation or account is deleted.",
             "Photos not attached to an invitation — deleted after 24 hours.",
             "Phone number (account) — kept until you ask for the account to be deleted.",
             "Login session — valid for up to 30 days.",
@@ -321,6 +340,7 @@ const en: LegalDoc = {
             "NEXT_LOCALE — your chosen language.",
           ],
         },
+        "Also, when a guest sends a reply, their browser remembers it (localStorage) so it isn't sent twice. This stays only on the guest's device.",
       ],
     },
     {
@@ -337,8 +357,9 @@ const en: LegalDoc = {
           list: [
             "To get information about your data.",
             "To correct your data — by editing your invitation in your account.",
-            "To delete your data — by deleting invitations in your account or asking for your account to be deleted.",
+            "To delete your data — by deleting drafts in your account, or by asking us to delete published invitations or your account.",
             "To withdraw your consent to processing.",
+            "Guests can ask the invitation's owner or the Operator to delete their reply or wish.",
           ],
         },
         `Send requests to ${O.email} or ${O.telegram}.`,
@@ -355,9 +376,7 @@ const en: LegalDoc = {
         {
           list: [
             O.name,
-            `Address: ${O.address}`,
             `Email: ${O.email}`,
-            `Phone: ${O.phone}`,
             `Telegram: ${O.telegram}`,
           ],
         },

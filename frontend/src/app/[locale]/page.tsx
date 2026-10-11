@@ -1,16 +1,31 @@
 import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import PhoneMockup from "@/components/site/phone-mockup";
+import FallingPetals from "@/components/site/falling-petals";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import TemplateCard from "@/components/site/template-card";
+import { TELEGRAM_URL } from "@/content/legal/operator";
 import { Link } from "@/i18n/navigation";
 import { getDemos } from "@/lib/server/demos";
 
 // Rebuilt in the background at most every 5 minutes, like the demos fetch.
 export const revalidate = 300;
 
-const FEATURES = ["photos", "music", "map", "gift"] as const;
+const FEATURES = [
+  "video",
+  "designs",
+  "photos",
+  "music",
+  "countdown",
+  "map",
+  "rsvp",
+  "wishes",
+  "gift",
+  "card",
+  "languages",
+  "edit",
+] as const;
 
 /**
  * Of `options`, the column count whose last row is fullest (6 → 3, 10 → 5,
@@ -42,44 +57,58 @@ export default async function HomePage() {
       <SiteHeader />
       <main id="top" className="flex-1">
         {/* Hero */}
-        <section className="mx-auto grid max-w-6xl items-center gap-14 px-4 pt-10 pb-16 sm:px-6 md:grid-cols-[1.1fr_1fr] md:pt-20 md:pb-24">
-          <div>
-            <Eyebrow>{t("hero.eyebrow")}</Eyebrow>
-            <h1 className="mt-4 font-serif text-[2.6rem] leading-[1.05] font-medium text-ink sm:text-6xl">
-              {t.rich("hero.title", {
-                accent: (chunks) => (
-                  <em className="text-sage italic">{chunks}</em>
-                ),
-              })}
-            </h1>
-            <p className="mt-5 max-w-md text-base text-muted sm:text-lg">
-              {t("hero.subtitle")}
-            </p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link
-                href="/cabinet/new"
-                className="inline-flex h-12 items-center justify-center rounded-full bg-sage px-7 font-medium text-paper transition-colors hover:bg-sage-dark"
-              >
-                {t("hero.primary")}
-              </Link>
-              <a
-                href="#templates"
-                className="inline-flex h-12 items-center justify-center rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
-              >
-                {t("hero.secondary")}
-              </a>
+        <div className="relative">
+          <FallingPetals />
+          <section className="relative mx-auto grid max-w-6xl items-center gap-14 px-4 pt-10 pb-16 sm:px-6 md:grid-cols-[1.1fr_1fr] md:pt-20 md:pb-24">
+            <div>
+              <Eyebrow>{t("hero.eyebrow")}</Eyebrow>
+              <h1 className="mt-4 font-serif text-[2.6rem] leading-[1.05] font-medium text-ink sm:text-6xl">
+                {t.rich("hero.title", {
+                  accent: (chunks) => (
+                    <em className="text-sage italic">{chunks}</em>
+                  ),
+                })}
+              </h1>
+              <p className="mt-5 max-w-md text-base text-muted sm:text-lg">
+                {t("hero.subtitle")}
+              </p>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+                <Link
+                  href="/cabinet/new"
+                  className="inline-flex h-12 items-center justify-center rounded-full bg-sage px-7 font-medium text-paper transition-colors hover:bg-sage-dark"
+                >
+                  {t("hero.primary")}
+                </Link>
+                <a
+                  href="#templates"
+                  className="inline-flex h-12 items-center justify-center rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
+                >
+                  {t("hero.secondary")}
+                </a>
+              </div>
+              <p className="mt-4 text-sm text-muted">{t("hero.note")}</p>
             </div>
-            <p className="mt-4 text-sm text-muted">{t("hero.note")}</p>
-          </div>
-          <PhoneMockup />
-        </section>
+            <PhoneMockup />
+          </section>
+        </div>
 
         {/* Features */}
-        <section className="border-y border-line bg-cream/50">
-          <ul className="mx-auto grid max-w-6xl grid-cols-2 gap-x-4 gap-y-8 px-4 py-10 sm:px-6 lg:grid-cols-4">
+        <section
+          id="features"
+          className="scroll-mt-20 border-y border-line bg-cream/50 py-16 md:py-24"
+        >
+          <SectionHeading
+            eyebrow={t("features.eyebrow")}
+            title={t("features.title")}
+            subtitle={t("features.subtitle")}
+          />
+          <ul className="mx-auto mt-10 grid max-w-6xl grid-cols-2 gap-3 px-4 sm:grid-cols-3 sm:gap-4 sm:px-6 lg:grid-cols-4">
             {FEATURES.map((key) => (
-              <li key={key} className="flex flex-col gap-2">
-                <span className="flex size-10 items-center justify-center rounded-full bg-paper text-sage ring-1 ring-line">
+              <li
+                key={key}
+                className="reveal flex flex-col gap-2 rounded-2xl border border-line bg-paper p-4 transition-[translate,box-shadow] duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_30px_-12px_rgb(0_0_0/0.15)] sm:p-5"
+              >
+                <span className="flex size-10 items-center justify-center rounded-full bg-sage/10 text-sage">
                   <FeatureIcon name={key} />
                 </span>
                 <h3 className="mt-1 font-medium text-ink">
@@ -118,7 +147,7 @@ export default async function HomePage() {
               {demos.map((demo) => (
                 <li
                   key={demo.id}
-                  className="max-w-[300px]"
+                  className="reveal max-w-[300px]"
                   style={{
                     width:
                       "calc((100% - (var(--cols) - 1) * var(--gap)) / var(--cols))",
@@ -146,7 +175,7 @@ export default async function HomePage() {
             </h2>
             <ol className="mt-10 grid gap-8 md:grid-cols-3 md:gap-10">
               {STEPS.map((key, i) => (
-                <li key={key} className="border-t border-paper/20 pt-6">
+                <li key={key} className="reveal border-t border-paper/20 pt-6">
                   <span className="font-serif text-4xl text-gold">
                     {String(i + 1).padStart(2, "0")}
                   </span>
@@ -170,7 +199,7 @@ export default async function HomePage() {
           <SectionHeading eyebrow={t("faq.eyebrow")} title={t("faq.title")} />
           <div className="mt-10 divide-y divide-line border-y border-line px-4 sm:mx-6 sm:px-0">
             {QUESTIONS.map((key) => (
-              <details key={key} className="group py-5">
+              <details key={key} className="reveal group py-5">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 font-medium text-ink [&::-webkit-details-marker]:hidden">
                   {t(`faq.${key}.q`)}
                   <span
@@ -186,18 +215,46 @@ export default async function HomePage() {
               </details>
             ))}
           </div>
+
+          {/* Questions the FAQ doesn't answer: straight to Telegram. */}
+          <div className="mx-4 mt-10 flex flex-col items-center gap-4 rounded-3xl bg-cream/70 px-6 py-7 text-center ring-1 ring-line sm:mx-6 sm:flex-row sm:text-left">
+            <span
+              aria-hidden
+              className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#2aabee] text-white shadow-md shadow-[#2aabee]/30"
+            >
+              <TelegramIcon />
+            </span>
+            <div className="flex-1">
+              <p className="font-serif text-2xl text-ink">
+                {t("contact.title")}
+              </p>
+              <p className="mt-1 text-sm text-muted">{t("contact.text")}</p>
+            </div>
+            <a
+              href={TELEGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-11 shrink-0 items-center gap-2 rounded-full bg-sage px-5 text-sm font-medium text-paper transition-colors hover:bg-sage-dark"
+            >
+              {t("contact.button")}
+              <span aria-hidden>↗</span>
+            </a>
+          </div>
         </section>
 
         {/* Closing call to action */}
         <section className="px-4 pb-16 sm:px-6 md:pb-24">
-          <div className="mx-auto max-w-6xl rounded-[2rem] bg-cream px-6 py-14 text-center ring-1 ring-line md:py-20">
-            <h2 className="font-serif text-4xl font-medium text-ink sm:text-5xl">
+          <div className="reveal relative mx-auto max-w-6xl overflow-clip rounded-[2rem] bg-cream px-6 py-14 text-center ring-1 ring-line md:py-20">
+            <FallingPetals />
+            <h2 className="relative font-serif text-4xl font-medium text-ink sm:text-5xl">
               {t("cta.title")}
             </h2>
-            <p className="mx-auto mt-4 max-w-md text-muted">{t("cta.text")}</p>
+            <p className="relative mx-auto mt-4 max-w-md text-muted">
+              {t("cta.text")}
+            </p>
             <Link
               href="/cabinet/new"
-              className="mt-8 inline-flex h-12 items-center justify-center rounded-full bg-sage px-8 font-medium text-paper transition-colors hover:bg-sage-dark"
+              className="relative mt-8 inline-flex h-12 items-center justify-center rounded-full bg-sage px-8 font-medium text-paper transition-colors hover:bg-sage-dark"
             >
               {t("cta.button")}
             </Link>
@@ -240,11 +297,24 @@ function SectionHeading({
 }
 
 const ICON_PATHS: Record<(typeof FEATURES)[number], string> = {
-  photos: "M4 7h3l2-2h6l2 2h3v12H4zM12 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z",
+  video: "M3 6h13v12H3zM16 10l5-3v10l-5-3M8 9.5v5l4-2.5z",
+  designs:
+    "M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.3-1.7-.4-1.1.3-2.3 1.5-2.3H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10ZM7.5 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM15 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
+  photos:
+    "M3 5h18v14H3zM3 15l5-5 4 4 3-3 6 6M15.5 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z",
   music:
     "M9 18V6l11-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z",
+  countdown:
+    "M12 21a8 8 0 1 0 0-16 8 8 0 0 0 0 16ZM12 9v4l2.5 2.5M10 2h4M19 5l1.5 1.5",
   map: "M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12ZM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
+  rsvp: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM2.5 20a6.5 6.5 0 0 1 13 0M15 11.5l2 2 4-4",
+  wishes:
+    "M12 20s-8-4.7-8-10.3A4.3 4.3 0 0 1 12 7.3a4.3 4.3 0 0 1 8 2.4C20 15.3 12 20 12 20Z",
   gift: "M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7S10.5 3 8 3.5 7.5 7 12 7Zm0 0s1.5-4 4-3.5S16.5 7 12 7Z",
+  card: "M5 3h14v18H5zM9 8h6M9 12h6M12 15v4M10 17l2 2 2-2",
+  languages:
+    "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18ZM3 12h18M12 3c2.5 2.5 3.5 5.5 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-5.5-3.5-9s1-6.5 3.5-9Z",
+  edit: "M4 20h4L19 9l-4-4L4 16zM13 7l4 4",
 };
 
 function FeatureIcon({ name }: { name: (typeof FEATURES)[number] }) {
@@ -258,6 +328,19 @@ function FeatureIcon({ name }: { name: (typeof FEATURES)[number] }) {
         strokeLinejoin="round"
         strokeLinecap="round"
       />
+    </svg>
+  );
+}
+
+/** Telegram's paper plane, in the current colour. */
+function TelegramIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="size-6 -translate-x-px"
+      fill="currentColor"
+    >
+      <path d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.1 12.8 1.4 11.3c-1-.3-1-1 .2-1.5L20 2.7c.9-.3 1.6.2 1.4 1.6Z" />
     </svg>
   );
 }

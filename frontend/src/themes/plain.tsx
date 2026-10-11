@@ -65,14 +65,16 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
       <Section title={t("venue.title")}>
         <p className="font-serif text-2xl">{taklif.venueName}</p>
         <p className="mt-1 text-muted">{taklif.venueAddress}</p>
-        <a
-          href={taklif.locationUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-4 inline-block rounded-full bg-ink px-5 py-2 text-sm text-paper"
-        >
-          {t("venue.map")}
-        </a>
+        {taklif.locationUrl && (
+          <a
+            href={taklif.locationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-block rounded-full bg-ink px-5 py-2 text-sm text-paper"
+          >
+            {t("venue.map")}
+          </a>
+        )}
       </Section>
 
       {taklif.photos.length > 1 && (

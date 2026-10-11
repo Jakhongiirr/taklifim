@@ -5,13 +5,16 @@
   },
   "Site": {
     "nav": {
+      "features": "Imkoniyatlar",
       "templates": "Dizaynlar",
       "how": "Qanday ishlaydi",
-      "faq": "Savollar"
+      "faq": "Savollar",
+      "contact": "Bogʻlanish"
     },
     "cta": "Yaratish",
     "footer": {
       "tagline": "Toʻy, nikoh va oilaviy marosimlar uchun elektron taklifnomalar.",
+      "follow": "Bizni kuzating",
       "rights": "© {year} Taklifim",
       "top": "Yuqoriga"
     },
@@ -48,21 +51,56 @@
       "videoText": "Har bir dizaynda"
     },
     "features": {
+      "eyebrow": "Imkoniyatlar",
+      "title": "Taklifnomada hamma narsa bor",
+      "subtitle": "Mehmonlarni taklif qilish, javoblarini yigʻish va bayramni eslab qolish — bitta havolada.",
+      "video": {
+        "title": "Videoli ochilish",
+        "text": "Har bir dizayn oʻz videosi bilan ochiladi — darvozalar, ravoqlar, saroylar."
+      },
+      "designs": {
+        "title": "Noyob dizaynlar",
+        "text": "Har birining oʻz ranglari, shrifti va bezaklari bor."
+      },
       "photos": {
-        "title": "Fotosuratlar",
-        "text": "6 tagacha surat bilan hikoyangizni ulashing"
+        "title": "Suratlar galereyasi",
+        "text": "6 tagacha suratingiz chiroyli ramkalarda koʻrinadi."
       },
       "music": {
         "title": "Musiqa",
-        "text": "Taklifnoma ochilganda yoqimli kuy yangraydi"
+        "text": "Taklifnoma ochilganda tanlagan kuyingiz yangraydi."
+      },
+      "countdown": {
+        "title": "Toʻygacha sanoq",
+        "text": "Kun, soat va daqiqalar jonli hisoblanadi."
       },
       "map": {
         "title": "Manzil va xarita",
-        "text": "Mehmonlar toʻyxonani bir bosishda topadi"
+        "text": "Mehmonlar toʻyxonani bir bosishda topadi."
+      },
+      "rsvp": {
+        "title": "Mehmonlar javobi",
+        "text": "Kim kelishi va necha kishi boʻlishi kabinetingizda koʻrinadi."
+      },
+      "wishes": {
+        "title": "Tilaklar",
+        "text": "Mehmonlar tilak qoldiradi — eng yoqqanlarini belgilang."
       },
       "gift": {
         "title": "Toʻyona",
-        "text": "Karta raqamini qoʻshing — uzoqdagilar ham tabriklay oladi"
+        "text": "Karta raqamini qoʻshing — mehmonlar uni bir bosishda nusxalaydi."
+      },
+      "card": {
+        "title": "PNG karta",
+        "text": "Taklifnomani rasm sifatida yuklab, istalgan joyga yuboring."
+      },
+      "languages": {
+        "title": "Uch tilda",
+        "text": "Mehmonlar oʻzbek, rus yoki ingliz tilini tanlaydi."
+      },
+      "edit": {
+        "title": "Istalgan payt tahrirlash",
+        "text": "Vaqt, manzil yoki suratlarni oʻzgartiring — havola oʻzgarmaydi."
       }
     },
     "templates": {
@@ -112,8 +150,13 @@
       },
       "q5": {
         "q": "Tugallanmagan qoralama nima boʻladi?",
-        "a": "7 kun davomida tahrirlanmagan qoralamalarning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin."
+        "a": "Oxirgi tahrirdan 7 kundan keyin qoralamaning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin."
       }
+    },
+    "contact": {
+      "title": "Savollaringiz bormi?",
+      "text": "Telegram orqali yozing — tez javob beramiz.",
+      "button": "Telegramda yozish"
     },
     "cta": {
       "title": "Katta kuningizga birinchi qadam",
@@ -137,7 +180,7 @@
     "subtitle": "Telefon raqamingizni kiriting — tasdiqlash kodi Telegram orqali keladi.",
     "phone": "Telefon raqam",
     "code": "Tasdiqlash kodi",
-    "codeHint": "Kod {phone} raqamiga bogʻlangan Telegram akkauntga yuborildi.",
+    "codeHint": "Kodni Telegramdagi «Verification Codes» chatidan oling — u {phone} raqamiga bogʻlangan akkauntga yuborildi.",
     "send": "Kod olish",
     "verify": "Kirish",
     "resend": "Kodni qayta yuborish",
@@ -146,7 +189,7 @@
     "errors": {
       "phone": "Telefon raqam notoʻgʻri.",
       "code": "Kod notoʻgʻri yoki muddati oʻtgan.",
-      "codeSent": "Kod yaqinda yuborilgan — Telegramdagi kodni kiriting.",
+      "codeSent": "Kod yaqinda yuborilgan — uni Telegramdagi «Verification Codes» chatidan oling.",
       "tooMany": "Urinishlar juda koʻp. Birozdan soʻng qayta urinib koʻring.",
       "delivery": "Kodni yuborib boʻlmadi. Bu raqamda Telegram borligini tekshiring.",
       "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
@@ -199,8 +242,6 @@
       "preview": "Koʻrish",
       "edit": "Tahrirlash",
       "confirmDeleteTitle": "Qoralamani oʻchirasizmi?",
-      "confirmDeleteLiveTitle": "Taklifnomani oʻchirasizmi?",
-      "confirmDeleteLive": "Taklifnoma, uning suratlari va mehmonlar javoblari butunlay oʻchiriladi, havola esa ishlamay qoladi. Buni qaytarib boʻlmaydi.",
       "cancel": "Bekor qilish",
       "copyLink": "Havolani nusxalash:",
       "responses": "Javoblar",
@@ -298,9 +339,21 @@
     "madeWith": "Taklifim.uz orqali yaratilgan",
     "cardMadeWith": "Taklifim.uz bilan yaratilgan",
     "preview": {
-      "banner": "Oldindan koʻrish — mehmonlar taklifnomani eʼlon qilingandan soʻng koʻradi.",
       "back": "Kabinet",
-      "edit": "Tahrirlash"
+      "edit": "Tahrirlash",
+      "label": "Oldindan koʻrish",
+      "readyTitle": "Taklifnomangiz tayyor!",
+      "readyText": "Toʻlovdan soʻng u darhol eʼlon qilinadi — havolani mehmonlarga yuborishingiz mumkin.",
+      "readyTextFree": "Bu dizayn bepul — bir bosishda eʼlon qiling va havolani mehmonlarga yuboring.",
+      "publishFree": "Bepul eʼlon qilish",
+      "secure": "Payme orqali xavfsiz toʻlov",
+      "published": "Taklifnoma eʼlon qilindi!",
+      "open": "Ochish",
+      "statusPublished": "Eʼlon qilingan",
+      "statusUnpublished": "Yashirilgan",
+      "hiddenNote": "Hozir mehmonlar uni koʻrmaydi. Kabinetda qayta eʼlon qilishingiz mumkin.",
+      "fold": "Yigʻish",
+      "unfold": "Batafsil"
     }
   },
   "Builder": {
@@ -325,11 +378,12 @@
       "hostName": "Taklif qiluvchi",
       "hostHint": "Masalan: Karimovlar oilasi",
       "eventAt": "Sana va vaqt",
+      "eventTime": "Vaqt",
       "eventHint": "Toshkent vaqti bilan",
       "venueName": "Toʻyxona nomi",
       "venueAddress": "Manzil",
       "locationUrl": "Xarita havolasi",
-      "locationHint": "Google yoki Yandex xaritada joyni oching, «Ulashish»ni bosing va havolani shu yerga qoʻying.",
+      "locationHint": "Ixtiyoriy. Google yoki Yandex xaritada joyni oching, «Ulashish»ni bosing va havolani shu yerga qoʻying.",
       "cardNumber": "Toʻyona uchun karta raqami",
       "cardHint": "Ixtiyoriy. Mehmonlar raqamni nusxalab, pul oʻtkazishi mumkin.",
       "phone": "Aloqa uchun telefon",

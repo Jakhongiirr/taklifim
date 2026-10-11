@@ -11,8 +11,8 @@ import {
 const sent = (_: object, value: unknown) => value !== undefined; // null is rejected
 
 /**
- * Only the fields sent are changed. `cardNumber` and `phone` accept null to
- * clear them. `photoIds` replaces the whole list ([] removes all photos).
+ * Only the fields sent are changed. `locationUrl`, `cardNumber` and `phone`
+ * accept null to clear them. `photoIds` replaces the whole list ([] removes all photos).
  */
 export class UpdateTaklifDto {
   @ValidateIf(sent)
@@ -39,9 +39,9 @@ export class UpdateTaklifDto {
   @Text(300)
   venueAddress?: string;
 
-  @ValidateIf(sent)
+  @IsOptional()
   @LocationUrl()
-  locationUrl?: string;
+  locationUrl?: string | null;
 
   @ValidateIf(sent)
   @PhotoIds()

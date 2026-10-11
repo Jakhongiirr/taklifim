@@ -314,15 +314,24 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
                         <div className="whitespace-nowrap">
                           {formatEventAt(taklif.eventAt)}
                         </div>
-                        <a
-                          href={taklif.locationUrl}
-                          target="_blank"
-                          rel="noreferrer"
-                          title={taklif.venueAddress}
-                          className="block truncate text-zinc-500 hover:underline"
-                        >
-                          {taklif.venueName} · {taklif.venueAddress}
-                        </a>
+                        {taklif.locationUrl ? (
+                          <a
+                            href={taklif.locationUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            title={taklif.venueAddress}
+                            className="block truncate text-zinc-500 hover:underline"
+                          >
+                            {taklif.venueName} · {taklif.venueAddress}
+                          </a>
+                        ) : (
+                          <div
+                            title={taklif.venueAddress}
+                            className="truncate text-zinc-500"
+                          >
+                            {taklif.venueName} · {taklif.venueAddress}
+                          </div>
+                        )}
                         <div className="text-xs whitespace-nowrap text-zinc-400">
                           Added {formatDateTime(taklif.createdAt)}
                         </div>

@@ -222,14 +222,16 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#b9aed3]">{taklif.venueAddress}</p>
-            <a
-              href={taklif.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={`${tenor.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#f5c27a] px-6 text-xs tracking-[0.2em] text-[#1b1430] uppercase shadow-[0_0_24px_-4px_rgba(245,194,122,0.7)] hover:bg-[#f8d29a]`}
-            >
-              {t("venue.map")}
-            </a>
+            {taklif.locationUrl && (
+              <a
+                href={taklif.locationUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${tenor.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#f5c27a] px-6 text-xs tracking-[0.2em] text-[#1b1430] uppercase shadow-[0_0_24px_-4px_rgba(245,194,122,0.7)] hover:bg-[#f8d29a]`}
+              >
+                {t("venue.map")}
+              </a>
+            )}
           </div>
         </Section>
 
