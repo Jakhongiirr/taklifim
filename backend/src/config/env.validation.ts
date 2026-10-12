@@ -57,11 +57,16 @@ export const envValidationSchema = Joi.object({
   UPLOAD_IMAGE_MAX_SIZE_MB: Joi.number().positive().default(10),
   UPLOAD_AUDIO_MAX_SIZE_MB: Joi.number().positive().default(50),
 
-  TELEGRAM_GATEWAY_TOKEN: Joi.when('NODE_ENV', {
+  // Login: users share their phone number with this bot (from @BotFather).
+  // Without it in development, logins are confirmed through a dev endpoint.
+  TELEGRAM_BOT_TOKEN: Joi.when('NODE_ENV', {
     is: 'production',
     then: Joi.string().required(),
     otherwise: Joi.string().allow('').optional(),
   }),
+  // Login codes through Telegram Gateway (paid, deposit needed); unused by
+  // the site, which logs in through the bot.
+  TELEGRAM_GATEWAY_TOKEN: Joi.string().allow('').optional(),
 
   // The site's public address, for the page Payme returns buyers to.
   SITE_URL: Joi.string().uri().default('http://localhost:3001'),

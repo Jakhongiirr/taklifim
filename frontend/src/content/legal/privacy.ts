@@ -3,7 +3,7 @@ import type { LegalDoc } from "./types";
 
 // Privacy policy. Lists what the product actually collects (accounts,
 // invitations, guests' replies, payments), who receives it (Telegram for
-// login codes, hosting and storage, Payme for payments) and the real
+// the login bot, hosting and storage, Payme for payments) and the real
 // retention rules. Keep in sync when data handling changes. Not legal advice.
 
 const uz: LegalDoc = {
@@ -19,7 +19,7 @@ const uz: LegalDoc = {
         {
           list: [
             "Telefon raqami — roʻyxatdan oʻtish va kirish uchun.",
-            "Tasdiqlash kodi — faqat shifrlangan koʻrinishda, 5 daqiqagacha saqlanadi.",
+            "Telegram akkaunt identifikatori — faqat kirish jarayonida, 5 daqiqagacha saqlanadi.",
             "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, suratlar, tanlangan musiqa, ixtiyoriy ravishda xarita havolasi, karta raqami va aloqa telefoni.",
             "Mehmonlarning javoblari — ism, kelish yoki kelmasligi, mehmonlar soni va ixtiyoriy tilak.",
             "Toʻlov maʼlumotlari — buyurtma (summa, dizayn, taklifnoma), Payme tranzaksiya raqami va vaqtlari. Bank kartasi maʼlumotlari faqat Payme sahifasida kiritiladi; Operator ularni olmaydi va saqlamaydi.",
@@ -51,7 +51,7 @@ const uz: LegalDoc = {
         "Maʼlumotlar faqat xizmat koʻrsatish uchun zarur hollarda uzatiladi:",
         {
           list: [
-            "Telegram — tasdiqlash kodini yetkazish uchun telefon raqami Telegram Gateway xizmatiga yuboriladi.",
+            "Telegram — kirish uchun telefon raqamingizni Telegramdagi botimizga oʻzingiz yuborasiz; Telegram bu yozishmani oʻz qoidalariga koʻra saqlaydi.",
             "Hosting va fayl saqlash provayderlari — saytni va suratlarni saqlash uchun.",
             "Payme toʻlov tizimi — toʻlov uchun buyurtma raqami va summasi, chek uchun esa xizmat nomi (kelin-kuyov ismlari bilan). Karta maʼlumotlarini Payme oʻzi qabul qiladi.",
             "Davlat organlari — faqat qonunda nazarda tutilgan hollarda.",
@@ -93,7 +93,7 @@ const uz: LegalDoc = {
     {
       title: "Maʼlumotlar xavfsizligi",
       body: [
-        "Maʼlumotlar shifrlangan ulanish (HTTPS) orqali uzatiladi, tasdiqlash kodlari shifrlangan koʻrinishda saqlanadi, sessiya cookie fayllari skriptlardan himoyalangan, maʼlumotlarga kirish esa egasi va vakolatli administratorlar bilan cheklangan.",
+        "Maʼlumotlar shifrlangan ulanish (HTTPS) orqali uzatiladi, sessiya cookie fayllari skriptlardan himoyalangan, maʼlumotlarga kirish esa egasi va vakolatli administratorlar bilan cheklangan.",
         "Oʻzbekiston fuqarolarining shaxsga doir maʼlumotlari qonun talabiga muvofiq Oʻzbekiston Respublikasi hududidagi serverlarda saqlanadi.",
       ],
     },
@@ -147,7 +147,7 @@ const ru: LegalDoc = {
         {
           list: [
             "Номер телефона — для регистрации и входа.",
-            "Код подтверждения — хранится только в зашифрованном виде, до 5 минут.",
+            "Идентификатор аккаунта Telegram — только на время входа, до 5 минут.",
             "Данные приглашения — имена, дата торжества, название и адрес заведения, фотографии, выбранная музыка, по желанию ссылка на карту, номер карты и контактный телефон.",
             "Ответы гостей — имя, придёт ли гость, количество человек и пожелание (по желанию).",
             "Платёжные данные — заказ (сумма, дизайн, приглашение), номер и время транзакции Payme. Данные банковской карты вводятся только на странице Payme; Оператор их не получает и не хранит.",
@@ -179,7 +179,7 @@ const ru: LegalDoc = {
         "Данные передаются только когда это необходимо для оказания услуги:",
         {
           list: [
-            "Telegram — для доставки кода подтверждения номер телефона передаётся в сервис Telegram Gateway.",
+            "Telegram — для входа вы сами отправляете номер телефона нашему боту в Telegram; Telegram хранит эту переписку по своим правилам.",
             "Провайдеры хостинга и хранения файлов — для работы сайта и хранения фотографий.",
             "Платёжная система Payme — номер заказа и сумма для оплаты, а для чека — название услуги (с именами молодожёнов). Данные карты Payme принимает сама.",
             "Государственные органы — только в случаях, предусмотренных законом.",
@@ -221,7 +221,7 @@ const ru: LegalDoc = {
     {
       title: "Безопасность данных",
       body: [
-        "Данные передаются по защищённому соединению (HTTPS), коды подтверждения хранятся в зашифрованном виде, cookie сессии защищены от скриптов, а доступ к данным ограничен их владельцем и уполномоченными администраторами.",
+        "Данные передаются по защищённому соединению (HTTPS), cookie сессии защищены от скриптов, а доступ к данным ограничен их владельцем и уполномоченными администраторами.",
         "Персональные данные граждан Узбекистана в соответствии с требованием закона хранятся на серверах на территории Республики Узбекистан.",
       ],
     },
@@ -275,7 +275,7 @@ const en: LegalDoc = {
         {
           list: [
             "Phone number — to register and log in.",
-            "Confirmation code — stored only in encrypted form, for up to 5 minutes.",
+            "Telegram account ID — only during login, for up to 5 minutes.",
             "Invitation data — names, event date, venue name and address, photos, chosen music, and optionally a map link, card number and contact phone.",
             "Guests' replies — name, whether they're coming, how many people, and an optional wish.",
             "Payment data — the order (amount, design, invitation) and the Payme transaction number and times. Bank card details are entered only on Payme's page; the Operator never receives or stores them.",
@@ -307,7 +307,7 @@ const en: LegalDoc = {
         "Data is shared only where needed to provide the service:",
         {
           list: [
-            "Telegram — the phone number is sent to the Telegram Gateway service to deliver the confirmation code.",
+            "Telegram — to log in, you share your phone number with our Telegram bot yourself; Telegram keeps that chat under its own rules.",
             "Hosting and file storage providers — to run the site and store photos.",
             "Payme — the order number and amount for the payment, and for the receipt the service name (with the couple's names). Card details are taken by Payme itself.",
             "Government authorities — only where required by law.",
@@ -349,7 +349,7 @@ const en: LegalDoc = {
     {
       title: "Security",
       body: [
-        "Data travels over an encrypted connection (HTTPS), confirmation codes are stored encrypted, session cookies are protected from scripts, and access to data is limited to its owner and authorized administrators.",
+        "Data travels over an encrypted connection (HTTPS), session cookies are protected from scripts, and access to data is limited to its owner and authorized administrators.",
         "As required by law, the personal data of citizens of Uzbekistan is stored on servers located in the Republic of Uzbekistan.",
       ],
     },

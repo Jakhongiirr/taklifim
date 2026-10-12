@@ -177,22 +177,18 @@
   "Auth": {
     "metaTitle": "Log in",
     "title": "Log in to your account",
-    "subtitle": "Enter your phone number — the confirmation code arrives in Telegram.",
-    "phone": "Phone number",
-    "code": "Confirmation code",
-    "codeHint": "Find the code in Telegram’s “Verification Codes” chat, on the account linked to {phone}.",
-    "send": "Get code",
-    "verify": "Log in",
-    "resend": "Resend code",
-    "resendIn": "Resend in {seconds}s",
-    "change": "Change number",
+    "subtitle": "Log in with Telegram: share your phone number with our bot in one tap.",
+    "telegram": "Log in with Telegram",
+    "preparing": "Preparing…",
+    "waiting": "Waiting for Telegram…",
+    "waitingHint": "In the bot, tap “📱 Share phone number”. This page continues by itself.",
+    "openAgain": "Open Telegram again",
+    "expired": "The link has expired. Tap the button again.",
+    "noTelegram": "Your account is tied to your phone number. You need Telegram on that number.",
     "errors": {
-      "phone": "Invalid phone number.",
-      "code": "The code is wrong or has expired.",
-      "codeSent": "A code was sent recently — find it in Telegram’s “Verification Codes” chat.",
       "tooMany": "Too many attempts. Please try again a bit later.",
-      "delivery": "Couldn't send the code. Check that this number has Telegram.",
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "retry": "Try again"
     },
     "consent": "By logging in you agree to the <terms>Terms of Service</terms> and the <privacy>Privacy Policy</privacy>."
   },
@@ -275,7 +271,15 @@
       "Friday",
       "Saturday"
     ],
-    "weekdaysShort": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
+    "weekdaysShort": [
+      "Mo",
+      "Tu",
+      "We",
+      "Th",
+      "Fr",
+      "Sa",
+      "Su"
+    ],
     "monthsStandalone": [
       "January",
       "February",

@@ -57,18 +57,26 @@ at the server **before** the first start, so Caddy can get certificates.
 
 ## 3. First start
 
+First create the login bot: in Telegram, message
+[@BotFather](https://t.me/BotFather), send `/newbot`, pick a name (e.g.
+"Taklifim") and a username ending in `bot`, and put the token it gives you in
+`.env` as `TELEGRAM_BOT_TOKEN`. Optionally, with `/setuserpic` and
+`/setdescription`, give it the logo and a line like "Log in to taklifim.uz".
+Use a separate bot for development: only one server can receive a bot's
+messages at a time, so the same token in two places makes logins flaky.
+
 ```sh
 git clone <repo> /opt/taklifim
 cd /opt/taklifim/deploy
 cp .env.example .env
-nano .env          # domains, secrets (openssl rand -hex 32), Telegram, Payme
+nano .env          # domains, secrets (openssl rand -hex 32), login bot, Payme
 chmod 600 .env
 docker compose up -d --build
 docker compose ps  # all healthy; minio-init "exited (0)"
 ```
 
-Then open `https://taklifim.uz`, log in with your phone number and make
-yourself admin:
+Then open `https://taklifim.uz`, log in with Telegram and make yourself
+admin:
 
 ```sh
 docker compose exec postgres sh -c \

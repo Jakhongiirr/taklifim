@@ -8,6 +8,7 @@ import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RolesGuard } from './guards/roles.guard';
 import { OtpService } from './otp.service';
+import { TelegramLoginService } from './telegram-login.service';
 
 @Module({
   imports: [JwtModule.register({}), UsersModule, TelegramModule],
@@ -15,6 +16,7 @@ import { OtpService } from './otp.service';
   providers: [
     AuthService,
     OtpService,
+    TelegramLoginService,
     // Order matters: authenticate first, then check roles.
     { provide: APP_GUARD, useClass: JwtAuthGuard },
     { provide: APP_GUARD, useClass: RolesGuard },

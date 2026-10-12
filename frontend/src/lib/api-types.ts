@@ -212,10 +212,17 @@ export interface Page<T> {
   limit: number;
 }
 
-export interface OtpRequested {
+/** A login through the Telegram bot, as the site's own API returns it. */
+export interface TelegramLoginStarted {
+  /** The bot link to open. */
+  url: string;
+  /** Seconds the link stays usable. */
   expiresIn: number;
-  retryAfter: number;
 }
+
+export type TelegramLoginStatus =
+  | { status: "pending" | "expired" }
+  | { status: "done"; user: User };
 
 export interface AuthTokens {
   accessToken: string;

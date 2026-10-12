@@ -1,9 +1,10 @@
 "use client";
 
-import type { FormEvent } from "react";
+import { useState } from "react";
 import { ApiError, authApi } from "@/lib/api-client";
-import { useOtpLogin } from "@/lib/use-otp-login";
-import { Alert, Button, Field, Input } from "./ui";
+import { useTelegramLogin } from "@/lib/use-telegram-login";
+import type { User } from "@/lib/api-types";
+import { Alert } from "./ui";
 
 function messageOf(error: unknown) {
   if (!error) return "";
@@ -12,84 +13,58 @@ function messageOf(error: unknown) {
 }
 
 export default function LoginForm({ next }: { next: string }) {
-  const login = useOtpLogin();
-  const { step, phone, code, resendIn, pending } = login;
+  const [denied, setDenied] = useState(false);
 
-  async function verify() {
-    const user = await login.verify();
-    if (!user) return;
+  async function onDone(user: User) {
     if (user.role !== "admin") {
       await authApi("/logout");
-      login.setError(new Error("This account doesn't have admin access."));
+      setDenied(true);
       return;
     }
     window.location.assign(next);
   }
 
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    void (step === "phone" ? login.requestCode() : verify());
-  }
+  const login = useTelegramLogin("en", (user) => void onDone(user));
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-4">
-      <Field label="Phone number">
-        <Input
-          type="tel"
-          autoComplete="tel"
-          placeholder="+998 90 123 45 67"
-          value={phone}
-          onChange={(e) => login.setPhone(e.target.value)}
-          disabled={step === "code"}
-          required
-          autoFocus
-        />
-      </Field>
-
-      {step === "code" && (
-        <Field
-          label="Code"
-          hint={
-            <span className="flex items-center justify-between">
-              <span>Check Telegram’s “Verification Codes” chat.</span>
-              <span className="flex gap-3">
-                <button
-                  type="button"
-                  className="underline disabled:no-underline disabled:opacity-60"
-                  disabled={resendIn > 0 || pending}
-                  onClick={() => void login.requestCode()}
-                >
-                  {resendIn > 0 ? `Resend in ${resendIn}s` : "Resend code"}
-                </button>
-                <button
-                  type="button"
-                  className="underline"
-                  onClick={login.changeNumber}
-                >
-                  Change number
-                </button>
-              </span>
-            </span>
+    <div className="flex flex-col gap-4">
+      <a
+        href={login.url ?? undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-disabled={!login.url}
+        onClick={(e) => {
+          if (!login.url) e.preventDefault();
+          else {
+            setDenied(false);
+            login.opened();
           }
-        >
-          <Input
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            placeholder="123456"
-            value={code}
-            onChange={(e) => login.setCode(e.target.value)}
-            maxLength={8}
-            required
-            autoFocus
-          />
-        </Field>
+        }}
+        className={`inline-flex h-10 items-center justify-center rounded-lg bg-zinc-900 px-4 text-sm font-medium text-white hover:bg-zinc-700 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200 ${login.url ? "" : "pointer-events-none opacity-60"}`}
+      >
+        {!login.url
+          ? "Preparing…"
+          : login.waiting
+            ? "Open Telegram again"
+            : "Log in with Telegram"}
+      </a>
+
+      {login.waiting && (
+        <p role="status" className="text-sm text-zinc-500">
+          Waiting for Telegram… In the bot, tap “📱 Share phone number”.
+        </p>
+      )}
+      {login.expired && !login.waiting && (
+        <p role="status" className="text-sm text-zinc-500">
+          The link expired. Tap the button again.
+        </p>
       )}
 
-      <Alert>{messageOf(login.error)}</Alert>
-
-      <Button type="submit" loading={pending}>
-        {step === "phone" ? "Send code" : "Log in"}
-      </Button>
-    </form>
+      <Alert>
+        {denied
+          ? "This account doesn't have admin access."
+          : messageOf(login.error)}
+      </Alert>
+    </div>
   );
 }

@@ -177,22 +177,18 @@
   "Auth": {
     "metaTitle": "Kirish",
     "title": "Kabinetga kirish",
-    "subtitle": "Telefon raqamingizni kiriting — tasdiqlash kodi Telegram orqali keladi.",
-    "phone": "Telefon raqam",
-    "code": "Tasdiqlash kodi",
-    "codeHint": "Kodni Telegramdagi «Verification Codes» chatidan oling — u {phone} raqamiga bogʻlangan akkauntga yuborildi.",
-    "send": "Kod olish",
-    "verify": "Kirish",
-    "resend": "Kodni qayta yuborish",
-    "resendIn": "Qayta yuborish: {seconds} s",
-    "change": "Raqamni oʻzgartirish",
+    "subtitle": "Telegram orqali kiring: telefon raqamingizni botimizga bir bosishda yuboring.",
+    "telegram": "Telegram orqali kirish",
+    "preparing": "Tayyorlanmoqda…",
+    "waiting": "Telegramdan javob kutilmoqda…",
+    "waitingHint": "Botda «📱 Raqamni yuborish» tugmasini bosing. Bu sahifa oʻzi davom etadi.",
+    "openAgain": "Telegramni qayta ochish",
+    "expired": "Havola muddati tugadi. Tugmani qayta bosing.",
+    "noTelegram": "Hisobingiz telefon raqamingizga bogʻlanadi. Shu raqamda Telegram boʻlishi kerak.",
     "errors": {
-      "phone": "Telefon raqam notoʻgʻri.",
-      "code": "Kod notoʻgʻri yoki muddati oʻtgan.",
-      "codeSent": "Kod yaqinda yuborilgan — uni Telegramdagi «Verification Codes» chatidan oling.",
       "tooMany": "Urinishlar juda koʻp. Birozdan soʻng qayta urinib koʻring.",
-      "delivery": "Kodni yuborib boʻlmadi. Bu raqamda Telegram borligini tekshiring.",
-      "generic": "Nimadir xato ketdi. Qayta urinib koʻring."
+      "generic": "Nimadir xato ketdi. Qayta urinib koʻring.",
+      "retry": "Qayta urinish"
     },
     "consent": "Kirish orqali siz <terms>ommaviy oferta</terms> va <privacy>maxfiylik siyosati</privacy> shartlariga rozilik bildirasiz."
   },
@@ -275,7 +271,15 @@
       "juma",
       "shanba"
     ],
-    "weekdaysShort": ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"],
+    "weekdaysShort": [
+      "Du",
+      "Se",
+      "Ch",
+      "Pa",
+      "Ju",
+      "Sh",
+      "Ya"
+    ],
     "monthsStandalone": [
       "yanvar",
       "fevral",

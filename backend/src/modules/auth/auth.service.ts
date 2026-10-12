@@ -37,6 +37,14 @@ export class AuthService {
 
   async verifyOtp(phone: string, code: string) {
     await this.otp.verify(phone, code);
+    return this.loginWithPhone(phone);
+  }
+
+  /**
+   * Logs in the account with this (already verified) number, creating it
+   * on first login.
+   */
+  async loginWithPhone(phone: string) {
     const user = await this.users.findOrCreateByPhone(phone);
     return { user, ...(await this.issueTokens(user)) };
   }

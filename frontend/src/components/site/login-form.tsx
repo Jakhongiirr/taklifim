@@ -1,126 +1,82 @@
 "use client";
 
-import { useTranslations } from "next-intl";
-import type { FormEvent } from "react";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { ApiError } from "@/lib/api-client";
-import { useOtpLogin } from "@/lib/use-otp-login";
+import { useTelegramLogin } from "@/lib/use-telegram-login";
 
-const inputClass =
-  "h-12 w-full rounded-2xl border border-line bg-white px-4 text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-sage focus:ring-2 focus:ring-sage/20 disabled:bg-cream disabled:text-muted";
-
-/** Phone + Telegram code login for the public site. */
+/** Login through the site's Telegram bot, for the public site. */
 export default function LoginForm({ next }: { next: string }) {
   const t = useTranslations("Auth");
-  const login = useOtpLogin();
-  const { step, phone, code, resendIn, pending } = login;
+  const locale = useLocale();
+  // A full load, so every page sees the new session.
+  const login = useTelegramLogin(locale, () => window.location.assign(next));
 
   // The backend's messages are English; show our own per error kind.
-  function errorText(error: unknown) {
-    if (!error) return "";
-    if (!(error instanceof ApiError)) return t("errors.generic");
-    const retryAfter = (error.details as { retryAfter?: number } | undefined)
-      ?.retryAfter;
-    if (retryAfter) return t("errors.codeSent");
-    switch (error.code) {
-      case "VALIDATION_FAILED":
-        return step === "phone" ? t("errors.phone") : t("errors.code");
-      case "BAD_REQUEST":
-        return t("errors.code");
-      case "TOO_MANY_REQUESTS":
-        return t("errors.tooMany");
-      case "SERVICE_UNAVAILABLE":
-        return t("errors.delivery");
-      default:
-        return t("errors.generic");
-    }
-  }
-
-  async function verify() {
-    // A full load, so every page sees the new session.
-    if (await login.verify()) window.location.assign(next);
-  }
-
-  function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    void (step === "phone" ? login.requestCode() : verify());
-  }
-
-  const error = errorText(login.error);
+  const error = !login.error
+    ? ""
+    : login.error instanceof ApiError &&
+        login.error.code === "TOO_MANY_REQUESTS"
+      ? t("errors.tooMany")
+      : t("errors.generic");
 
   return (
-    <form onSubmit={onSubmit} className="flex flex-col gap-5">
-      <label className="flex flex-col gap-2">
-        <span className="text-sm font-medium text-ink">{t("phone")}</span>
-        <input
-          className={inputClass}
-          type="tel"
-          autoComplete="tel"
-          placeholder="+998 90 123 45 67"
-          value={phone}
-          onChange={(e) => login.setPhone(e.target.value)}
-          disabled={step === "code"}
-          required
-          autoFocus
-        />
-      </label>
+    <div className="flex flex-col gap-5">
+      <a
+        href={login.url ?? undefined}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-disabled={!login.url}
+        onClick={(e) => {
+          if (!login.url) e.preventDefault();
+          else login.opened();
+        }}
+        className={`inline-flex h-12 items-center justify-center gap-2.5 rounded-full bg-[#229ED9] font-medium text-white transition-colors hover:bg-[#1c8cc2] ${login.url ? "" : "pointer-events-none opacity-60"}`}
+      >
+        <TelegramIcon />
+        {!login.url
+          ? t("preparing")
+          : login.waiting
+            ? t("openAgain")
+            : t("telegram")}
+      </a>
 
-      {step === "code" && (
-        <label className="flex flex-col gap-2">
-          <span className="text-sm font-medium text-ink">{t("code")}</span>
-          <input
-            className={`${inputClass} text-center font-mono text-xl tracking-[0.5em]`}
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            placeholder="••••••"
-            value={code}
-            onChange={(e) => login.setCode(e.target.value)}
-            maxLength={8}
-            required
-            autoFocus
-          />
-          <span className="text-sm text-muted">{t("codeHint", { phone })}</span>
-          <span className="flex flex-wrap justify-between gap-2 text-sm">
-            <button
-              type="button"
-              className="text-sage underline-offset-4 hover:underline disabled:text-muted disabled:no-underline"
-              disabled={resendIn > 0 || pending}
-              onClick={() => void login.requestCode()}
-            >
-              {resendIn > 0
-                ? t("resendIn", { seconds: resendIn })
-                : t("resend")}
-            </button>
-            <button
-              type="button"
-              className="text-muted underline-offset-4 hover:text-ink hover:underline"
-              onClick={login.changeNumber}
-            >
-              {t("change")}
-            </button>
+      {login.waiting && (
+        <div
+          role="status"
+          className="flex items-start gap-3 rounded-2xl bg-cream px-4 py-3 text-sm"
+        >
+          <span className="mt-0.5 size-4 shrink-0 animate-spin rounded-full border-2 border-sage/30 border-t-sage" />
+          <span>
+            <span className="block font-medium text-ink">{t("waiting")}</span>
+            <span className="text-muted">{t("waitingHint")}</span>
           </span>
-        </label>
+        </div>
+      )}
+
+      {login.expired && !login.waiting && (
+        <p role="status" className="text-center text-sm text-muted">
+          {t("expired")}
+        </p>
       )}
 
       {error && (
         <p
           role="alert"
-          className="rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="flex items-center justify-between gap-3 rounded-2xl bg-red-50 px-4 py-3 text-sm text-red-700"
         >
           {error}
+          <button
+            type="button"
+            className="shrink-0 font-medium underline underline-offset-4"
+            onClick={() => void login.retry()}
+          >
+            {t("errors.retry")}
+          </button>
         </p>
       )}
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="inline-flex h-12 items-center justify-center rounded-full bg-sage font-medium text-paper transition-colors hover:bg-sage-dark disabled:opacity-60"
-      >
-        {pending && (
-          <span className="mr-2 size-4 animate-spin rounded-full border-2 border-paper/40 border-t-paper" />
-        )}
-        {step === "phone" ? t("send") : t("verify")}
-      </button>
+      <p className="text-center text-xs text-muted">{t("noTelegram")}</p>
       <p className="text-center text-xs leading-relaxed text-muted">
         {t.rich("consent", {
           terms: (chunks) => (
@@ -141,6 +97,14 @@ export default function LoginForm({ next }: { next: string }) {
           ),
         })}
       </p>
-    </form>
+    </div>
+  );
+}
+
+function TelegramIcon() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="size-5 fill-current">
+      <path d="M21.9 4.3 18.7 19.4c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.5 13.2 1.8 11.7c-1-.3-1-1 .2-1.5L20.5 3.1c.9-.3 1.6.2 1.4 1.2Z" />
+    </svg>
   );
 }
