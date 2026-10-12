@@ -257,7 +257,10 @@ export class TaklifService {
     }
     const { affected } = await this.taklifs.delete(where);
     if (!affected) {
-      if (isAdmin(user)) throw new NotFoundException('Invitation not found');
+      // Gone meanwhile (e.g. deleted from another tab), or no longer a draft.
+      if (!(await this.taklifs.existsBy({ id }))) {
+        throw new NotFoundException('Invitation not found');
+      }
       throw new ConflictException('Only drafts can be deleted');
     }
     await this.deleteFiles(taklif.photos.map((photo) => photo.fileId));

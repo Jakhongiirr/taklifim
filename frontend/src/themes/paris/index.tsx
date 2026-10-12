@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "../shared/countdown";
 import CopyButton from "../shared/copy-button";
+import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
@@ -224,16 +225,12 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#6b7088]">{taklif.venueAddress}</p>
-            {taklif.locationUrl && (
-              <a
-                href={taklif.locationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${poiret.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#2c3550] px-6 text-sm font-semibold tracking-[0.15em] text-[#fbf7f2] uppercase hover:bg-[#222a41]`}
-              >
-                {t("venue.map")}
-              </a>
-            )}
+            <MapLink
+              url={taklif.locationUrl}
+              className={`${poiret.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#2c3550] px-6 text-sm font-semibold tracking-[0.15em] text-[#fbf7f2] uppercase hover:bg-[#222a41]`}
+            >
+              {t("venue.map")}
+            </MapLink>
           </div>
         </Section>
 

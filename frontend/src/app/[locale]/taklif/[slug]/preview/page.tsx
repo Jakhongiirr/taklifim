@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import PreviewChrome from "@/components/site/cabinet/preview-chrome";
+import { getCurrentUser } from "@/lib/server/current-user";
 import { getTaklifPreview } from "@/lib/server/taklif";
 import { ThemedInvitation } from "@/themes";
 import { invitationMetadata } from "../invitation-metadata";
@@ -15,7 +16,11 @@ export async function generateMetadata({
 export default async function InvitationPreviewPage({
   params,
 }: PageProps<"/[locale]/taklif/[slug]/preview">) {
-  const taklif = await getTaklifPreview((await params).slug);
+  const { slug } = await params;
+  const [taklif, user] = await Promise.all([
+    getTaklifPreview(slug),
+    getCurrentUser(),
+  ]);
   if (!taklif) notFound();
   return (
     <>
@@ -25,6 +30,8 @@ export default async function InvitationPreviewPage({
         slug={taklif.slug}
         status={taklif.status}
         price={taklif.theme.price}
+        // Only the owner can pay: an admin looking at it can't.
+        owner={user?.id === taklif.userId}
       />
       <ThemedInvitation taklif={taklif} preview />
     </>

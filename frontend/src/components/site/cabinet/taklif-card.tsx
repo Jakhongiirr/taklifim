@@ -218,7 +218,7 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
         {taklif.status === "draft" && !taklif.paidAt && (
           <ActionButton
             danger
-            disabled={busy}
+            disabled={busy || payment.busy}
             onClick={async () => {
               const ok = await confirm({
                 title: t("actions.confirmDeleteTitle"),

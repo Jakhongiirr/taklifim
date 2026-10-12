@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "../shared/countdown";
 import CopyButton from "../shared/copy-button";
+import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
@@ -212,16 +213,12 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
           <div className="heaven-reveal">
             <p className={`${prata.className} text-2xl`}>{taklif.venueName}</p>
             <p className="mt-2 text-sm text-[#6d7262]">{taklif.venueAddress}</p>
-            {taklif.locationUrl && (
-              <a
-                href={taklif.locationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#2f3a2c] px-7 text-base tracking-[0.15em] text-[#f4efe6] hover:bg-[#232c21]`}
-              >
-                {t("venue.map")}
-              </a>
-            )}
+            <MapLink
+              url={taklif.locationUrl}
+              className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#2f3a2c] px-7 text-base tracking-[0.15em] text-[#f4efe6] hover:bg-[#232c21]`}
+            >
+              {t("venue.map")}
+            </MapLink>
           </div>
         </Section>
 

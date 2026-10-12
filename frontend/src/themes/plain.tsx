@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "./shared/countdown";
 import CopyButton from "./shared/copy-button";
+import MapLink from "./shared/map-link";
 import Rsvp from "./shared/rsvp";
 import type { ThemeProps } from "./types";
 
@@ -65,16 +66,12 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
       <Section title={t("venue.title")}>
         <p className="font-serif text-2xl">{taklif.venueName}</p>
         <p className="mt-1 text-muted">{taklif.venueAddress}</p>
-        {taklif.locationUrl && (
-          <a
-            href={taklif.locationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mt-4 inline-block rounded-full bg-ink px-5 py-2 text-sm text-paper"
-          >
-            {t("venue.map")}
-          </a>
-        )}
+        <MapLink
+          url={taklif.locationUrl}
+          className="mt-4 inline-block rounded-full bg-ink px-5 py-2 text-sm text-paper"
+        >
+          {t("venue.map")}
+        </MapLink>
       </Section>
 
       {taklif.photos.length > 1 && (

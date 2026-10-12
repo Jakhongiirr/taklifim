@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "../shared/countdown";
 import CopyButton from "../shared/copy-button";
+import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
@@ -207,16 +208,12 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#8a6f73]">{taklif.venueAddress}</p>
-            {taklif.locationUrl && (
-              <a
-                href={taklif.locationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fff7f2] uppercase hover:bg-[#5a3e45]`}
-              >
-                {t("venue.map")}
-              </a>
-            )}
+            <MapLink
+              url={taklif.locationUrl}
+              className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fff7f2] uppercase hover:bg-[#5a3e45]`}
+            >
+              {t("venue.map")}
+            </MapLink>
           </div>
         </Section>
 

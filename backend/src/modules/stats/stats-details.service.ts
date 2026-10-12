@@ -130,26 +130,57 @@ export class StatsDetailsService {
     };
   }
 
-  /** Per bucket: new invitations, paid orders, revenue, new users, replies. */
+  /**
+   * Per bucket: new invitations, paid orders, revenue, new users, replies.
+   * A year is the last 12 whole months, this one included. Each table is
+   * read once from the first bucket on and grouped, then joined to the
+   * buckets so empty ones show as zero.
+   */
   private async trend(unit: 'day' | 'month', days: number) {
-    const bucket = (column: string) =>
-      `date_trunc($1, ${column} AT TIME ZONE '${TZ}') = b`;
+    const count = unit === 'month' ? Math.round((days * 12) / 365) : days;
+    const grouped = (
+      name: string,
+      from: string,
+      column: string,
+      select: string,
+      filter = '',
+    ) =>
+      `${name} AS (
+        SELECT date_trunc($1, ${column} AT TIME ZONE '${TZ}') AS b, ${select}
+        FROM ${from}
+        WHERE ${column} >= (SELECT since FROM bounds) ${filter && `AND ${filter}`}
+        GROUP BY 1
+      )`;
     const rows = await this.db.query<Raw<TrendPointDto>[]>(
-      `WITH buckets AS (
-        SELECT generate_series(
-          date_trunc($1, (now() AT TIME ZONE '${TZ}') - make_interval(days => $2 - 1)),
-          date_trunc($1, now() AT TIME ZONE '${TZ}'),
-          ('1 ' || $1)::interval
-        ) AS b
-      )
+      `WITH bounds AS (
+        SELECT start, finish, start AT TIME ZONE '${TZ}' AS since
+        FROM (
+          SELECT date_trunc($1, now() AT TIME ZONE '${TZ}') AS finish,
+            date_trunc($1, now() AT TIME ZONE '${TZ}')
+              - ($2::int - 1) * ('1 ' || $1::text)::interval AS start
+        ) x
+      ),
+      buckets AS (
+        SELECT generate_series(start, finish, ('1 ' || $1::text)::interval) AS b
+        FROM bounds
+      ),
+      ${grouped('invitations', 'taklif', '"createdAt"', 'COUNT(*) AS n')},
+      ${grouped('payments', 'orders', '"paidAt"', 'COUNT(*) AS n, SUM(amount) AS amount', `status = 'paid'`)},
+      ${grouped('signups', 'users', '"createdAt"', 'COUNT(*) AS n')},
+      ${grouped('replies', 'taklif_responses', '"createdAt"', 'COUNT(*) AS n')}
       SELECT to_char(b, 'YYYY-MM-DD') AS date,
-        (SELECT COUNT(*) FROM taklif t WHERE ${bucket('t."createdAt"')})::int AS invitations,
-        (SELECT COUNT(*) FROM orders o WHERE o.status = 'paid' AND ${bucket('o."paidAt"')})::int AS paid,
-        (SELECT COALESCE(SUM(o.amount), 0) FROM orders o WHERE o.status = 'paid' AND ${bucket('o."paidAt"')})::bigint AS revenue,
-        (SELECT COUNT(*) FROM users u WHERE ${bucket('u."createdAt"')})::int AS users,
-        (SELECT COUNT(*) FROM taklif_responses r WHERE ${bucket('r."createdAt"')})::int AS replies
-      FROM buckets ORDER BY b`,
-      [unit, days],
+        COALESCE(i.n, 0)::int AS invitations,
+        COALESCE(p.n, 0)::int AS paid,
+        COALESCE(p.amount, 0)::bigint AS revenue,
+        COALESCE(s.n, 0)::int AS users,
+        COALESCE(r.n, 0)::int AS replies
+      FROM buckets
+        LEFT JOIN invitations i USING (b)
+        LEFT JOIN payments p USING (b)
+        LEFT JOIN signups s USING (b)
+        LEFT JOIN replies r USING (b)
+      ORDER BY b`,
+      [unit, count],
     );
     return rows.map((r) => ({
       date: r.date,

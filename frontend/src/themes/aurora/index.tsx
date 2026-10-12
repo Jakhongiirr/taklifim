@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "../shared/countdown";
 import CopyButton from "../shared/copy-button";
+import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
@@ -198,16 +199,12 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#8a7457]">{taklif.venueAddress}</p>
-            {taklif.locationUrl && (
-              <a
-                href={taklif.locationUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7a5a2c] px-6 text-sm tracking-wide text-[#fffaf0] hover:bg-[#5c4325]"
-              >
-                {t("venue.map")}
-              </a>
-            )}
+            <MapLink
+              url={taklif.locationUrl}
+              className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7a5a2c] px-6 text-sm tracking-wide text-[#fffaf0] hover:bg-[#5c4325]"
+            >
+              {t("venue.map")}
+            </MapLink>
           </div>
         </Section>
 

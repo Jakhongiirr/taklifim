@@ -7,13 +7,20 @@ import type { TaklifStatus } from "@/lib/api-types";
 import { formatSum } from "@/lib/format";
 import { usePay } from "./use-pay";
 
-/** Whether the theme's opening cover is still on screen. */
+/**
+ * Whether the theme's opening cover is still on screen. Once it's gone it
+ * doesn't come back, so the watching stops there.
+ */
+const coverShown = () => !!document.querySelector("[data-video-cover]");
 const subscribeCover = (onChange: () => void) => {
-  const observer = new MutationObserver(onChange);
+  const observer = new MutationObserver(() => {
+    if (!coverShown()) observer.disconnect();
+    onChange();
+  });
   observer.observe(document.body, { childList: true, subtree: true });
   return () => observer.disconnect();
 };
-const coverShown = () => !!document.querySelector("[data-video-cover]");
+const subscribeNothing = () => () => {};
 
 /**
  * The owner's controls around their invitation preview: a slim bar on top
@@ -25,12 +32,15 @@ export default function PreviewChrome({
   slug,
   status,
   price,
+  owner,
 }: {
   id: string;
   slug: string;
   status: TaklifStatus;
   /** The design's price in so'm (0: free). */
   price: number;
+  /** Whether the viewer owns it (only the owner can pay). */
+  owner: boolean;
 }) {
   const t = useTranslations("Invitation.preview");
   const tPay = useTranslations("Cabinet.actions");
@@ -38,10 +48,15 @@ export default function PreviewChrome({
   const payment = usePay(id);
   // Folded down to just the button, to see the whole invitation.
   const [folded, setFolded] = useState(false);
-  const draft = status === "draft" && !payment.published;
+  const draft = owner && status === "draft" && !payment.published;
   // The pay card waits for the cover to open: it would sit over the
   // cover's own "open" button, and the opening deserves the whole screen.
-  const covered = useSyncExternalStore(subscribeCover, coverShown, () => true);
+  // Without a pay card there's nothing to wait for.
+  const covered = useSyncExternalStore(
+    draft ? subscribeCover : subscribeNothing,
+    coverShown,
+    () => true,
+  );
 
   return (
     <>
@@ -167,7 +182,10 @@ export default function PreviewChrome({
                   {t("unfold")}
                 </button>
               ) : payment.error ? (
-                <p role="alert" className="mt-2.5 text-center text-sm text-red-700">
+                <p
+                  role="alert"
+                  className="mt-2.5 text-center text-sm text-red-700"
+                >
                   {payment.error}
                 </p>
               ) : (
