@@ -8,7 +8,7 @@ import { TaklifService } from './taklif.service';
 /** Drafts untouched this long lose their photos (they were never paid for). */
 const DRAFT_MAX_AGE_HOURS = 7 * 24;
 /** Every invitation loses its photos this many months after its event. */
-const KEEP_AFTER_EVENT_MONTHS = 1;
+const KEEP_AFTER_EVENT_MONTHS = 3;
 /** Uploaded images nothing uses are deleted after this long. */
 const UNATTACHED_MAX_AGE_HOURS = 24;
 const LOCK_KEY = 'cron:taklif:cleanup';

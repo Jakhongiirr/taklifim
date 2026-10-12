@@ -66,7 +66,7 @@ const uz: LegalDoc = {
         {
           list: [
             "Qoralamalar — saqlanadi; ularning suratlari oxirgi tahrirdan 7 kun oʻtgach oʻchiriladi.",
-            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — qoralamalarini egasi kabinetda oʻchirishi mumkin; eʼlon qilinganlari hisobni yoki taklifnomani oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan bir oy oʻtgach oʻchiriladi.",
+            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — qoralamalarini egasi kabinetda oʻchirishi mumkin; eʼlon qilinganlari hisobni yoki taklifnomani oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan uch oy oʻtgach oʻchiriladi.",
             "Mehmonlarning javoblari — taklifnoma bilan birga oʻchiriladi; taklifnoma egasi ularni istalgan payt oʻchirishi mumkin.",
             "Toʻlov maʼlumotlari — buxgalteriya va soliq hisobi uchun qonunchilikda belgilangan muddat davomida, taklifnoma yoki hisob oʻchirilganidan keyin ham saqlanadi.",
             "Taklifnomaga biriktirilmagan suratlar — 24 soatdan soʻng oʻchiriladi.",
@@ -93,7 +93,6 @@ const uz: LegalDoc = {
       title: "Maʼlumotlar xavfsizligi",
       body: [
         "Maʼlumotlar shifrlangan ulanish (HTTPS) orqali uzatiladi, tasdiqlash kodlari shifrlangan koʻrinishda saqlanadi, sessiya cookie fayllari skriptlardan himoyalangan, maʼlumotlarga kirish esa egasi va vakolatli administratorlar bilan cheklangan.",
-        "Oʻzbekiston fuqarolarining shaxsga doir maʼlumotlari qonun talabiga muvofiq Oʻzbekiston Respublikasi hududidagi serverlarda saqlanadi.",
       ],
     },
     {
@@ -193,7 +192,7 @@ const ru: LegalDoc = {
         {
           list: [
             "Черновики — хранятся; их фотографии удаляются через 7 дней после последнего редактирования.",
-            "Приглашения (текст: имена, дата, место, номера карты и телефона) — черновики владелец может удалить в личном кабинете; опубликованные хранятся до запроса на удаление приглашения или учётной записи; их фотографии удаляются через месяц после даты торжества.",
+            "Приглашения (текст: имена, дата, место, номера карты и телефона) — черновики владелец может удалить в личном кабинете; опубликованные хранятся до запроса на удаление приглашения или учётной записи; их фотографии удаляются через три месяца после даты торжества.",
             "Ответы гостей — удаляются вместе с приглашением; владелец приглашения может удалить их в любой момент.",
             "Платёжные данные — хранятся в течение срока, установленного законодательством для бухгалтерского и налогового учёта, в том числе после удаления приглашения или учётной записи.",
             "Фотографии, не прикреплённые к приглашению, — удаляются через 24 часа.",
@@ -220,7 +219,6 @@ const ru: LegalDoc = {
       title: "Безопасность данных",
       body: [
         "Данные передаются по защищённому соединению (HTTPS), коды подтверждения хранятся в зашифрованном виде, cookie сессии защищены от скриптов, а доступ к данным ограничен их владельцем и уполномоченными администраторами.",
-        "Персональные данные граждан Узбекистана в соответствии с требованием закона хранятся на серверах на территории Республики Узбекистан.",
       ],
     },
     {
@@ -320,7 +318,7 @@ const en: LegalDoc = {
         {
           list: [
             "Drafts — kept; their photos are deleted 7 days after the last edit.",
-            "Invitations (text: names, date, venue, card and phone numbers) — drafts you can delete in your account; published ones are kept until you ask for the invitation or the account to be deleted; their photos are deleted one month after the event date.",
+            "Invitations (text: names, date, venue, card and phone numbers) — drafts you can delete in your account; published ones are kept until you ask for the invitation or the account to be deleted; their photos are deleted three months after the event date.",
             "Guests' replies — deleted together with the invitation; its owner can delete them at any time.",
             "Payment data — kept for the period the law requires for accounting and tax records, including after the invitation or account is deleted.",
             "Photos not attached to an invitation — deleted after 24 hours.",
@@ -347,7 +345,6 @@ const en: LegalDoc = {
       title: "Security",
       body: [
         "Data travels over an encrypted connection (HTTPS), confirmation codes are stored encrypted, session cookies are protected from scripts, and access to data is limited to its owner and authorized administrators.",
-        "As required by law, the personal data of citizens of Uzbekistan is stored on servers located in the Republic of Uzbekistan.",
       ],
     },
     {

@@ -14,4 +14,4 @@ export const OPERATOR = {
 export const TELEGRAM_URL = `https://t.me/${OPERATOR.telegram.replace(/^@/, "")}`;
 
 /** When the documents last changed (shown on the pages). */
-export const LEGAL_UPDATED = "2026-10-11";
+export const LEGAL_UPDATED = "2026-10-12";
