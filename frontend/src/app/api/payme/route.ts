@@ -28,7 +28,7 @@ export async function POST(request: Request) {
       headers: {
         "Content-Type": "application/json",
         ...(authorization && { Authorization: authorization }),
-        ...internalHeaders(),
+        ...internalHeaders(null, request.headers.get("x-request-id")),
       },
       body: JSON.stringify(body),
       cache: "no-store",

@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ScheduleModule } from '@nestjs/schedule';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { ThrottlerModule } from '@nestjs/throttler';
 import Redis from 'ioredis';
+import { LoggerModule } from 'nestjs-pino';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './modules/auth/auth.module';
 import { AllExceptionsFilter } from './common/http/all-exceptions.filter';
+import { loggerConfig } from './common/logging/logger.config';
 import { AppThrottlerGuard } from './common/throttle/app-throttler.guard';
 import { ResponseInterceptor } from './common/http/response.interceptor';
 import configuration from './config/configuration';
@@ -33,6 +35,10 @@ import { UsersModule } from './modules/users/users.module';
       isGlobal: true,
       load: [configuration],
       validationSchema: envValidationSchema,
+    }),
+    LoggerModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: loggerConfig,
     }),
     ScheduleModule.forRoot(),
     ThrottlerModule.forRootAsync({

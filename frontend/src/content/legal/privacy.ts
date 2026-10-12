@@ -72,6 +72,7 @@ const uz: LegalDoc = {
             "Taklifnomaga biriktirilmagan suratlar — 24 soatdan soʻng oʻchiriladi.",
             "Telefon raqami (hisob) — hisobni oʻchirish soʻralguncha saqlanadi.",
             "Kirish sessiyasi — 30 kungacha amal qiladi.",
+            "Soʻrovlar jurnallari (IP manzil, ochilgan sahifa, vaqt) — 30 kun saqlanadi, soʻng avtomatik oʻchiriladi.",
           ],
         },
       ],
@@ -93,6 +94,7 @@ const uz: LegalDoc = {
       title: "Maʼlumotlar xavfsizligi",
       body: [
         "Maʼlumotlar shifrlangan ulanish (HTTPS) orqali uzatiladi, tasdiqlash kodlari shifrlangan koʻrinishda saqlanadi, sessiya cookie fayllari skriptlardan himoyalangan, maʼlumotlarga kirish esa egasi va vakolatli administratorlar bilan cheklangan.",
+        "Oʻzbekiston fuqarolarining shaxsga doir maʼlumotlari qonun talabiga muvofiq Oʻzbekiston Respublikasi hududidagi serverlarda saqlanadi.",
       ],
     },
     {
@@ -198,6 +200,7 @@ const ru: LegalDoc = {
             "Фотографии, не прикреплённые к приглашению, — удаляются через 24 часа.",
             "Номер телефона (учётная запись) — хранится до запроса на удаление учётной записи.",
             "Сессия входа — действует до 30 дней.",
+            "Журналы запросов (IP-адрес, открытая страница, время) — хранятся 30 дней, затем удаляются автоматически.",
           ],
         },
       ],
@@ -219,6 +222,7 @@ const ru: LegalDoc = {
       title: "Безопасность данных",
       body: [
         "Данные передаются по защищённому соединению (HTTPS), коды подтверждения хранятся в зашифрованном виде, cookie сессии защищены от скриптов, а доступ к данным ограничен их владельцем и уполномоченными администраторами.",
+        "Персональные данные граждан Узбекистана в соответствии с требованием закона хранятся на серверах на территории Республики Узбекистан.",
       ],
     },
     {
@@ -324,6 +328,7 @@ const en: LegalDoc = {
             "Photos not attached to an invitation — deleted after 24 hours.",
             "Phone number (account) — kept until you ask for the account to be deleted.",
             "Login session — valid for up to 30 days.",
+            "Request logs (IP address, page requested, time) — kept for 30 days, then deleted automatically.",
           ],
         },
       ],
@@ -345,6 +350,7 @@ const en: LegalDoc = {
       title: "Security",
       body: [
         "Data travels over an encrypted connection (HTTPS), confirmation codes are stored encrypted, session cookies are protected from scripts, and access to data is limited to its owner and authorized administrators.",
+        "As required by law, the personal data of citizens of Uzbekistan is stored on servers located in the Republic of Uzbekistan.",
       ],
     },
     {

@@ -14,8 +14,10 @@ Internet ──:80/:443──► caddy ─┬─ taklifim.uz ──────�
   MinIO's admin API stay on the private network.
 - The API runs pending database migrations when it starts.
 
-Hosting: Cherry Servers. If the data location ever changes, check the
-privacy policy (frontend/src/content/legal/privacy.ts) still matches.
+Hosting: a DiCloud VDS in Uzbekistan. The privacy policy promises Uzbek
+users' data is stored in Uzbekistan (as the law requires), so the server and
+the off-site backups (`RESTIC_REPOSITORY`) must both stay there. If that ever
+changes, update frontend/src/content/legal/privacy.ts too.
 
 ## 1. Server
 
@@ -36,6 +38,14 @@ apt install -y unattended-upgrades restic
 
 # Tashkent time, so cron times (backups at 01:00) mean local time
 timedatectl set-timezone Asia/Tashkent
+
+# Container logs go to the journal: keep them on disk for exactly 30 days
+# (the period the privacy policy states), at most 2 GB
+mkdir -p /etc/systemd/journald.conf.d
+printf '[Journal]\nStorage=persistent\nMaxRetentionSec=30day\nSystemMaxUse=2G\n' \
+  > /etc/systemd/journald.conf.d/taklifim.conf
+systemctl restart systemd-journald
+apt install -y jq
 ```
 
 Use SSH keys only (`PasswordAuthentication no` in `/etc/ssh/sshd_config`).
@@ -138,5 +148,40 @@ docker compose restart web
 docker compose exec postgres sh -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB"'
 ```
 
-Container logs rotate at 10 MB × 3 per service. For monitoring, an external
-uptime check on `https://taklifim.uz/api/health` is enough to start with.
+For monitoring, an external uptime check on `https://taklifim.uz/api/health`
+is enough to start with.
+
+## Logs and alerts
+
+Every service logs to stdout; Docker hands it to the journal, which keeps
+30 days. The API writes one JSON line per request (method, path without the
+query string, status, time, user ID, visitor IP) and one per error, with its
+stack. Headers and request bodies are never logged, and phone numbers are
+masked.
+
+Caddy gives each request an ID. Next.js passes it to the API, both log under
+it, and API error responses include it as `requestId`, so a user's report
+leads to every line of that request:
+
+```sh
+docker compose logs --no-log-prefix api | jq -c 'select(.level >= 50)'           # errors
+docker compose logs --no-log-prefix api | jq -c 'select(.reqId == "<id>")'      # one request
+docker compose logs --no-log-prefix api | jq -c 'select(.userId == "<user id>")' # one user
+docker compose logs --no-log-prefix web | grep '^{' | jq -c .                    # website errors
+```
+
+Admin actions (role changes, deleting invitations or replies, status
+changes) are logged as `Admin <id> ...` lines.
+
+### Telegram alerts
+
+Errors of the API and the website (5xx responses, failed cleanup steps,
+Payme problems, Redis down) are also sent to a Telegram chat. The same
+problem is sent at most once every 10 minutes, and at most 30 alerts an hour.
+
+1. Create a bot with [@BotFather](https://t.me/BotFather) (`/newbot`); it
+   gives the token.
+2. Send the bot a message (or add it to a group), then get the chat ID:
+   `curl -s https://api.telegram.org/bot<token>/getUpdates | jq '.result[].message.chat.id'`
+3. Put both in `.env` (`ALERT_TELEGRAM_BOT_TOKEN`, `ALERT_TELEGRAM_CHAT_ID`)
+   and run `docker compose up -d`.

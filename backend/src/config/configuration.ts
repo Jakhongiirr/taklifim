@@ -4,6 +4,11 @@ export default () => ({
   trustProxy: parseInt(process.env.TRUST_PROXY ?? '0', 10),
   swaggerEnabled: process.env.SWAGGER_ENABLED === 'true',
   internalApiSecret: process.env.INTERNAL_API_SECRET || undefined,
+  logLevel: process.env.LOG_LEVEL ?? 'info',
+  alerts: {
+    telegramBotToken: process.env.ALERT_TELEGRAM_BOT_TOKEN || undefined,
+    telegramChatId: process.env.ALERT_TELEGRAM_CHAT_ID || undefined,
+  },
   database: {
     host: process.env.DB_HOST,
     port: parseInt(process.env.DB_PORT ?? '5432', 10),

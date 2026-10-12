@@ -43,7 +43,10 @@
     "ioredis": "^5.11.1",
     "joi": "^18.2.9",
     "libphonenumber-js": "^1.13.14",
+    "nestjs-pino": "^5.3.1",
     "pg": "^8.23.1",
+    "pino": "^10.4.0",
+    "pino-http": "^11.0.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "typeorm": "^0.3.31"
@@ -66,6 +69,7 @@
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^16.0.0",
     "jest": "^29.7.0",
+    "pino-pretty": "^13.2.0",
     "prettier": "^3.4.2",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",

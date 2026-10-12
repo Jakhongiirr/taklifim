@@ -6,11 +6,13 @@
 # itself, so publishing nothing else is what keeps them private.
 name: taklifim
 
+# Logs go to the systemd journal, which keeps them 30 days (see README:
+# that's the period the privacy policy states). `docker compose logs` still
+# works.
 x-logging: &logging
-  driver: json-file
+  driver: journald
   options:
-    max-size: 10m
-    max-file: "3"
+    tag: "{{.Name}}"
 
 services:
   # HTTPS (automatic Let's Encrypt certificates) and routing.
@@ -48,6 +50,8 @@ services:
       # Caddy is the one proxy in front (it sets X-Forwarded-For itself).
       TRUSTED_PROXY_COUNT: 1
       SITE_URL: https://${SITE_DOMAIN}
+      ALERT_TELEGRAM_BOT_TOKEN: ${ALERT_TELEGRAM_BOT_TOKEN:-}
+      ALERT_TELEGRAM_CHAT_ID: ${ALERT_TELEGRAM_CHAT_ID:-}
     depends_on:
       api:
         condition: service_healthy

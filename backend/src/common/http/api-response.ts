@@ -17,4 +17,6 @@ export interface ApiError {
   };
   path: string;
   timestamp: string;
+  /** Matches the server's logs: worth quoting when reporting a problem. */
+  requestId?: string;
 }

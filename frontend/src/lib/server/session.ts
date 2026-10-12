@@ -31,11 +31,18 @@ export function clientIpFrom(forwardedFor: string | null) {
   return ip.replace(/^::ffff:/, "");
 }
 
-/** Headers identifying this server, and the visitor if there is one. */
-export function internalHeaders(clientIp?: string | null) {
+/**
+ * Headers identifying this server, and the visitor if there is one. The
+ * request ID (from Caddy) puts the backend's log lines under the same ID.
+ */
+export function internalHeaders(
+  clientIp?: string | null,
+  requestId?: string | null,
+) {
   const headers: Record<string, string> = {};
   if (INTERNAL_API_SECRET) headers["X-Internal-Secret"] = INTERNAL_API_SECRET;
   if (clientIp) headers["X-Client-IP"] = clientIp;
+  if (requestId) headers["X-Request-Id"] = requestId;
   return headers;
 }
 

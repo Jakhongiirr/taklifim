@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -72,6 +73,8 @@ const isAdmin = (user?: JwtPayload) => user?.role === Role.Admin;
 
 @Injectable()
 export class TaklifService {
+  private readonly logger = new Logger(TaklifService.name);
+
   constructor(
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(Music) private readonly music: Repository<Music>,
@@ -224,9 +227,21 @@ export class TaklifService {
     return this.setStatus(id, TaklifStatus.Unpublished);
   }
 
-  /** Admin only (checked by the controller): any status, including draft. */
-  async setStatus(id: string, status: TaklifStatus): Promise<TaklifDto> {
+  /**
+   * Any status, including draft. Called directly by admins (checked by the
+   * controller), who are named as `admin` so it's logged.
+   */
+  async setStatus(
+    id: string,
+    status: TaklifStatus,
+    admin?: JwtPayload,
+  ): Promise<TaklifDto> {
     const taklif = await this.findOrFail(id);
+    if (admin) {
+      this.logger.log(
+        `Admin ${admin.sub} set the status of invitation ${id} from ${taklif.status} to ${status}`,
+      );
+    }
     if (taklif.status !== status) {
       await this.taklifs.update(id, {
         status,
@@ -264,6 +279,11 @@ export class TaklifService {
       throw new ConflictException('Only drafts can be deleted');
     }
     await this.deleteFiles(taklif.photos.map((photo) => photo.fileId));
+    if (taklif.userId !== user.sub) {
+      this.logger.log(
+        `Admin ${user.sub} deleted invitation ${id} (${taklif.status}) of user ${taklif.userId}`,
+      );
+    }
   }
 
   /**

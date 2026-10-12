@@ -2,6 +2,7 @@ import {
   BadRequestException,
   ConflictException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -29,6 +30,8 @@ const LINK =
 /** Guests' RSVPs and wishes; owners like or delete them. */
 @Injectable()
 export class TaklifResponsesService {
+  private readonly logger = new Logger(TaklifResponsesService.name);
+
   constructor(
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(TaklifResponse)
@@ -124,9 +127,14 @@ export class TaklifResponsesService {
   }
 
   async remove(id: string, responseId: string, user: JwtPayload) {
-    await this.findOwned(id, user);
+    const taklif = await this.findOwned(id, user);
     await this.findResponse(id, responseId);
     await this.responses.delete(responseId);
+    if (taklif.userId !== user.sub) {
+      this.logger.log(
+        `Admin ${user.sub} deleted reply ${responseId} on invitation ${id}`,
+      );
+    }
   }
 
   private async findPublished(slug: string) {

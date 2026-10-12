@@ -180,8 +180,9 @@ export class TaklifController {
   setStatus(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() dto: UpdateTaklifStatusDto,
+    @CurrentUser() user: JwtPayload,
   ): Promise<TaklifDto> {
-    return this.taklifService.setStatus(id, dto.status);
+    return this.taklifService.setStatus(id, dto.status, user);
   }
 
   @Delete(':id')

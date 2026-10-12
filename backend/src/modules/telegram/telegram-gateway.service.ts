@@ -4,6 +4,7 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { maskPhone } from '../../common/logging/mask-phone';
 
 const GATEWAY_URL = 'https://gatewayapi.telegram.org';
 
@@ -51,7 +52,7 @@ export class TelegramGatewayService {
       ttl: ttlSeconds,
     });
     this.logger.log(
-      `Sent OTP to ${phone} (request ${result.request_id}, cost ${result.request_cost})`,
+      `Sent OTP to ${maskPhone(phone)} (request ${result.request_id}, cost ${result.request_cost})`,
     );
   }
 

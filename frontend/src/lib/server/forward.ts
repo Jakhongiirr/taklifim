@@ -2,7 +2,7 @@ import "server-only";
 import { API_URL, clientIpFrom, internalHeaders } from "./session";
 
 // Response headers worth passing back to the browser.
-const PASSTHROUGH_HEADERS = ["content-type", "retry-after"];
+const PASSTHROUGH_HEADERS = ["content-type", "retry-after", "x-request-id"];
 
 /**
  * Sends the incoming request to the backend at `path` (query string kept),
@@ -22,7 +22,10 @@ export async function forward(
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
   // Lets the backend rate-limit per visitor instead of per Next.js server.
   const clientIp = clientIpFrom(request.headers.get("x-forwarded-for"));
-  for (const [name, value] of Object.entries(internalHeaders(clientIp))) {
+  const requestId = request.headers.get("x-request-id");
+  for (const [name, value] of Object.entries(
+    internalHeaders(clientIp, requestId),
+  )) {
     headers.set(name, value);
   }
 

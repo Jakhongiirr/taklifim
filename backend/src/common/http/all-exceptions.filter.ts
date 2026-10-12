@@ -18,7 +18,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
-    const request = ctx.getRequest<Request>();
+    const request = ctx.getRequest<Request & { id?: string }>();
     const response = ctx.getResponse<Response>();
 
     const statusCode = statusOf(exception);
@@ -40,6 +40,7 @@ export class AllExceptionsFilter implements ExceptionFilter {
       error: { statusCode, ...body },
       path: request.originalUrl,
       timestamp: new Date().toISOString(),
+      requestId: request.id,
     };
     response.status(statusCode).json(payload);
   }

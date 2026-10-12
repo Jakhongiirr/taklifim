@@ -1,6 +1,7 @@
 import {
   BadRequestException,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,6 +12,8 @@ import { User } from './user.entity';
 
 @Injectable()
 export class UsersService {
+  private readonly logger = new Logger(UsersService.name);
+
   constructor(
     @InjectRepository(User) private readonly users: Repository<User>,
   ) {}
@@ -47,6 +50,7 @@ export class UsersService {
     }
     const { affected } = await this.users.update({ id }, { role });
     if (!affected) throw new NotFoundException('User not found');
+    this.logger.log(`Admin ${actorId} set the role of user ${id} to ${role}`);
     return this.findOneForAdmin(id);
   }
 

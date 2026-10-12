@@ -6,6 +6,9 @@
 {$SITE_DOMAIN} {
 	encode zstd gzip
 	header Strict-Transport-Security "max-age=31536000"
+	# A fresh ID per request (replacing any the visitor sent). Next.js passes
+	# it to the API, and both log under it; error responses include it.
+	request_header X-Request-Id {http.request.uuid}
 	# Sets X-Forwarded-For to the visitor's address (it doesn't trust what
 	# the visitor sent), which is what TRUSTED_PROXY_COUNT=1 expects.
 	reverse_proxy web:3001

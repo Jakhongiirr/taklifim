@@ -12,6 +12,13 @@ export const envValidationSchema = Joi.object({
     otherwise: Joi.boolean().default(true),
   }),
 
+  LOG_LEVEL: Joi.string()
+    .valid('fatal', 'error', 'warn', 'info', 'debug', 'trace', 'silent')
+    .default('info'),
+  // Errors are also sent to this Telegram chat by this bot (both or none).
+  ALERT_TELEGRAM_BOT_TOKEN: Joi.string().allow('').optional(),
+  ALERT_TELEGRAM_CHAT_ID: Joi.string().allow('').optional(),
+
   // Shared with the Next.js server (see AppThrottlerGuard).
   INTERNAL_API_SECRET: Joi.when('NODE_ENV', {
     is: 'production',
