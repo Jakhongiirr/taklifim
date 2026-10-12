@@ -1,4 +1,4 @@
-import { type NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import {
@@ -10,9 +10,16 @@ import {
   setSessionCookies,
 } from "./lib/server/session";
 
-// Redirects `/` and other unprefixed paths to the visitor's locale
-// (cookie, then Accept-Language, then the default).
+// Redirects `/` and other unprefixed paths to the visitor's locale: the one
+// they picked in the language switcher (cookie), else Uzbek. The browser's
+// language isn't used: the site is for Uzbekistan, where many browsers are
+// set to Russian or English.
 const intl = createMiddleware(routing);
+const intlIgnoringBrowserLanguage = (request: NextRequest) => {
+  const headers = new Headers(request.headers);
+  headers.delete("accept-language");
+  return intl(new NextRequest(request, { headers }));
+};
 
 // Public-site pages that need the session: the cabinet and invitation
 // previews (login required) and the login page (skipped when already logged
@@ -47,7 +54,7 @@ export default async function proxy(request: NextRequest) {
       keepNext: true,
     });
   }
-  return intl(request);
+  return intlIgnoringBrowserLanguage(request);
 }
 
 /**
