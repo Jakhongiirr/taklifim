@@ -1,0 +1,142 @@
+# Deploying Taklifim
+
+Everything runs on one server with Docker Compose. Caddy is the only thing
+reachable from the internet; it gets HTTPS certificates by itself.
+
+```
+Internet ──:80/:443──► caddy ─┬─ taklifim.uz ──────► web (Next.js) ──► api (NestJS) ──► postgres, redis, minio
+                              └─ files.taklifim.uz ─► minio (read-only: GET/HEAD on the bucket)
+```
+
+- The API isn't public: browsers reach it through Next's `/api/backend`, and
+  Payme through `/api/payme`.
+- Files are served from `https://files.<domain>/<bucket>/...`; uploads and
+  MinIO's admin API stay on the private network.
+- The API runs pending database migrations when it starts.
+
+Hosting: Cherry Servers. If the data location ever changes, check the
+privacy policy (frontend/src/content/legal/privacy.ts) still matches.
+
+## 1. Server
+
+Ubuntu 24.04, about 4 vCPU / 8 GB RAM / 100 GB SSD to start (uploads are what
+grows). As root:
+
+```sh
+# Docker
+curl -fsSL https://get.docker.com | sh
+
+# Firewall: SSH and web only. (Docker opens ports it publishes by itself,
+# which is why only Caddy publishes any.)
+ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp && ufw allow 443/udp
+ufw enable
+
+# Security updates, and restic for off-site backups
+apt install -y unattended-upgrades restic
+
+# Tashkent time, so cron times (backups at 01:00) mean local time
+timedatectl set-timezone Asia/Tashkent
+```
+
+Use SSH keys only (`PasswordAuthentication no` in `/etc/ssh/sshd_config`).
+
+## 2. DNS
+
+Point A records for `taklifim.uz`, `www.taklifim.uz` and `files.taklifim.uz`
+at the server **before** the first start, so Caddy can get certificates.
+
+## 3. First start
+
+```sh
+git clone <repo> /opt/taklifim
+cd /opt/taklifim/deploy
+cp .env.example .env
+nano .env          # domains, secrets (openssl rand -hex 32), Telegram, Payme
+chmod 600 .env
+docker compose up -d --build
+docker compose ps  # all healthy; minio-init "exited (0)"
+```
+
+Then open `https://taklifim.uz`, log in with your phone number and make
+yourself admin:
+
+```sh
+docker compose exec postgres sh -c \
+  'psql -U "$POSTGRES_USER" "$POSTGRES_DB" -c "UPDATE users SET role = '\''admin'\'' WHERE phone = '\''+998XXXXXXXXX'\''"'
+```
+
+Log out and in again for the role to apply.
+
+The home page is built while the API isn't reachable, so it starts with no
+demos and fills in within 5 minutes (it revalidates every 300 s).
+
+## 4. Payme
+
+In the Payme merchant cabinet set the endpoint to
+`https://taklifim.uz/api/payme` and the key to `PAYME_KEY`. Run the sandbox
+certification first with `PAYME_CHECKOUT_URL=https://checkout.test.paycom.uz`
+and the test key, then switch to the production key and URL and
+`docker compose up -d` again.
+
+## 5. Updating
+
+```sh
+cd /opt/taklifim && git pull
+cd deploy && docker compose up -d --build
+docker image prune -f
+```
+
+The build runs on the server. If it ever slows the live site down, build
+images in CI, push them to a registry and only `docker compose pull` here.
+
+The MinIO image is pinned by digest (Chainguard only publishes `:latest` for
+free). To update it: `docker pull cgr.dev/chainguard/minio:latest`, put the new
+digest from `docker images --digests` in `compose.yml` (both `minio` and
+`minio-init`), then `docker compose up -d`.
+
+## 6. Backups
+
+`backup.sh` dumps the database and mirrors the files into
+`/var/backups/taklifim`, then copies that off the server with restic when
+`RESTIC_REPOSITORY` is set (kept: 7 daily, 4 weekly, 6 monthly snapshots).
+Local database dumps are kept 14 days. Run it once by hand, then add it to
+root's crontab. It runs at 01:00 Tashkent time, before the API's nightly
+cleanup at 03:00:
+
+```cron
+0 1 * * * /opt/taklifim/deploy/backup.sh >> /var/log/taklifim-backup.log 2>&1
+```
+
+### Restore
+
+```sh
+cd /opt/taklifim/deploy
+docker compose stop web api
+
+# Database
+docker compose exec -T postgres sh -c \
+  'pg_restore -U "$POSTGRES_USER" -d "$POSTGRES_DB" --clean --if-exists' \
+  < /var/backups/taklifim/db/taklifim_<stamp>.dump
+
+# Files
+docker compose run --rm --no-deps -T --user root \
+  -v /var/backups/taklifim/files:/backup --entrypoint mc minio-init \
+  mirror --overwrite /backup "local/taklifim"
+
+docker compose start api web
+```
+
+From restic first: `restic restore latest --target /` puts
+`/var/backups/taklifim` back. Try a restore once before launch.
+
+## Everyday commands
+
+```sh
+docker compose ps                    # status and health
+docker compose logs -f --tail 100 api
+docker compose restart web
+docker compose exec postgres sh -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB"'
+```
+
+Container logs rotate at 10 MB × 3 per service. For monitoring, an external
+uptime check on `https://taklifim.uz/api/health` is enough to start with.

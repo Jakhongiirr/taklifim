@@ -1,0 +1,34 @@
+{
+	# Let's Encrypt account: expiry warnings and the like.
+	email {$ACME_EMAIL}
+}
+
+{$SITE_DOMAIN} {
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=31536000"
+	# Sets X-Forwarded-For to the visitor's address (it doesn't trust what
+	# the visitor sent), which is what TRUSTED_PROXY_COUNT=1 expects.
+	reverse_proxy web:3001
+}
+
+www.{$SITE_DOMAIN} {
+	redir https://{$SITE_DOMAIN}{uri} permanent
+}
+
+# Public files (photos, music). Only reading objects of the bucket gets
+# through: MinIO's S3 API (uploads, admin) stays private.
+{$FILES_DOMAIN} {
+	header Strict-Transport-Security "max-age=31536000"
+
+	# An object's own key only: no bucket listing.
+	@read {
+		method GET HEAD
+		path_regexp ^/{$S3_BUCKET}/.+
+	}
+	handle @read {
+		reverse_proxy minio:9000
+	}
+	handle {
+		respond 404
+	}
+}
