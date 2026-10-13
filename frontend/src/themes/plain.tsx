@@ -5,6 +5,7 @@ import { coupleNames, formatCardNumber, formatPhone } from "@/lib/format";
 import { tashkentParts } from "@/lib/tashkent-date";
 import Countdown from "./shared/countdown";
 import CopyButton from "./shared/copy-button";
+import MadeWith from "./shared/made-with";
 import MapLink from "./shared/map-link";
 import Rsvp from "./shared/rsvp";
 import type { ThemeProps } from "./types";
@@ -140,7 +141,7 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
       )}
 
       <p className="mt-14 font-serif text-2xl">{t("closing")}</p>
-      <p className="mt-10 text-xs text-muted">{t("madeWith")}</p>
+      <MadeWith className="mt-10 text-xs text-muted" />
     </article>
   );
 }

@@ -7,6 +7,7 @@ import Countdown from "../shared/countdown";
 import CopyButton from "../shared/copy-button";
 import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
+import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
@@ -261,7 +262,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           >
             {t("closing")}
           </p>
-          <p className="mt-12 text-xs text-[#8a7457]">{t("madeWith")}</p>
+          <MadeWith className="mt-12 text-xs text-[#8a7457]" />
         </footer>
       </article>
     </>
