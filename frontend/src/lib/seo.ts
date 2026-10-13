@@ -1,0 +1,30 @@
+import type { Metadata } from "next";
+import { routing } from "@/i18n/routing";
+
+/**
+ * The public site's origin, for absolute URLs (link previews, sitemap).
+ * Static pages, robots.txt and the sitemap are rendered during the build,
+ * so the image gets it as a build argument too.
+ */
+export const SITE_URL = process.env.SITE_URL ?? "http://localhost:3001";
+
+/** Pages search engines should find, without the locale ("" is the home page). */
+export const PUBLIC_PATHS = ["", "/privacy", "/terms"] as const;
+
+/** Each locale's URL of a page, plus x-default (Uzbek) for other languages. */
+export function languageUrls(path: string, origin = "") {
+  return {
+    ...Object.fromEntries(
+      routing.locales.map((locale) => [locale, `${origin}/${locale}${path}`]),
+    ),
+    "x-default": `${origin}/${routing.defaultLocale}${path}`,
+  };
+}
+
+/** Canonical URL and language versions of a public page, relative to metadataBase. */
+export function localeAlternates(
+  locale: string,
+  path: (typeof PUBLIC_PATHS)[number],
+): Metadata["alternates"] {
+  return { canonical: `/${locale}${path}`, languages: languageUrls(path) };
+}

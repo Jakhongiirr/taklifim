@@ -44,6 +44,8 @@ services:
     build:
       context: ../frontend
       target: production
+      args:
+        SITE_URL: https://${SITE_DOMAIN}
     environment:
       API_URL: http://api:3000
       INTERNAL_API_SECRET: ${INTERNAL_API_SECRET}

@@ -16,6 +16,8 @@ FROM base AS build
 COPY package*.json ./
 RUN npm ci
 COPY . .
+# Static pages, robots.txt and the sitemap are rendered now and need it.
+ARG SITE_URL
 RUN npm run build
 
 # ---- production: minimal runtime image ----

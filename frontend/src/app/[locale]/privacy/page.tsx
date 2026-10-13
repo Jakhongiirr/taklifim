@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import LegalPage from "@/components/site/legal-page";
 import { PRIVACY } from "@/content/legal/privacy";
 import { routing } from "@/i18n/routing";
+import { localeAlternates } from "@/lib/seo";
 
 const docFor = (locale: string) =>
   PRIVACY[locale] ?? PRIVACY[routing.defaultLocale];
@@ -9,7 +10,11 @@ const docFor = (locale: string) =>
 export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/privacy">): Promise<Metadata> {
-  return { title: docFor((await params).locale).title };
+  const { locale } = await params;
+  return {
+    title: docFor(locale).title,
+    alternates: localeAlternates(locale, "/privacy"),
+  };
 }
 
 export default async function PrivacyPage({

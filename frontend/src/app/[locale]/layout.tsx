@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { SITE_URL } from "@/lib/seo";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -42,7 +43,7 @@ export async function generateMetadata({
   const t = await getTranslations({ locale, namespace: "Metadata" });
   return {
     // Preview images and links need absolute URLs.
-    metadataBase: new URL(process.env.SITE_URL ?? "http://localhost:3001"),
+    metadataBase: new URL(SITE_URL),
     title: t("title"),
     description: t("description"),
     openGraph: {

@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import PhoneMockup from "@/components/site/phone-mockup";
@@ -7,6 +8,7 @@ import SiteHeader from "@/components/site/site-header";
 import TemplateCard from "@/components/site/template-card";
 import { TELEGRAM_URL } from "@/content/legal/operator";
 import { Link } from "@/i18n/navigation";
+import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDemos } from "@/lib/server/demos";
 
 // Rebuilt in the background at most every 5 minutes, like the demos fetch.
@@ -46,14 +48,48 @@ function evenColumns(count: number, options: number[], preferred: number) {
 const STEPS = ["s1", "s2", "s3"] as const;
 const QUESTIONS = ["q1", "q2", "q3", "q4", "q5"] as const;
 
-export default async function HomePage() {
-  const [t, demos] = await Promise.all([
+export async function generateMetadata({
+  params,
+}: PageProps<"/[locale]">): Promise<Metadata> {
+  return { alternates: localeAlternates((await params).locale, "") };
+}
+
+export default async function HomePage({ params }: PageProps<"/[locale]">) {
+  const [{ locale }, t, demos, tMeta] = await Promise.all([
+    params,
     getTranslations("HomePage"),
     getDemos(),
+    getTranslations("Metadata"),
   ]);
+  // Tells search engines the site's name and logo (shown next to results).
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${SITE_URL}/#organization`,
+        name: "Taklifim",
+        url: SITE_URL,
+        logo: `${SITE_URL}/brand/logo-stacked.png`,
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${SITE_URL}/#website`,
+        name: "Taklifim",
+        url: `${SITE_URL}/${locale}`,
+        description: tMeta("description"),
+        inLanguage: locale,
+        publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+    ],
+  };
 
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <SiteHeader />
       <main id="top" className="flex-1">
         {/* Hero */}
