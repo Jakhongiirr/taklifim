@@ -30,11 +30,14 @@ import {
 
 const PAGE_SIZE = 20;
 
-const tabs: { status: TaklifStatus | "all"; label: string }[] = [
-  { status: "all", label: "All" },
-  { status: "draft", label: "Draft" },
-  { status: "published", label: "Published" },
-  { status: "unpublished", label: "Unpublished" },
+type Tab = TaklifStatus | "all" | "mine";
+
+const tabs: { tab: Tab; label: string }[] = [
+  { tab: "mine", label: "Mine" },
+  { tab: "all", label: "All" },
+  { tab: "draft", label: "Draft" },
+  { tab: "published", label: "Published" },
+  { tab: "unpublished", label: "Unpublished" },
 ];
 
 const statusLabels: Record<TaklifStatus, string> = {
@@ -73,18 +76,26 @@ const isStatus = (value: string | null): value is TaklifStatus =>
  * All invitations, or one user's (`userId`, on their page: no header, no
  * owner column). On its own page the filters live in the URL
  * (?status, ?theme, ?q), so the dashboard can link to a filtered list and a
- * view can be shared or reloaded.
+ * view can be shared or reloaded. It opens on "Mine", the logged-in admin's
+ * own (`selfId`), unless the URL has a filter: links that search or filter
+ * mean everyone's.
  */
-export default function TaklifManager({ userId }: { userId?: string } = {}) {
+export default function TaklifManager({
+  userId,
+  selfId,
+}: { userId?: string; selfId?: string } = {}) {
   const queryClient = useQueryClient();
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
   const embedded = !!userId;
-  const [status, setStatus] = useState<TaklifStatus | "all">(() => {
-    const value = embedded ? null : params.get("status");
-    return isStatus(value) ? value : "all";
+  const [tab, setTab] = useState<Tab>(() => {
+    if (embedded) return "all";
+    const value = params.get("status");
+    if (isStatus(value) || value === "all") return value;
+    return selfId && !params.has("theme") && !params.has("q") ? "mine" : "all";
   });
+  const status = tab === "mine" ? "all" : tab;
   const [themeId, setThemeId] = useState(() =>
     embedded ? "" : (params.get("theme") ?? ""),
   );
@@ -93,17 +104,18 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
     embedded ? "" : (params.get("q") ?? ""),
   );
   const [q, setQ] = useState(() => toQuery(search));
+  const ownerId = userId ?? (tab === "mine" ? selfId : undefined);
 
   // Mirror the filters in the URL (replace: no history entry per keystroke).
   useEffect(() => {
     if (embedded) return;
     const next = new URLSearchParams();
-    if (status !== "all") next.set("status", status);
+    if (tab !== "mine") next.set("status", tab);
     if (themeId) next.set("theme", themeId);
     if (q) next.set("q", q);
     const url = next.size ? `${pathname}?${next}` : pathname;
     router.replace(url, { scroll: false });
-  }, [embedded, status, themeId, q, pathname, router]);
+  }, [embedded, tab, themeId, q, pathname, router]);
 
   const themes = useQuery({
     queryKey: ["themes", "all"],
@@ -124,7 +136,7 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
   const [deleting, setDeleting] = useState<AdminTaklif | null>(null);
 
   const taklifs = useQuery({
-    queryKey: ["taklif", status, q, themeId, userId, page],
+    queryKey: ["taklif", status, q, themeId, ownerId, page],
     queryFn: () => {
       const query = new URLSearchParams({
         page: String(page),
@@ -133,7 +145,7 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
       if (status !== "all") query.set("status", status);
       if (q) query.set("q", q);
       if (themeId) query.set("themeId", themeId);
-      if (userId) query.set("userId", userId);
+      if (ownerId) query.set("userId", ownerId);
       return api<Page<AdminTaklif>>(`/taklif?${query}`);
     },
     // Keep the current page on screen while the next one loads.
@@ -182,24 +194,26 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
 
       <div className="flex flex-wrap items-end justify-between gap-3 border-b border-zinc-200 dark:border-zinc-800">
         <div className="flex gap-1">
-          {tabs.map((tab) => (
-            <button
-              key={tab.status}
-              type="button"
-              onClick={() => {
-                setStatus(tab.status);
-                setPage(1);
-              }}
-              className={cx(
-                "-mb-px border-b-2 px-4 py-2 text-sm transition-colors",
-                status === tab.status
-                  ? "border-zinc-900 font-medium dark:border-zinc-100"
-                  : "border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100",
-              )}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {tabs
+            .filter((t) => t.tab !== "mine" || (!embedded && selfId))
+            .map((t) => (
+              <button
+                key={t.tab}
+                type="button"
+                onClick={() => {
+                  setTab(t.tab);
+                  setPage(1);
+                }}
+                className={cx(
+                  "-mb-px border-b-2 px-4 py-2 text-sm transition-colors",
+                  tab === t.tab
+                    ? "border-zinc-900 font-medium dark:border-zinc-100"
+                    : "border-transparent text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100",
+                )}
+              >
+                {t.label}
+              </button>
+            ))}
         </div>
         <div className="mb-2 flex w-full gap-2 sm:w-auto">
           {/* Select is full width by default: the wrapper sizes it. */}
@@ -254,8 +268,10 @@ export default function TaklifManager({ userId }: { userId?: string } = {}) {
             : status === "all" && !themeId
               ? embedded
                 ? "This user has no invitations."
-                : "No invitations yet."
-              : `No ${status === "all" ? "" : `${statusLabels[status].toLowerCase()} `}invitations${themeId ? " in this theme" : ""}.`}
+                : tab === "mine"
+                  ? "You have no invitations."
+                  : "No invitations yet."
+              : `No ${status === "all" ? "" : `${statusLabels[status].toLowerCase()} `}invitations${tab === "mine" ? " of yours" : ""}${themeId ? " in this theme" : ""}.`}
         </EmptyState>
       ) : (
         <div

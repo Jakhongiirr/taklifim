@@ -66,7 +66,7 @@ export default function Dashboard() {
           note={`+${s.users.new7d} this week · ${s.users.active7d} active`}
         />
         <Kpi
-          href="/admin/invitations"
+          href="/admin/invitations?status=all"
           label="Invitations"
           value={s.invitations.total}
           note={`+${s.invitations.new7d} this week`}
@@ -165,7 +165,7 @@ export default function Dashboard() {
 
         <Panel
           title="Latest invitations"
-          action={<Link href="/admin/invitations">All →</Link>}
+          action={<Link href="/admin/invitations?status=all">All →</Link>}
         >
           {s.recentInvitations.length === 0 ? (
             <Empty>No invitations yet.</Empty>
