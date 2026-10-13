@@ -11,11 +11,9 @@ const geistSans = Geist({
   subsets: ["latin", "latin-ext", "cyrillic"],
 });
 
-// Only the builder uses it; not preloaded on every page (invitations included).
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin", "latin-ext", "cyrillic"],
-  preload: false,
 });
 
 // Display serif for headings; has Cyrillic for the Russian site.
