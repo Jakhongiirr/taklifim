@@ -20,8 +20,8 @@ const ASSETS = "/themes/ether";
 /**
  * Ether: a violet castle under a full moon, sky lanterns rising, down to a
  * flowered valley and its bridge (the opening video). The valley's last
- * frame is the hero; further down the invitation's words float in front
- * of a curtain of falling light.
+ * frame is the hero; further down the invitation's words sit on a
+ * lantern-lit terrace looking out over the city at night.
  */
 export default async function EtherTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -132,7 +132,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, before the falling light (fixed behind, like a window). */}
+        {/* The words, on the moonlit terrace (fixed behind, like a window). */}
         <section className="relative [clip-path:inset(0)]">
           <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
             <Image

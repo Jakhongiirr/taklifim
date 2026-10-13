@@ -13,15 +13,15 @@ import type { ThemeProps } from "../types";
 import "./dove.css";
 import { doveScript, forum } from "./fonts";
 
-// Sunset blush and ivory from the rose arches, rosewood text, and the
-// lake's dusty blue for the small lines.
+// Sunset blush and ivory from the rose arches, rosewood text, and a dusty
+// blue for the small lines.
 const ASSETS = "/themes/dove";
 
 /**
  * Dove: through a rose-covered arch, doves fly up and the guest walks down
  * a lantern-lit aisle (the opening video). The aisle's last frame is the
- * hero; further down the invitation's words sit by a lake with a swan,
- * under an arch of their own.
+ * hero; further down the invitation's words sit in a blossoming palace
+ * garden, under an arch of their own.
  */
 export default async function DoveTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -125,7 +125,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, under an arch by the lake (fixed behind, like a window). */}
+        {/* The words, under an arch in the garden (fixed behind, like a window). */}
         <section className="relative [clip-path:inset(0)]">
           <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
             <Image
