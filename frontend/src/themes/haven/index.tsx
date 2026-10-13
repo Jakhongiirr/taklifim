@@ -11,18 +11,18 @@ import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
-import "./heaven.css";
+import "./haven.css";
 
 // A painted old garden: linen paper, forest-green ink, old roses, black
 // wrought iron and the lanterns' amber.
-const ASSETS = "/themes/heaven";
+const ASSETS = "/themes/haven";
 
 /**
- * Heaven: an iron gate in a rose garden opens onto an old palace under the
+ * Haven: an iron gate in a rose garden opens onto an old palace under the
  * lanterns (the opening video). The palace's last frame is the hero;
  * further down the invitation's words hang by a swing among the roses.
  */
-export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
+export default async function HavenTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -55,7 +55,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
           poster: `${ASSETS}/opening-start.jpg`,
         }}
         musicUrl={taklif.music?.file.url ?? null}
-        openedClass="heaven-opened"
+        openedClass="haven-opened"
         overlayClass="bg-gradient-to-b from-[#1c211a]/10 via-[#1c211a]/55 to-[#1c211a]/20"
         buttonClass={`${cormorantSc.className} border-[#fbf6ee]/70 bg-[#1c211a]/30 text-base tracking-[0.18em] text-[#fbf6ee] backdrop-blur-sm hover:bg-[#1c211a]/50`}
         musicClass="bg-[#f4efe6]/90 text-[#2f3a2c] ring-1 ring-[#2b2a28]/30"
@@ -86,25 +86,25 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
             unoptimized
             priority
             sizes="448px"
-            className="heaven-drift object-cover"
+            className="haven-drift object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-25% via-[#f4efe6]/85 via-55% to-[#f4efe6]" />
           <Petals />
           <div className="relative">
             <p
-              className={`${cormorantSc.className} heaven-rise text-sm tracking-[0.35em] text-[#8a4f58]`}
+              className={`${cormorantSc.className} haven-rise text-sm tracking-[0.35em] text-[#8a4f58]`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
             </p>
             <div
-              className="heaven-rise mt-3"
+              className="haven-rise mt-3"
               style={{ "--i": 1 } as CSSProperties}
             >
               {names("text-[#2f3a2c]", "text-[#b5707a]")}
             </div>
             <p
-              className={`${cormorantSc.className} heaven-rise mt-4 text-xl`}
+              className={`${cormorantSc.className} haven-rise mt-4 text-xl`}
               style={{ "--i": 2 } as CSSProperties}
             >
               {fullDate}
@@ -112,7 +112,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
             <svg
               aria-hidden
               viewBox="0 0 24 24"
-              className="heaven-hint mx-auto mt-8 size-6 text-[#b5707a]"
+              className="haven-hint mx-auto mt-8 size-6 text-[#b5707a]"
             >
               <path
                 d="M6 9l6 6 6-6"
@@ -139,7 +139,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
           </div>
           <div className="relative px-7 py-28">
             {/* A linen card in a double frame, like an old print. */}
-            <div className="heaven-reveal bg-[#f4efe6]/85 p-2 shadow-xl shadow-[#2b2a28]/15 backdrop-blur-md">
+            <div className="haven-reveal bg-[#f4efe6]/85 p-2 shadow-xl shadow-[#2b2a28]/15 backdrop-blur-md">
               <div className="border border-[#2b2a28]/35 px-6 py-10 outline outline-1 outline-offset-4 outline-[#2b2a28]/15">
                 <Ironwork className="mx-auto w-40 text-[#2b2a28]/70" />
                 <h2
@@ -162,7 +162,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
         </section>
 
         <Section title={t("date.title")}>
-          <div className="heaven-reveal">
+          <div className="haven-reveal">
             <p
               className={`${cormorantSc.className} text-sm tracking-[0.35em] text-[#6d7262]`}
             >
@@ -170,7 +170,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
             </p>
             {/* The day in a lantern's glow, ringed in iron. */}
             <div className="relative mx-auto mt-4 flex size-44 items-center justify-center">
-              <div className="heaven-glow absolute inset-0 rounded-full bg-[radial-gradient(circle,#f3c77d_0%,#f3c77d55_45%,transparent_70%)]" />
+              <div className="haven-glow absolute inset-0 rounded-full bg-[radial-gradient(circle,#f3c77d_0%,#f3c77d55_45%,transparent_70%)]" />
               <div className="absolute inset-3 rounded-full ring-1 ring-[#2b2a28]/40" />
               <div className="absolute inset-5 rounded-full ring-1 ring-[#2b2a28]/15" />
               <span
@@ -186,7 +186,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
               {t("date.time", { time: date.time })}
             </p>
           </div>
-          <div className="heaven-reveal mt-10">
+          <div className="haven-reveal mt-10">
             <p
               className={`${cormorantSc.className} mb-4 text-sm tracking-[0.3em] text-[#6d7262]`}
             >
@@ -204,13 +204,13 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="heaven-reveal bg-[#fbf6ee] p-1.5 shadow-lg shadow-[#2b2a28]/15 ring-1 ring-[#2b2a28]/30"
+              frameClass="haven-reveal bg-[#fbf6ee] p-1.5 shadow-lg shadow-[#2b2a28]/15 ring-1 ring-[#2b2a28]/30"
             />
           </Section>
         )}
 
         <Section title={t("venue.title")}>
-          <div className="heaven-reveal">
+          <div className="haven-reveal">
             <p className={`${prata.className} text-2xl`}>{taklif.venueName}</p>
             <p className="mt-2 text-sm text-[#6d7262]">{taklif.venueAddress}</p>
             <MapLink
@@ -223,7 +223,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
         </Section>
 
         <Section title={tRsvp("title")}>
-          <div className="heaven-reveal">
+          <div className="haven-reveal">
             <Rsvp
               slug={taklif.slug}
               preview={preview}
@@ -244,7 +244,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="heaven-reveal border border-[#2b2a28]/30 bg-[#ebe3d4]/60 px-6 py-8 outline outline-1 -outline-offset-[6px] outline-[#2b2a28]/10">
+            <div className="haven-reveal border border-[#2b2a28]/30 bg-[#ebe3d4]/60 px-6 py-8 outline outline-1 -outline-offset-[6px] outline-[#2b2a28]/10">
               <p className="text-sm text-[#6d7262]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
@@ -261,7 +261,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="heaven-reveal inline-flex h-11 items-center px-6 text-sm ring-1 ring-[#2b2a28]/40 hover:bg-[#ebe3d4]"
+              className="haven-reveal inline-flex h-11 items-center px-6 text-sm ring-1 ring-[#2b2a28]/40 hover:bg-[#ebe3d4]"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
@@ -271,7 +271,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
         <footer className="px-6 pt-20 pb-14">
           <Ironwork className="mx-auto w-44 text-[#2b2a28]/70" />
           <p
-            className={`${prata.className} heaven-reveal mt-6 text-3xl leading-snug text-[#2f3a2c]`}
+            className={`${prata.className} haven-reveal mt-6 text-3xl leading-snug text-[#2f3a2c]`}
           >
             {t("closing")}
           </p>
@@ -285,7 +285,7 @@ export default async function HeavenTheme({ taklif, preview }: ThemeProps) {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="px-6 pt-20">
-      <div className="heaven-reveal mb-8">
+      <div className="haven-reveal mb-8">
         <h2
           className={`${cormorantSc.className} text-3xl tracking-[0.08em] text-[#2f3a2c]`}
         >
@@ -317,7 +317,7 @@ function Ironwork({ className = "" }: { className?: string }) {
     <svg
       aria-hidden
       viewBox="0 0 200 40"
-      className={`heaven-iron h-auto ${className}`}
+      className={`haven-iron h-auto ${className}`}
       fill="none"
       stroke="currentColor"
       strokeWidth="1.3"
@@ -354,7 +354,7 @@ function Petals() {
         <svg
           key={x}
           viewBox="0 0 20 24"
-          className="heaven-petal absolute top-0 opacity-0 motion-reduce:hidden"
+          className="haven-petal absolute top-0 opacity-0 motion-reduce:hidden"
           style={
             {
               left: `${x}%`,

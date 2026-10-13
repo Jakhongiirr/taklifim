@@ -10,20 +10,20 @@ import Moments from "../shared/moments";
 import Rsvp from "../shared/rsvp";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
-import "./ether.css";
+import "./violet.css";
 import { marck, tenor } from "./fonts";
 
 // A moonlit fairy tale: night violet, moonlight text, lilac glow and the
 // sky lanterns' gold, like the castle in the video. The only dark theme.
-const ASSETS = "/themes/ether";
+const ASSETS = "/themes/violet";
 
 /**
- * Ether: a violet castle under a full moon, sky lanterns rising, down to a
+ * Violet: a violet castle under a full moon, sky lanterns rising, down to a
  * flowered valley and its bridge (the opening video). The valley's last
  * frame is the hero; further down the invitation's words sit on a
  * lantern-lit terrace looking out over the city at night.
  */
-export default async function EtherTheme({ taklif, preview }: ThemeProps) {
+export default async function VioletTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -62,7 +62,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
           poster: `${ASSETS}/opening-start.jpg`,
         }}
         musicUrl={taklif.music?.file.url ?? null}
-        openedClass="ether-opened"
+        openedClass="violet-opened"
         overlayClass="bg-gradient-to-b from-[#1b1430]/10 via-[#1b1430]/55 to-[#1b1430]/30"
         buttonClass={`${tenor.className} border-[#f5c27a]/70 bg-[#1b1430]/40 text-xs tracking-[0.25em] text-[#f7f2ff] uppercase backdrop-blur-sm hover:bg-[#1b1430]/60`}
         musicClass="bg-[#2a1f48]/85 text-[#f5c27a] ring-1 ring-[#b79ce8]/40"
@@ -93,25 +93,25 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
             unoptimized
             priority
             sizes="448px"
-            className="ether-drift object-cover"
+            className="violet-drift object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-30% via-[#1b1430]/75 via-60% to-[#1b1430]" />
           <Lanterns />
           <div className="relative">
             <p
-              className={`${tenor.className} ether-rise text-[11px] tracking-[0.35em] text-[#e6dcfa] uppercase`}
+              className={`${tenor.className} violet-rise text-[11px] tracking-[0.35em] text-[#e6dcfa] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
             </p>
             <div
-              className="ether-rise mt-3"
+              className="violet-rise mt-3"
               style={{ "--i": 1 } as CSSProperties}
             >
               {names}
             </div>
             <p
-              className={`${tenor.className} ether-rise mt-4 text-sm tracking-[0.15em]`}
+              className={`${tenor.className} violet-rise mt-4 text-sm tracking-[0.15em]`}
               style={{ "--i": 2 } as CSSProperties}
             >
               {fullDate}
@@ -119,7 +119,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
             <svg
               aria-hidden
               viewBox="0 0 24 24"
-              className="ether-hint mx-auto mt-8 size-6 text-[#f5c27a]"
+              className="violet-hint mx-auto mt-8 size-6 text-[#f5c27a]"
             >
               <path
                 d="M6 9l6 6 6-6"
@@ -146,7 +146,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
           </div>
           <div className="relative px-7 py-28">
             {/* Night glass over the light. */}
-            <div className="ether-reveal rounded-[2rem] bg-[#1b1430]/60 px-6 py-10 shadow-[0_0_60px_-10px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40 backdrop-blur-md">
+            <div className="violet-reveal rounded-[2rem] bg-[#1b1430]/60 px-6 py-10 shadow-[0_0_60px_-10px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40 backdrop-blur-md">
               <Crescent className="mx-auto w-9" />
               <h2
                 className={`${tenor.className} mt-4 text-lg tracking-[0.2em] text-[#f5c27a] uppercase`}
@@ -167,14 +167,14 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
         </section>
 
         <Section title={t("date.title")}>
-          <div className="ether-reveal">
+          <div className="violet-reveal">
             <p
               className={`${tenor.className} text-xs tracking-[0.35em] text-[#b9aed3] uppercase`}
             >
               {weekdays[date.weekday]}
             </p>
             {/* The day on a full moon. */}
-            <div className="ether-moon relative mx-auto mt-5 flex size-40 items-center justify-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#fbf8ff,#e4daf7_55%,#c9b7ee)] shadow-[0_0_50px_12px_rgba(185,156,232,0.4)]">
+            <div className="violet-moon relative mx-auto mt-5 flex size-40 items-center justify-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#fbf8ff,#e4daf7_55%,#c9b7ee)] shadow-[0_0_50px_12px_rgba(185,156,232,0.4)]">
               {/* Faint craters. */}
               <span className="absolute top-[22%] left-[60%] size-5 rounded-full bg-[#c9b7ee]/40" />
               <span className="absolute top-[62%] left-[24%] size-7 rounded-full bg-[#c9b7ee]/30" />
@@ -194,7 +194,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
               {t("date.time", { time: date.time })}
             </p>
           </div>
-          <div className="ether-reveal mt-10">
+          <div className="violet-reveal mt-10">
             <p
               className={`${tenor.className} mb-4 text-[11px] tracking-[0.3em] text-[#b9aed3] uppercase`}
             >
@@ -212,13 +212,13 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="ether-reveal bg-[#2a1f48] p-1.5 shadow-[0_0_30px_-8px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40"
+              frameClass="violet-reveal bg-[#2a1f48] p-1.5 shadow-[0_0_30px_-8px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40"
             />
           </Section>
         )}
 
         <Section title={t("venue.title")}>
-          <div className="ether-reveal">
+          <div className="violet-reveal">
             <p className={`${marck.className} text-4xl text-[#f7f2ff]`}>
               {taklif.venueName}
             </p>
@@ -233,7 +233,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
         </Section>
 
         <Section title={tRsvp("title")}>
-          <div className="ether-reveal">
+          <div className="violet-reveal">
             <Rsvp
               slug={taklif.slug}
               preview={preview}
@@ -254,7 +254,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="ether-reveal rounded-3xl bg-gradient-to-br from-[#3a2a63] to-[#1f1738] px-6 py-8 shadow-[0_0_40px_-12px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/35">
+            <div className="violet-reveal rounded-3xl bg-gradient-to-br from-[#3a2a63] to-[#1f1738] px-6 py-8 shadow-[0_0_40px_-12px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/35">
               <p className="text-sm text-[#b9aed3]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider text-[#f7f2ff]">
                 {formatCardNumber(taklif.cardNumber)}
@@ -271,7 +271,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="ether-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#b79ce8]/50 hover:bg-white/5"
+              className="violet-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#b79ce8]/50 hover:bg-white/5"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
@@ -281,7 +281,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
         <footer className="relative px-6 pt-20 pb-14">
           <Crescent className="mx-auto w-10" />
           <p
-            className={`${marck.className} ether-reveal mt-5 text-5xl leading-tight text-[#f7f2ff] [text-shadow:0_0_20px_rgba(185,156,232,0.8)]`}
+            className={`${marck.className} violet-reveal mt-5 text-5xl leading-tight text-[#f7f2ff] [text-shadow:0_0_20px_rgba(185,156,232,0.8)]`}
           >
             {t("closing")}
           </p>
@@ -295,7 +295,7 @@ export default async function EtherTheme({ taklif, preview }: ThemeProps) {
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section className="relative px-6 pt-20">
-      <div className="ether-reveal mb-8">
+      <div className="violet-reveal mb-8">
         <Sparkle />
         <h2
           className={`${tenor.className} mt-3 text-xl tracking-[0.25em] text-[#f7f2ff] uppercase`}
@@ -360,7 +360,7 @@ function Lanterns() {
       {lanterns.map(([x, size, delay, dur, sway]) => (
         <span
           key={x}
-          className="ether-lantern absolute bottom-[8%] opacity-0 motion-reduce:hidden"
+          className="violet-lantern absolute bottom-[8%] opacity-0 motion-reduce:hidden"
           style={
             {
               left: `${x}%`,
@@ -371,7 +371,7 @@ function Lanterns() {
           }
         >
           <span
-            className="ether-flame block rounded-[40%_40%_30%_30%] bg-gradient-to-b from-[#ffd9a0] to-[#f09a4a] shadow-[0_0_14px_5px_rgba(245,170,90,0.6)]"
+            className="violet-flame block rounded-[40%_40%_30%_30%] bg-gradient-to-b from-[#ffd9a0] to-[#f09a4a] shadow-[0_0_14px_5px_rgba(245,170,90,0.6)]"
             style={{ width: size, height: size * 1.25 }}
           />
         </span>
@@ -393,7 +393,7 @@ function Stars() {
       {stars.map((s, i) => (
         <span
           key={i}
-          className="ether-star absolute rounded-full bg-white"
+          className="violet-star absolute rounded-full bg-white"
           style={
             {
               left: `${s.x}%`,

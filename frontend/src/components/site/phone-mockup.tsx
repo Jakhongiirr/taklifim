@@ -3,10 +3,10 @@ import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
 import { yeseva } from "@/themes/arcade/fonts";
 import { greatVibes } from "@/themes/aurora/fonts";
-import { marck } from "@/themes/ether/fonts";
+import { marck } from "@/themes/violet/fonts";
 import { playfair } from "@/themes/paris/fonts";
 import { doveScript } from "@/themes/dove/fonts";
-import { prata } from "@/themes/heaven/fonts";
+import { prata } from "@/themes/haven/fonts";
 
 /** Seconds each design stays on the phone. */
 const TURN = 4;
@@ -39,8 +39,8 @@ const DESIGNS = [
     line: "border-[#c98b8b]/60",
   },
   {
-    name: "Heaven",
-    art: "/themes/heaven/opening-end.jpg",
+    name: "Haven",
+    art: "/themes/haven/opening-end.jpg",
     bg: "#f4efe6",
     font: prata.className,
     names: "text-[1.65rem] leading-[1.15] text-[#2f3a2c]",
@@ -61,8 +61,8 @@ const DESIGNS = [
     line: "border-[#d27f93]/50",
   },
   {
-    name: "Ether",
-    art: "/themes/ether/opening-end.jpg",
+    name: "Violet",
+    art: "/themes/violet/opening-end.jpg",
     bg: "#1b1430",
     font: marck.className,
     names:

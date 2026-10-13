@@ -135,7 +135,7 @@ function doveDecor(): CardDecor {
   };
 }
 
-// ---------------------------------------------------------------- heaven
+// ---------------------------------------------------------------- haven
 // The old palace in the rose garden, wrought-iron scrolls, Prata names.
 
 const IRON_HALF = `<path d="M96 20 C80 20 70 20 58 20 C46 20 40 12 46 7 C51 3 58 8 54 13 C51 16 47 13 49 11"/>
@@ -148,9 +148,9 @@ const IRONWORK = `<g fill="none" stroke="#2b2a28" stroke-opacity="0.75" stroke-w
 <circle cx="100" cy="20" r="5.5" fill="#b5707a" fill-opacity="0.35" stroke="#b5707a"/>
 <path d="M100 16.5 C102.5 17.5 102.5 21 100 22 C98 21 98 18.5 100.5 18.5" fill="none" stroke="#8a4f58"/>`;
 
-function heavenDecor(): CardDecor {
+function havenDecor(): CardDecor {
   return {
-    art: { path: "/themes/heaven/opening-end.jpg", fade: artFade("#f4efe6") },
+    art: { path: "/themes/haven/opening-end.jpg", fade: artFade("#f4efe6") },
     divider: ornament(380, [200, 40], IRONWORK),
     emblem: ornament(560, [200, 40], IRONWORK),
     names: { font: "prata", scale: 0.78 },
@@ -180,7 +180,7 @@ function arcadeDecor(): CardDecor {
   };
 }
 
-// ---------------------------------------------------------------- ether
+// ---------------------------------------------------------------- violet
 // The moonlit valley (the one dark card), a crescent between lilac lines,
 // Marck Script names.
 
@@ -189,9 +189,9 @@ const CRESCENT = `<path d="M24 6 A15 15 0 1 0 34 30 A12 12 0 1 1 24 6Z" fill="#f
 const CRESCENT_DIVIDER = `<path d="M6 20 H62 M98 20 H154" stroke="#b79ce8" stroke-opacity="0.7" stroke-width="0.8"/>
 <g transform="translate(60 0)">${CRESCENT}</g>`;
 
-function etherDecor(): CardDecor {
+function violetDecor(): CardDecor {
   return {
-    art: { path: "/themes/ether/opening-end.jpg", fade: artFade("#1b1430") },
+    art: { path: "/themes/violet/opening-end.jpg", fade: artFade("#1b1430") },
     divider: ornament(380, [160, 40], CRESCENT_DIVIDER),
     emblem: ornament(160, [40, 40], CRESCENT),
     names: { font: "marck-script", scale: 1.05 },
@@ -226,9 +226,9 @@ function parisDecor(): CardDecor {
 const DECOR: Record<string, () => CardDecor> = {
   aurora: auroraDecor,
   dove: doveDecor,
-  heaven: heavenDecor,
+  haven: havenDecor,
   arcade: arcadeDecor,
-  ether: etherDecor,
+  violet: violetDecor,
   paris: parisDecor,
 };
 

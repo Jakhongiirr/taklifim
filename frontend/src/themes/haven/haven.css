@@ -1,7 +1,7 @@
-/* Animations of the "heaven" theme. All are off for visitors who prefer
+/* Animations of the "haven" theme. All are off for visitors who prefer
    reduced motion, and content is never hidden without them. */
 
-@keyframes heaven-rise {
+@keyframes haven-rise {
   from {
     opacity: 0;
     transform: translateY(18px);
@@ -14,7 +14,7 @@
   }
 }
 
-@keyframes heaven-reveal {
+@keyframes haven-reveal {
   from {
     opacity: 0;
     transform: translateY(28px);
@@ -26,7 +26,7 @@
 }
 
 /* The hero keeps walking toward the palace, slowly. */
-@keyframes heaven-drift {
+@keyframes haven-drift {
   from {
     transform: scale(1);
   }
@@ -36,7 +36,7 @@
 }
 
 /* A rose petal tumbling down across the hero. */
-@keyframes heaven-petal {
+@keyframes haven-petal {
   0% {
     transform: translate3d(0, -10vh, 0) rotate(0deg);
     opacity: 0;
@@ -54,7 +54,7 @@
 }
 
 /* The lantern's glow behind the date, breathing. */
-@keyframes heaven-glow {
+@keyframes haven-glow {
   0%,
   100% {
     opacity: 0.55;
@@ -67,7 +67,7 @@
 }
 
 /* The ironwork scrolls, drawing in. */
-@keyframes heaven-draw {
+@keyframes haven-draw {
   from {
     stroke-dashoffset: 1;
   }
@@ -76,7 +76,7 @@
   }
 }
 
-@keyframes heaven-hint {
+@keyframes haven-hint {
   0%,
   100% {
     transform: translateY(0);
@@ -90,40 +90,40 @@
 
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
-  .heaven-opened .heaven-rise {
-    animation: heaven-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
+  .haven-opened .haven-rise {
+    animation: haven-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 180ms + 250ms);
   }
-  .heaven-opened .heaven-drift {
-    animation: heaven-drift 24s ease-out both;
+  .haven-opened .haven-drift {
+    animation: haven-drift 24s ease-out both;
   }
 
-  .heaven-petal {
-    animation: heaven-petal var(--dur, 13s) linear infinite;
+  .haven-petal {
+    animation: haven-petal var(--dur, 13s) linear infinite;
     animation-delay: var(--d, 0s);
   }
-  .heaven-glow {
-    animation: heaven-glow 4s ease-in-out infinite;
+  .haven-glow {
+    animation: haven-glow 4s ease-in-out infinite;
   }
-  .heaven-hint {
-    animation: heaven-hint 2.2s ease-in-out infinite;
+  .haven-hint {
+    animation: haven-hint 2.2s ease-in-out infinite;
   }
 
   @supports (animation-timeline: view()) {
-    .heaven-reveal {
-      animation: heaven-reveal linear both;
+    .haven-reveal {
+      animation: haven-reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
     }
     /* Each ironwork divider draws itself as it scrolls in (a named
        timeline on the <svg>: its paths have no box of their own). */
-    .heaven-iron {
-      view-timeline: --heaven-iron block;
+    .haven-iron {
+      view-timeline: --haven-iron block;
     }
-    .heaven-iron path {
+    .haven-iron path {
       stroke-dasharray: 1;
-      animation: heaven-draw linear both;
-      animation-timeline: --heaven-iron;
+      animation: haven-draw linear both;
+      animation-timeline: --haven-iron;
       animation-range: entry 10% cover 45%;
     }
   }

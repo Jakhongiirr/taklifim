@@ -1,8 +1,8 @@
 import ArcadeTheme from "./arcade";
 import AuroraTheme from "./aurora";
 import DoveTheme from "./dove";
-import EtherTheme from "./ether";
-import HeavenTheme from "./heaven";
+import VioletTheme from "./violet";
+import HavenTheme from "./haven";
 import ParisTheme from "./paris";
 import PlainInvitation from "./plain";
 import type { Theme, ThemeProps } from "./types";
@@ -16,9 +16,9 @@ import type { Theme, ThemeProps } from "./types";
 const THEMES: Record<string, Theme> = {
   aurora: AuroraTheme,
   dove: DoveTheme,
-  heaven: HeavenTheme,
+  haven: HavenTheme,
   arcade: ArcadeTheme,
-  ether: EtherTheme,
+  violet: VioletTheme,
   paris: ParisTheme,
 };
 

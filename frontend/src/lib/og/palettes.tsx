@@ -34,7 +34,7 @@ const PALETTES: Record<string, OgPalette> = {
     muted: "#8a6f73",
     photoRadius: "28px",
   },
-  heaven: {
+  haven: {
     background: "radial-gradient(circle at 50% 30%, #fbf6ee 0%, #ebe3d4 75%)",
     ink: "#2f3a2c",
     names: "#2f3a2c",
@@ -43,7 +43,7 @@ const PALETTES: Record<string, OgPalette> = {
     muted: "#6d7262",
     photoRadius: "10px",
   },
-  ether: {
+  violet: {
     background: "radial-gradient(circle at 50% 30%, #3a2a63 0%, #1b1430 75%)",
     ink: "#f1ecfa",
     names: "#f7f2ff",
