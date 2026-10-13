@@ -1,10 +1,14 @@
 import { Forum, Great_Vibes, Parisienne } from "next/font/google";
 
+// Not preloaded: every theme is in the invitation page's bundle, so preloading
+// would fetch all themes' fonts. The browser loads the ones the page uses.
+
 /** A romantic, flowing script for the names (Latin only). */
 const parisienne = Parisienne({
   weight: "400",
   subsets: ["latin", "latin-ext"],
   display: "swap",
+  preload: false,
   variable: "--font-dove-script",
   // No system-font fallback in its stack: it has Cyrillic, so Cyrillic
   // names would use it instead of reaching Great Vibes below.
@@ -17,6 +21,7 @@ const greatVibesCyrillic = Great_Vibes({
   weight: "400",
   subsets: ["cyrillic"],
   display: "swap",
+  preload: false,
   variable: "--font-dove-script-cyr",
 });
 
@@ -28,4 +33,5 @@ export const forum = Forum({
   weight: "400",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });
