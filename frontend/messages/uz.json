@@ -164,6 +164,38 @@
       "button": "Taklifnoma yaratish"
     }
   },
+  "Designs": {
+    "home": "Bosh sahifa",
+    "breadcrumbs": "Sahifa yoʻli",
+    "eyebrow": "Taklifnoma dizayni",
+    "subtitle": "elektron toʻy taklifnomasi",
+    "metaTitle": "{name} — elektron toʻy taklifnomasi dizayni | Taklifim",
+    "productName": "{name} — elektron taklifnoma dizayni",
+    "price": "{price} soʻm",
+    "free": "Bepul",
+    "choose": "Shu dizayn bilan yaratish",
+    "demo": "Jonli namunani koʻrish",
+    "note": "Qoralama bepul — toʻlov faqat eʼlon qilishda.",
+    "videoLabel": "{name} dizaynining ochilish videosi",
+    "replay": "Videoni koʻrish",
+    "backdropAlt": "{name} dizaynidagi manzara",
+    "aboutTitle": "{name} haqida",
+    "includedTitle": "Har bir taklifnomada",
+    "othersTitle": "Boshqa dizaynlar",
+    "more": "Batafsil",
+    "index": {
+      "eyebrow": "Dizaynlar toʻplami",
+      "title": "Taklifnoma dizaynlari",
+      "text": "Har bir dizayn oʻz videosi, ranglari va shriftlari bilan ochiladi. Didingizga mosini tanlang va taklifnomani telefoningizda bir necha daqiqada yarating.",
+      "metaTitle": "Elektron toʻy taklifnomasi dizaynlari | Taklifim",
+      "metaDescription": "Videoli ochilishga ega elektron toʻy taklifnomasi dizaynlari: saroy, bogʻ, Parij, tungi va ertak uslublari. Tanlang, yarating va bitta havola bilan ulashing."
+    },
+    "cta": {
+      "title": "Dizaynni tanladingizmi?",
+      "text": "Taklifnomani bepul qoralama sifatida yarating va tayyor boʻlgach eʼlon qiling.",
+      "button": "Taklifnoma yaratish"
+    }
+  },
   "LocaleSwitcher": {
     "label": "Til",
     "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Nomaʼlum}}"

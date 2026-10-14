@@ -164,6 +164,38 @@
       "button": "Create an invitation"
     }
   },
+  "Designs": {
+    "home": "Home",
+    "breadcrumbs": "Breadcrumbs",
+    "eyebrow": "Invitation design",
+    "subtitle": "digital wedding invitation",
+    "metaTitle": "{name} — digital wedding invitation design | Taklifim",
+    "productName": "{name} — digital invitation design",
+    "price": "{price} UZS",
+    "free": "Free",
+    "choose": "Create with this design",
+    "demo": "See a live example",
+    "note": "Drafts are free — you only pay to publish.",
+    "videoLabel": "The {name} design's opening video",
+    "replay": "Play the video",
+    "backdropAlt": "Scenery from the {name} design",
+    "aboutTitle": "About {name}",
+    "includedTitle": "In every invitation",
+    "othersTitle": "Other designs",
+    "more": "Learn more",
+    "index": {
+      "eyebrow": "Design collection",
+      "title": "Invitation designs",
+      "text": "Every design opens with its own video, colours and typefaces. Pick the one you love and create your invitation on your phone in a few minutes.",
+      "metaTitle": "Digital wedding invitation designs | Taklifim",
+      "metaDescription": "Digital wedding invitation designs with a video opening: palace, garden, Paris, night and fairytale styles. Pick one, create it and share it with a single link."
+    },
+    "cta": {
+      "title": "Found your design?",
+      "text": "Create your invitation as a free draft and publish it when it's ready.",
+      "button": "Create an invitation"
+    }
+  },
   "LocaleSwitcher": {
     "label": "Language",
     "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Unknown}}"

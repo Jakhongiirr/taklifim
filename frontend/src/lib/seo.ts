@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { DESIGN_IDS } from "@/content/designs";
 import { routing } from "@/i18n/routing";
 
 /**
@@ -9,7 +10,13 @@ import { routing } from "@/i18n/routing";
 export const SITE_URL = process.env.SITE_URL ?? "http://localhost:3001";
 
 /** Pages search engines should find, without the locale ("" is the home page). */
-export const PUBLIC_PATHS = ["", "/privacy", "/terms"] as const;
+export const PUBLIC_PATHS = [
+  "",
+  "/designs",
+  ...DESIGN_IDS.map((id) => `/designs/${id}`),
+  "/privacy",
+  "/terms",
+];
 
 /** Each locale's URL of a page, plus x-default (Uzbek) for other languages. */
 export function languageUrls(path: string, origin = "") {
@@ -24,7 +31,7 @@ export function languageUrls(path: string, origin = "") {
 /** Canonical URL and language versions of a public page, relative to metadataBase. */
 export function localeAlternates(
   locale: string,
-  path: (typeof PUBLIC_PATHS)[number],
+  path: string,
 ): Metadata["alternates"] {
   return { canonical: `/${locale}${path}`, languages: languageUrls(path) };
 }
