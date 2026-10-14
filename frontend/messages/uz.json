@@ -300,6 +300,7 @@
       "copyLink": "Havolani nusxalash:",
       "responses": "Javoblar",
       "download": "PNG yuklab olish",
+      "downloadQr": "QR kodni yuklab olish",
       "downloading": "Tayyorlanmoqda…",
       "downloadError": "Rasmni yaratib boʻlmadi. Qaytadan urinib koʻring."
     }
@@ -400,6 +401,7 @@
     },
     "madeWith": "Taklifim.uz orqali yaratilgan",
     "cardMadeWith": "Taklifim.uz bilan yaratilgan",
+    "qrScan": "Taklifnomani ochish uchun skanerlang",
     "preview": {
       "back": "Kabinet",
       "edit": "Tahrirlash",

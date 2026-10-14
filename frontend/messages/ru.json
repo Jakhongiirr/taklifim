@@ -300,6 +300,7 @@
       "copyLink": "Скопировать ссылку:",
       "responses": "Ответы",
       "download": "Скачать PNG",
+      "downloadQr": "Скачать QR-код",
       "downloading": "Готовим…",
       "downloadError": "Не удалось создать изображение. Попробуйте ещё раз."
     }
@@ -400,6 +401,7 @@
     },
     "madeWith": "Создано на Taklifim.uz",
     "cardMadeWith": "Создано на Taklifim.uz",
+    "qrScan": "Отсканируйте, чтобы открыть приглашение",
     "preview": {
       "back": "Кабинет",
       "edit": "Редактировать",

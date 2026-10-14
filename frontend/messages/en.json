@@ -300,6 +300,7 @@
       "copyLink": "Copy link:",
       "responses": "Replies",
       "download": "Download PNG",
+      "downloadQr": "Download QR",
       "downloading": "Preparing…",
       "downloadError": "Couldn't create the image. Please try again."
     }
@@ -400,6 +401,7 @@
     },
     "madeWith": "Made with Taklifim.uz",
     "cardMadeWith": "Made with Taklifim.uz",
+    "qrScan": "Scan to open the invitation",
     "preview": {
       "back": "My account",
       "edit": "Edit",

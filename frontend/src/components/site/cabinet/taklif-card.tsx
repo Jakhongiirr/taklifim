@@ -35,7 +35,7 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
   const router = useRouter();
   const { confirm, dialog } = useConfirm();
   const [busy, setBusy] = useState(false);
-  const [downloading, setDownloading] = useState(false);
+  const [downloading, setDownloading] = useState<"card" | "qr">();
   const [notice, setNotice] = useState<{ text: string; error?: boolean }>();
   const payment = usePay(taklif.id);
 
@@ -63,12 +63,16 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
     setNotice({ text: t("actions.copied", { lang: locale.toUpperCase() }) });
   }
 
-  /** Saves the invitation as a PNG, rendered by the server in this language. */
-  async function downloadPng() {
-    setDownloading(true);
+  /**
+   * Saves the invitation card or its QR code as a PNG, rendered by the
+   * server in this language (the QR code opens the invitation in it).
+   */
+  async function downloadPng(kind: "card" | "qr") {
+    setDownloading(kind);
     setNotice(undefined);
     try {
-      const res = await fetch(`/${locale}/cabinet/download/${taklif.slug}`);
+      const path = kind === "card" ? "download" : "qr";
+      const res = await fetch(`/${locale}/cabinet/${path}/${taklif.slug}`);
       // A lost session redirects to the login page (HTML), not an error.
       if (!res.ok || res.headers.get("content-type") !== "image/png") {
         throw new Error(`Download failed (${res.status})`);
@@ -76,13 +80,13 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
       const url = URL.createObjectURL(await res.blob());
       const link = document.createElement("a");
       link.href = url;
-      link.download = `taklifim-${taklif.slug}.png`;
+      link.download = `taklifim-${taklif.slug}${kind === "qr" ? "-qr" : ""}.png`;
       link.click();
       setTimeout(() => URL.revokeObjectURL(url), 10_000);
     } catch {
       setNotice({ text: t("actions.downloadError"), error: true });
     } finally {
-      setDownloading(false);
+      setDownloading(undefined);
     }
   }
 
@@ -166,9 +170,25 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
         >
           {t("actions.edit")}
         </Link>
-        <ActionButton disabled={downloading} onClick={() => void downloadPng()}>
-          {downloading ? t("actions.downloading") : t("actions.download")}
+        <ActionButton
+          disabled={!!downloading}
+          onClick={() => void downloadPng("card")}
+        >
+          {downloading === "card"
+            ? t("actions.downloading")
+            : t("actions.download")}
         </ActionButton>
+        {/* The code opens the guests' link: live while published only. */}
+        {taklif.status === "published" && (
+          <ActionButton
+            disabled={!!downloading}
+            onClick={() => void downloadPng("qr")}
+          >
+            {downloading === "qr"
+              ? t("actions.downloading")
+              : t("actions.downloadQr")}
+          </ActionButton>
+        )}
         {taklif.status !== "draft" && (
           <Link
             href={`/cabinet/responses/${taklif.slug}`}
