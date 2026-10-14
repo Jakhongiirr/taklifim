@@ -80,8 +80,8 @@
         "text": "Guests find the venue in one tap."
       },
       "rsvp": {
-        "title": "Guest replies",
-        "text": "See who's coming and how many, right in your account."
+        "title": "Guest wishes and replies",
+        "text": "See who's coming and how many, and read their wishes."
       },
       "wishes": {
         "title": "Wishes",
@@ -92,8 +92,12 @@
         "text": "Add a card number — guests copy it in one tap."
       },
       "card": {
-        "title": "PNG card",
+        "title": "PNG download",
         "text": "Download the invitation as an image and share it anywhere."
+      },
+      "qr": {
+        "title": "QR code",
+        "text": "Download a QR code — guests scan it to open the invitation."
       },
       "languages": {
         "title": "Three languages",

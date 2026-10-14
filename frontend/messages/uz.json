@@ -80,8 +80,8 @@
         "text": "Mehmonlar toʻyxonani bir bosishda topadi."
       },
       "rsvp": {
-        "title": "Mehmonlar javobi",
-        "text": "Kim kelishi va necha kishi boʻlishi kabinetingizda koʻrinadi."
+        "title": "Mehmonlar tilaklari va javobi",
+        "text": "Kim kelishini va necha kishi boʻlishini koʻring, tilaklarini oʻqing."
       },
       "wishes": {
         "title": "Tilaklar",
@@ -92,8 +92,12 @@
         "text": "Karta raqamini qoʻshing — mehmonlar uni bir bosishda nusxalaydi."
       },
       "card": {
-        "title": "PNG karta",
+        "title": "PNG yuklab olish",
         "text": "Taklifnomani rasm sifatida yuklab, istalgan joyga yuboring."
+      },
+      "qr": {
+        "title": "QR kod",
+        "text": "QR kodni yuklab oling — mehmonlar uni skanerlab taklifnomani ochadi."
       },
       "languages": {
         "title": "Uch tilda",

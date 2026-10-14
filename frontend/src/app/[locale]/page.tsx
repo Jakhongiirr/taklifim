@@ -14,7 +14,7 @@ import { getDemos } from "@/lib/server/demos";
 // Rebuilt in the background at most every 5 minutes, like the demos fetch.
 export const revalidate = 300;
 
-const FEATURES = ["video", "designs", "rsvp", "music", "map", "gift"] as const;
+const FEATURES = ["designs", "music", "rsvp", "card", "qr", "map"] as const;
 
 /**
  * Of `options`, the column count whose last row is fullest (6 → 3, 10 → 5,
@@ -320,14 +320,14 @@ function SectionHeading({
 }
 
 const ICON_PATHS: Record<(typeof FEATURES)[number], string> = {
-  video: "M3 6h13v12H3zM16 10l5-3v10l-5-3M8 9.5v5l4-2.5z",
   designs:
     "M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.3-1.7-.4-1.1.3-2.3 1.5-2.3H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10ZM7.5 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM15 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
   music:
     "M9 18V6l11-2v12M9 18a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM20 16a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z",
   map: "M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12ZM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
   rsvp: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM2.5 20a6.5 6.5 0 0 1 13 0M15 11.5l2 2 4-4",
-  gift: "M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7S10.5 3 8 3.5 7.5 7 12 7Zm0 0s1.5-4 4-3.5S16.5 7 12 7Z",
+  card: "M5 3h14v18H5zM8.5 15l2.5-3 2 2 2.5-3.5 2 4.5M9.5 8.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
+  qr: "M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2M14 18v2h2M18 18h2v2M7 7h0M17 7h0M7 17h0",
 };
 
 function FeatureIcon({ name }: { name: (typeof FEATURES)[number] }) {
