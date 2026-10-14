@@ -1,8 +1,8 @@
 // The legal entity behind taklifim.uz, used in the offer and privacy policy.
 // No postal address or phone is published, by the owner's choice.
 export const OPERATOR = {
-  /** Legal name: an individual entrepreneur (YaTT). */
-  name: "Ravshanov Jahongir YaTT",
+  /** Legal name: an individual entrepreneur (YTT). */
+  name: "YTT Ravshanov Jahongir Abdurashidovich",
   /** Taxpayer identification number (STIR / ИНН). */
   tin: "639655863",
   email: "jakhongir_ravshanov@icloud.com",

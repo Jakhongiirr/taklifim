@@ -1,5 +1,9 @@
 import { getTranslations } from "next-intl/server";
-import { LEGAL_UPDATED } from "@/content/legal/operator";
+import {
+  LEGAL_UPDATED,
+  OPERATOR,
+  TELEGRAM_URL,
+} from "@/content/legal/operator";
 import type { LegalBlock, LegalDoc } from "@/content/legal/types";
 import { tashkentParts } from "@/lib/tashkent-date";
 import SiteFooter from "./site-footer";
@@ -76,8 +80,45 @@ export default async function LegalPage({ doc }: { doc: LegalDoc }) {
   );
 }
 
+/** The operator's email and Telegram handle in a text, as links. */
+const CONTACTS: Record<string, string> = {
+  [OPERATOR.email]: `mailto:${OPERATOR.email}`,
+  [OPERATOR.telegram]: TELEGRAM_URL,
+};
+const CONTACT_PATTERN = new RegExp(
+  `(${Object.keys(CONTACTS)
+    .map((value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"))
+    .join("|")})`,
+);
+
+function Linked({ text }: { text: string }) {
+  return text.split(CONTACT_PATTERN).map((part, i) =>
+    i % 2 ? (
+      <a
+        key={i}
+        href={CONTACTS[part]}
+        {...(CONTACTS[part].startsWith("http") && {
+          target: "_blank",
+          rel: "noopener noreferrer",
+        })}
+        className="text-sage underline underline-offset-4 hover:text-sage-dark"
+      >
+        {part}
+      </a>
+    ) : (
+      part
+    ),
+  );
+}
+
 function Block({ block }: { block: LegalBlock }) {
-  if (typeof block === "string") return <p>{block}</p>;
+  if (typeof block === "string") {
+    return (
+      <p>
+        <Linked text={block} />
+      </p>
+    );
+  }
   return (
     <ul className="space-y-2 pl-1">
       {block.list.map((item) => (
@@ -86,7 +127,9 @@ function Block({ block }: { block: LegalBlock }) {
             aria-hidden
             className="mt-2.5 size-1.5 shrink-0 rounded-full bg-gold"
           />
-          <span>{item}</span>
+          <span>
+            <Linked text={item} />
+          </span>
         </li>
       ))}
     </ul>

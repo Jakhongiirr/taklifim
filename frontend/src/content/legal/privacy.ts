@@ -109,7 +109,7 @@ const uz: LegalDoc = {
             "Mehmonlar oʻz javobi yoki tilagini oʻchirishni taklifnoma egasidan yoki Operatordan soʻrashi mumkin.",
           ],
         },
-        `Soʻrovlarni ${O.email} yoki ${O.telegram} orqali yuboring.`,
+        `Soʻrovlarni ${O.email} yoki Telegram (${O.telegram}) orqali yuboring.`,
       ],
     },
     {
@@ -123,11 +123,7 @@ const uz: LegalDoc = {
       body: [
         "Operator ushbu siyosatni oʻzgartirishi mumkin; yangi tahrir Saytda eʼlon qilingan kundan kuchga kiradi.",
         {
-          list: [
-            O.name,
-            `Email: ${O.email}`,
-            `Telegram: ${O.telegram}`,
-          ],
+          list: [O.name, `Email: ${O.email}`, `Telegram: ${O.telegram}`],
         },
       ],
     },
@@ -237,7 +233,7 @@ const ru: LegalDoc = {
             "Гости могут попросить владельца приглашения или Оператора удалить свой ответ или пожелание.",
           ],
         },
-        `Запросы направляйте на ${O.email} или в ${O.telegram}.`,
+        `Запросы направляйте на ${O.email} или в Telegram (${O.telegram}).`,
       ],
     },
     {
@@ -251,11 +247,7 @@ const ru: LegalDoc = {
       body: [
         "Оператор вправе изменять настоящую политику; новая редакция вступает в силу с момента публикации на Сайте.",
         {
-          list: [
-            O.name,
-            `Email: ${O.email}`,
-            `Telegram: ${O.telegram}`,
-          ],
+          list: [O.name, `Email: ${O.email}`, `Telegram: ${O.telegram}`],
         },
       ],
     },
@@ -365,7 +357,7 @@ const en: LegalDoc = {
             "Guests can ask the invitation's owner or the Operator to delete their reply or wish.",
           ],
         },
-        `Send requests to ${O.email} or ${O.telegram}.`,
+        `Send requests to ${O.email} or on Telegram (${O.telegram}).`,
       ],
     },
     {
@@ -377,11 +369,7 @@ const en: LegalDoc = {
       body: [
         "The Operator may change this policy; a new version takes effect once published on the Site.",
         {
-          list: [
-            O.name,
-            `Email: ${O.email}`,
-            `Telegram: ${O.telegram}`,
-          ],
+          list: [O.name, `Email: ${O.email}`, `Telegram: ${O.telegram}`],
         },
       ],
     },

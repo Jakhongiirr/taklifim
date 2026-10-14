@@ -59,7 +59,7 @@ const uz: LegalDoc = {
       title: "Toʻlovni qaytarish",
       body: [
         "Toʻlov amalga oshirilib, taklifnoma Operator aybi yoki texnik nosozlik tufayli eʼlon qilinmagan boʻlsa, toʻlangan mablagʻ toʻliq qaytariladi.",
-        `Qaytarish soʻrovi toʻlovdan soʻng 14 kun ichida ${O.email} yoki ${O.telegram} orqali yuboriladi. Taklifnoma eʼlon qilingach, xizmat koʻrsatilgan hisoblanadi va mablagʻ qaytarilmaydi, qonunchilikda nazarda tutilgan hollar bundan mustasno.`,
+        `Qaytarish soʻrovi toʻlovdan soʻng 14 kun ichida ${O.email} yoki Telegram (${O.telegram}) orqali yuboriladi. Taklifnoma eʼlon qilingach, xizmat koʻrsatilgan hisoblanadi va mablagʻ qaytarilmaydi, qonunchilikda nazarda tutilgan hollar bundan mustasno.`,
       ],
     },
     {
@@ -171,7 +171,7 @@ const ru: LegalDoc = {
       title: "Возврат средств",
       body: [
         "Если оплата произведена, а приглашение не опубликовано по вине Оператора или из-за технического сбоя, средства возвращаются полностью.",
-        `Запрос на возврат направляется в течение 14 дней после оплаты на ${O.email} или в ${O.telegram}. После публикации приглашения услуга считается оказанной и средства не возвращаются, за исключением случаев, предусмотренных законодательством.`,
+        `Запрос на возврат направляется в течение 14 дней после оплаты на ${O.email} или в Telegram (${O.telegram}). После публикации приглашения услуга считается оказанной и средства не возвращаются, за исключением случаев, предусмотренных законодательством.`,
       ],
     },
     {
@@ -283,7 +283,7 @@ const en: LegalDoc = {
       title: "Refunds",
       body: [
         "If payment was made but the invitation was not published through the Operator's fault or a technical failure, the payment is refunded in full.",
-        `Refund requests are sent within 14 days of payment to ${O.email} or ${O.telegram}. Once an invitation is published, the service is deemed provided and payments are not refunded, except where the law requires otherwise.`,
+        `Refund requests are sent within 14 days of payment to ${O.email} or on Telegram (${O.telegram}). Once an invitation is published, the service is deemed provided and payments are not refunded, except where the law requires otherwise.`,
       ],
     },
     {
