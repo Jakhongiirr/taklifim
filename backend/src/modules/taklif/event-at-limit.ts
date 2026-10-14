@@ -1,5 +1,5 @@
-/** How much later than its first published date an owner can move an event. */
-export const MAX_POSTPONE_DAYS = 30;
+/** How many times an owner can change an event's date once it's published. */
+export const MAX_EVENT_AT_CHANGES = 5;
 /** How far ahead an event can be set. */
 export const MAX_DAYS_AHEAD = 730;
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -21,11 +21,14 @@ export function eventAtRangeError(eventAt: Date, now = new Date()) {
 }
 
 /**
- * Latest `eventAt` the owner may set: MAX_POSTPONE_DAYS after the date the
- * invitation had when first published (`lockedEventAt`); null before that.
+ * How many more times the owner may change `eventAt`: counted from the first
+ * publish (`lockedEventAt` is set then); null before that, when it's free.
  */
-export function eventAtLimit(taklif: { lockedEventAt: Date | null }) {
+export function eventAtChangesLeft(taklif: {
+  lockedEventAt: Date | null;
+  eventAtChanges: number;
+}) {
   return taklif.lockedEventAt
-    ? new Date(taklif.lockedEventAt.getTime() + MAX_POSTPONE_DAYS * DAY_MS)
+    ? Math.max(0, MAX_EVENT_AT_CHANGES - taklif.eventAtChanges)
     : null;
 }

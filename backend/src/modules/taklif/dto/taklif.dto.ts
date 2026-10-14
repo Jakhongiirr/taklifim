@@ -30,10 +30,10 @@ export class TaklifDto {
   eventAt: Date;
 
   /**
-   * Latest `eventAt` the owner may set: 30 days after the date it had when
-   * first published. Null until then (and admins aren't limited).
+   * How many more times the owner may change `eventAt` (5 in all once
+   * published). Null before the first publish (and admins aren't limited).
    */
-  eventAtLimit: Date | null;
+  eventAtChangesLeft: number | null;
 
   /**
    * When it was paid for; null while unpaid. Once paid it can be published

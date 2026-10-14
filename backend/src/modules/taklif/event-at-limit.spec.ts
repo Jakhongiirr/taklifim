@@ -1,20 +1,29 @@
 import {
-  eventAtLimit,
+  eventAtChangesLeft,
   eventAtRangeError,
   MAX_DAYS_AHEAD,
-  MAX_POSTPONE_DAYS,
+  MAX_EVENT_AT_CHANGES,
 } from './event-at-limit';
 
-describe('eventAtLimit', () => {
+describe('eventAtChangesLeft', () => {
+  const locked = new Date('2026-12-05T12:00:00Z');
+
   it('is null before the first publish', () => {
-    expect(eventAtLimit({ lockedEventAt: null })).toBeNull();
+    expect(
+      eventAtChangesLeft({ lockedEventAt: null, eventAtChanges: 0 }),
+    ).toBeNull();
   });
 
-  it(`is ${MAX_POSTPONE_DAYS} days after the date at first publish`, () => {
-    const locked = new Date('2026-12-05T12:00:00Z');
-    expect(eventAtLimit({ lockedEventAt: locked })?.toISOString()).toBe(
-      '2027-01-04T12:00:00.000Z',
-    );
+  it(`counts down from ${MAX_EVENT_AT_CHANGES} after the first publish`, () => {
+    expect(
+      eventAtChangesLeft({ lockedEventAt: locked, eventAtChanges: 0 }),
+    ).toBe(MAX_EVENT_AT_CHANGES);
+    expect(
+      eventAtChangesLeft({ lockedEventAt: locked, eventAtChanges: 4 }),
+    ).toBe(1);
+    expect(
+      eventAtChangesLeft({ lockedEventAt: locked, eventAtChanges: 9 }),
+    ).toBe(0);
   });
 });
 

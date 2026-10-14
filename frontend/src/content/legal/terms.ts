@@ -49,7 +49,7 @@ const uz: LegalDoc = {
           list: [
             "Oxirgi tahrirdan 7 kundan keyin qoralamaning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin.",
             "Eʼlon qilingan taklifnoma tadbirdan keyin ham ochiq qoladi; tadbir sanasidan bir yil oʻtgach uning suratlari oʻchiriladi.",
-            "Eʼlon qilingandan soʻng tadbir sanasini birinchi eʼlon qilingan sanadan koʻpi bilan 30 kun keyinga surish mumkin.",
+            "Eʼlon qilingandan soʻng tadbir sanasini koʻpi bilan 5 marta oʻzgartirish mumkin.",
             "Taklifnomaga biriktirilmagan suratlar 24 soatdan soʻng oʻchiriladi.",
           ],
         },
@@ -161,7 +161,7 @@ const ru: LegalDoc = {
           list: [
             "У черновиков, не редактировавшихся 7 дней, автоматически удаляются фотографии; сам черновик сохраняется. Одновременно можно хранить до 30 черновиков.",
             "Опубликованное приглашение остаётся доступным и после торжества; через год после даты торжества его фотографии удаляются.",
-            "После публикации дату торжества можно перенести не более чем на 30 дней позже даты первой публикации.",
+            "После публикации дату торжества можно изменить не более 5 раз.",
             "Фотографии, не прикреплённые к приглашению, удаляются через 24 часа.",
           ],
         },
@@ -273,7 +273,7 @@ const en: LegalDoc = {
           list: [
             "Drafts not edited for 7 days automatically lose their photos; the draft itself is kept. Up to 30 drafts can be kept at a time.",
             "A published invitation stays online after the event; one year after the event date its photos are deleted.",
-            "After publishing, the event date can be moved at most 30 days later than the date at first publication.",
+            "After publishing, the event date can be changed at most 5 times.",
             "Photos not attached to any invitation are deleted after 24 hours.",
           ],
         },

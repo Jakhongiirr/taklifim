@@ -128,8 +128,8 @@ export default function InvitationBuilder({
   const [dirty, setDirty] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const when = useTashkentDate();
-  // Published invitations can be moved at most 30 days later (backend rule).
-  const eventLimit = taklif?.eventAtLimit ?? null;
+  // A published invitation's date can change 5 times in all (backend rule).
+  const changesLeft = taklif?.eventAtChangesLeft ?? null;
   // Bounds for the date picker (the real check is in validate()).
   const today = useSyncExternalStore(noSubscribe, tashkentToday, noToday);
   const rangeError = () =>
@@ -232,13 +232,8 @@ export default function InvitationBuilder({
         found.eventAt = rangeError();
       }
     }
-    if (
-      eventLimit &&
-      fields.eventAt &&
-      !found.eventAt &&
-      new Date(fromTashkentInput(fields.eventAt)) > new Date(eventLimit)
-    ) {
-      found.eventAt = t("errors.postpone", { date: when(eventLimit) });
+    if (changesLeft === 0 && fields.eventAt && eventChanged) {
+      found.eventAt = t("errors.postpone");
     }
     const card = fields.cardNumber.replace(/[\s-]/g, "");
     if (card && !/^\d{16}$/.test(card)) found.cardNumber = t("errors.card");
@@ -277,10 +272,8 @@ export default function InvitationBuilder({
     ) {
       return showErrors({ eventAt: rangeError() });
     }
-    if (eventLimit && /^eventAt can be at most/.test(error.message)) {
-      return showErrors({
-        eventAt: t("errors.postpone", { date: when(eventLimit) }),
-      });
+    if (/^eventAt can change at most/.test(error.message)) {
+      return showErrors({ eventAt: t("errors.postpone") });
     }
     if (error.code === "VALIDATION_FAILED" && Array.isArray(error.details)) {
       const found: Errors = {};
@@ -431,8 +424,8 @@ export default function InvitationBuilder({
           <Field
             label={t("fields.eventAt")}
             hint={
-              eventLimit
-                ? `${t("fields.eventHint")}. ${t("fields.eventLimitHint", { date: when(eventLimit) })}`
+              changesLeft !== null
+                ? `${t("fields.eventHint")}. ${t("fields.eventChangesHint", { count: changesLeft })}`
                 : t("fields.eventHint")
             }
             error={errors.eventAt}
@@ -450,11 +443,10 @@ export default function InvitationBuilder({
                   min={today || undefined}
                   max={
                     today
-                      ? toTashkentInput(
-                          eventLimit && new Date(eventLimit) < latestEventAt()
-                            ? eventLimit
-                            : latestEventAt().toISOString(),
-                        ).slice(0, 10)
+                      ? toTashkentInput(latestEventAt().toISOString()).slice(
+                          0,
+                          10,
+                        )
                       : undefined
                   }
                   value={eventDate}

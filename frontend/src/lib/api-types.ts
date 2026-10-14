@@ -74,8 +74,11 @@ export interface Taklif {
   hostName: string;
   /** ISO 8601, UTC. */
   eventAt: string;
-  /** Latest eventAt the owner may set (30 days after it at first publish). */
-  eventAtLimit: string | null;
+  /**
+   * How many more times the owner may change eventAt (5 in all once
+   * published); null before the first publish.
+   */
+  eventAtChangesLeft: number | null;
   /**
    * When it was paid for; null while unpaid. Paid invitations are published
    * and hidden freely, but their design can't change.
@@ -221,8 +224,7 @@ export interface TelegramLoginStarted {
 }
 
 export type TelegramLoginStatus =
-  | { status: "pending" | "expired" }
-  | { status: "done"; user: User };
+  { status: "pending" | "expired" } | { status: "done"; user: User };
 
 export interface AuthTokens {
   accessToken: string;
@@ -324,7 +326,12 @@ export interface StatsDetails {
     wishes: number;
     liked: number;
   };
-  checkout: { orders: number; paid: number; cancelled: number; timedOut: number };
+  checkout: {
+    orders: number;
+    paid: number;
+    cancelled: number;
+    timedOut: number;
+  };
   eventWeekdays: { key: number; count: number }[];
   eventHours: { key: number; count: number }[];
   eventMonths: { key: number; count: number }[];

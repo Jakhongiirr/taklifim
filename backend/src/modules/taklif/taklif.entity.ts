@@ -52,12 +52,16 @@ export class Taklif {
   eventAt: Date;
 
   /**
-   * `eventAt` when the invitation was first published. Owners can then move
-   * the event at most MAX_POSTPONE_DAYS later, so a paid invitation can't be
-   * kept alive forever by pushing its date (it's deleted a month after it).
+   * `eventAt` when the invitation was first published. From then on owners
+   * can change the date at most MAX_EVENT_AT_CHANGES times, so a paid
+   * invitation can't be kept alive forever by pushing its date.
    */
   @Column({ type: 'timestamptz', nullable: true })
   lockedEventAt: Date | null;
+
+  /** Times the owner has changed `eventAt` since the first publish. */
+  @Column({ type: 'int', default: 0 })
+  eventAtChanges: number;
 
   /**
    * When it was paid for (payment publishes it); null while unpaid. Once

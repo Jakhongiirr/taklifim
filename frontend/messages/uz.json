@@ -392,7 +392,7 @@
       "cardHint": "Ixtiyoriy. Mehmonlar raqamni nusxalab, pul oʻtkazishi mumkin.",
       "phone": "Aloqa uchun telefon",
       "phoneHint": "Ixtiyoriy. Savollari boʻlsa, mehmonlar qoʻngʻiroq qiladi.",
-      "eventLimitHint": "Eʼlon qilingan taklifnoma sanasini koʻpi bilan {date} gacha surish mumkin."
+      "eventChangesHint": "Eʼlon qilingan taklifnoma sanasini {count, plural, =0 {endi oʻzgartirib boʻlmaydi} other {yana # marta oʻzgartirish mumkin}}."
     },
     "design": {
       "free": "Bepul",
@@ -436,7 +436,7 @@
       "draftLimit": "Sizda 30 ta qoralama bor. Keraksizlarini oʻchiring yoki eʼlon qiling.",
       "generic": "Saqlab boʻlmadi. Qayta urinib koʻring.",
       "upload": "Suratni yuklab boʻlmadi. Qayta urinib koʻring.",
-      "postpone": "Sanani {date} dan keyinga surib boʻlmaydi.",
+      "postpone": "Sana allaqachon 5 marta oʻzgartirilgan, uni boshqa oʻzgartirib boʻlmaydi.",
       "eventRange": "Bugundan {date} gacha boʻlgan sanani tanlang."
     },
     "leave": {

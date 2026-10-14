@@ -39,9 +39,9 @@ import {
 } from './dto/taklif.dto';
 import { UpdateTaklifDto } from './dto/update-taklif.dto';
 import {
-  eventAtLimit,
+  eventAtChangesLeft,
   eventAtRangeError,
-  MAX_POSTPONE_DAYS,
+  MAX_EVENT_AT_CHANGES,
 } from './event-at-limit';
 import { generateSlug } from './slug';
 import { TaklifPhoto } from './taklif-photo.entity';
@@ -66,6 +66,7 @@ type Writable = Omit<
   locationUrl?: string | null;
   cardNumber?: string | null;
   phone?: string | null;
+  eventAtChanges?: number;
   eventAt?: Date;
 };
 
@@ -153,12 +154,13 @@ export class TaklifService {
     // Only a new date is checked: other edits keep working after the event.
     if (changes.eventAt) this.assertEventAtRange(changes.eventAt, user);
     if (changes.eventAt && !isAdmin(user)) {
-      const limit = eventAtLimit(taklif);
-      if (limit && changes.eventAt > limit) {
+      const left = eventAtChangesLeft(taklif);
+      if (left === 0) {
         throw new BadRequestException(
-          `eventAt can be at most ${MAX_POSTPONE_DAYS} days after the date it had when published`,
+          `eventAt can change at most ${MAX_EVENT_AT_CHANGES} times after publishing`,
         );
       }
+      if (left !== null) changes.eventAtChanges = taklif.eventAtChanges + 1;
     }
     if (changes.musicId) await this.assertMusic(changes.musicId);
     if (changes.themeId) {
@@ -567,7 +569,7 @@ export class TaklifService {
       groomName: taklif.groomName,
       hostName: taklif.hostName,
       eventAt: taklif.eventAt,
-      eventAtLimit: eventAtLimit(taklif),
+      eventAtChangesLeft: eventAtChangesLeft(taklif),
       paidAt: taklif.paidAt,
       venueName: taklif.venueName,
       venueAddress: taklif.venueAddress,
