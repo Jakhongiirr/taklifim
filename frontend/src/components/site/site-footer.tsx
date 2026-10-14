@@ -90,6 +90,9 @@ export default async function SiteFooter() {
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-x-6 gap-y-2 px-4 py-4 text-xs text-muted sm:px-6">
           <span>{t("footer.rights", { year: new Date().getFullYear() })}</span>
           <span className="flex flex-wrap gap-x-5 gap-y-2">
+            <Link href="/wording" className="hover:text-ink">
+              {t("footer.wording")}
+            </Link>
             <Link href="/terms" className="hover:text-ink">
               {t("legal.terms")}
             </Link>
