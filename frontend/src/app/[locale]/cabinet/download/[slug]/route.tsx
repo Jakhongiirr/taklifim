@@ -20,7 +20,7 @@ import { tashkentParts } from "@/lib/tashkent-date";
 
 // The invitation as a PNG the owner can save and send anywhere (a story or
 // phone-screen size): names, date, venue, host and the main photo, in the
-// theme's colors and the page's language. Any status, owner or admin only;
+// theme's colors and the page's language. Published only, owner or admin;
 // the proxy renews the session for /cabinet paths. Decorated like the
 // theme (lib/og/card-decor.tsx): its art behind, its ornament, the names in
 // its typeface.
@@ -37,6 +37,10 @@ export async function GET(
   const locale = ogLocale(raw);
   const taklif = await getTaklifPreview(slug);
   if (!taklif) return new Response("Not found", { status: 404 });
+  // Paying publishes: no image of an unpaid draft or a withdrawn invitation.
+  if (taklif.status !== "published") {
+    return new Response("Not published", { status: 403 });
+  }
 
   const c = ogPalette(taklif.theme.themeId);
   const decor = cardDecor(taklif.theme.themeId);

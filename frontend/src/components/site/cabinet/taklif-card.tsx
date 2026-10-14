@@ -170,24 +170,26 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
         >
           {t("actions.edit")}
         </Link>
-        <ActionButton
-          disabled={!!downloading}
-          onClick={() => void downloadPng("card")}
-        >
-          {downloading === "card"
-            ? t("actions.downloading")
-            : t("actions.download")}
-        </ActionButton>
-        {/* The code opens the guests' link: live while published only. */}
+        {/* Images of published invitations only: paying publishes. */}
         {taklif.status === "published" && (
-          <ActionButton
-            disabled={!!downloading}
-            onClick={() => void downloadPng("qr")}
-          >
-            {downloading === "qr"
-              ? t("actions.downloading")
-              : t("actions.downloadQr")}
-          </ActionButton>
+          <>
+            <ActionButton
+              disabled={!!downloading}
+              onClick={() => void downloadPng("card")}
+            >
+              {downloading === "card"
+                ? t("actions.downloading")
+                : t("actions.download")}
+            </ActionButton>
+            <ActionButton
+              disabled={!!downloading}
+              onClick={() => void downloadPng("qr")}
+            >
+              {downloading === "qr"
+                ? t("actions.downloading")
+                : t("actions.downloadQr")}
+            </ActionButton>
+          </>
         )}
         {taklif.status !== "draft" && (
           <Link

@@ -16,9 +16,8 @@ import { tashkentParts } from "@/lib/tashkent-date";
 
 // The invitation's QR code as a PNG the owner can print or put on a screen:
 // the names and date in the theme's colors around a code that opens the
-// invitation in the page's language. Owner or admin only, like the card
-// (../../download); the cabinet shows it for published invitations, the
-// only ones the link opens.
+// invitation in the page's language. Published only (the only ones the link
+// opens), owner or admin, like the card (../../download).
 
 const WIDTH = 1080;
 const HEIGHT = 1350;
@@ -34,6 +33,10 @@ export async function GET(
   const locale = ogLocale(raw);
   const taklif = await getTaklifPreview(slug);
   if (!taklif) return new Response("Not found", { status: 404 });
+  // Paying publishes: no image of an unpaid draft or a withdrawn invitation.
+  if (taklif.status !== "published") {
+    return new Response("Not published", { status: 403 });
+  }
 
   const c = ogPalette(taklif.theme.themeId);
   const decor = cardDecor(taklif.theme.themeId);
