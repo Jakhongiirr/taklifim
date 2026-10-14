@@ -25,7 +25,12 @@ export default async function SiteFooter() {
               title="Telegram"
               className="flex size-9 items-center justify-center rounded-full text-ink ring-1 ring-line transition-colors hover:bg-[#2aabee] hover:text-white hover:ring-[#2aabee]"
             >
-              <svg aria-hidden viewBox="0 0 24 24" className="size-[18px] -translate-x-px" fill="currentColor">
+              <svg
+                aria-hidden
+                viewBox="0 0 24 24"
+                className="size-[18px] -translate-x-px"
+                fill="currentColor"
+              >
                 <path d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.1 12.8 1.4 11.3c-1-.3-1-1 .2-1.5L20 2.7c.9-.3 1.6.2 1.4 1.6Z" />
               </svg>
             </a>
@@ -47,7 +52,13 @@ export default async function SiteFooter() {
               >
                 <rect x="3" y="3" width="18" height="18" rx="5" />
                 <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
+                <circle
+                  cx="17.5"
+                  cy="6.5"
+                  r="1"
+                  fill="currentColor"
+                  stroke="none"
+                />
               </svg>
             </a>
           </div>
@@ -56,7 +67,7 @@ export default async function SiteFooter() {
           <Link href="/#features" className="hover:text-ink">
             {t("nav.features")}
           </Link>
-          <Link href="/#templates" className="hover:text-ink">
+          <Link href="/designs" className="hover:text-ink">
             {t("nav.templates")}
           </Link>
           <Link href="/#how" className="hover:text-ink">

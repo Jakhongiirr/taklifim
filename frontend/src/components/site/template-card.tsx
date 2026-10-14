@@ -6,8 +6,8 @@ import { formatSum } from "@/lib/format";
 
 /**
  * A design from GET /demos as a poster: its art with the title over it,
- * the description below (from sm), then "choose" (to the builder) and a
- * small button for the live demo. Sized by the grid around it.
+ * the description below (from sm), then "choose" (to the builder) and
+ * "view" (the live demo). Sized by the grid around it.
  */
 export default async function TemplateCard({ demo }: { demo: Demo }) {
   const t = await getTranslations("HomePage.templates");
@@ -58,26 +58,9 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
             href={demo.demoUrl}
             target="_blank"
             rel="noopener noreferrer"
-            title={t("view")}
-            className="inline-flex size-9 shrink-0 items-center justify-center rounded-full border border-sage text-sage transition-colors hover:bg-sage hover:text-paper sm:size-10"
+            className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-sage text-[13px] font-medium text-sage transition-colors hover:bg-sage hover:text-paper sm:h-10 sm:text-sm"
           >
-            <span className="sr-only">{t("view")}</span>
-            <svg aria-hidden viewBox="0 0 24 24" className="size-4">
-              <path
-                d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              />
-              <circle
-                cx="12"
-                cy="12"
-                r="3"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.7"
-              />
-            </svg>
+            {t("view")}
           </a>
         </div>
       </div>
