@@ -16,7 +16,7 @@ export default async function SiteHeader() {
           <Link href="/#features" className="hover:text-ink">
             {t("nav.features")}
           </Link>
-          <Link href="/designs" className="hover:text-ink">
+          <Link href="/#templates" className="hover:text-ink">
             {t("nav.templates")}
           </Link>
           <Link href="/#how" className="hover:text-ink">
