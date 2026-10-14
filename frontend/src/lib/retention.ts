@@ -1,12 +1,12 @@
 // When the backend's nightly cleanup (TaklifCleanupService) removes an
 // invitation's photos (the invitation itself is kept). Mirrors its rules:
 // it runs at 03:00 Tashkent (22:00 UTC) and deletes the photos of drafts
-// not edited for 7 days, and of every invitation three months after its event.
+// not edited for 7 days, and of every invitation a year after its event.
 
 const HOUR = 60 * 60 * 1000;
 const CLEANUP_UTC_HOUR = 22;
 const DRAFT_MAX_AGE_HOURS = 7 * 24;
-const KEEP_AFTER_EVENT_MONTHS = 3;
+const KEEP_AFTER_EVENT_MONTHS = 12;
 
 /** The first cleanup run strictly after `ms`. */
 function nextCleanupAfter(ms: number) {
