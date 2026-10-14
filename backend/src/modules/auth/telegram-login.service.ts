@@ -53,6 +53,7 @@ interface PendingLogin {
 export class TelegramLoginService implements OnModuleInit {
   private readonly logger = new Logger(TelegramLoginService.name);
   private readonly site: string;
+  private readonly siteUrl: string;
   private readonly devMode: boolean;
 
   constructor(
@@ -61,7 +62,8 @@ export class TelegramLoginService implements OnModuleInit {
     @Inject(REDIS_CLIENT) private readonly redis: Redis,
     config: ConfigService,
   ) {
-    this.site = new URL(config.getOrThrow<string>('siteUrl')).host;
+    this.siteUrl = config.getOrThrow<string>('siteUrl');
+    this.site = new URL(this.siteUrl).host;
     this.devMode =
       config.get<string>('nodeEnv') !== 'production' && !this.bot.enabled;
   }
@@ -145,7 +147,7 @@ export class TelegramLoginService implements OnModuleInit {
     if (login.telegramUserId && login.telegramUserId !== String(from)) {
       return this.reply(chat, login.locale, 'otherAccount');
     }
-    if (login.phone) return this.reply(chat, login.locale, 'done');
+    if (login.phone) return this.done(chat, login.locale);
 
     await this.redis
       .multi()
@@ -188,7 +190,33 @@ export class TelegramLoginService implements OnModuleInit {
       .del(userKey(from))
       .exec();
     this.logger.log(`Telegram login confirmed for ${maskPhone(phone.number)}`);
-    await this.reply(chat, login.locale, 'done', true);
+    await this.done(chat, login.locale);
+  }
+
+  /** "You're logged in", with a button back to the cabinet. */
+  private done(chat: number, locale: BotLocale) {
+    const text = BOT_MESSAGES[locale];
+    // Telegram refuses buttons linking to localhost, so dev gets none. The
+    // contact keyboard was one-time, so it's already hidden.
+    const local = ['localhost', '127.0.0.1'].includes(
+      new URL(this.siteUrl).hostname,
+    );
+    return this.bot.sendMessage(
+      chat,
+      this.fill(text.done),
+      local
+        ? { remove_keyboard: true }
+        : {
+            inline_keyboard: [
+              [
+                {
+                  text: text.backButton,
+                  url: `${this.siteUrl}/${locale}/cabinet`,
+                },
+              ],
+            ],
+          },
+    );
   }
 
   private async find(token: string): Promise<PendingLogin | undefined> {
@@ -201,7 +229,10 @@ export class TelegramLoginService implements OnModuleInit {
   private reply(
     chat: number,
     locale: BotLocale,
-    key: Exclude<keyof (typeof BOT_MESSAGES)['uz'], 'shareButton'>,
+    key: Exclude<
+      keyof (typeof BOT_MESSAGES)['uz'],
+      'shareButton' | 'backButton' | 'done'
+    >,
     removeKeyboard = false,
   ) {
     return this.bot.sendMessage(

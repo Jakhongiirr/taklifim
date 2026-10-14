@@ -37,7 +37,8 @@ export type ReplyMarkup =
       resize_keyboard?: boolean;
       one_time_keyboard?: boolean;
     }
-  | { remove_keyboard: true };
+  | { remove_keyboard: true }
+  | { inline_keyboard: { text: string; url: string }[][] };
 
 /**
  * The site's Telegram bot (TELEGRAM_BOT_TOKEN), through the Bot API. Fetches

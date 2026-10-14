@@ -129,6 +129,11 @@ describe('TelegramLoginService', () => {
       contact: { phone_number: '998901234567', user_id: ALICE },
     });
     expect(sent.at(-1)?.text).toContain('Done');
+    expect(sent.at(-1)?.markup).toEqual({
+      inline_keyboard: [
+        [{ text: 'Back to the site', url: 'https://taklifim.uz/en/cabinet' }],
+      ],
+    });
 
     const result = await service.check(token, secret);
     expect(result.status).toBe('done');

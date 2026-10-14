@@ -9,6 +9,7 @@ export const BOT_MESSAGES: Record<
     askContact: string;
     shareButton: string;
     done: string;
+    backButton: string;
     expired: string;
     notOwn: string;
     otherAccount: string;
@@ -20,6 +21,7 @@ export const BOT_MESSAGES: Record<
       'Siz {site} saytiga kiryapsiz. Telefon raqamingizni yuborish uchun quyidagi tugmani bosing.\n\nAgar bu havolani {site} saytida oʻzingiz ochmagan boʻlsangiz, raqamingizni yubormang.',
     shareButton: '📱 Raqamni yuborish',
     done: '✅ Tayyor! Saytga qayting — siz tizimga kirdingiz.',
+    backButton: 'Saytga qaytish',
     expired:
       'Bu kirish havolasining muddati tugagan. Saytga qaytib, «Telegram orqali kirish» tugmasini qayta bosing.',
     notOwn: 'Iltimos, quyidagi tugma orqali oʻz raqamingizni yuboring.',
@@ -33,6 +35,7 @@ export const BOT_MESSAGES: Record<
       'Вы входите на сайт {site}. Нажмите кнопку ниже, чтобы отправить свой номер телефона.\n\nЕсли вы не открывали эту ссылку сами на {site}, не отправляйте номер.',
     shareButton: '📱 Отправить номер',
     done: '✅ Готово! Вернитесь на сайт — вы вошли.',
+    backButton: 'Вернуться на сайт',
     expired:
       'Срок действия ссылки для входа истёк. Вернитесь на сайт и снова нажмите «Войти через Telegram».',
     notOwn: 'Пожалуйста, отправьте свой номер кнопкой ниже.',
@@ -46,6 +49,7 @@ export const BOT_MESSAGES: Record<
       "You're logging in to {site}. Tap the button below to share your phone number.\n\nIf you didn't open this link yourself on {site}, don't share your number.",
     shareButton: '📱 Share phone number',
     done: "✅ Done! Go back to the site — you're logged in.",
+    backButton: 'Back to the site',
     expired:
       'This login link has expired. Go back to the site and tap “Log in with Telegram” again.',
     notOwn: 'Please share your own number with the button below.',
