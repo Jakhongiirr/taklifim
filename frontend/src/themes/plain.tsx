@@ -43,9 +43,7 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
       )}
 
       <Section title={t("greeting")}>
-        <p>
-          {t("text", { groom: taklif.groomName, bride: taklif.brideName })}
-        </p>
+        <p>{t("text", { groom: taklif.groomName, bride: taklif.brideName })}</p>
         <p className="mt-3 text-muted">
           {t("signature", { host: taklif.hostName })}
         </p>
@@ -95,7 +93,12 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
 
       {taklif.music && (
         <Section title={taklif.music.title}>
-          <audio controls src={taklif.music.file.url} className="w-full" />
+          <audio
+            controls
+            preload="auto"
+            src={taklif.music.file.url}
+            className="w-full"
+          />
         </Section>
       )}
 

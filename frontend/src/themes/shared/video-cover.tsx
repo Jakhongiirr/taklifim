@@ -6,8 +6,6 @@ import SmoothScroll from "./smooth-scroll";
 
 const REVEAL_MS = 900;
 const REDUCED_REVEAL_MS = 300;
-/** The music starts loading by then even if the video is still buffering. */
-const MUSIC_PRELOAD_FALLBACK_MS = 3000;
 
 /**
  * A theme's opening video, bundled with the theme in public/themes/<id>/:
@@ -25,9 +23,8 @@ export interface OpeningVideo {
  * The opening every theme shares. The cover shows the video's first frame
  * under the theme's content (names, date...). Tapping it plays the video
  * once (the walk through the gates) and starts the music (browsers only
- * play audio after a user gesture); both load while the cover shows, the
- * video first and the music once the video can play through, so the tap
- * starts them without waiting. When the video ends, <html> gets `openedClass`
+ * play audio after a user gesture); both preload while the cover shows, so
+ * the tap starts them without waiting. When the video ends, <html> gets `openedClass`
  * for the hero's entrance and the cover fades into the page, whose hero
  * shows the same last frame. Reduced motion and data saver skip the video.
  * Themes can restyle the steps through `data-state` (closed, playing,
@@ -79,13 +76,6 @@ export default function VideoCover({
     };
   }, [isOpen]);
 
-  // The music loads behind the video (see preloadMusic), or after a while
-  // if the browser never says the video can play through (iOS).
-  useEffect(() => {
-    const timer = setTimeout(preloadMusic, MUSIC_PRELOAD_FALLBACK_MS);
-    return () => clearTimeout(timer);
-  }, []);
-
   // Leaving the page resets the entrance.
   useEffect(
     () => () => document.documentElement.classList.remove(openedClass),
@@ -118,16 +108,6 @@ export default function VideoCover({
     setTimeout(() => setState("open"), reduced ? REDUCED_REVEAL_MS : REVEAL_MS);
   }
 
-  /** Starts buffering the music, once, unless it's already loading or playing. */
-  function preloadMusic() {
-    const el = audio.current;
-    if (!el || el.preload === "auto" || el.readyState > 0 || !el.paused) {
-      return;
-    }
-    el.preload = "auto";
-    el.load();
-  }
-
   function toggleMusic() {
     const el = audio.current;
     if (!el) return;
@@ -142,8 +122,7 @@ export default function VideoCover({
           ref={audio}
           src={musicUrl}
           loop
-          // Switched to "auto" once the video has loaded: see preloadMusic.
-          preload="none"
+          preload="auto"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         />
@@ -172,7 +151,6 @@ export default function VideoCover({
               playsInline
               preload="auto"
               aria-hidden
-              onCanPlayThrough={preloadMusic}
               onEnded={reveal}
               onError={() => state === "playing" && reveal()}
               className="absolute inset-0 size-full object-cover"

@@ -39,7 +39,7 @@ export default function DesignVideo({
         poster={`/themes/${themeId}/opening-start.jpg`}
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         aria-label={label}
         onPlay={() => setPlaying(true)}
         onEnded={() => setPlaying(false)}
