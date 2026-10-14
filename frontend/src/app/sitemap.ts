@@ -7,7 +7,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return PUBLIC_PATHS.flatMap((path) =>
     routing.locales.map((locale) => ({
       url: `${SITE_URL}/${locale}${path}`,
-      priority: path === "" ? 1 : path.startsWith("/designs") ? 0.8 : 0.3,
+      priority: path === "" ? 1 : /^\/(designs|wording)/.test(path) ? 0.8 : 0.3,
       alternates: { languages: languageUrls(path, SITE_URL) },
     })),
   );

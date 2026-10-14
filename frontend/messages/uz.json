@@ -7,6 +7,7 @@
     "nav": {
       "features": "Imkoniyatlar",
       "templates": "Dizaynlar",
+      "wording": "Matn namunalari",
       "how": "Qanday ishlaydi",
       "faq": "Savollar",
       "contact": "Bogʻlanish"
@@ -194,6 +195,31 @@
       "title": "Dizaynni tanladingizmi?",
       "text": "Taklifnomani bepul qoralama sifatida yarating va tayyor boʻlgach eʼlon qiling.",
       "button": "Taklifnoma yaratish"
+    }
+  },
+  "Wording": {
+    "home": "Bosh sahifa",
+    "breadcrumbs": "Sahifa yoʻli",
+    "eyebrow": "Matn namunalari",
+    "count": "{count} ta namuna",
+    "open": "Namunalarni koʻrish",
+    "tipsTitle": "Matn yozishda maslahatlar",
+    "samplesTitle": "Tayyor matnlar",
+    "samplesHint": "Kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring.",
+    "copy": "Nusxa olish",
+    "copied": "Nusxalandi",
+    "othersTitle": "Boshqa matnlar",
+    "index": {
+      "title": "Taklifnoma matni namunalari",
+      "text": "Toʻy, fotiha va boshqa marosimlarga taklif qilish uchun tayyor matnlar. Yoqqanidan nusxa oling, ismlar va sanani qoʻying — taklifnoma havolasi bilan yuboring.",
+      "metaTitle": "Taklifnoma matni namunalari — toʻy, fotiha, Telegram uchun | Taklifim",
+      "metaDescription": "Toʻy taklifnomasi uchun tayyor matnlar: ota-ona nomidan, fotiha toʻyiga, doʻstlar va hamkasblarga, Telegram uchun qisqa matnlar va toʻydan keyin rahmat."
+    },
+    "cta": {
+      "title": "Matnni chiroyli taklifnoma bilan yuboring",
+      "text": "Videoli elektron taklifnoma yarating va havolasini shu matn bilan mehmonlarga yuboring. Qoralama bepul.",
+      "button": "Taklifnoma yaratish",
+      "designs": "Dizaynlarni koʻrish"
     }
   },
   "LocaleSwitcher": {

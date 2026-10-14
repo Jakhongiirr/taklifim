@@ -7,6 +7,7 @@
     "nav": {
       "features": "Features",
       "templates": "Designs",
+      "wording": "Wording samples",
       "how": "How it works",
       "faq": "FAQ",
       "contact": "Contact"
@@ -194,6 +195,31 @@
       "title": "Found your design?",
       "text": "Create your invitation as a free draft and publish it when it's ready.",
       "button": "Create an invitation"
+    }
+  },
+  "Wording": {
+    "home": "Home",
+    "breadcrumbs": "Breadcrumbs",
+    "eyebrow": "Wording samples",
+    "count": "{count, plural, one {# example} other {# examples}}",
+    "open": "See the examples",
+    "tipsTitle": "Tips for your wording",
+    "samplesTitle": "Ready-made texts",
+    "samplesHint": "Replace what's in square brackets with your own details.",
+    "copy": "Copy",
+    "copied": "Copied",
+    "othersTitle": "More wording",
+    "index": {
+      "title": "Invitation wording samples",
+      "text": "Ready-made texts to invite guests to a wedding, a fotiha and other celebrations. Copy one you like, add the names and date, and send it with your invitation link.",
+      "metaTitle": "Wedding invitation wording samples — for Telegram and more | Taklifim",
+      "metaDescription": "Ready-made wedding invitation wording: from the parents, for a fotiha, for friends and colleagues, short texts for messengers and thank-you messages."
+    },
+    "cta": {
+      "title": "Send your text with a beautiful invitation",
+      "text": "Create a digital invitation with a video opening and send guests its link with this text. Drafts are free.",
+      "button": "Create an invitation",
+      "designs": "See the designs"
     }
   },
   "LocaleSwitcher": {

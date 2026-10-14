@@ -70,6 +70,9 @@ export default async function SiteFooter() {
           <Link href="/designs" className="hover:text-ink">
             {t("nav.templates")}
           </Link>
+          <Link href="/wording" className="hover:text-ink">
+            {t("nav.wording")}
+          </Link>
           <Link href="/#how" className="hover:text-ink">
             {t("nav.how")}
           </Link>

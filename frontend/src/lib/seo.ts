@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { DESIGN_IDS } from "@/content/designs";
+import { WORDING_TOPICS } from "@/content/wording";
 import { routing } from "@/i18n/routing";
 
 /**
@@ -14,6 +15,8 @@ export const PUBLIC_PATHS = [
   "",
   "/designs",
   ...DESIGN_IDS.map((id) => `/designs/${id}`),
+  "/wording",
+  ...WORDING_TOPICS.map((id) => `/wording/${id}`),
   "/privacy",
   "/terms",
 ];
