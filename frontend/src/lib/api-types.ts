@@ -26,6 +26,8 @@ export interface Music {
   title: string;
   artist: string | null;
   file: FileDto;
+  /** Order in the list: lower comes first. */
+  position: number;
   archivedAt: string | null;
   createdAt: string;
   updatedAt: string;

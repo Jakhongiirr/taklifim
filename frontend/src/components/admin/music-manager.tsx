@@ -50,6 +50,18 @@ export default function MusicManager() {
     );
   }, [music.data, search]);
 
+  // Moves a track one place up or down and saves the whole order.
+  const reorder = useMutation({
+    mutationFn: ({ index, by }: { index: number; by: -1 | 1 }) => {
+      const ids = (music.data ?? []).map((track) => track.id);
+      [ids[index], ids[index + by]] = [ids[index + by], ids[index]];
+      return api<Music[]>("/music/order", { method: "PATCH", json: { ids } });
+    },
+    onSuccess: refresh,
+  });
+  // Ordering works on the full list, so it's off while searching.
+  const canReorder = !search.trim() && !reorder.isPending;
+
   const toggleArchive = useMutation({
     mutationFn: (track: Music) =>
       api<Music>(
@@ -65,7 +77,9 @@ export default function MusicManager() {
         <div>
           <h1 className="text-2xl font-semibold">Music</h1>
           <p className="text-sm text-zinc-500">
-            Archived tracks are hidden from users and can be restored.
+            Shown in the invitation builder in this order: use the arrows to
+            move a track. Archived tracks are hidden from users and can be
+            restored.
           </p>
         </div>
         <Button onClick={() => setEditing({ mode: "create" })}>
@@ -102,6 +116,14 @@ export default function MusicManager() {
         />
       </div>
 
+      {reorder.isError && (
+        <Alert>
+          {reorder.error instanceof ApiError
+            ? reorder.error.fullMessage
+            : "Could not save the order"}
+        </Alert>
+      )}
+
       {toggleArchive.isError && (
         <Alert>
           {toggleArchive.error instanceof ApiError
@@ -133,6 +155,7 @@ export default function MusicManager() {
           <table className="w-full text-left text-sm">
             <thead className="border-b border-zinc-200 text-xs uppercase text-zinc-500 dark:border-zinc-800">
               <tr>
+                <th className="w-20 px-4 py-3 font-medium">Order</th>
                 <th className="px-4 py-3 font-medium">Track</th>
                 <th className="px-4 py-3 font-medium">Audio</th>
                 <th className="px-4 py-3 font-medium">Added</th>
@@ -141,12 +164,41 @@ export default function MusicManager() {
               </tr>
             </thead>
             <tbody className="divide-y divide-zinc-100 dark:divide-zinc-800">
-              {visible.map((track) => {
+              {visible.map((track, index) => {
                 const busy =
                   toggleArchive.isPending &&
                   toggleArchive.variables.id === track.id;
                 return (
                   <tr key={track.id} className="align-middle">
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-1">
+                        <span className="w-5 text-zinc-400 tabular-nums">
+                          {index + 1}
+                        </span>
+                        <div className="flex flex-col">
+                          <button
+                            type="button"
+                            aria-label={`Move ${track.title} up`}
+                            disabled={!canReorder || index === 0}
+                            onClick={() => reorder.mutate({ index, by: -1 })}
+                            className="rounded px-1.5 leading-none text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 disabled:opacity-25 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
+                          >
+                            ▲
+                          </button>
+                          <button
+                            type="button"
+                            aria-label={`Move ${track.title} down`}
+                            disabled={
+                              !canReorder || index === visible.length - 1
+                            }
+                            onClick={() => reorder.mutate({ index, by: 1 })}
+                            className="rounded px-1.5 leading-none text-zinc-500 hover:bg-zinc-100 hover:text-zinc-900 disabled:opacity-25 disabled:hover:bg-transparent dark:hover:bg-zinc-800"
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      </div>
+                    </td>
                     <td className="px-4 py-3">
                       <div className="font-medium">{track.title}</div>
                       <div className="text-zinc-500">

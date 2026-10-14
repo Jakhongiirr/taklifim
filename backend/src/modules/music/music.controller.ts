@@ -30,6 +30,7 @@ import { ListMusicQueryDto } from './dto/list-music-query.dto';
 import { UpdateMusicDto } from './dto/update-music.dto';
 import { MusicDto } from './dto/music.dto';
 import { MusicService } from './music.service';
+import { ReorderMusicDto } from './dto/reorder-music.dto';
 
 @ApiTags('music')
 @ApiBearerAuth()
@@ -42,7 +43,7 @@ export class MusicController {
   @ApiOperation({
     summary: 'List music (no auth needed)',
     description:
-      'Newest first. Everyone sees active tracks; admins (with a token) can pass status=archived|all.',
+      'In the admin-set order. Everyone sees active tracks; admins (with a token) can pass status=archived|all.',
   })
   @ApiForbiddenResponse({ description: 'Non-admin asked for archived music' })
   list(
@@ -77,6 +78,20 @@ export class MusicController {
   @ApiConflictResponse({ description: 'File already used by another track' })
   create(@Body() dto: CreateMusicDto): Promise<MusicDto> {
     return this.musicService.create(dto);
+  }
+
+  @Patch('order')
+  @Roles(Role.Admin)
+  @ApiUnauthorizedResponse({ description: 'Missing or invalid access token' })
+  @ApiOperation({
+    summary: 'Set the order of music in the list (admin)',
+    description:
+      'Pass all track ids, first to last. Tracks left out go after the listed ones.',
+  })
+  @ApiBadRequestResponse({ description: 'Unknown or duplicate ids' })
+  @ApiForbiddenResponse({ description: 'Not an admin' })
+  reorder(@Body() dto: ReorderMusicDto): Promise<MusicDto[]> {
+    return this.musicService.reorder(dto.ids);
   }
 
   @Patch(':id')

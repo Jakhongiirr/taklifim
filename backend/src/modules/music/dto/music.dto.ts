@@ -11,6 +11,9 @@ export class MusicDto {
 
   file: FileDto;
 
+  /** Order in the list: lower comes first. */
+  position: number;
+
   /** Null while active. */
   archivedAt: Date | null;
 

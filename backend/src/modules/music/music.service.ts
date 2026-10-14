@@ -6,7 +6,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { IsNull, Not, Repository } from 'typeorm';
+import { In, IsNull, Not, Repository } from 'typeorm';
 import { isPgError, PG_UNIQUE_VIOLATION } from '../../database/pg-errors';
 import type { JwtPayload } from '../auth/auth.types';
 import { AUDIO_FILE_TYPES } from '../files/file-types';
@@ -33,9 +33,15 @@ export class MusicService {
 
   async create(dto: CreateMusicDto): Promise<MusicDto> {
     await this.assertAudioFile(dto.fileId);
+    // New tracks go last.
+    const { max } = (await this.music
+      .createQueryBuilder('music')
+      .select('MAX(music.position)', 'max')
+      .getRawOne<{ max: number | null }>()) ?? { max: null };
     const { id } = await this.write(() =>
       this.music.save(
         this.music.create({
+          position: (max ?? -1) + 1,
           title: dto.title,
           artist: dto.artist ?? null,
           fileId: dto.fileId,
@@ -68,7 +74,7 @@ export class MusicService {
     const tracks = await this.music.find({
       where: ARCHIVED_FILTER[query.status],
       relations: { file: true },
-      order: { createdAt: 'DESC' },
+      order: { position: 'ASC', createdAt: 'DESC' },
     });
     return tracks.map((track) => this.toDto(track));
   }
@@ -80,6 +86,30 @@ export class MusicService {
       throw new NotFoundException('Music not found');
     }
     return this.toDto(track);
+  }
+
+  /**
+   * Sets the list order: `ids` from first to last. Tracks left out keep their
+   * position after the listed ones.
+   */
+  async reorder(ids: string[]): Promise<MusicDto[]> {
+    const found = await this.music.countBy({ id: In(ids) });
+    if (found !== ids.length) {
+      throw new BadRequestException('ids contains an unknown track');
+    }
+    await this.music.manager.transaction(async (manager) => {
+      // Unlisted tracks move behind the listed ones, keeping their order.
+      await manager
+        .createQueryBuilder()
+        .update(Music)
+        .set({ position: () => `"position" + ${ids.length}` })
+        .where('id NOT IN (:...ids)', { ids })
+        .execute();
+      for (const [position, id] of ids.entries()) {
+        await manager.update(Music, id, { position });
+      }
+    });
+    return this.list({ status: 'all' }, { role: Role.Admin } as JwtPayload);
   }
 
   async archive(id: string): Promise<MusicDto> {
@@ -135,6 +165,7 @@ export class MusicService {
       title: track.title,
       artist: track.artist,
       file: this.files.toDto(track.file),
+      position: track.position,
       archivedAt: track.archivedAt,
       createdAt: track.createdAt,
       updatedAt: track.updatedAt,

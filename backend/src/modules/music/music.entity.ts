@@ -31,6 +31,10 @@ export class Music {
   @JoinColumn({ name: 'fileId' })
   file: File;
 
+  /** Order in the builder's list: lower comes first (set from the admin panel). */
+  @Column({ type: 'integer', default: 0 })
+  position: number;
+
   /** Set when archived; archived tracks are hidden from regular users. */
   @Index()
   @Column({ type: 'timestamptz', nullable: true })
