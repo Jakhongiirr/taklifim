@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { connection } from "next/server";
 import { getTranslations } from "next-intl/server";
 import DesignCard from "@/components/site/designs/design-card";
 import SiteFooter from "@/components/site/site-footer";
@@ -8,9 +9,6 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
-
-// Rebuilt in the background at most every 5 minutes, like the catalog fetch.
-export const revalidate = 300;
 
 const copyFor = (id: string, locale: string) =>
   DESIGN_COPY[id][locale] ?? DESIGN_COPY[id][routing.defaultLocale];
@@ -36,9 +34,13 @@ export async function generateMetadata({
   };
 }
 
+// Rendered per visit, not built ahead: the build can't reach the backend, so
+// a prebuilt page would show no prices until it was rebuilt. The catalog
+// fetch itself is still cached for 5 minutes.
 export default async function DesignsPage({
   params,
 }: PageProps<"/[locale]/designs">) {
+  await connection();
   const { locale } = await params;
   const [t, offerFor] = await Promise.all([
     getTranslations("Designs"),

@@ -4,8 +4,10 @@ import { API_URL, internalHeaders } from "./session";
 
 /**
  * Active demos for the public site, newest first. Cached for 5 minutes, so
- * visitors don't each hit the backend.
- * Returns [] if the backend is down; the page shows an empty state.
+ * visitors don't each hit the backend; once stale, the cached list is still
+ * served while it's refetched, and kept if the refetch fails.
+ * Returns [] if the backend is down and nothing is cached yet; the page shows
+ * an empty state for that visit only (failed answers aren't cached).
  */
 export async function getDemos(): Promise<Demo[]> {
   try {

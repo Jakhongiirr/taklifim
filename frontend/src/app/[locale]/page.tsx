@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
+import { connection } from "next/server";
 import { getTranslations } from "next-intl/server";
 import PhoneMockup from "@/components/site/phone-mockup";
 import FallingPetals from "@/components/site/falling-petals";
@@ -10,9 +11,6 @@ import { TELEGRAM_URL } from "@/content/legal/operator";
 import { Link } from "@/i18n/navigation";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDemos } from "@/lib/server/demos";
-
-// Rebuilt in the background at most every 5 minutes, like the demos fetch.
-export const revalidate = 300;
 
 const FEATURES = ["designs", "music", "rsvp", "card", "qr", "map"] as const;
 
@@ -41,7 +39,11 @@ export async function generateMetadata({
   return { alternates: localeAlternates((await params).locale, "") };
 }
 
+// Rendered per visit, not built ahead: the build can't reach the backend, so
+// a prebuilt page would show no demos until it was rebuilt. The demos
+// fetch itself is still cached for 5 minutes.
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
+  await connection();
   const [{ locale }, t, demos, tMeta] = await Promise.all([
     params,
     getTranslations("HomePage"),
