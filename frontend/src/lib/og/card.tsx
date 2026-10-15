@@ -5,20 +5,66 @@ import type { CSSProperties, ReactNode } from "react";
 import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
 
 // The invitation's generated images — the link preview, the downloadable
-// card and the QR card — share one background (assets/og: a palace
-// colonnade with olive drapes, gold scrollwork and roses), one palette and
+// card and the QR card — share one background (assets/og: a dusty blue
+// panel in a cream frame with roses in the corners), one palette and
 // typography, whatever the theme, and end with a small taklifim.uz ad. The
-// art is shown as is: the text sits in its plain cream middle.
+// text sits in the blue panel.
 
-/** Picked from the background: the drapes' olive, the scrollwork's gold. */
-const INK = "#3b3424";
-const OLIVE = "#3f4b2c";
-const GOLD = "#8a672c";
-const ROSE = "#94474f";
-const MUTED = "#665b43";
+/** Picked from the background: the panel's deep blue, the roses' bronze. */
+const INK = "#1f2f45";
+const NAVY = "#1b2d4a";
+const BRONZE = "#6b4b22";
+const MUTED = "#34465f";
 
-/** The background's size; it covers each card around a focus point. */
-const BG = { width: 1086, height: 1448 };
+/** The background's size. */
+const BG = { width: 720, height: 1011 };
+
+/**
+ * The background's bands along each axis, in its pixels: the corners and
+ * the centre ornaments keep their shape, the plain stretches between them
+ * (`true`) give or take the rest of the card's size.
+ */
+type Band = readonly [from: number, to: number, stretch?: boolean];
+const BANDS_X: Band[] = [
+  [0, 240],
+  [240, 330, true],
+  [330, 395],
+  [395, 440, true],
+  [440, 720],
+];
+const BANDS_Y: Band[] = [
+  [0, 250],
+  [250, 440, true],
+  [440, 540],
+  [540, 690, true],
+  [690, 1011],
+];
+
+/** Where each band lands on a card `length` long at `scale`. */
+function place(bands: Band[], scale: number, length: number) {
+  const fixed = bands.reduce(
+    (sum, [from, to, stretch]) => (stretch ? sum : sum + (to - from) * scale),
+    0,
+  );
+  const loose = bands.reduce(
+    (sum, [from, to, stretch]) => (stretch ? sum + to - from : sum),
+    0,
+  );
+  const k = (length - fixed) / loose;
+  let at = 0;
+  return bands.map(([from, to, stretch]) => {
+    const start = Math.round(at);
+    at += (to - from) * (stretch ? k : scale);
+    const size = Math.round(at) - start;
+    // Much longer than drawn: repeat it instead of smearing it, every other
+    // copy mirrored so the seams meet; an odd count, so both ends still
+    // meet the neighbouring bands.
+    const copies = stretch
+      ? Math.max(1, 2 * Math.round((k / scale - 1) / 2) + 1)
+      : 1;
+    return { from, to, start, size, copies };
+  });
+}
 
 let background: Promise<string> | undefined;
 
@@ -52,27 +98,44 @@ export async function cardAssets() {
 type Assets = Awaited<ReturnType<typeof cardAssets>>;
 
 /**
- * The full-size frame: the background covering it, `zoom` times closer,
- * cropped at `focusY` (0 = its top, 1 = its bottom).
+ * The full-size frame: the background drawn at `scale`, its plain bands
+ * stretched (or repeated) to fill the card.
  */
 function Frame({
   assets,
   width,
   height,
-  zoom = 1,
-  focusY = 0.5,
+  scale,
   children,
 }: {
   assets: Assets;
   width: number;
   height: number;
-  zoom?: number;
-  focusY?: number;
+  scale: number;
   children: ReactNode;
 }) {
-  const scale = zoom * Math.max(width / BG.width, height / BG.height);
-  const w = Math.ceil(BG.width * scale);
-  const h = Math.ceil(BG.height * scale);
+  const xs = place(BANDS_X, scale, width);
+  const ys = place(BANDS_Y, scale, height);
+  const tiles = xs.flatMap((x) =>
+    ys.flatMap((y) =>
+      Array.from({ length: x.copies * y.copies }, (_, i) => {
+        const cx = i % x.copies;
+        const cy = Math.floor(i / x.copies);
+        const left = x.start + Math.round((x.size * cx) / x.copies);
+        const top = y.start + Math.round((y.size * cy) / y.copies);
+        return {
+          key: `${x.from}-${y.from}-${i}`,
+          left,
+          top,
+          width: x.start + Math.round((x.size * (cx + 1)) / x.copies) - left,
+          height: y.start + Math.round((y.size * (cy + 1)) / y.copies) - top,
+          x,
+          y,
+          flip: [cx % 2 === 1 ? -1 : 1, cy % 2 === 1 ? -1 : 1],
+        };
+      }),
+    ),
+  );
   return (
     <div
       style={{
@@ -87,18 +150,38 @@ function Frame({
         textAlign: "center",
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-      <img
-        src={assets.bg}
-        alt=""
-        width={w}
-        height={h}
-        style={{
-          position: "absolute",
-          left: Math.round((width - w) / 2),
-          top: Math.round((height - h) * focusY),
-        }}
-      />
+      {tiles.map(({ key, left, top, width: w, height: h, x, y, flip }) => {
+        const kx = w / (x.to - x.from);
+        const ky = h / (y.to - y.from);
+        return (
+          <div
+            key={key}
+            style={{
+              position: "absolute",
+              left,
+              top,
+              width: w,
+              height: h,
+              display: "flex",
+              overflow: "hidden",
+              transform: `scale(${flip[0]}, ${flip[1]})`,
+            }}
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+            <img
+              src={assets.bg}
+              alt=""
+              width={BG.width * kx}
+              height={BG.height * ky}
+              style={{
+                position: "absolute",
+                left: -x.from * kx,
+                top: -y.from * ky,
+              }}
+            />
+          </div>
+        );
+      })}
       {children}
     </div>
   );
@@ -157,7 +240,7 @@ function Names({
         fontFamily: assets.nameFamily,
         fontSize: size,
         lineHeight: 1.1,
-        color: OLIVE,
+        color: NAVY,
       }}
     >
       <span>{groom}</span>
@@ -165,7 +248,7 @@ function Names({
         style={{
           fontFamily: assets.capsFamily,
           fontSize: size * 0.32,
-          color: GOLD,
+          color: BRONZE,
           margin: inline ? "0 0.5em" : "0",
         }}
       >
@@ -180,16 +263,16 @@ function Names({
 function Divider({ width = 90 }: { width?: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div style={{ width, height: 1.5, background: GOLD }} />
+      <div style={{ width, height: 1.5, background: BRONZE }} />
       <div
         style={{
           width: 10,
           height: 10,
-          border: `1.5px solid ${GOLD}`,
+          border: `1.5px solid ${BRONZE}`,
           transform: "rotate(45deg)",
         }}
       />
-      <div style={{ width, height: 1.5, background: GOLD }} />
+      <div style={{ width, height: 1.5, background: BRONZE }} />
     </div>
   );
 }
@@ -198,7 +281,7 @@ function Divider({ width = 90 }: { width?: number }) {
 function Caps({
   assets,
   size,
-  color = GOLD,
+  color = BRONZE,
   spacing = 0.22,
   style,
   children,
@@ -302,8 +385,20 @@ export function PreviewCard({
   // Short couples on one line, longer ones stacked.
   const inline = text.groom.length + text.bride.length <= 20;
   return (
-    // The upper middle: the plain wall between the scrollwork and the roses.
-    <Frame assets={assets} width={width} height={height} focusY={0.26}>
+    // The frame drawn small, its plain edges repeated along the width.
+    <Frame assets={assets} width={width} height={height} scale={0.7}>
+      {/* A soft wash of the panel's blue calms the repeats behind the text. */}
+      <div
+        style={{
+          position: "absolute",
+          left: 140,
+          top: 60,
+          width: 920,
+          height: 500,
+          background:
+            "radial-gradient(ellipse at center, rgba(205,217,229,0.8) 0%, rgba(205,217,229,0.55) 45%, rgba(205,217,229,0) 72%)",
+        }}
+      />
       <Content top={50} height={470}>
         <Names
           assets={assets}
@@ -318,7 +413,7 @@ export function PreviewCard({
         <Caps
           assets={assets}
           size={34}
-          color={ROSE}
+          color={BRONZE}
           spacing={0.12}
           style={{ marginTop: 22 }}
         >
@@ -337,7 +432,7 @@ export function PreviewCard({
           {text.venue}
         </div>
       </Content>
-      <Ad assets={assets} text={text.ad} scale={0.6} bottom={34} />
+      <Ad assets={assets} text={text.ad} scale={0.6} bottom={66} />
     </Frame>
   );
 }
@@ -373,37 +468,31 @@ export function StoryCard({
     width: 230,
     justifyContent: "center",
     padding: "12px 0",
-    borderTop: `1.5px solid ${GOLD}`,
-    borderBottom: `1.5px solid ${GOLD}`,
+    borderTop: `1.5px solid ${BRONZE}`,
+    borderBottom: `1.5px solid ${BRONZE}`,
   };
   return (
-    // Closer in, so the plain wall spans the width; the steps at the bottom.
-    <Frame
-      assets={assets}
-      width={width}
-      height={height}
-      zoom={1.15}
-      focusY={0.6}
-    >
-      {/* Under the scrollwork, down to the garden behind the balustrade. */}
-      <Content top={320} height={790}>
-        <Caps assets={assets} size={30} color={ROSE}>
+    // The frame across the full width, its plain sides drawn out.
+    <Frame assets={assets} width={width} height={height} scale={1.5}>
+      {/* The panel, between the corner roses. */}
+      <Content top={280} height={1150}>
+        <Caps assets={assets} size={34} color={BRONZE}>
           {invite}
         </Caps>
-        <div style={{ marginTop: 18, display: "flex" }}>
+        <div style={{ marginTop: 30, display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={nameSize(text.groom, text.bride, [136, 112, 94])}
+            size={nameSize(text.groom, text.bride, [150, 118, 84])}
           />
         </div>
-        <div style={{ marginTop: 20, display: "flex" }}>
+        <div style={{ marginTop: 34, display: "flex" }}>
           <Divider width={110} />
         </div>
         <div
           style={{
-            marginTop: 20,
+            marginTop: 34,
             display: "flex",
             alignItems: "center",
             gap: 30,
@@ -418,7 +507,7 @@ export function StoryCard({
               fontFamily: assets.capsFamily,
               fontSize: 108,
               lineHeight: 1,
-              color: ROSE,
+              color: BRONZE,
             }}
           >
             {day}
@@ -427,15 +516,15 @@ export function StoryCard({
             {time}
           </Caps>
         </div>
-        <Caps assets={assets} size={32} style={{ marginTop: 10 }}>
+        <Caps assets={assets} size={34} style={{ marginTop: 14 }}>
           {`${month} ${year}`}
         </Caps>
         <div
           style={{
             display: "flex",
-            marginTop: 22,
-            maxWidth: 680,
-            fontSize: 44,
+            marginTop: 40,
+            maxWidth: 660,
+            fontSize: 48,
             fontWeight: 600,
             lineHeight: 1.15,
             color: INK,
@@ -447,9 +536,9 @@ export function StoryCard({
         <div
           style={{
             display: "flex",
-            marginTop: 6,
-            maxWidth: 640,
-            fontSize: 31,
+            marginTop: 8,
+            maxWidth: 620,
+            fontSize: 33,
             fontWeight: 600,
             lineHeight: 1.25,
             color: MUTED,
@@ -461,17 +550,17 @@ export function StoryCard({
         <div
           style={{
             display: "flex",
-            marginTop: 18,
+            marginTop: 36,
             fontFamily: assets.nameFamily,
-            fontSize: 50,
-            color: OLIVE,
+            fontSize: 56,
+            color: NAVY,
           }}
         >
           {signature}
         </div>
       </Content>
-      {/* In the pale arch under the balustrade. */}
-      <Ad assets={assets} text={text.ad} scale={0.85} bottom={330} />
+      {/* At the panel's foot, between the roses. */}
+      <Ad assets={assets} text={text.ad} scale={0.85} bottom={400} />
     </Frame>
   );
 }
@@ -494,20 +583,20 @@ export function QrCard({
   const { width, height } = QR_CARD_SIZE;
   const names = `${text.groom} & ${text.bride}`;
   return (
-    // Bottom-aligned, so the ad stands on the steps.
-    <Frame assets={assets} width={width} height={height} focusY={1}>
+    // The frame a little smaller, so the code fits between the roses.
+    <Frame assets={assets} width={width} height={height} scale={1.3}>
       <Content top={190} height={820}>
         <Names
           assets={assets}
           groom={text.groom}
           bride={text.bride}
-          size={names.length > 26 ? 56 : names.length > 18 ? 68 : 80}
-          inline
+          size={names.length > 26 ? 60 : names.length > 18 ? 68 : 80}
+          inline={names.length <= 26}
         />
         <Caps
           assets={assets}
           size={32}
-          color={ROSE}
+          color={BRONZE}
           spacing={0.12}
           style={{ marginTop: 8 }}
         >
@@ -529,7 +618,7 @@ export function QrCard({
             padding: 30,
             background: "#ffffff",
             borderRadius: 24,
-            border: `2px solid ${GOLD}`,
+            border: `2px solid ${BRONZE}`,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
