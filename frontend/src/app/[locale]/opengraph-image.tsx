@@ -51,7 +51,7 @@ export default async function Image({
     ogFonts(),
     ogLogo(),
     getDemos(),
-    ogNameFont("great-vibes"),
+    ogNameFont(),
     ...SHOWCASE.map(({ id }) => ogPublicImage(`themes/${id}/opening-end.jpg`)),
   ]);
   // "Invite your guests with a <accent>beautiful invitation</accent>"

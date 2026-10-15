@@ -54,81 +54,41 @@ export function ogFonts() {
 }
 
 /**
- * The themes' typefaces for the couple's names (WOFF, in assets/fonts/<key>),
- * one family name per subset like Cormorant's.
+ * The names' script, Great Vibes (WOFF, in assets/fonts/great-vibes), one
+ * family name per subset like Cormorant's.
  */
-const NAME_FONTS = {
-  "great-vibes": {
-    name: "GreatVibes",
-    subsets: ["latin", "latin-ext", "cyrillic"],
-  },
-  // Latin only: Cyrillic names fall back to Great Vibes, like the page.
-  parisienne: {
-    name: "Parisienne",
-    subsets: ["latin", "latin-ext"],
-    fallback: "great-vibes",
-  },
-  "marck-script": {
-    name: "MarckScript",
-    subsets: ["latin", "latin-ext", "cyrillic"],
-  },
-  "playfair-display": {
-    name: "PlayfairItalic",
-    subsets: ["latin", "latin-ext", "cyrillic"],
-    variant: "400-italic",
-  },
-  "yeseva-one": {
-    name: "YesevaOne",
-    subsets: ["latin", "latin-ext", "cyrillic"],
-  },
-  // No Latin Extended: Uzbek ʻ falls back to Cormorant.
-  prata: { name: "Prata", subsets: ["latin", "cyrillic"] },
+const NAME_FONT = {
+  key: "great-vibes",
+  name: "GreatVibes",
+  subsets: ["latin", "latin-ext", "cyrillic"],
 } as const;
 
-export type NameFont = keyof typeof NAME_FONTS;
-
-const nameFonts = new Map<NameFont, Promise<OgFont[]>>();
+let nameFonts: Promise<OgFont[]> | undefined;
 
 /**
- * A theme's name typeface: its fonts (add them to `ogFonts()`'s) and the
+ * The names' script: its fonts (add them to `ogFonts()`'s) and the
  * `fontFamily` to use, falling back to Cormorant for missing letters.
  */
-export async function ogNameFont(
-  key: NameFont,
-): Promise<{ fonts: OgFont[]; family: string }> {
-  const font: {
-    name: string;
-    subsets: readonly string[];
-    variant?: string;
-    fallback?: NameFont;
-  } = NAME_FONTS[key];
-  const { name, subsets, variant = "400-normal", fallback } = font;
+export async function ogNameFont(): Promise<{
+  fonts: OgFont[];
+  family: string;
+}> {
+  const { key, name, subsets } = NAME_FONT;
   const family = subsets.map((subset) => `${name}-${subset}`);
-  if (!nameFonts.has(key)) {
-    nameFonts.set(
-      key,
-      Promise.all(
-        subsets.map(async (subset, i) => ({
-          name: family[i],
-          data: await readFile(
-            join(
-              process.cwd(),
-              `assets/fonts/${key}/${key}-${subset}-${variant}.woff`,
-            ),
-          ),
-          weight: 400 as const,
-          style: "normal" as const,
-        })),
+  nameFonts ??= Promise.all(
+    subsets.map(async (subset, i) => ({
+      name: family[i],
+      data: await readFile(
+        join(
+          process.cwd(),
+          `assets/fonts/${key}/${key}-${subset}-400-normal.woff`,
+        ),
       ),
-    );
-  }
-  const own = await nameFonts.get(key)!;
-  // A Latin-only script borrows another one's Cyrillic, then Cormorant.
-  const extra = fallback ? await ogNameFont(fallback) : null;
-  return {
-    fonts: extra ? [...own, ...extra.fonts] : own,
-    family: [...family, extra?.family ?? OG_FONT].join(", "),
-  };
+      weight: 400 as const,
+      style: "normal" as const,
+    })),
+  );
+  return { fonts: await nameFonts, family: [...family, OG_FONT].join(", ") };
 }
 
 const publicImages = new Map<string, Promise<string>>();
@@ -154,23 +114,6 @@ export function ogLogo() {
     join(process.cwd(), "public/brand/logo-horizontal.svg"),
   ).then((svg) => `data:image/svg+xml;base64,${svg.toString("base64")}`);
   return logo;
-}
-
-/**
- * A remote image as a data URI, or null if it can't be fetched quickly
- * (the preview then renders without it rather than failing). JPEG and PNG
- * only: the renderer does not reliably decode WebP.
- */
-export async function ogImageData(url: string): Promise<string | null> {
-  try {
-    const res = await fetch(url, { signal: AbortSignal.timeout(4000) });
-    const type = res.headers.get("content-type") ?? "";
-    if (!res.ok || !/^image\/(jpeg|png)/.test(type)) return null;
-    const data = Buffer.from(await res.arrayBuffer());
-    return `data:${type};base64,${data.toString("base64")}`;
-  } catch {
-    return null;
-  }
 }
 
 export const OG_SIZE = { width: 1200, height: 630 };
