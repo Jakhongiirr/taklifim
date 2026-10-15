@@ -312,6 +312,53 @@ function Caps({
   );
 }
 
+/** The guest greeting: a line in italics, then the invitation itself. */
+function Greeting({
+  greeting,
+  size,
+  width,
+}: {
+  greeting: CardGreeting;
+  size: number;
+  width: number;
+}) {
+  return (
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        maxWidth: width,
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          fontSize: size * 1.15,
+          fontWeight: 600,
+          fontStyle: "italic",
+          color: NAVY,
+        }}
+      >
+        {greeting.title}
+      </div>
+      <div
+        style={{
+          display: "flex",
+          marginTop: size * 0.3,
+          fontSize: size,
+          fontWeight: 600,
+          lineHeight: 1.3,
+          color: INK,
+          justifyContent: "center",
+        }}
+      >
+        {greeting.text}
+      </div>
+    </div>
+  );
+}
+
 /** The ad at the bottom: the logo and a line of text. */
 function Ad({
   assets,
@@ -374,6 +421,12 @@ export interface CardText {
   venue: string;
   /** The ad's line. */
   ad: string;
+}
+
+/** The greeting to the guest on the PNG and QR cards. */
+export interface CardGreeting {
+  title: string;
+  text: string;
 }
 
 export const PREVIEW_SIZE = { width: 1200, height: 630 };
@@ -445,7 +498,7 @@ export const STORY_SIZE = { width: 1080, height: 1920 };
 /** The invitation as a phone-screen PNG the owner can send anywhere. */
 export function StoryCard({
   assets,
-  invite,
+  greeting,
   weekday,
   day,
   month,
@@ -456,7 +509,7 @@ export function StoryCard({
   ...text
 }: Omit<CardText, "date"> & {
   assets: Assets;
-  invite: string;
+  greeting: CardGreeting;
   weekday: string;
   day: number;
   month: string;
@@ -478,16 +531,14 @@ export function StoryCard({
     // The frame across the full width, its plain sides drawn out.
     <Frame assets={assets} width={width} height={height} scale={1.5}>
       {/* The panel, between the corner roses. */}
-      <Content top={280} height={1150}>
-        <Caps assets={assets} size={40} color={BRONZE}>
-          {invite}
-        </Caps>
+      <Content top={250} height={1220}>
+        <Greeting greeting={greeting} size={34} width={780} />
         <div style={{ marginTop: 30, display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={nameSize(text.groom, text.bride, [166, 130, 94])}
+            size={nameSize(text.groom, text.bride, [140, 118, 90])}
           />
         </div>
         <div style={{ marginTop: 34, display: "flex" }}>
@@ -570,16 +621,18 @@ export function StoryCard({
 }
 
 export const QR_CARD_SIZE = { width: 1080, height: 1350 };
-const QR_SIZE = 440;
+const QR_SIZE = 360;
 
 /** The invitation's QR code, to print or put on a screen. */
 export function QrCard({
   assets,
+  greeting,
   qr,
   scan,
   ...text
 }: Omit<CardText, "venue"> & {
   assets: Assets;
+  greeting: CardGreeting;
   /** The code as an SVG string. */
   qr: string;
   scan: string;
@@ -589,14 +642,17 @@ export function QrCard({
   return (
     // The frame a little smaller, so the code fits between the roses.
     <Frame assets={assets} width={width} height={height} scale={1.3}>
-      <Content top={190} height={820}>
-        <Names
-          assets={assets}
-          groom={text.groom}
-          bride={text.bride}
-          size={names.length > 26 ? 66 : names.length > 18 ? 78 : 92}
-          inline={names.length <= 26}
-        />
+      <Content top={170} height={890}>
+        <Greeting greeting={greeting} size={26} width={780} />
+        <div style={{ marginTop: 14, display: "flex" }}>
+          <Names
+            assets={assets}
+            groom={text.groom}
+            bride={text.bride}
+            size={names.length > 26 ? 60 : names.length > 18 ? 72 : 84}
+            inline={names.length <= 26}
+          />
+        </div>
         <Caps
           assets={assets}
           size={40}

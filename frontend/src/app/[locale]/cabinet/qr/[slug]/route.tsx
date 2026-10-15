@@ -46,6 +46,10 @@ export async function GET(
   const image = new ImageResponse(
     <QrCard
       assets={assets}
+      greeting={{
+        title: t("cardGreeting.title"),
+        text: t("cardGreeting.text"),
+      }}
       groom={taklif.groomName}
       bride={taklif.brideName}
       date={tDates("dateTime", { day, month: months[month], year, time })}
