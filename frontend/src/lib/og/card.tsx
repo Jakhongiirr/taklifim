@@ -433,7 +433,8 @@ export function PreviewCard({
           {text.venue}
         </div>
       </Content>
-      <Ad assets={assets} text={text.ad} scale={0.6} bottom={66} />
+      {/* Inside the frame, just above its bottom ornament. */}
+      <Ad assets={assets} text={text.ad} scale={0.6} bottom={72} />
     </Frame>
   );
 }
@@ -561,8 +562,8 @@ export function StoryCard({
           {signature}
         </div>
       </Content>
-      {/* At the panel's foot, between the roses. */}
-      <Ad assets={assets} text={text.ad} scale={0.85} bottom={400} />
+      {/* Inside the frame, just above its bottom ornament. */}
+      <Ad assets={assets} text={text.ad} scale={0.85} bottom={210} />
     </Frame>
   );
 }
@@ -632,7 +633,8 @@ export function QrCard({
           />
         </div>
       </Content>
-      <Ad assets={assets} text={text.ad} scale={0.8} bottom={16} />
+      {/* Inside the frame, just above its bottom ornament. */}
+      <Ad assets={assets} text={text.ad} scale={0.8} bottom={180} />
     </Frame>
   );
 }
