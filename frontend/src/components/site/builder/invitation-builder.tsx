@@ -22,7 +22,7 @@ import { prepareImage } from "@/lib/prepare-image";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
 import { useConfirm } from "../confirm-dialog";
 import DesignPicker from "./design-picker";
-import Field, { inputClass } from "./field";
+import Field, { inputClass, pickerClass } from "./field";
 import MusicPicker from "./music-picker";
 import PhotoPicker from "./photo-picker";
 import type { Design, Photo } from "./types";
@@ -436,7 +436,7 @@ export default function InvitationBuilder({
             <div className="flex gap-2">
               <div className="min-w-0 flex-1">
                 <input
-                  className={inputClass}
+                  className={pickerClass}
                   type="date"
                   name="eventAt"
                   aria-invalid={!!errors.eventAt}
@@ -462,7 +462,7 @@ export default function InvitationBuilder({
               </div>
               <div className="w-32 shrink-0">
                 <input
-                  className={inputClass}
+                  className={pickerClass}
                   type="time"
                   aria-label={t("fields.eventTime")}
                   aria-invalid={!!errors.eventAt}
