@@ -126,9 +126,9 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, by the swing among the roses (fixed behind, like a window). */}
-        <section className="relative [clip-path:inset(0)]">
-          <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
+        {/* The words, by the swing among the roses. */}
+        <section className="relative">
+          <div className="absolute inset-0">
             <Image
               src={`${ASSETS}/backdrop.jpg`}
               alt=""

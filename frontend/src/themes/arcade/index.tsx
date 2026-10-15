@@ -123,9 +123,9 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, in the rose arcade (fixed behind, like a window). */}
-        <section className="relative [clip-path:inset(0)]">
-          <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
+        {/* The words, in the rose arcade. */}
+        <section className="relative">
+          <div className="absolute inset-0">
             <Image
               src={`${ASSETS}/backdrop.jpg`}
               alt=""
