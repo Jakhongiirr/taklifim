@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
+import { connection } from "next/server";
 import { getTranslations } from "next-intl/server";
 import DesignCard from "@/components/site/designs/design-card";
 import { DESIGN_NAME_FONT } from "@/components/site/designs/design-fonts";
@@ -13,15 +14,6 @@ import { routing } from "@/i18n/routing";
 import { formatSum } from "@/lib/format";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
-
-// Rebuilt in the background at most every 5 minutes, like the catalog fetch.
-export const revalidate = 300;
-// Only the designs with copy have a page.
-export const dynamicParams = false;
-
-export function generateStaticParams() {
-  return DESIGN_IDS.map((design) => ({ design }));
-}
 
 /** What every design comes with (the home page's feature names). */
 const INCLUDED = [
@@ -37,6 +29,9 @@ const INCLUDED = [
   "languages",
 ] as const;
 
+/** Only the designs with copy have a page. */
+const hasPage = (id: string) => DESIGN_IDS.includes(id);
+
 const copyFor = (id: string, locale: string) =>
   DESIGN_COPY[id][locale] ?? DESIGN_COPY[id][routing.defaultLocale];
 
@@ -44,6 +39,7 @@ export async function generateMetadata({
   params,
 }: PageProps<"/[locale]/designs/[design]">): Promise<Metadata> {
   const { locale, design } = await params;
+  if (!hasPage(design)) notFound();
   const t = await getTranslations("Designs");
   const title = t("metaTitle", { name: designName(design) });
   const description = copyFor(design, locale).tagline;
@@ -61,10 +57,15 @@ export async function generateMetadata({
   };
 }
 
+// Rendered per visit, not built ahead: the build can't reach the backend, so
+// a prebuilt page would show no prices until it was rebuilt. The catalog
+// fetch itself is still cached for 5 minutes.
 export default async function DesignPage({
   params,
 }: PageProps<"/[locale]/designs/[design]">) {
+  await connection();
   const { locale, design } = await params;
+  if (!hasPage(design)) notFound();
   const [t, tFeatures, offerFor] = await Promise.all([
     getTranslations("Designs"),
     getTranslations("HomePage.features"),
