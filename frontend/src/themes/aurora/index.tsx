@@ -82,7 +82,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="aurora-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fbf6ec]/10 via-70% to-[#fbf6ec]/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf6ec]/35 via-65% to-[#fbf6ec]/70" />
           <Sparkles />
           <div className="relative">
             <p

@@ -96,7 +96,7 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="violet-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#1b1430]/10 via-70% to-[#1b1430]/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#1b1430]/35 via-65% to-[#1b1430]/70" />
           <Lanterns />
           <div className="relative">
             <p
