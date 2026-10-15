@@ -96,7 +96,7 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="violet-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-30% via-[#1b1430]/75 via-60% to-[#1b1430]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#1b1430]/10 via-70% to-[#1b1430]/30" />
           <Lanterns />
           <div className="relative">
             <p
@@ -133,9 +133,9 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, on the moonlit terrace (fixed behind, like a window). */}
-        <section className="relative [clip-path:inset(0)]">
-          <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
+        {/* The words, on the moonlit terrace. */}
+        <section className="relative">
+          <div className="absolute inset-0">
             <Image
               src={`${ASSETS}/backdrop.jpg`}
               alt=""

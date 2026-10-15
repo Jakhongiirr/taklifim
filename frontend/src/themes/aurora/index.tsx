@@ -82,7 +82,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="aurora-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#fbf6ec]/10 via-45% to-[#fbf6ec]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fbf6ec]/10 via-70% to-[#fbf6ec]/30" />
           <Sparkles />
           <div className="relative">
             <p
@@ -119,9 +119,9 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, on the sunlit terrace (fixed behind, like a window). */}
-        <section className="relative [clip-path:inset(0)]">
-          <div className="fixed inset-y-0 left-1/2 -z-0 w-full max-w-md -translate-x-1/2">
+        {/* The words, on the sunlit terrace. */}
+        <section className="relative">
+          <div className="absolute inset-0 -z-0">
             <Image
               src={`${ASSETS}/backdrop.jpg`}
               alt=""

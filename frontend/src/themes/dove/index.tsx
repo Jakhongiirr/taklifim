@@ -92,7 +92,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="dove-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-30% via-[#fbf3ee]/70 via-60% to-[#fbf3ee]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fbf3ee]/10 via-70% to-[#fbf3ee]/30" />
           <Feathers />
           <div className="relative">
             <p
@@ -126,9 +126,9 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, under an arch in the garden (fixed behind, like a window). */}
-        <section className="relative [clip-path:inset(0)]">
-          <div className="fixed inset-y-0 left-1/2 w-full max-w-md -translate-x-1/2">
+        {/* The words, under an arch in the garden. */}
+        <section className="relative">
+          <div className="absolute inset-0">
             <Image
               src={`${ASSETS}/backdrop.jpg`}
               alt=""
