@@ -92,7 +92,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="dove-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fbf3ee]/10 via-70% to-[#fbf3ee]/30" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf3ee]/35 via-65% to-[#fbf3ee]/70" />
           <Feathers />
           <div className="relative">
             <p
