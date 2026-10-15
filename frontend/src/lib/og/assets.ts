@@ -62,8 +62,6 @@ const EXTRA_FONTS = {
     name: "GreatVibes",
     subsets: ["latin", "latin-ext", "cyrillic"],
   },
-  // Latin only: Cyrillic falls back to Great Vibes (ogFont's `fallback`).
-  "pinyon-script": { name: "PinyonScript", subsets: ["latin", "latin-ext"] },
   forum: { name: "Forum", subsets: ["latin", "latin-ext", "cyrillic"] },
 } as const;
 

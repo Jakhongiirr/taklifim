@@ -11,10 +11,10 @@ import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
 // text sits in the blue panel.
 
 /** Picked from the background: the panel's deep blue, the roses' bronze. */
-const INK = "#1f2f45";
-const NAVY = "#1b2d4a";
-const BRONZE = "#6b4b22";
-const MUTED = "#34465f";
+const INK = "#14223a";
+const NAVY = "#132541";
+const BRONZE = "#5a3c14";
+const MUTED = "#22344f";
 
 /** The background's size. */
 const BG = { width: 720, height: 1011 };
@@ -80,8 +80,7 @@ function ogBackground() {
 export async function cardAssets() {
   const [base, names, caps, bg, logo] = await Promise.all([
     ogFonts(),
-    // Pinyon Script is Latin only: Cyrillic names get Great Vibes.
-    ogFont("pinyon-script", "great-vibes"),
+    ogFont("great-vibes"),
     ogFont("forum"),
     ogBackground(),
     ogLogo(),
@@ -148,6 +147,8 @@ function Frame({
         fontFamily: OG_FONT,
         color: INK,
         textAlign: "center",
+        // A soft light halo lifts the text off the mottled blue.
+        textShadow: "0 0 14px rgba(236,242,248,0.85)",
       }}
     >
       {tiles.map(({ key, left, top, width: w, height: h, x, y, flip }) => {
@@ -282,7 +283,7 @@ function Caps({
   assets,
   size,
   color = BRONZE,
-  spacing = 0.22,
+  spacing = 0.14,
   style,
   children,
 }: {
@@ -412,9 +413,9 @@ export function PreviewCard({
         </div>
         <Caps
           assets={assets}
-          size={34}
+          size={38}
           color={BRONZE}
-          spacing={0.12}
+          spacing={0.08}
           style={{ marginTop: 22 }}
         >
           {text.date}
@@ -423,9 +424,9 @@ export function PreviewCard({
           style={{
             display: "flex",
             marginTop: 10,
-            fontSize: 34,
+            fontSize: 40,
             fontWeight: 600,
-            maxWidth: 700,
+            maxWidth: 760,
             justifyContent: "center",
           }}
         >
@@ -476,7 +477,7 @@ export function StoryCard({
     <Frame assets={assets} width={width} height={height} scale={1.5}>
       {/* The panel, between the corner roses. */}
       <Content top={280} height={1150}>
-        <Caps assets={assets} size={34} color={BRONZE}>
+        <Caps assets={assets} size={38} color={BRONZE}>
           {invite}
         </Caps>
         <div style={{ marginTop: 30, display: "flex" }}>
@@ -498,7 +499,7 @@ export function StoryCard({
             gap: 30,
           }}
         >
-          <Caps assets={assets} size={30} color={INK} style={side}>
+          <Caps assets={assets} size={34} color={INK} style={side}>
             {weekday}
           </Caps>
           <div
@@ -512,11 +513,11 @@ export function StoryCard({
           >
             {day}
           </div>
-          <Caps assets={assets} size={30} color={INK} style={side}>
+          <Caps assets={assets} size={34} color={INK} style={side}>
             {time}
           </Caps>
         </div>
-        <Caps assets={assets} size={34} style={{ marginTop: 14 }}>
+        <Caps assets={assets} size={40} style={{ marginTop: 14 }}>
           {`${month} ${year}`}
         </Caps>
         <div
@@ -524,7 +525,7 @@ export function StoryCard({
             display: "flex",
             marginTop: 40,
             maxWidth: 660,
-            fontSize: 48,
+            fontSize: 54,
             fontWeight: 600,
             lineHeight: 1.15,
             color: INK,
@@ -538,7 +539,7 @@ export function StoryCard({
             display: "flex",
             marginTop: 8,
             maxWidth: 620,
-            fontSize: 33,
+            fontSize: 38,
             fontWeight: 600,
             lineHeight: 1.25,
             color: MUTED,
@@ -551,8 +552,9 @@ export function StoryCard({
           style={{
             display: "flex",
             marginTop: 36,
-            fontFamily: assets.nameFamily,
-            fontSize: 56,
+            fontSize: 46,
+            fontWeight: 500,
+            fontStyle: "italic",
             color: NAVY,
           }}
         >
@@ -595,17 +597,17 @@ export function QrCard({
         />
         <Caps
           assets={assets}
-          size={32}
+          size={36}
           color={BRONZE}
-          spacing={0.12}
+          spacing={0.08}
           style={{ marginTop: 8 }}
         >
           {text.date}
         </Caps>
         <Caps
           assets={assets}
-          size={22}
-          spacing={0.14}
+          size={26}
+          spacing={0.1}
           style={{ marginTop: 22 }}
         >
           {scan}
