@@ -130,6 +130,7 @@ function Names({
     <span
       style={{
         fontFamily: OG_FONT,
+        fontStyle: "italic",
         fontSize: size * 0.42,
         color: GOLD,
         margin: inline ? "0 0.4em" : "2px 0",
@@ -304,24 +305,46 @@ export function StoryCard({
   assets,
   invite,
   weekday,
+  day,
+  month,
+  year,
+  time,
   address,
   signature,
   ...text
-}: CardText & {
+}: Omit<CardText, "date"> & {
   assets: Assets;
   invite: string;
   weekday: string;
+  day: number;
+  month: string;
+  year: number;
+  time: string;
   address: string;
   signature: string;
 }) {
   const { width, height } = STORY_SIZE;
+  // Weekday and time either side of the day, between thin gold rules.
+  const side: CSSProperties = {
+    width: 250,
+    display: "flex",
+    justifyContent: "center",
+    padding: "14px 0",
+    borderTop: `2px solid ${GOLD}`,
+    borderBottom: `2px solid ${GOLD}`,
+    fontSize: 36,
+    letterSpacing: 5,
+    textTransform: "uppercase",
+    color: INK,
+    fontWeight: 600,
+  };
   return (
     <Frame
       assets={assets}
       width={width}
       height={height}
-      glow={42}
-      band={[20, 76]}
+      glow={46}
+      band={[11, 85]}
     >
       <div
         style={{
@@ -330,43 +353,73 @@ export function StoryCard({
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center",
-          padding: "0 90px 120px",
+          padding: "0 70px 90px",
         }}
       >
-        <div style={{ fontSize: 42, fontStyle: "italic", color: ROSE }}>
+        <div
+          style={{
+            display: "flex",
+            fontSize: 34,
+            letterSpacing: 7,
+            textTransform: "uppercase",
+            color: ROSE,
+            fontWeight: 600,
+          }}
+        >
           {invite}
         </div>
-        <div style={{ marginTop: 36, display: "flex" }}>
+        <div style={{ marginTop: 24, display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={nameSize(text.groom, text.bride, [150, 124, 100])}
+            size={nameSize(text.groom, text.bride, [196, 160, 128])}
           />
         </div>
-        <div style={{ marginTop: 40, display: "flex" }}>
-          <Divider />
+        <div style={{ marginTop: 28, display: "flex" }}>
+          <Divider width={130} />
         </div>
         <div
           style={{
-            marginTop: 30,
-            fontSize: 30,
-            letterSpacing: 5,
+            marginTop: 40,
+            display: "flex",
+            alignItems: "center",
+            gap: 34,
+          }}
+        >
+          <div style={side}>{weekday}</div>
+          <div
+            style={{
+              display: "flex",
+              fontSize: 150,
+              lineHeight: 1,
+              color: ROSE,
+              fontWeight: 500,
+            }}
+          >
+            {day}
+          </div>
+          <div style={side}>{time}</div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            marginTop: 14,
+            fontSize: 40,
+            letterSpacing: 8,
             textTransform: "uppercase",
             color: GOLD,
             fontWeight: 600,
           }}
         >
-          {weekday}
-        </div>
-        <div style={{ marginTop: 8, fontSize: 52, color: ROSE }}>
-          {text.date}
+          {`${month} ${year}`}
         </div>
         <div
           style={{
-            marginTop: 30,
-            fontSize: 44,
+            marginTop: 44,
+            fontSize: 58,
             fontWeight: 600,
+            color: INK,
             display: "flex",
             justifyContent: "center",
           }}
@@ -375,8 +428,9 @@ export function StoryCard({
         </div>
         <div
           style={{
-            marginTop: 6,
-            fontSize: 32,
+            marginTop: 8,
+            fontSize: 38,
+            lineHeight: 1.25,
             color: MUTED,
             display: "flex",
             justifyContent: "center",
@@ -386,9 +440,10 @@ export function StoryCard({
         </div>
         <div
           style={{
-            marginTop: 34,
-            fontSize: 36,
-            fontStyle: "italic",
+            display: "flex",
+            marginTop: 40,
+            fontFamily: assets.nameFamily,
+            fontSize: 64,
             color: NAMES,
           }}
         >
@@ -398,7 +453,7 @@ export function StoryCard({
       <Ad
         assets={assets}
         text={text.ad}
-        style={{ position: "absolute", bottom: 90 }}
+        style={{ position: "absolute", bottom: 80 }}
       />
     </Frame>
   );

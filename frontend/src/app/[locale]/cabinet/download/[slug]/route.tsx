@@ -39,7 +39,10 @@ export async function GET(
       groom={taklif.groomName}
       bride={taklif.brideName}
       weekday={weekdays[weekday]}
-      date={tDates("dateTime", { day, month: months[month], year, time })}
+      day={day}
+      month={months[month]}
+      year={year}
+      time={time}
       venue={taklif.venueName}
       address={taklif.venueAddress}
       signature={t("signature", { host: taklif.hostName })}
