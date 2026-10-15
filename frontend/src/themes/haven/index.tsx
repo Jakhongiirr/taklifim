@@ -89,7 +89,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="haven-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-25% via-[#f4efe6]/85 via-55% to-[#f4efe6]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#f4efe6]/10 via-70% to-[#f4efe6]/30" />
           <Petals />
           <div className="relative">
             <p

@@ -86,7 +86,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="arcade-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-30% via-[#fdf8f4]/80 via-58% to-[#fdf8f4]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fdf8f4]/10 via-70% to-[#fdf8f4]/30" />
           <Flight />
           <div className="relative">
             <p

@@ -89,7 +89,7 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="paris-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf7f2]/80 via-60% to-[#fbf7f2]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-45% via-[#fbf7f2]/10 via-70% to-[#fbf7f2]/30" />
           <Blossoms />
           <div className="relative">
             <p
