@@ -22,12 +22,14 @@ const VARIANTS = [
   { file: "500-normal", weight: 500, style: "normal" },
   { file: "500-italic", weight: 500, style: "italic" },
   { file: "600-normal", weight: 600, style: "normal" },
+  { file: "600-italic", weight: 600, style: "italic" },
+  { file: "700-normal", weight: 700, style: "normal" },
 ] as const;
 
 type OgFont = {
   name: string;
   data: Buffer;
-  weight: 400 | 500 | 600;
+  weight: 400 | 500 | 600 | 700;
   style: "normal" | "italic";
 };
 

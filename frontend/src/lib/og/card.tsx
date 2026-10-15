@@ -11,10 +11,10 @@ import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
 // text sits in the blue panel.
 
 /** Picked from the background: the panel's deep blue, the roses' bronze. */
-const INK = "#14223a";
-const NAVY = "#132541";
-const BRONZE = "#5a3c14";
-const MUTED = "#22344f";
+const INK = "#101d33";
+const NAVY = "#10213c";
+const BRONZE = "#4a300c";
+const MUTED = "#1c2d47";
 
 /** The background's size. */
 const BG = { width: 720, height: 1011 };
@@ -148,7 +148,8 @@ function Frame({
         color: INK,
         textAlign: "center",
         // A soft light halo lifts the text off the mottled blue.
-        textShadow: "0 0 14px rgba(236,242,248,0.85)",
+        textShadow:
+          "0 0 6px rgba(240,245,250,0.9), 0 0 18px rgba(236,242,248,0.85)",
       }}
     >
       {tiles.map(({ key, left, top, width: w, height: h, x, y, flip }) => {
@@ -248,7 +249,7 @@ function Names({
       <span
         style={{
           fontFamily: assets.capsFamily,
-          fontSize: size * 0.32,
+          fontSize: size * 0.42,
           color: BRONZE,
           margin: inline ? "0 0.5em" : "0",
         }}
@@ -344,8 +345,8 @@ function Ad({
         style={{
           display: "flex",
           marginTop: 6 * scale,
-          fontSize: 28 * scale,
-          fontWeight: 600,
+          fontSize: 32 * scale,
+          fontWeight: 700,
           color: INK,
         }}
       >
@@ -405,7 +406,7 @@ export function PreviewCard({
           assets={assets}
           groom={text.groom}
           bride={text.bride}
-          size={inline ? 100 : 74}
+          size={inline ? 112 : 80}
           inline={inline}
         />
         <div style={{ marginTop: 14, display: "flex" }}>
@@ -413,7 +414,7 @@ export function PreviewCard({
         </div>
         <Caps
           assets={assets}
-          size={38}
+          size={42}
           color={BRONZE}
           spacing={0.08}
           style={{ marginTop: 22 }}
@@ -424,8 +425,8 @@ export function PreviewCard({
           style={{
             display: "flex",
             marginTop: 10,
-            fontSize: 40,
-            fontWeight: 600,
+            fontSize: 44,
+            fontWeight: 700,
             maxWidth: 760,
             justifyContent: "center",
           }}
@@ -478,7 +479,7 @@ export function StoryCard({
     <Frame assets={assets} width={width} height={height} scale={1.5}>
       {/* The panel, between the corner roses. */}
       <Content top={280} height={1150}>
-        <Caps assets={assets} size={38} color={BRONZE}>
+        <Caps assets={assets} size={40} color={BRONZE}>
           {invite}
         </Caps>
         <div style={{ marginTop: 30, display: "flex" }}>
@@ -486,7 +487,7 @@ export function StoryCard({
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={nameSize(text.groom, text.bride, [150, 118, 84])}
+            size={nameSize(text.groom, text.bride, [166, 130, 94])}
           />
         </div>
         <div style={{ marginTop: 34, display: "flex" }}>
@@ -500,7 +501,7 @@ export function StoryCard({
             gap: 30,
           }}
         >
-          <Caps assets={assets} size={34} color={INK} style={side}>
+          <Caps assets={assets} size={36} color={INK} style={side}>
             {weekday}
           </Caps>
           <div
@@ -514,11 +515,11 @@ export function StoryCard({
           >
             {day}
           </div>
-          <Caps assets={assets} size={34} color={INK} style={side}>
+          <Caps assets={assets} size={36} color={INK} style={side}>
             {time}
           </Caps>
         </div>
-        <Caps assets={assets} size={40} style={{ marginTop: 14 }}>
+        <Caps assets={assets} size={42} style={{ marginTop: 14 }}>
           {`${month} ${year}`}
         </Caps>
         <div
@@ -526,8 +527,8 @@ export function StoryCard({
             display: "flex",
             marginTop: 40,
             maxWidth: 660,
-            fontSize: 54,
-            fontWeight: 600,
+            fontSize: 56,
+            fontWeight: 700,
             lineHeight: 1.15,
             color: INK,
             justifyContent: "center",
@@ -540,8 +541,8 @@ export function StoryCard({
             display: "flex",
             marginTop: 8,
             maxWidth: 620,
-            fontSize: 38,
-            fontWeight: 600,
+            fontSize: 40,
+            fontWeight: 700,
             lineHeight: 1.25,
             color: MUTED,
             justifyContent: "center",
@@ -553,8 +554,8 @@ export function StoryCard({
           style={{
             display: "flex",
             marginTop: 36,
-            fontSize: 46,
-            fontWeight: 500,
+            fontSize: 50,
+            fontWeight: 600,
             fontStyle: "italic",
             color: NAVY,
           }}
@@ -593,12 +594,12 @@ export function QrCard({
           assets={assets}
           groom={text.groom}
           bride={text.bride}
-          size={names.length > 26 ? 60 : names.length > 18 ? 68 : 80}
+          size={names.length > 26 ? 66 : names.length > 18 ? 78 : 92}
           inline={names.length <= 26}
         />
         <Caps
           assets={assets}
-          size={36}
+          size={40}
           color={BRONZE}
           spacing={0.08}
           style={{ marginTop: 8 }}
@@ -607,8 +608,8 @@ export function QrCard({
         </Caps>
         <Caps
           assets={assets}
-          size={26}
-          spacing={0.1}
+          size={30}
+          spacing={0.08}
           style={{ marginTop: 22 }}
         >
           {scan}
