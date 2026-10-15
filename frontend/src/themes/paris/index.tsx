@@ -71,12 +71,7 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
         buttonClass={`${poiret.className} border-[#2c3550]/50 bg-[#fbf7f2]/80 text-sm font-semibold tracking-[0.2em] text-[#2c3550] uppercase hover:bg-[#fbf7f2]`}
         musicClass="bg-[#fbf7f2]/90 text-[#2c3550] ring-1 ring-[#b8925a]/50"
       >
-        <p
-          className={`${poiret.className} text-xs font-semibold tracking-[0.45em] text-[#6b5228] uppercase`}
-        >
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-3">{names}</div>
+        {names}
         <p className={`${poiret.className} mt-4 text-base font-semibold`}>
           {fullDate}
         </p>
