@@ -2,24 +2,27 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { CSSProperties, ReactNode } from "react";
-import { OG_FONT, ogFonts, ogLogo, ogNameFont } from "./assets";
+import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
 
 // The invitation's generated images — the link preview, the downloadable
-// card and the QR card — share one floral background (assets/og), one
-// palette and the names in Great Vibes, whatever the theme, and end with a
-// small taklifim.uz ad.
+// card and the QR card — share one background (assets/og: a palace
+// colonnade with olive drapes, gold scrollwork and roses), one palette and
+// typography, whatever the theme, and end with a small taklifim.uz ad. The
+// art is shown as is: the text sits in its plain cream middle.
 
-/** Warm browns and rose, picked from the background. */
-const INK = "#4b4026";
-const NAMES = "#6e5426";
-const ROSE = "#a3566a";
-const GOLD = "#a8844f";
-const MUTED = "#7a6e55";
-const CREAM = "248, 243, 229";
+/** Picked from the background: the drapes' olive, the scrollwork's gold. */
+const INK = "#3b3424";
+const OLIVE = "#3f4b2c";
+const GOLD = "#8a672c";
+const ROSE = "#94474f";
+const MUTED = "#665b43";
+
+/** The background's size; it covers each card around a focus point. */
+const BG = { width: 1086, height: 1448 };
 
 let background: Promise<string> | undefined;
 
-/** The background (736×1331, portrait) as a data URI. */
+/** The background as a data URI. */
 function ogBackground() {
   background ??= readFile(join(process.cwd(), "assets/og/background.jpg")).then(
     (data) => `data:image/jpeg;base64,${data.toString("base64")}`,
@@ -29,15 +32,18 @@ function ogBackground() {
 
 /** Everything a card renders with: fonts (pass to ImageResponse) and images. */
 export async function cardAssets() {
-  const [base, names, bg, logo] = await Promise.all([
+  const [base, names, caps, bg, logo] = await Promise.all([
     ogFonts(),
-    ogNameFont(),
+    // Pinyon Script is Latin only: Cyrillic names get Great Vibes.
+    ogFont("pinyon-script", "great-vibes"),
+    ogFont("forum"),
     ogBackground(),
     ogLogo(),
   ]);
   return {
-    fonts: [...base, ...names.fonts],
+    fonts: [...base, ...names.fonts, ...caps.fonts],
     nameFamily: names.family,
+    capsFamily: caps.family,
     bg,
     logo,
   };
@@ -45,24 +51,28 @@ export async function cardAssets() {
 
 type Assets = Awaited<ReturnType<typeof cardAssets>>;
 
-/** The full-size frame: the background, covering, and a cream glow. */
+/**
+ * The full-size frame: the background covering it, `zoom` times closer,
+ * cropped at `focusY` (0 = its top, 1 = its bottom).
+ */
 function Frame({
   assets,
   width,
   height,
-  glow,
-  band,
+  zoom = 1,
+  focusY = 0.5,
   children,
 }: {
   assets: Assets;
   width: number;
   height: number;
-  /** How far the glow behind the text reaches, in % of the frame. */
-  glow: number;
-  /** A cream band behind the text, from and to (in % of the height). */
-  band?: [number, number];
+  zoom?: number;
+  focusY?: number;
   children: ReactNode;
 }) {
+  const scale = zoom * Math.max(width / BG.width, height / BG.height);
+  const w = Math.ceil(BG.width * scale);
+  const h = Math.ceil(BG.height * scale);
   return (
     <div
       style={{
@@ -81,38 +91,50 @@ function Frame({
       <img
         src={assets.bg}
         alt=""
-        width={width}
-        height={height}
-        style={{ position: "absolute", left: 0, top: 0, objectFit: "cover" }}
-      />
-      <div
+        width={w}
+        height={h}
         style={{
           position: "absolute",
-          left: 0,
-          top: 0,
-          width,
-          height,
-          backgroundImage: `radial-gradient(circle at 50% 50%, rgba(${CREAM}, 0.9) 0%, rgba(${CREAM}, 0.75) ${glow * 0.6}%, rgba(${CREAM}, 0) ${glow}%)`,
+          left: Math.round((width - w) / 2),
+          top: Math.round((height - h) * focusY),
         }}
       />
-      {band && (
-        <div
-          style={{
-            position: "absolute",
-            left: 0,
-            top: 0,
-            width,
-            height,
-            backgroundImage: `linear-gradient(to bottom, rgba(${CREAM}, 0) ${band[0]}%, rgba(${CREAM}, 0.88) ${band[0] + 7}%, rgba(${CREAM}, 0.88) ${band[1] - 7}%, rgba(${CREAM}, 0) ${band[1]}%)`,
-          }}
-        />
-      )}
       {children}
     </div>
   );
 }
 
-/** Groom & bride in Great Vibes, stacked or on one line. */
+/** The text block, placed over the background's plain middle. */
+function Content({
+  top,
+  height,
+  children,
+}: {
+  top: number;
+  height: number;
+  children: ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        left: 0,
+        right: 0,
+        top,
+        height,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "0 90px",
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** Groom & bride in the script, stacked or on one line. */
 function Names({
   assets,
   groom,
@@ -126,19 +148,6 @@ function Names({
   size: number;
   inline?: boolean;
 }) {
-  const amp = (
-    <span
-      style={{
-        fontFamily: OG_FONT,
-        fontStyle: "italic",
-        fontSize: size * 0.42,
-        color: GOLD,
-        margin: inline ? "0 0.4em" : "2px 0",
-      }}
-    >
-      &
-    </span>
-  );
   return (
     <div
       style={{
@@ -147,58 +156,97 @@ function Names({
         alignItems: "center",
         fontFamily: assets.nameFamily,
         fontSize: size,
-        lineHeight: 1.05,
-        color: NAMES,
+        lineHeight: 1.1,
+        color: OLIVE,
       }}
     >
       <span>{groom}</span>
-      {amp}
+      <span
+        style={{
+          fontFamily: assets.capsFamily,
+          fontSize: size * 0.32,
+          color: GOLD,
+          margin: inline ? "0 0.5em" : "0",
+        }}
+      >
+        &
+      </span>
       <span>{bride}</span>
     </div>
   );
 }
 
-/** Thin lines with a small diamond. */
+/** Thin gold lines with a small diamond, like the scrollwork's gilding. */
 function Divider({ width = 90 }: { width?: number }) {
   return (
-    <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-      <div style={{ width, height: 2, background: GOLD }} />
+    <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+      <div style={{ width, height: 1.5, background: GOLD }} />
       <div
         style={{
-          width: 12,
-          height: 12,
-          border: `2px solid ${GOLD}`,
+          width: 10,
+          height: 10,
+          border: `1.5px solid ${GOLD}`,
           transform: "rotate(45deg)",
         }}
       />
-      <div style={{ width, height: 2, background: GOLD }} />
+      <div style={{ width, height: 1.5, background: GOLD }} />
     </div>
   );
 }
 
-/** The ad at the bottom: a line of text and the logo on a cream pill. */
-function Ad({
+/** Spaced capitals in Forum. */
+function Caps({
   assets,
-  text,
-  scale = 1,
+  size,
+  color = GOLD,
+  spacing = 0.22,
   style,
+  children,
 }: {
   assets: Assets;
-  text: string;
-  scale?: number;
+  size: number;
+  color?: string;
+  spacing?: number;
   style?: CSSProperties;
+  children: ReactNode;
 }) {
   return (
     <div
       style={{
         display: "flex",
+        fontFamily: assets.capsFamily,
+        fontSize: size,
+        letterSpacing: size * spacing,
+        textTransform: "uppercase",
+        color,
+        ...style,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+/** The ad at the bottom: the logo and a line of text. */
+function Ad({
+  assets,
+  text,
+  scale = 1,
+  bottom,
+}: {
+  assets: Assets;
+  text: string;
+  scale?: number;
+  bottom: number;
+}) {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom,
+        display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        padding: `${18 * scale}px ${40 * scale}px`,
-        borderRadius: 999,
-        background: `rgba(${CREAM}, 0.92)`,
-        border: `2px solid ${GOLD}55`,
-        ...style,
       }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
@@ -210,10 +258,11 @@ function Ad({
       />
       <div
         style={{
-          marginTop: 8 * scale,
-          fontSize: 26 * scale,
-          letterSpacing: 1,
-          color: MUTED,
+          display: "flex",
+          marginTop: 6 * scale,
+          fontSize: 28 * scale,
+          fontWeight: 600,
+          color: INK,
         }}
       >
         {text}
@@ -250,50 +299,45 @@ export function PreviewCard({
   ...text
 }: CardText & { assets: Assets }) {
   const { width, height } = PREVIEW_SIZE;
+  // Short couples on one line, longer ones stacked.
+  const inline = text.groom.length + text.bride.length <= 20;
   return (
-    <Frame assets={assets} width={width} height={height} glow={55}>
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: 40,
-        }}
-      >
+    // The upper middle: the plain wall between the scrollwork and the roses.
+    <Frame assets={assets} width={width} height={height} focusY={0.26}>
+      <Content top={50} height={470}>
         <Names
           assets={assets}
           groom={text.groom}
           bride={text.bride}
-          size={nameSize(text.groom, text.bride, [104, 88, 70])}
-          inline
+          size={inline ? 100 : 74}
+          inline={inline}
         />
-        <div style={{ marginTop: 18, display: "flex" }}>
+        <div style={{ marginTop: 14, display: "flex" }}>
           <Divider />
         </div>
-        <div style={{ marginTop: 18, fontSize: 38, color: ROSE }}>
+        <Caps
+          assets={assets}
+          size={34}
+          color={ROSE}
+          spacing={0.12}
+          style={{ marginTop: 22 }}
+        >
           {text.date}
-        </div>
+        </Caps>
         <div
           style={{
-            marginTop: 6,
-            fontSize: 30,
-            color: MUTED,
-            maxWidth: 900,
             display: "flex",
+            marginTop: 10,
+            fontSize: 34,
+            fontWeight: 600,
+            maxWidth: 700,
             justifyContent: "center",
           }}
         >
           {text.venue}
         </div>
-      </div>
-      <Ad
-        assets={assets}
-        text={text.ad}
-        scale={0.7}
-        style={{ position: "absolute", bottom: 22 }}
-      />
+      </Content>
+      <Ad assets={assets} text={text.ad} scale={0.6} bottom={34} />
     </Frame>
   );
 }
@@ -326,101 +370,75 @@ export function StoryCard({
   const { width, height } = STORY_SIZE;
   // Weekday and time either side of the day, between thin gold rules.
   const side: CSSProperties = {
-    width: 250,
-    display: "flex",
+    width: 230,
     justifyContent: "center",
-    padding: "14px 0",
-    borderTop: `2px solid ${GOLD}`,
-    borderBottom: `2px solid ${GOLD}`,
-    fontSize: 36,
-    letterSpacing: 5,
-    textTransform: "uppercase",
-    color: INK,
-    fontWeight: 600,
+    padding: "12px 0",
+    borderTop: `1.5px solid ${GOLD}`,
+    borderBottom: `1.5px solid ${GOLD}`,
   };
   return (
+    // Closer in, so the plain wall spans the width; the steps at the bottom.
     <Frame
       assets={assets}
       width={width}
       height={height}
-      glow={46}
-      band={[11, 85]}
+      zoom={1.15}
+      focusY={0.6}
     >
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "0 70px 90px",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            fontSize: 34,
-            letterSpacing: 7,
-            textTransform: "uppercase",
-            color: ROSE,
-            fontWeight: 600,
-          }}
-        >
+      {/* Under the scrollwork, down to the garden behind the balustrade. */}
+      <Content top={320} height={790}>
+        <Caps assets={assets} size={30} color={ROSE}>
           {invite}
-        </div>
-        <div style={{ marginTop: 24, display: "flex" }}>
+        </Caps>
+        <div style={{ marginTop: 18, display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={nameSize(text.groom, text.bride, [196, 160, 128])}
+            size={nameSize(text.groom, text.bride, [136, 112, 94])}
           />
         </div>
-        <div style={{ marginTop: 28, display: "flex" }}>
-          <Divider width={130} />
+        <div style={{ marginTop: 20, display: "flex" }}>
+          <Divider width={110} />
         </div>
         <div
           style={{
-            marginTop: 40,
+            marginTop: 20,
             display: "flex",
             alignItems: "center",
-            gap: 34,
+            gap: 30,
           }}
         >
-          <div style={side}>{weekday}</div>
+          <Caps assets={assets} size={30} color={INK} style={side}>
+            {weekday}
+          </Caps>
           <div
             style={{
               display: "flex",
-              fontSize: 150,
+              fontFamily: assets.capsFamily,
+              fontSize: 108,
               lineHeight: 1,
               color: ROSE,
-              fontWeight: 500,
             }}
           >
             {day}
           </div>
-          <div style={side}>{time}</div>
+          <Caps assets={assets} size={30} color={INK} style={side}>
+            {time}
+          </Caps>
         </div>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 14,
-            fontSize: 40,
-            letterSpacing: 8,
-            textTransform: "uppercase",
-            color: GOLD,
-            fontWeight: 600,
-          }}
-        >
+        <Caps assets={assets} size={32} style={{ marginTop: 10 }}>
           {`${month} ${year}`}
-        </div>
+        </Caps>
         <div
           style={{
-            marginTop: 44,
-            fontSize: 58,
-            fontWeight: 600,
-            color: INK,
             display: "flex",
+            marginTop: 22,
+            maxWidth: 680,
+            fontSize: 44,
+            fontWeight: 600,
+            lineHeight: 1.15,
+            color: INK,
             justifyContent: "center",
           }}
         >
@@ -428,11 +446,13 @@ export function StoryCard({
         </div>
         <div
           style={{
-            marginTop: 8,
-            fontSize: 38,
+            display: "flex",
+            marginTop: 6,
+            maxWidth: 640,
+            fontSize: 31,
+            fontWeight: 600,
             lineHeight: 1.25,
             color: MUTED,
-            display: "flex",
             justifyContent: "center",
           }}
         >
@@ -441,26 +461,23 @@ export function StoryCard({
         <div
           style={{
             display: "flex",
-            marginTop: 40,
+            marginTop: 18,
             fontFamily: assets.nameFamily,
-            fontSize: 64,
-            color: NAMES,
+            fontSize: 50,
+            color: OLIVE,
           }}
         >
           {signature}
         </div>
-      </div>
-      <Ad
-        assets={assets}
-        text={text.ad}
-        style={{ position: "absolute", bottom: 80 }}
-      />
+      </Content>
+      {/* In the pale arch under the balustrade. */}
+      <Ad assets={assets} text={text.ad} scale={0.85} bottom={330} />
     </Frame>
   );
 }
 
 export const QR_CARD_SIZE = { width: 1080, height: 1350 };
-const QR_SIZE = 520;
+const QR_SIZE = 440;
 
 /** The invitation's QR code, to print or put on a screen. */
 export function QrCard({
@@ -477,42 +494,42 @@ export function QrCard({
   const { width, height } = QR_CARD_SIZE;
   const names = `${text.groom} & ${text.bride}`;
   return (
-    <Frame
-      assets={assets}
-      width={width}
-      height={height}
-      glow={50}
-      band={[8, 86]}
-    >
-      <div
-        style={{
-          flex: 1,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingBottom: 150,
-        }}
-      >
+    // Bottom-aligned, so the ad stands on the steps.
+    <Frame assets={assets} width={width} height={height} focusY={1}>
+      <Content top={190} height={820}>
         <Names
           assets={assets}
           groom={text.groom}
           bride={text.bride}
-          size={names.length > 26 ? 66 : names.length > 18 ? 80 : 94}
+          size={names.length > 26 ? 56 : names.length > 18 ? 68 : 80}
           inline
         />
-        <div style={{ marginTop: 6, fontSize: 40, color: ROSE }}>
+        <Caps
+          assets={assets}
+          size={32}
+          color={ROSE}
+          spacing={0.12}
+          style={{ marginTop: 8 }}
+        >
           {text.date}
-        </div>
+        </Caps>
+        <Caps
+          assets={assets}
+          size={22}
+          spacing={0.14}
+          style={{ marginTop: 22 }}
+        >
+          {scan}
+        </Caps>
         {/* The code, on white with a quiet zone around it. */}
         <div
           style={{
-            marginTop: 36,
+            marginTop: 20,
             display: "flex",
-            padding: 36,
+            padding: 30,
             background: "#ffffff",
-            borderRadius: 32,
-            border: `2px solid ${GOLD}aa`,
+            borderRadius: 24,
+            border: `2px solid ${GOLD}`,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
@@ -523,25 +540,8 @@ export function QrCard({
             height={QR_SIZE}
           />
         </div>
-        <div
-          style={{
-            marginTop: 28,
-            fontSize: 30,
-            letterSpacing: 3,
-            textTransform: "uppercase",
-            color: GOLD,
-            fontWeight: 600,
-          }}
-        >
-          {scan}
-        </div>
-      </div>
-      <Ad
-        assets={assets}
-        text={text.ad}
-        scale={0.8}
-        style={{ position: "absolute", bottom: 50 }}
-      />
+      </Content>
+      <Ad assets={assets} text={text.ad} scale={0.8} bottom={16} />
     </Frame>
   );
 }

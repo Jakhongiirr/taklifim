@@ -54,41 +54,59 @@ export function ogFonts() {
 }
 
 /**
- * The names' script, Great Vibes (WOFF, in assets/fonts/great-vibes), one
- * family name per subset like Cormorant's.
+ * Extra 400-weight faces (WOFF, in assets/fonts/<key>), one family name per
+ * subset like Cormorant's.
  */
-const NAME_FONT = {
-  key: "great-vibes",
-  name: "GreatVibes",
-  subsets: ["latin", "latin-ext", "cyrillic"],
+const EXTRA_FONTS = {
+  "great-vibes": {
+    name: "GreatVibes",
+    subsets: ["latin", "latin-ext", "cyrillic"],
+  },
+  // Latin only: Cyrillic falls back to Great Vibes (ogFont's `fallback`).
+  "pinyon-script": { name: "PinyonScript", subsets: ["latin", "latin-ext"] },
+  forum: { name: "Forum", subsets: ["latin", "latin-ext", "cyrillic"] },
 } as const;
 
-let nameFonts: Promise<OgFont[]> | undefined;
+type ExtraFont = keyof typeof EXTRA_FONTS;
+
+const extraFonts = new Map<ExtraFont, Promise<OgFont[]>>();
 
 /**
- * The names' script: its fonts (add them to `ogFonts()`'s) and the
- * `fontFamily` to use, falling back to Cormorant for missing letters.
+ * Extra faces: their fonts (add them to `ogFonts()`'s) and the `fontFamily`
+ * to use, trying them in order and falling back to Cormorant.
  */
-export async function ogNameFont(): Promise<{
-  fonts: OgFont[];
-  family: string;
-}> {
-  const { key, name, subsets } = NAME_FONT;
-  const family = subsets.map((subset) => `${name}-${subset}`);
-  nameFonts ??= Promise.all(
-    subsets.map(async (subset, i) => ({
-      name: family[i],
-      data: await readFile(
-        join(
-          process.cwd(),
-          `assets/fonts/${key}/${key}-${subset}-400-normal.woff`,
-        ),
-      ),
-      weight: 400 as const,
-      style: "normal" as const,
-    })),
+export async function ogFont(
+  ...keys: ExtraFont[]
+): Promise<{ fonts: OgFont[]; family: string }> {
+  const loaded = await Promise.all(
+    keys.map(async (key) => {
+      const { name, subsets } = EXTRA_FONTS[key];
+      const family = subsets.map((subset) => `${name}-${subset}`);
+      if (!extraFonts.has(key)) {
+        extraFonts.set(
+          key,
+          Promise.all(
+            subsets.map(async (subset, i) => ({
+              name: family[i],
+              data: await readFile(
+                join(
+                  process.cwd(),
+                  `assets/fonts/${key}/${key}-${subset}-400-normal.woff`,
+                ),
+              ),
+              weight: 400 as const,
+              style: "normal" as const,
+            })),
+          ),
+        );
+      }
+      return { fonts: await extraFonts.get(key)!, family };
+    }),
   );
-  return { fonts: await nameFonts, family: [...family, OG_FONT].join(", ") };
+  return {
+    fonts: loaded.flatMap((font) => font.fonts),
+    family: [...loaded.flatMap((font) => font.family), OG_FONT].join(", "),
+  };
 }
 
 const publicImages = new Map<string, Promise<string>>();
