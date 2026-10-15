@@ -181,17 +181,16 @@ export default async function DesignPage({
               >
                 {t("choose")}
               </Link>
-              {demo && (
-                <a
-                  href={demo.demoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
-                >
-                  {t("demo")}
-                  <span aria-hidden>↗</span>
-                </a>
-              )}
+              {/* The admin's demo when there is one, else the built-in one. */}
+              <a
+                href={demo?.demoUrl ?? `/${locale}/designs/${design}/demo`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
+              >
+                {t("demo")}
+                <span aria-hidden>↗</span>
+              </a>
             </div>
             <p className="mt-4 text-sm text-muted">{t("note")}</p>
           </div>

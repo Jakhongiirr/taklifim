@@ -180,6 +180,11 @@
     "free": "Free",
     "choose": "Create with this design",
     "demo": "See a live example",
+    "demoPage": {
+      "label": "Sample invitation",
+      "metaTitle": "{name} design — sample invitation | Taklifim",
+      "back": "About the design"
+    },
     "note": "Drafts are free — you only pay to publish.",
     "videoLabel": "The {name} design's opening video",
     "replay": "Play the video",
@@ -538,6 +543,7 @@
     "liked": "Liked by the couple",
     "noWishes": "No wishes yet — be the first!",
     "previewNote": "Replies work once the invitation is published.",
+    "demoNote": "This is a sample: replies aren't sent anywhere.",
     "errors": {
       "name": "Please enter your name.",
       "links": "Links aren't allowed in wishes.",

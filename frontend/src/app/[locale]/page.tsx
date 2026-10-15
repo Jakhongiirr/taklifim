@@ -9,7 +9,7 @@ import TemplateCard from "@/components/site/template-card";
 import { TELEGRAM_URL } from "@/content/legal/operator";
 import { Link } from "@/i18n/navigation";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
-import { getDemos } from "@/lib/server/demos";
+import { getShowcase } from "@/lib/server/demos";
 
 // Rebuilt in the background at most every 5 minutes, like the demos fetch.
 export const revalidate = 300;
@@ -42,10 +42,10 @@ export async function generateMetadata({
 }
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
-  const [{ locale }, t, demos, tMeta] = await Promise.all([
-    params,
+  const { locale } = await params;
+  const [t, demos, tMeta] = await Promise.all([
     getTranslations("HomePage"),
-    getDemos(),
+    getShowcase(locale),
     getTranslations("Metadata"),
   ]);
   // Tells search engines the site's name and logo (shown next to results).
@@ -169,7 +169,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
             >
               {demos.map((demo) => (
                 <li
-                  key={demo.id}
+                  key={demo.key}
                   className="reveal max-w-[300px]"
                   style={{
                     width:

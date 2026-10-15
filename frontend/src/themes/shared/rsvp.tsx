@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import type { ApiBody, PublicWish } from "@/lib/api-types";
+import { useDemo } from "./demo";
 
 /** Theme colors for the RSVP section (Tailwind classes). */
 export interface RsvpPalette {
@@ -52,6 +53,7 @@ function readAnswered(slug: string) {
  * the wishes others left. The backend drops bot submissions (the honeypot
  * field, sending faster than a person could) and rate limits; this form
  * just measures the time and keeps the honeypot invisible to people.
+ * In a design's demo nothing is sent: the reply is acted out locally.
  */
 export default function Rsvp({
   slug,
@@ -63,6 +65,7 @@ export default function Rsvp({
   palette: RsvpPalette;
 }) {
   const t = useTranslations("Rsvp");
+  const demo = useDemo();
   const openedAt = useRef(0);
   const [name, setName] = useState("");
   const [attending, setAttending] = useState(true);
@@ -75,7 +78,7 @@ export default function Rsvp({
   // A reply sent earlier from this browser shows the thank-you instead.
   const remembered = useSyncExternalStore(
     noSubscribe,
-    () => readAnswered(slug),
+    () => (demo ? null : readAnswered(slug)),
     () => null,
   );
   const [dismissed, setDismissed] = useState(false);
@@ -84,26 +87,48 @@ export default function Rsvp({
   // The owner's preview may be a draft, whose wishes aren't public (404);
   // owners read replies on their responses page instead.
   const [wishes, setWishes] = useState<PublicWish[] | null>(
-    preview ? [] : null,
+    demo ? demo.wishes : preview ? [] : null,
   );
 
   const loadWishes = () => fetchWishes(slug).then(setWishes);
 
   useEffect(() => {
     openedAt.current = Date.now();
-    if (preview) return;
+    if (preview || demo) return;
     let live = true;
     void fetchWishes(slug).then((list) => live && setWishes(list));
     return () => {
       live = false;
     };
-  }, [slug, preview]);
+  }, [slug, preview, demo]);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
     if (preview) return;
     if (!name.trim()) return setError(t("errors.name"));
     setError("");
+    if (demo) {
+      // Shown as if sent, the wish on top of the wall; nothing leaves.
+      const sent = name.trim();
+      const wish = message.trim();
+      if (wish) {
+        setWishes((list) => [
+          {
+            id: `demo-${Date.now()}`,
+            name: sent,
+            message: wish,
+            liked: false,
+            createdAt: new Date().toISOString(),
+          },
+          ...(list ?? []),
+        ]);
+      }
+      setSentName(sent);
+      setStatus("sent");
+      setName("");
+      setMessage("");
+      return;
+    }
     setStatus("sending");
     try {
       const res = await fetch(`/api/backend/taklif/${slug}/responses`, {
@@ -278,9 +303,9 @@ export default function Rsvp({
               {error}
             </p>
           )}
-          {preview && (
+          {(preview || demo) && (
             <p className={`text-center text-xs ${p.muted}`}>
-              {t("previewNote")}
+              {t(preview ? "previewNote" : "demoNote")}
             </p>
           )}
           <button

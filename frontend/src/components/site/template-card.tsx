@@ -1,15 +1,15 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import type { Demo } from "@/lib/api-types";
+import type { ShowcaseItem } from "@/lib/server/demos";
 import { formatSum } from "@/lib/format";
 
 /**
- * A design from GET /demos as a poster: its art with the title over it,
+ * A design on the home page (an admin's demo or a built-in one) as a poster: its art with the title over it,
  * the description below (from sm), then "choose" (to the builder) and
  * "view" (the live demo). Sized by the grid around it.
  */
-export default async function TemplateCard({ demo }: { demo: Demo }) {
+export default async function TemplateCard({ demo }: { demo: ShowcaseItem }) {
   const t = await getTranslations("HomePage.templates");
   const price =
     demo.theme.price === 0
@@ -26,9 +26,9 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
         tabIndex={-1}
         aria-hidden
       >
-        {/* Served from the storage CDN as is; not worth proxying through Next. */}
+        {/* Served from the storage CDN (or public/) as is; not worth proxying through Next. */}
         <Image
-          src={demo.image.url}
+          src={demo.imageUrl}
           alt=""
           fill
           unoptimized

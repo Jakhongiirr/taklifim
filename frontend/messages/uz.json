@@ -180,6 +180,11 @@
     "free": "Bepul",
     "choose": "Shu dizayn bilan yaratish",
     "demo": "Jonli namunani koʻrish",
+    "demoPage": {
+      "label": "Namuna taklifnoma",
+      "metaTitle": "{name} dizayni — namuna taklifnoma | Taklifim",
+      "back": "Dizayn haqida"
+    },
     "note": "Qoralama bepul — toʻlov faqat eʼlon qilishda.",
     "videoLabel": "{name} dizaynining ochilish videosi",
     "replay": "Videoni koʻrish",
@@ -538,6 +543,7 @@
     "liked": "Kelin-kuyovga yoqdi",
     "noWishes": "Hali tilaklar yoʻq — birinchi boʻling!",
     "previewNote": "Javob yuborish taklifnoma eʼlon qilingandan soʻng ishlaydi.",
+    "demoNote": "Bu namuna: javoblar hech kimga yuborilmaydi.",
     "errors": {
       "name": "Ismingizni yozing.",
       "links": "Tilakda havolalar boʻlishi mumkin emas.",
