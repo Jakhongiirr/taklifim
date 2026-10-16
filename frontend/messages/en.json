@@ -399,6 +399,13 @@
       "call": "Call"
     },
     "closing": "We look forward to seeing you!",
+    "classic": {
+      "tagline": "Two hearts joined as one — the greatest joy",
+      "scroll": "Scroll down",
+      "sealHint": "Tap the seal to open",
+      "dayMonth": "{weekday}, {month} {day}",
+      "startTime": "Ceremony begins"
+    },
     "music": {
       "play": "Play music",
       "pause": "Pause music"
