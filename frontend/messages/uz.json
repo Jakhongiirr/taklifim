@@ -401,6 +401,13 @@
       "call": "Qoʻngʻiroq qilish"
     },
     "closing": "Sizni intiqlik bilan kutamiz!",
+    "classic": {
+      "tagline": "Ikki qalbning birikishi — eng buyuk baxt",
+      "scroll": "Pastga suring",
+      "sealHint": "Ochish uchun muhrni bosing",
+      "dayMonth": "{day}-{month}, {weekday}",
+      "startTime": "Boshlanish vaqti"
+    },
     "music": {
       "play": "Musiqani yoqish",
       "pause": "Musiqani toʻxtatish"

@@ -277,6 +277,50 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
       ],
     },
   },
+  classic: {
+    uz: {
+      tagline:
+        "Mumli muhr bilan yopilgan konvert va oltin ramkali karta — anʼanaviy uslubdagi nafis toʻy taklifnomasi.",
+      about: [
+        "Classic — sodda va oʻlmas, anʼanaviy bosma taklifnomalarni yoqtiradiganlar uchun. Taklifnoma toʻq qizil mumli muhr bilan yopilgan konvertdan boshlanadi: mehmon muhrni bosadi, qopqoq ochiladi va ichidan ismlaringiz yozilgan karta chiqadi.",
+        "Fil suyagi rangidagi qogʻoz, toʻq siyoh, nozik oltin chiziqlar va burchak naqshlari, Cormorant Garamond kursividagi ismlar hamda toʻy kuni yurakcha bilan belgilangan oy taqvimi unga bosma taklifnomadek koʻrinish beradi.",
+      ],
+      highlights: [
+        "Ochilish: mumli muhrli konvert ochilib, ichidan karta chiqadi",
+        "Fil suyagi, toʻq siyoh, oltin va toʻq qizil ranglar",
+        "Ismlar Cormorant Garamond kursivida",
+        "Toʻy kuni belgilangan oy taqvimi va oltin ramkalar",
+      ],
+    },
+    ru: {
+      tagline:
+        "Конверт с восковой печатью и открытка в золотой рамке — изысканное свадебное приглашение в классическом стиле.",
+      about: [
+        "Classic — для тех, кто любит простые и вечные печатные приглашения. Приглашение начинается с конверта, запечатанного бордовой восковой печатью: гость нажимает на печать, клапан открывается, и из конверта поднимается открытка с вашими именами.",
+        "Бумага цвета слоновой кости, тёмные чернила, тонкие золотые линии и угловые орнаменты, имена курсивом Cormorant Garamond и календарь месяца, где день свадьбы отмечен сердцем, делают его похожим на настоящее печатное приглашение.",
+      ],
+      highlights: [
+        "Открытие: конверт с восковой печатью и открытка внутри",
+        "Слоновая кость, тёмные чернила, золото и бордо",
+        "Имена курсивом Cormorant Garamond",
+        "Календарь месяца с отмеченным днём свадьбы и золотые рамки",
+      ],
+    },
+    en: {
+      tagline:
+        "An envelope closed with a wax seal and a gold-framed card — an elegant wedding invitation in the classic style.",
+      about: [
+        "Classic is for couples who love simple, timeless printed invitations. It begins with an envelope closed with a burgundy wax seal: your guests tap the seal, the flap opens and a card with your names rises out.",
+        "Ivory paper, dark ink, fine gold rules and corner ornaments, names in Cormorant Garamond italic and a month calendar with your day marked by a heart make it feel like a real printed invitation.",
+      ],
+      highlights: [
+        "Opening: a wax-sealed envelope with the card rising out",
+        "Ivory, dark ink, gold and burgundy",
+        "Names in Cormorant Garamond italic",
+        "A month calendar with your day marked and gold frames",
+      ],
+    },
+  },
 };
 
 /** The designs with a page, in the order they're listed. */

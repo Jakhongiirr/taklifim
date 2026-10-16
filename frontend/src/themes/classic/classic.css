@@ -1,0 +1,159 @@
+/* The "classic" theme: ivory paper, the envelope's opening and the page's
+   entrances. Animations are off for visitors who prefer reduced motion, and
+   content is never hidden without them. */
+
+/* Ivory paper with a faint laid texture, drawn in CSS (no image). */
+.classic-paper {
+  background-color: #faf6ee;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #fffdf8 0%, transparent 70%),
+    repeating-linear-gradient(
+      0deg,
+      rgb(168 137 79 / 0.035) 0 1px,
+      transparent 1px 4px
+    );
+}
+
+/* The seal is centred with Tailwind's `translate`, so its animations only
+   scale. The envelope: card under the pocket, flap over both until it opens. */
+.classic-card {
+  z-index: 10;
+}
+.classic-envelope > svg:not(.classic-flap) {
+  z-index: 20;
+}
+.classic-flap {
+  z-index: 30;
+  transform-origin: top;
+}
+.classic-seal {
+  z-index: 40;
+}
+
+/* The card's words show only once it rises out of the envelope. */
+[data-seal-cover][data-state="closed"] .classic-card > * {
+  opacity: 0;
+}
+.classic-card > * {
+  transition: opacity 0.6s ease-out 0.9s;
+}
+
+@keyframes classic-flap-open {
+  0% {
+    transform: perspective(600px) rotateX(0deg);
+    z-index: 30;
+  }
+  49% {
+    z-index: 30;
+  }
+  50% {
+    z-index: 0;
+  }
+  100% {
+    transform: perspective(600px) rotateX(180deg);
+    z-index: 0;
+  }
+}
+
+@keyframes classic-card-rise {
+  from {
+    transform: none;
+  }
+  to {
+    transform: translateY(-58%);
+  }
+}
+
+@keyframes classic-seal-off {
+  to {
+    opacity: 0;
+    transform: scale(1.25);
+  }
+}
+
+@keyframes classic-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes classic-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes classic-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes classic-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes classic-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-seal-cover][data-state="closed"] .classic-seal {
+    animation: classic-breathe 2.4s ease-in-out infinite;
+  }
+  [data-seal-cover]:not([data-state="closed"]) .classic-seal {
+    animation: classic-seal-off 0.45s ease-in both;
+  }
+  [data-seal-cover]:not([data-state="closed"]) .classic-flap {
+    animation: classic-flap-open 0.7s cubic-bezier(0.45, 0, 0.3, 1) 0.3s both;
+  }
+  [data-seal-cover]:not([data-state="closed"]) .classic-card {
+    animation: classic-card-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.85s both;
+  }
+  [data-seal-cover]:not([data-state="closed"]) .classic-cover-words,
+  [data-seal-cover]:not([data-state="closed"]) .classic-cover-hint {
+    animation: classic-fade-out 0.5s ease-out both;
+  }
+
+  /* The hero comes in as the cover fades (SealCover adds the class). */
+  .classic-opened .classic-rise {
+    animation: classic-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 160ms + 200ms);
+  }
+  .classic-hint {
+    animation: classic-hint 2.2s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .classic-reveal {
+      animation: classic-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
