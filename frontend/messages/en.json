@@ -294,6 +294,8 @@
       "payHint": "{price} UZS · published as soon as it’s paid",
       "payHintFree": "Free design — published right away",
       "paying": "Going to payment…",
+      "publishFree": "Publish for free",
+      "publishing": "Publishing…",
       "payUnavailable": "Payment isn’t available right now. Please try again a little later.",
       "publishedFree": "Your invitation is published!",
       "error": "Couldn't do that. Please try again.",
