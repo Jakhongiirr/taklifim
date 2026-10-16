@@ -401,6 +401,20 @@
       "call": "Qoʻngʻiroq qilish"
     },
     "closing": "Sizni intiqlik bilan kutamiz!",
+    "lavel": {
+      "forYou": "Bu taklifnoma siz uchun maxsus",
+      "sealHint": "Ochish uchun muhrni bosing",
+      "hello": "Assalomu alaykum",
+      "invite": "Toʻyimizga tashrif buyurishingizni soʻraymiz",
+      "scroll": "Pastga suring",
+      "ceremony": "Nikoh toʻyi tantanasi",
+      "tagline": "Ikki qalb bir boʻlib gullagan kun — hayotimizning eng goʻzal bahori",
+      "dayMonth": "{day}-{month}, {weekday}",
+      "startTime": "Boshlanish vaqti",
+      "awaiting": "Sizni koʻrishni sabrsizlik bilan kutamiz",
+      "wishTitle": "Samimiy tilak",
+      "wish": "Baxtimiz gullagan shu kunda siz bilan birga boʻlishni istaymiz. Tashrifingiz biz uchun eng katta sovgʻa boʻladi."
+    },
     "classic": {
       "tagline": "Ikki qalbning birikishi — eng buyuk baxt",
       "scroll": "Pastga suring",

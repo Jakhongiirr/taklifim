@@ -4,6 +4,7 @@ import ClassicTheme from "./classic";
 import DoveTheme from "./dove";
 import VioletTheme from "./violet";
 import HavenTheme from "./haven";
+import LavelTheme from "./lavel";
 import ParisTheme from "./paris";
 import PlainInvitation from "./plain";
 import type { Theme, ThemeProps } from "./types";
@@ -13,7 +14,7 @@ import type { Theme, ThemeProps } from "./types";
  * theme here and create a theme with the same `themeId` in the admin.
  * Themes open with their own background video (shared/video-cover.tsx, with
  * the files in public/themes/<themeId>/); "classic" opens a sealed envelope
- * drawn in CSS instead.
+ * and "lavel" a folded card, both drawn in CSS instead.
  */
 const THEMES: Record<string, Theme> = {
   aurora: AuroraTheme,
@@ -23,6 +24,7 @@ const THEMES: Record<string, Theme> = {
   violet: VioletTheme,
   paris: ParisTheme,
   classic: ClassicTheme,
+  lavel: LavelTheme,
 };
 
 /**

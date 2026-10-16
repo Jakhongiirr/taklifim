@@ -3,6 +3,7 @@ import { greatVibes } from "@/themes/aurora/fonts";
 import { cormorant } from "@/themes/classic/fonts";
 import { doveScript } from "@/themes/dove/fonts";
 import { prata } from "@/themes/haven/fonts";
+import { lavelScript } from "@/themes/lavel/fonts";
 import { playfair } from "@/themes/paris/fonts";
 import { marck } from "@/themes/violet/fonts";
 
@@ -15,4 +16,5 @@ export const DESIGN_NAME_FONT: Record<string, string> = {
   violet: marck.className,
   paris: `${playfair.className} italic`,
   classic: `${cormorant.className} italic`,
+  lavel: lavelScript,
 };

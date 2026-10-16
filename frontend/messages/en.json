@@ -401,6 +401,20 @@
       "call": "Call"
     },
     "closing": "We look forward to seeing you!",
+    "lavel": {
+      "forYou": "This invitation is just for you",
+      "sealHint": "Tap the seal to open",
+      "hello": "Hello",
+      "invite": "We would love you to join us on our wedding day",
+      "scroll": "Scroll down",
+      "ceremony": "Wedding celebration",
+      "tagline": "The day two hearts bloom as one — the loveliest spring of our lives",
+      "dayMonth": "{weekday}, {month} {day}",
+      "startTime": "Celebration begins",
+      "awaiting": "We can't wait to see you",
+      "wishTitle": "With all our hearts",
+      "wish": "On the day our happiness blooms, we would love to have you with us. Your presence will be the dearest gift."
+    },
     "classic": {
       "tagline": "Two hearts joined as one — the greatest joy",
       "scroll": "Scroll down",
