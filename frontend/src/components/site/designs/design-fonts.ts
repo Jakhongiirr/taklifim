@@ -2,6 +2,7 @@ import { yeseva } from "@/themes/arcade/fonts";
 import { greatVibes } from "@/themes/aurora/fonts";
 import { doveScript } from "@/themes/dove/fonts";
 import { prata } from "@/themes/haven/fonts";
+import { comforter } from "@/themes/lavel/fonts";
 import { playfair } from "@/themes/paris/fonts";
 import { marck } from "@/themes/violet/fonts";
 
@@ -13,4 +14,5 @@ export const DESIGN_NAME_FONT: Record<string, string> = {
   arcade: yeseva.className,
   violet: marck.className,
   paris: `${playfair.className} italic`,
+  lavel: comforter.className,
 };

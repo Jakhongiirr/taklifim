@@ -1,0 +1,149 @@
+/* The "lavel" theme: lilac paper, the card's opening and the page's
+   entrances. Animations are off for visitors who prefer reduced motion, and
+   content is never hidden without them. */
+
+/* Lilac paper with a faint wash of light from above, drawn in CSS. */
+.lavel-paper {
+  background-color: #f6f1fb;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, #fdfbff 0%, transparent 65%),
+    radial-gradient(circle at 0% 100%, rgb(166 144 212 / 0.14), transparent 45%),
+    radial-gradient(circle at 100% 70%, rgb(166 144 212 / 0.1), transparent 40%);
+}
+
+.lavel-door-left {
+  transform-origin: left center;
+}
+.lavel-door-right {
+  transform-origin: right center;
+}
+
+@keyframes lavel-door-left {
+  from {
+    transform: perspective(1400px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1400px) rotateY(-112deg);
+  }
+}
+@keyframes lavel-door-right {
+  from {
+    transform: perspective(1400px) rotateY(0deg);
+  }
+  to {
+    transform: perspective(1400px) rotateY(112deg);
+  }
+}
+
+/* The seal is centred with Tailwind's `translate`, so its animations only
+   scale. */
+@keyframes lavel-seal-off {
+  30% {
+    transform: scale(1.12);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0.6);
+    opacity: 0;
+  }
+}
+
+@keyframes lavel-fade-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes lavel-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+@keyframes lavel-rise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lavel-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lavel-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+/* The sprigs sway a little, as if in a breeze. */
+@keyframes lavel-sway {
+  0%,
+  100% {
+    rotate: -2deg;
+  }
+  50% {
+    rotate: 2deg;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-gate-cover][data-state="closed"] .lavel-seal {
+    animation: lavel-breathe 2.4s ease-in-out infinite;
+  }
+  [data-gate-cover]:not([data-state="closed"]) .lavel-seal {
+    animation: lavel-seal-off 0.5s ease-in both;
+  }
+  [data-gate-cover]:not([data-state="closed"]) .lavel-door-left {
+    animation: lavel-door-left 1s cubic-bezier(0.55, 0, 0.3, 1) 0.35s both;
+  }
+  [data-gate-cover]:not([data-state="closed"]) .lavel-door-right {
+    animation: lavel-door-right 1s cubic-bezier(0.55, 0, 0.3, 1) 0.35s both;
+  }
+  [data-gate-cover]:not([data-state="closed"]) .lavel-cover-words {
+    animation: lavel-fade-out 0.4s ease-out both;
+  }
+
+  /* The hero comes in as the doors open (GateCover adds the class). */
+  .lavel-opened .lavel-rise {
+    animation: lavel-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 160ms + 150ms);
+  }
+  .lavel-hint {
+    animation: lavel-hint 2.2s ease-in-out infinite;
+  }
+  .lavel-sway {
+    transform-origin: 50% 100%;
+    animation: lavel-sway 6s ease-in-out infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .lavel-reveal {
+      animation: lavel-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}
