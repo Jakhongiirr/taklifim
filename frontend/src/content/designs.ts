@@ -327,12 +327,12 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
         "Lavanda muhri bilan yopilgan karta va lavanda guldastalari — romantik, nafis binafsha rangli toʻy taklifnomasi.",
       about: [
         "Lavel — yozgi lavanda dalasidek yumshoq va romantik toʻy uchun. Taklifnoma ikki tavaqali karta bilan boshlanadi: mehmon lavanda novdasi tushirilgan binafsha mumli muhrni bosadi, tavaqalar ochiladi va ichidan salomlashuv va lavanda guldastasi koʻrinadi.",
-        "Nafis nilufarrang qogʻoz, toʻq binafsha siyoh, lavanda novdalari va yashil poyalar, Comforter yozma shriftidagi ismlar, ravoq ichidagi kelin-kuyov ismlari hamda toʻy kuni lavanda gulchambari bilan belgilangan oy taqvimi unga oʻziga xos koʻrinish beradi.",
+        "Nafis nilufarrang qogʻoz, toʻq binafsha siyoh, lavanda novdalari va yashil poyalar, Alex Brush yozma shriftidagi ismlar, ravoq ichidagi kelin-kuyov ismlari hamda toʻy kuni lavanda gulchambari bilan belgilangan oy taqvimi unga oʻziga xos koʻrinish beradi.",
       ],
       highlights: [
         "Ochilish: lavanda muhrli karta ikki tomonga ochiladi",
         "Nilufarrang, toʻq binafsha va yashil poya ranglari",
-        "Ismlar Comforter yozma shriftida, matn Lora shriftida",
+        "Ismlar Alex Brush yozma shriftida, matn EB Garamond shriftida",
         "Lavanda guldastalari, ravoq va gulchambarli oy taqvimi",
       ],
     },
@@ -341,12 +341,12 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
         "Открытка с лавандовой печатью и букеты лаванды — романтичное, нежное сиреневое свадебное приглашение.",
       about: [
         "Lavel — для мягкой и романтичной свадьбы, как летнее лавандовое поле. Приглашение начинается со сложенной открытки: гость нажимает на сиреневую восковую печать с веточкой лаванды, створки раскрываются, и за ними появляются приветствие и букет лаванды.",
-        "Нежная сиреневая бумага, тёмно-фиолетовые чернила, веточки лаванды и зелёные стебли, имена рукописным шрифтом Comforter под аркой и календарь месяца, где день свадьбы обведён лавандовым венком, делают его особенным.",
+        "Нежная сиреневая бумага, тёмно-фиолетовые чернила, веточки лаванды и зелёные стебли, имена каллиграфическим шрифтом Alex Brush под аркой и календарь месяца, где день свадьбы обведён лавандовым венком, делают его особенным.",
       ],
       highlights: [
         "Открытие: открытка с лавандовой печатью раскрывается в стороны",
         "Сиреневый, тёмно-фиолетовый и зелень стеблей",
-        "Имена рукописным Comforter, текст — шрифтом Lora",
+        "Имена каллиграфическим Alex Brush, текст — EB Garamond",
         "Букеты лаванды, арка и календарь с венком",
       ],
     },
@@ -355,12 +355,12 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
         "A card sealed with lavender wax and bouquets of lavender — a romantic, soft lilac wedding invitation.",
       about: [
         "Lavel is for a soft, romantic wedding, like a lavender field in summer. It begins with a folded card: your guests tap the lilac wax seal pressed with a sprig of lavender, the two doors swing open and a greeting with a lavender bouquet appears.",
-        "Soft lilac paper, deep plum ink, lavender sprigs on sage stems, your names in Comforter script under an arch and a month calendar with your day ringed by a lavender wreath give it its own character.",
+        "Soft lilac paper, deep plum ink, lavender sprigs on sage stems, your names in Alex Brush script under an arch and a month calendar with your day ringed by a lavender wreath give it its own character.",
       ],
       highlights: [
         "Opening: a lavender-sealed card swings open",
         "Lilac, deep plum and sage",
-        "Names in Comforter script, text in Lora",
+        "Names in Alex Brush script, text in EB Garamond",
         "Lavender bouquets, an arch and a calendar with a wreath",
       ],
     },

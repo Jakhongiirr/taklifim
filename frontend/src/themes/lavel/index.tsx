@@ -10,7 +10,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
-import { comforter, lora } from "./fonts";
+import { garamond, lavelScript } from "./fonts";
 import GateCover from "./gate-cover";
 import { Bouquet, Divider, Sprig, Wreath } from "./lavender";
 
@@ -22,7 +22,7 @@ const INK = "text-[#43345e]";
 const MUTED = "text-[#6e6283]";
 const LILAC = "text-[#8a73c0]";
 const PLUM = "text-[#6f58a8]";
-const SCRIPT = `${comforter.className} font-normal not-italic`;
+const SCRIPT = `${lavelScript} font-normal not-italic`;
 const LABEL =
   "text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase";
 
@@ -52,7 +52,7 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
   const initials = `${taklif.groomName[0]} ♡ ${taklif.brideName[0]}`;
 
   return (
-    <div className={`${lora.className} lavel-paper`}>
+    <div className={`${garamond.className} lavel-paper`}>
       <GateCover
         musicUrl={taklif.music?.file.url ?? null}
         initials={initials}
@@ -78,7 +78,7 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
             {t("lavel.hello")}
           </p>
           <h1
-            className={`lavel-rise mt-5 text-[5.2rem] leading-none ${SCRIPT} ${PLUM}`}
+            className={`lavel-rise mt-5 text-[min(5rem,16vw)] leading-none ${SCRIPT} ${PLUM}`}
             style={{ "--i": 1 } as CSSProperties}
           >
             {t("cover.eyebrow")}
@@ -139,7 +139,9 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
                   {taklif.groomName[0]}&thinsp;·&thinsp;{taklif.brideName[0]}
                 </p>
               </div>
-              <h2 className={`text-[4rem] leading-[1.05] ${SCRIPT}`}>
+              <h2
+                className={`text-[min(4rem,15vw)] leading-[1.05] [overflow-wrap:anywhere] ${SCRIPT}`}
+              >
                 {taklif.groomName}
                 <span className={`block text-4xl leading-tight ${LILAC}`}>
                   &amp;
@@ -203,9 +205,7 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
             <p className="mt-6 text-xl">
               <span className={`font-semibold ${PLUM}`}>{date.time}</span>
               <span className={`mx-3 ${LILAC}`}>—</span>
-              <span className={`italic ${MUTED}`}>
-                {t("lavel.startTime")}
-              </span>
+              <span className={`italic ${MUTED}`}>{t("lavel.startTime")}</span>
             </p>
           </div>
           <div className="lavel-reveal mt-14">
