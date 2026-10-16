@@ -200,13 +200,15 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
           </Link>
         )}
         {taklif.status === "draft" && (
-          // Paying publishes the draft.
+          // Paying publishes the draft; a free design is published at once.
           <ActionButton
             primary
             disabled={busy || payment.busy}
             onClick={() => void payment.pay()}
           >
-            {payment.busy ? t("actions.paying") : t("actions.pay")}
+            {taklif.theme.price === 0
+              ? t(payment.busy ? "actions.publishing" : "actions.publishFree")
+              : t(payment.busy ? "actions.paying" : "actions.pay")}
           </ActionButton>
         )}
         {taklif.status === "published" && (

@@ -294,6 +294,8 @@
       "payHint": "{price} soʻm · toʻlovdan soʻng taklifnoma darhol eʼlon qilinadi",
       "payHintFree": "Bepul dizayn — taklifnoma darhol eʼlon qilinadi",
       "paying": "Toʻlovga oʻtilmoqda…",
+      "publishFree": "Bepul eʼlon qilish",
+      "publishing": "Eʼlon qilinmoqda…",
       "payUnavailable": "Toʻlov hozircha ishlamayapti. Birozdan soʻng qayta urinib koʻring.",
       "publishedFree": "Taklifnoma eʼlon qilindi!",
       "error": "Amalni bajarib boʻlmadi. Qayta urinib koʻring.",
@@ -412,6 +414,13 @@
       "awaiting": "Sizni koʻrishni sabrsizlik bilan kutamiz",
       "wishTitle": "Samimiy tilak",
       "wish": "Baxtimiz gullagan shu kunda siz bilan birga boʻlishni istaymiz. Tashrifingiz biz uchun eng katta sovgʻa boʻladi."
+    },
+    "classic": {
+      "tagline": "Ikki qalbning birikishi — eng buyuk baxt",
+      "scroll": "Pastga suring",
+      "sealHint": "Ochish uchun muhrni bosing",
+      "dayMonth": "{day}-{month}, {weekday}",
+      "startTime": "Boshlanish vaqti"
     },
     "music": {
       "play": "Musiqani yoqish",

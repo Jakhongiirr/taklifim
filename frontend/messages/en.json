@@ -294,6 +294,8 @@
       "payHint": "{price} UZS · published as soon as it’s paid",
       "payHintFree": "Free design — published right away",
       "paying": "Going to payment…",
+      "publishFree": "Publish for free",
+      "publishing": "Publishing…",
       "payUnavailable": "Payment isn’t available right now. Please try again a little later.",
       "publishedFree": "Your invitation is published!",
       "error": "Couldn't do that. Please try again.",
@@ -412,6 +414,13 @@
       "awaiting": "We can't wait to see you",
       "wishTitle": "With all our hearts",
       "wish": "On the day our happiness blooms, we would love to have you with us. Your presence will be the dearest gift."
+    },
+    "classic": {
+      "tagline": "Two hearts joined as one — the greatest joy",
+      "scroll": "Scroll down",
+      "sealHint": "Tap the seal to open",
+      "dayMonth": "{weekday}, {month} {day}",
+      "startTime": "Ceremony begins"
     },
     "music": {
       "play": "Play music",

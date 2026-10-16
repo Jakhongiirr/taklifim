@@ -9,6 +9,8 @@ import { TaklifService } from './taklif.service';
 const DRAFT_MAX_AGE_HOURS = 7 * 24;
 /** Every invitation loses its photos this many months after its event. */
 const KEEP_AFTER_EVENT_MONTHS = 12;
+/** Invitations published on a free design lose them sooner. */
+const KEEP_FREE_AFTER_EVENT_MONTHS = 3;
 /** Uploaded images nothing uses are deleted after this long. */
 const UNATTACHED_MAX_AGE_HOURS = 24;
 const LOCK_KEY = 'cron:taklif:cleanup';
@@ -45,6 +47,15 @@ export class TaklifCleanupService {
     await this.run(
       `photos of draft(s) last edited before ${draftCutoff.toISOString()}`,
       () => this.taklifService.deleteStaleDraftPhotos(draftCutoff),
+    );
+
+    const freeEventCutoff = new Date();
+    freeEventCutoff.setUTCMonth(
+      freeEventCutoff.getUTCMonth() - KEEP_FREE_AFTER_EVENT_MONTHS,
+    );
+    await this.run(
+      `photos of free invitation(s) with an event before ${freeEventCutoff.toISOString()}`,
+      () => this.taklifService.deleteFreeEndedPhotos(freeEventCutoff),
     );
 
     const eventCutoff = new Date();

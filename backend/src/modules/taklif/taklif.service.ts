@@ -17,6 +17,7 @@ import {
   IsNull,
   LessThan,
   Like,
+  Not,
   Repository,
 } from 'typeorm';
 import { isPgError, PG_UNIQUE_VIOLATION } from '../../database/pg-errors';
@@ -308,13 +309,32 @@ export class TaklifService {
   }
 
   /**
+   * Removes the photos of invitations published on a free design whose event
+   * was before `before`; the invitations themselves are kept. Free means
+   * nothing was paid: a 0 so'm order and no paid order above 0, so a design
+   * made free after someone paid for it keeps their photos as long as any
+   * paid invitation's.
+   */
+  deleteFreeEndedPhotos(before: Date): Promise<number> {
+    return this.deletePhotosMatching(
+      { eventAt: LessThan(before), paidAt: Not(IsNull()) },
+      `EXISTS (SELECT 1 FROM orders o WHERE o."taklifId" = taklif.id AND o.status = 'paid' AND o.amount = 0)
+        AND NOT EXISTS (SELECT 1 FROM orders o WHERE o."taklifId" = taklif.id AND o.status = 'paid' AND o.amount > 0)`,
+    );
+  }
+
+  /**
    * Deletes the photos (and their files) of the matching invitations, in
    * batches, keeping the invitations. Returns how many invitations lost
    * their photos. Only invitations that still have photos are picked, so
    * the loop ends; one that stops matching meanwhile (e.g. edited) keeps
    * its photos.
    */
-  private async deletePhotosMatching(where: FindOptionsWhere<Taklif>) {
+  private async deletePhotosMatching(
+    where: FindOptionsWhere<Taklif>,
+    /** Extra SQL on the invitation, aliased `taklif`. */
+    sql = 'TRUE',
+  ) {
     const hasPhotos = `EXISTS (SELECT 1 FROM taklif_photos p WHERE p."taklifId" = taklif.id)`;
     let cleared = 0;
     for (;;) {
@@ -322,6 +342,7 @@ export class TaklifService {
         .createQueryBuilder('taklif')
         .select('taklif.id')
         .where(where)
+        .andWhere(sql)
         .andWhere(hasPhotos)
         .take(CLEANUP_BATCH_SIZE)
         .getMany();
@@ -332,6 +353,7 @@ export class TaklifService {
         .createQueryBuilder('taklif')
         .select('taklif.id')
         .where(where)
+        .andWhere(sql)
         .andWhere({ id: In(batch.map((row) => row.id)) });
       const result = await this.taklifs.manager
         .createQueryBuilder()

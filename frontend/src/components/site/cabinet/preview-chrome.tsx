@@ -157,7 +157,9 @@ export default function PreviewChrome({
                 {payment.busy ? (
                   <>
                     <span className="size-5 animate-spin rounded-full border-2 border-paper/40 border-t-paper" />
-                    <span className="font-medium">{tPay("paying")}</span>
+                    <span className="font-medium">
+                      {tPay(price === 0 ? "publishing" : "paying")}
+                    </span>
                   </>
                 ) : (
                   <>
