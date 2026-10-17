@@ -25,7 +25,11 @@ const ASSETS = "/themes/aurora";
  * invitation's words are written onto a painted letter, and a garland of
  * flowers leads to the closing line.
  */
-export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
+export default async function AuroraTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -141,7 +145,9 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           <div className="absolute inset-x-[18%] top-[31%] bottom-[29%] flex flex-col items-center justify-center">
             <div className="aurora-reveal">
               <h2 className="font-serif text-[6.2cqw] leading-tight text-[#7a5a2c]">
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-[3cqw] font-serif text-[4cqw] leading-relaxed">
                 {t("text", {
@@ -220,6 +226,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           <div className="aurora-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

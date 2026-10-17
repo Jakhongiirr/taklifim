@@ -26,7 +26,11 @@ const ASSETS = "/themes/dove";
  * under a dove with an olive branch, and two doves on a ribbon lead to the
  * closing line.
  */
-export default async function DoveTheme({ taklif, preview }: ThemeProps) {
+export default async function DoveTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -153,7 +157,9 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
               <h2
                 className={`${forum.className} text-[5.6cqw] tracking-[0.12em] text-[#6b3f4a] uppercase`}
               >
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
                 {t("text", {
@@ -235,6 +241,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           <div className="dove-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

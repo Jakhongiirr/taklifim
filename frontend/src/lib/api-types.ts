@@ -251,11 +251,24 @@ export type ApiBody<T> = { success: true; data: T } | ApiErrorBody;
 export interface TaklifResponse {
   id: string;
   name: string;
+  /** Set when they replied from a named guest's personal link. */
+  guestName: string | null;
   attending: boolean;
   /** People coming including the guest. */
   guests: number;
   message: string | null;
   liked: boolean;
+  createdAt: string;
+}
+
+/** A guest the owner invites by name (GET /taklif/:id/guests). */
+export interface TaklifGuest {
+  id: string;
+  name: string;
+  /** Their personal link is /{locale}/taklif/{slug}/{token}. */
+  token: string;
+  /** Their latest reply from that link; null before they reply. */
+  reply: { attending: boolean; guests: number; createdAt: string } | null;
   createdAt: string;
 }
 

@@ -25,7 +25,11 @@ const ASSETS = "/themes/haven";
  * further down the invitation's words are written onto an old letter, and
  * a garland of peonies leads to the closing line.
  */
-export default async function HavenTheme({ taklif, preview }: ThemeProps) {
+export default async function HavenTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -145,7 +149,9 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
               <h2
                 className={`${cormorantSc.className} text-2xl tracking-[0.1em] text-[#6e2f36]`}
               >
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-4 font-serif text-lg leading-relaxed sm:text-xl">
                 {t("text", {
@@ -229,6 +235,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           <div className="haven-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

@@ -26,7 +26,11 @@ const ASSETS = "/themes/paris";
  * onto a sky of balloons and roses, and a garland of pink roses leads to
  * the closing line.
  */
-export default async function ParisTheme({ taklif, preview }: ThemeProps) {
+export default async function ParisTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -143,7 +147,9 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
               <h2
                 className={`${playfair.className} text-[6.4cqw] leading-tight text-[#2c3550] italic`}
               >
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-[3.5cqw] font-serif text-[4.4cqw] leading-relaxed">
                 {t("text", {
@@ -229,6 +235,7 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
           <div className="paris-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

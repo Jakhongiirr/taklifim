@@ -42,6 +42,12 @@ export class CreateTaklifResponseDto {
   @MaxLength(500)
   message?: string;
 
+  /** The token of the guest's personal link, when they opened one. */
+  @IsOptional()
+  @IsString()
+  @MaxLength(16)
+  guestToken?: string;
+
   /** Honeypot: hidden from people, so only bots fill it in. */
   @IsOptional()
   @IsString()
@@ -65,6 +71,9 @@ export class TaklifResponseDto {
   id: string;
 
   name: string;
+
+  /** The named guest's name when they replied from their personal link. */
+  guestName: string | null;
 
   attending: boolean;
 

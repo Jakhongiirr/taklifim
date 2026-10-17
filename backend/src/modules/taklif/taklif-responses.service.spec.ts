@@ -2,6 +2,7 @@ import type { ConfigService } from '@nestjs/config';
 import type { Repository } from 'typeorm';
 import type { BotLocale } from '../auth/bot-messages';
 import type { TelegramNotifyService } from '../telegram/telegram-notify.service';
+import type { TaklifGuest } from './taklif-guest.entity';
 import type { TaklifResponse } from './taklif-response.entity';
 import { TaklifResponsesService } from './taklif-responses.service';
 import type { Taklif } from './taklif.entity';
@@ -21,6 +22,11 @@ function setup() {
       Promise.resolve({ ...r, id: 'r1' }),
     ),
   };
+  const guests = {
+    findOneBy: jest.fn(({ token }: { token: string }) =>
+      Promise.resolve(token === 'g1token' ? { id: 'g1' } : null),
+    ),
+  };
   const telegram = {
     sendToUser: jest.fn<
       Promise<void>,
@@ -31,10 +37,11 @@ function setup() {
   const service = new TaklifResponsesService(
     taklifs as unknown as Repository<Taklif>,
     responses as unknown as Repository<TaklifResponse>,
+    guests as unknown as Repository<TaklifGuest>,
     telegram as unknown as TelegramNotifyService,
     config as unknown as ConfigService,
   );
-  return { service, telegram };
+  return { service, telegram, responses };
 }
 
 const reply = {
@@ -62,5 +69,23 @@ describe('TaklifResponsesService', () => {
     const { service, telegram } = setup();
     await service.create('abc123', { ...reply, elapsedMs: 100 });
     expect(telegram.sendToUser).not.toHaveBeenCalled();
+  });
+
+  it('links a reply from a personal link to its guest', async () => {
+    const { service, responses } = setup();
+    await service.create('abc123', { ...reply, guestToken: 'g1token' });
+    expect(responses.create).toHaveBeenCalledWith(
+      expect.objectContaining({ guestId: 'g1' }),
+    );
+  });
+
+  it('keeps a reply with an unknown token, unlinked', async () => {
+    const { service, responses } = setup();
+    expect(
+      await service.create('abc123', { ...reply, guestToken: 'nope' }),
+    ).toEqual({ ok: true });
+    expect(responses.create).toHaveBeenCalledWith(
+      expect.objectContaining({ guestId: null }),
+    );
   });
 });

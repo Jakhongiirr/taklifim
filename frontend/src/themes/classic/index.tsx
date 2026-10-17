@@ -29,7 +29,11 @@ const LABEL =
  * calendar, the countdown, the venue and the guests' replies, each under a
  * gold flourish.
  */
-export default async function ClassicTheme({ taklif, preview }: ThemeProps) {
+export default async function ClassicTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -133,7 +137,7 @@ export default async function ClassicTheme({ taklif, preview }: ThemeProps) {
           <div className="classic-reveal">
             <Monogram initials={initials} />
             <h2 className={`mt-6 text-3xl font-medium italic ${WINE}`}>
-              {t("greeting")}
+              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
             </h2>
             <p className="mt-5 text-xl leading-relaxed">
               {t("text", {
@@ -210,6 +214,7 @@ export default async function ClassicTheme({ taklif, preview }: ThemeProps) {
           <div className="classic-reveal text-lg">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

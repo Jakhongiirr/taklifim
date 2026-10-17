@@ -32,7 +32,11 @@ const NAMES = `${oldStandard.className} italic`;
  * served, the countdown, the venue and the guests' replies, each under a
  * gold star rule.
  */
-export default async function PlovTheme({ taklif, preview }: ThemeProps) {
+export default async function PlovTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -139,7 +143,7 @@ export default async function PlovTheme({ taklif, preview }: ThemeProps) {
           <div className="plov-reveal">
             <StarRule />
             <h2 className={`mt-6 text-3xl ${NAMES} ${SAFFRON}`}>
-              {t("greeting")}
+              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
               {t("plov.text", names)}
@@ -229,6 +233,7 @@ export default async function PlovTheme({ taklif, preview }: ThemeProps) {
           <div className="plov-reveal text-lg">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               subtitle={t("plov.rsvpSubtitle")}
               palette={{

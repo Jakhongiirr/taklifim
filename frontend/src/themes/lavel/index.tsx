@@ -32,7 +32,11 @@ const LABEL =
  * letter, photos, the date on a month calendar, the countdown, the venue,
  * the guests' replies and the hosts' warm wishes.
  */
-export default async function LavelTheme({ taklif, preview }: ThemeProps) {
+export default async function LavelTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -166,7 +170,9 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
         {/* The letter. */}
         <section className="px-6 pt-20">
           <div className="lavel-reveal">
-            <h2 className={`text-5xl ${SCRIPT} ${PLUM}`}>{t("greeting")}</h2>
+            <h2 className={`text-5xl ${SCRIPT} ${PLUM}`}>
+              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+            </h2>
             <p className="mt-5 text-lg leading-relaxed">
               {t("text", {
                 groom: taklif.groomName,
@@ -238,6 +244,7 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
           <div className="lavel-reveal text-lg">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

@@ -14,7 +14,11 @@ import type { ThemeProps } from "./types";
  * The undecorated fallback: every part of the invitation in the site's own
  * styles, for theme ids without a design.
  */
-export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
+export default async function PlainInvitation({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -42,7 +46,9 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
         />
       )}
 
-      <Section title={t("greeting")}>
+      <Section
+        title={guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+      >
         <p>{t("text", { groom: taklif.groomName, bride: taklif.brideName })}</p>
         <p className="mt-3 text-muted">
           {t("signature", { host: taklif.hostName })}
@@ -105,6 +111,7 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
       <Section title={tRsvp("title")}>
         <Rsvp
           slug={taklif.slug}
+          guest={guest}
           preview={preview}
           palette={{
             input: "bg-white ring-1 ring-line",
