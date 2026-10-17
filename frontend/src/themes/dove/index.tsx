@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import "./dove.css";
@@ -47,7 +48,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
     >
       {taklif.groomName}
       <span
-        className={`${forum.className} my-1 block text-xl tracking-[0.5em] text-[#6f8597]`}
+        className={`${forum.className} my-1 block text-xl tracking-[0.5em] text-[#b9737f]`}
       >
         &amp;
       </span>
@@ -68,16 +69,19 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         buttonClass={`${forum.className} border-[#6b3f4a]/50 bg-[#fff7f2]/80 tracking-[0.2em] text-[#6b3f4a] uppercase backdrop-blur-sm hover:bg-[#fff7f2]`}
         musicClass="bg-[#fff7f2]/85 text-[#6b3f4a] ring-1 ring-[#c98b8b]/50"
       >
-        <DovePair className="w-36" />
-        <p
-          className={`${forum.className} mt-4 text-xs tracking-[0.45em] text-[#6b3f4a] uppercase`}
-        >
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-4">{names}</div>
-        <p className={`${forum.className} mt-5 text-lg text-[#5a3e45]`}>
-          {fullDate}
-        </p>
+        <div className="relative isolate">
+          <TextGlow tone="bg-[#fff7f2]/60" />
+          <DovePair className="w-36" />
+          <p
+            className={`${forum.className} mt-4 text-xs tracking-[0.45em] text-[#6b3f4a] uppercase`}
+          >
+            {t("cover.eyebrow")}
+          </p>
+          <div className="mt-4">{names}</div>
+          <p className={`${forum.className} mt-5 text-lg text-[#5a3e45]`}>
+            {fullDate}
+          </p>
+        </div>
       </VideoCover>
 
       <article className="mx-auto max-w-md overflow-clip bg-[#fbf3ee] text-center text-[#5a3e45] md:shadow-2xl md:shadow-[#6b3f4a]/15">
@@ -94,7 +98,8 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf3ee]/35 via-65% to-[#fbf3ee]/70" />
           <Feathers />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#fbf3ee]/75" className="dove-rise" />
             <p
               className={`${forum.className} dove-rise text-xs tracking-[0.4em] text-[#6b3f4a] uppercase`}
               style={{ "--i": 0 } as CSSProperties}

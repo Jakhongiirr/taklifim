@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import "./violet.css";
@@ -70,13 +71,13 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
       >
         <Crescent className="w-10" />
         <p
-          className={`${tenor.className} mt-4 text-[11px] tracking-[0.45em] text-[#e6dcfa] uppercase`}
+          className={`${tenor.className} mt-4 text-[11px] tracking-[0.45em] text-[#efe8fc] uppercase [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
         >
           {t("cover.eyebrow")}
         </p>
         <div className="mt-4">{names}</div>
         <p
-          className={`${tenor.className} mt-5 text-sm tracking-[0.15em] text-[#f7f2ff]`}
+          className={`${tenor.className} mt-5 text-sm tracking-[0.15em] text-[#f7f2ff] [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
         >
           {fullDate}
         </p>
@@ -98,7 +99,8 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#1b1430]/35 via-65% to-[#1b1430]/70" />
           <Lanterns />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#1b1430]/55" className="violet-rise" />
             <p
               className={`${tenor.className} violet-rise text-[11px] tracking-[0.35em] text-[#e6dcfa] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
