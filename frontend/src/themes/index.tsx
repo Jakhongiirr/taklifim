@@ -8,6 +8,7 @@ import LavelTheme from "./lavel";
 import ParisTheme from "./paris";
 import PlovTheme from "./plov";
 import PlainInvitation from "./plain";
+import FontReveal from "./shared/font-reveal";
 import type { Theme, ThemeProps } from "./types";
 
 /**
@@ -41,5 +42,10 @@ const THEMES: Record<string, Theme> = {
  */
 export function ThemedInvitation({ taklif, preview }: ThemeProps) {
   const Theme = THEMES[taklif.theme.themeId] ?? PlainInvitation;
-  return <Theme taklif={taklif} preview={preview} />;
+  return (
+    <>
+      <FontReveal />
+      <Theme taklif={taklif} preview={preview} />
+    </>
+  );
 }

@@ -45,6 +45,15 @@
   }
 }
 
+/* Invitation covers: the words wait for their fonts, then fade in
+   (themes/shared/font-reveal.tsx). Outside a layer, so it beats utilities. */
+[data-font-reveal] {
+  transition: opacity 0.8s ease-out;
+}
+html[data-fonts="wait"] [data-font-reveal] {
+  opacity: 0;
+}
+
 /* Equalizer bars on the music track that is playing (builder). */
 @keyframes bars {
   0%,
