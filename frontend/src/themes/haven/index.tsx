@@ -221,6 +221,10 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           </div>
         </Section>
 
+        <div className="px-4 pt-16">
+          <Garland />
+        </div>
+
         <Section title={tRsvp("title")}>
           <div className="haven-reveal">
             <Rsvp
@@ -267,16 +271,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
         )}
 
         <footer className="px-4 pt-16 pb-14">
-          {/* A garland of watercolour peonies across the page. */}
-          <Image
-            src={`${ASSETS}/border.webp`}
-            alt=""
-            width={900}
-            height={387}
-            unoptimized
-            sizes="448px"
-            className="haven-reveal mx-auto w-full"
-          />
+          <Garland />
           <p
             className={`${prata.className} haven-reveal mt-6 text-3xl leading-snug text-[#5a2a30]`}
           >
@@ -302,6 +297,21 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       </div>
       {children}
     </section>
+  );
+}
+
+/** A garland of watercolour peonies across the page. */
+function Garland() {
+  return (
+    <Image
+      src={`${ASSETS}/border.webp`}
+      alt=""
+      width={900}
+      height={387}
+      unoptimized
+      sizes="448px"
+      className="haven-reveal mx-auto w-full"
+    />
   );
 }
 
