@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { File } from '../files/file.entity';
 import { FilesModule } from '../files/files.module';
+import { GiftsModule } from '../gifts/gifts.module';
 import { Music } from '../music/music.entity';
 import { MusicModule } from '../music/music.module';
 import { TelegramModule } from '../telegram/telegram.module';
@@ -27,6 +28,7 @@ import { TaklifService } from './taklif.service';
       File,
     ]),
     FilesModule,
+    GiftsModule,
     MusicModule,
     ThemesModule,
     TelegramModule,

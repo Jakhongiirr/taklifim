@@ -411,8 +411,13 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
   },
 };
 
-/** The designs with a page, in the order they're listed. */
-export const DESIGN_IDS = Object.keys(DESIGN_COPY);
+/**
+ * The designs with a page, in the order they're listed. Plov is only given
+ * as a gift (for each paid invitation), so it isn't listed or offered.
+ */
+export const DESIGN_IDS = Object.keys(DESIGN_COPY).filter(
+  (id) => id !== "plov",
+);
 
 /** A design's display name: its id, capitalised ("aurora" → "Aurora"). */
 export const designName = (id: string) => id[0].toUpperCase() + id.slice(1);

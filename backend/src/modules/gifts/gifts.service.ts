@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { EntityManager, IsNull, Repository } from 'typeorm';
 import type { Order } from '../payments/order.entity';
+import type { Taklif } from '../taklif/taklif.entity';
 import { TelegramNotifyService } from '../telegram/telegram-notify.service';
 import { Theme } from '../themes/theme.entity';
 import { MyGiftsDto } from './dto/my-gifts.dto';
@@ -15,9 +16,9 @@ const giftMessage = (cabinetUrl: string) =>
   `🎁 Sizga sovgʻa tayyorlab qoʻydik — osh taklifnomasi, olish uchun kabinetingizga oʻting: ${cabinetUrl}`;
 
 /**
- * Free plov invitations: every paid order (above 0 so'm) gives its buyer
- * one, announced on Telegram, and publishing a plov draft uses one up
- * instead of paying.
+ * Free plov invitations: every paid invitation, once it goes from draft to
+ * published, gives its owner one, announced on Telegram; publishing a plov
+ * draft uses one up instead of paying.
  */
 @Injectable()
 export class GiftsService {
@@ -31,21 +32,42 @@ export class GiftsService {
   ) {}
 
   /**
-   * Gives the order's buyer a gift, inside the transaction that marks the
-   * order paid. Nothing for free orders or while the plov design isn't
-   * active. Returns the gift to announce once the transaction commits.
+   * Gives the owner a gift for an invitation going from draft to published,
+   * inside the transaction that publishes it. Only paid invitations count:
+   * nothing for a free design or one published with a gift, nor while the
+   * plov design isn't active; and only once per invitation. `order` is the
+   * Payme order that paid for it, if any. Returns the gift to announce once
+   * the transaction commits.
    */
-  async grant(manager: EntityManager, order: Order): Promise<Gift | null> {
-    if (order.amount <= 0 || !order.userId) return null;
-    const theme = await manager.findOne(Theme, {
+  async grantForPublish(
+    manager: EntityManager,
+    taklif: Pick<Taklif, 'id' | 'userId' | 'themeId'>,
+    order?: Pick<Order, 'id' | 'amount'>,
+  ): Promise<Gift | null> {
+    if (order) {
+      if (order.amount <= 0) return null;
+    } else {
+      const theme = await manager.findOne(Theme, {
+        where: { id: taklif.themeId },
+      });
+      if (!theme || theme.price <= 0) return null;
+    }
+    if (await manager.exists(Gift, { where: { taklifId: taklif.id } })) {
+      return null; // published with a gift
+    }
+    const plov = await manager.findOne(Theme, {
       where: { themeId: GIFT_THEME_ID, archivedAt: IsNull() },
     });
-    if (!theme) return null;
+    if (!plov) return null;
     const result = await manager
       .createQueryBuilder()
       .insert()
       .into(Gift)
-      .values({ userId: order.userId, orderId: order.id })
+      .values({
+        userId: taklif.userId,
+        sourceTaklifId: taklif.id,
+        orderId: order?.id ?? null,
+      })
       .orIgnore()
       .returning('*')
       .execute();

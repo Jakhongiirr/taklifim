@@ -27,6 +27,7 @@ import { IMAGE_FILE_TYPES } from '../files/file-types';
 import { FilesService } from '../files/files.service';
 import { Music } from '../music/music.entity';
 import { MusicService } from '../music/music.service';
+import { GiftsService } from '../gifts/gifts.service';
 import { Theme } from '../themes/theme.entity';
 import { ThemesService } from '../themes/themes.service';
 import { Role } from '../users/role.enum';
@@ -85,6 +86,7 @@ export class TaklifService {
     private readonly filesService: FilesService,
     private readonly musicService: MusicService,
     private readonly themesService: ThemesService,
+    private readonly gifts: GiftsService,
   ) {}
 
   async create(dto: CreateTaklifDto, user: JwtPayload): Promise<TaklifDto> {
@@ -246,12 +248,20 @@ export class TaklifService {
       );
     }
     if (taklif.status !== status) {
-      await this.taklifs.update(id, {
-        status,
-        // The first publish fixes the date later postponements count from.
-        ...(status === TaklifStatus.Published &&
-          !taklif.lockedEventAt && { lockedEventAt: taklif.eventAt }),
+      const gift = await this.taklifs.manager.transaction(async (manager) => {
+        await manager.update(Taklif, id, {
+          status,
+          // The first publish fixes the date later postponements count from.
+          ...(status === TaklifStatus.Published &&
+            !taklif.lockedEventAt && { lockedEventAt: taklif.eventAt }),
+        });
+        // A paid design going live from a draft gives a plov gift.
+        return taklif.status === TaklifStatus.Draft &&
+          status === TaklifStatus.Published
+          ? this.gifts.grantForPublish(manager, taklif)
+          : null;
       });
+      if (gift) void this.gifts.announce(gift);
     }
     return this.toDto(await this.findOrFail(id));
   }

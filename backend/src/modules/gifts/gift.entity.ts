@@ -12,8 +12,9 @@ import { Taklif } from '../taklif/taklif.entity';
 import { User } from '../users/user.entity';
 
 /**
- * A free plov ("osh") invitation, given for each paid order. Used when the
- * owner publishes a plov draft: that publish costs nothing.
+ * A free plov ("osh") invitation, given when a paid invitation is first
+ * published. Used when the owner publishes a plov draft: that publish
+ * costs nothing.
  */
 @Entity('gifts')
 export class Gift {
@@ -28,7 +29,16 @@ export class Gift {
   @JoinColumn({ name: 'userId' })
   user?: User;
 
-  /** The paid order it came with: one gift per order. */
+  /** The invitation whose publishing gave it: one gift per invitation. */
+  @Index({ unique: true })
+  @Column({ type: 'uuid', nullable: true })
+  sourceTaklifId: string | null;
+
+  @ManyToOne(() => Taklif, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'sourceTaklifId' })
+  sourceTaklif?: Taklif | null;
+
+  /** The order that paid for it, when it was paid through Payme. */
   @Index({ unique: true })
   @Column({ type: 'uuid', nullable: true })
   orderId: string | null;

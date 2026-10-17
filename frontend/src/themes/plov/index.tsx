@@ -230,6 +230,7 @@ export default async function PlovTheme({ taklif, preview }: ThemeProps) {
             <Rsvp
               slug={taklif.slug}
               preview={preview}
+              subtitle={t("plov.rsvpSubtitle")}
               palette={{
                 input:
                   "rounded-xl bg-[#fffaf0] ring-1 ring-[#b08a45]/40 focus:ring-[#a4501f]",

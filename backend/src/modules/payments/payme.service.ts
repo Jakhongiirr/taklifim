@@ -143,8 +143,8 @@ export type RpcResponse =
  * Payme's Merchant API (JSON-RPC over POST, Basic auth "Paycom:<key>"):
  * Payme's server checks and creates a transaction for an order, then
  * performs (the money is taken) or cancels it. Performing marks the order
- * and its invitation paid, publishes the invitation and gives the buyer a
- * free plov invitation (announced on Telegram). Paid transactions
+ * and its invitation paid and publishes the invitation (a draft going live
+ * also gives a free plov invitation, announced on Telegram). Paid transactions
  * can't be cancelled: payments aren't refundable.
  */
 @Injectable()
@@ -343,12 +343,15 @@ export class PaymeService {
         });
         // Paying publishes it; the date later postponements count from is
         // fixed at the first publish.
+        const wasDraft = taklif.status === TaklifStatus.Draft;
         await manager.update(Taklif, taklif.id, {
           paidAt: now,
           status: TaklifStatus.Published,
           ...(!taklif.lockedEventAt && { lockedEventAt: taklif.eventAt }),
         });
-        gift = await this.gifts.grant(manager, order);
+        if (wasDraft) {
+          gift = await this.gifts.grantForPublish(manager, taklif, order);
+        }
         this.logger.log(
           `Order ${order.id} paid (${order.amount} so'm), invitation ${taklif.slug} published`,
         );
