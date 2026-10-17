@@ -35,50 +35,6 @@
   }
 }
 
-/* Wings beating: the wings fold toward the body and open again. */
-@keyframes arcade-flap {
-  from {
-    transform: scaleX(1);
-  }
-  to {
-    transform: scaleX(0.3);
-  }
-}
-
-/* A butterfly's wandering flight across the hero, bobbing as it goes. */
-@keyframes arcade-flight {
-  0% {
-    transform: translate3d(-15vw, 0, 0) rotate(8deg);
-    opacity: 0;
-  }
-  8% {
-    opacity: 1;
-  }
-  25% {
-    transform: translate3d(20vw, -40px, 0) rotate(-6deg);
-  }
-  50% {
-    transform: translate3d(50vw, 25px, 0) rotate(10deg);
-  }
-  75% {
-    transform: translate3d(80vw, -30px, 0) rotate(-8deg);
-  }
-  92% {
-    opacity: 1;
-  }
-  100% {
-    transform: translate3d(115vw, 10px, 0) rotate(6deg);
-    opacity: 0;
-  }
-}
-
-/* The wreath around the date, turning very slowly. */
-@keyframes arcade-turn {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @keyframes arcade-hint {
   0%,
   100% {
@@ -91,12 +47,6 @@
   }
 }
 
-/* Wings fold around the body's line (each wing group is drawn centred). */
-.arcade-wings {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .arcade-opened .arcade-rise {
@@ -107,16 +57,6 @@
     animation: arcade-drift 24s ease-out both;
   }
 
-  .arcade-wings {
-    animation: arcade-flap var(--beat, 0.3s) ease-in-out infinite alternate;
-  }
-  .arcade-flight {
-    animation: arcade-flight var(--dur, 16s) linear infinite;
-    animation-delay: var(--d, 0s);
-  }
-  .arcade-wreath {
-    animation: arcade-turn 90s linear infinite;
-  }
   .arcade-hint {
     animation: arcade-hint 2.2s ease-in-out infinite;
   }
