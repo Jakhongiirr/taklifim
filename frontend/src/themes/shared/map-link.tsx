@@ -1,15 +1,21 @@
 import type { ReactNode } from "react";
+import type { PublicTaklif } from "@/lib/api-types";
+import { venueMapUrl } from "@/lib/venue-map";
 
-/** The venue on a map, in a new tab; nothing when the owner gave no link. */
+/**
+ * The venue on a map, in a new tab: the owner's link, else their pin in
+ * Yandex Maps. Nothing when the invitation has neither.
+ */
 export default function MapLink({
-  url,
+  taklif,
   className = "",
   children,
 }: {
-  url: string | null;
+  taklif: PublicTaklif;
   className?: string;
   children: ReactNode;
 }) {
+  const url = venueMapUrl(taklif);
   if (!url) return null;
   return (
     <a

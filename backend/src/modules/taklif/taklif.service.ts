@@ -63,9 +63,17 @@ const CLEANUP_BATCH_SIZE = 100;
 
 type Writable = Omit<
   UpdateTaklifDto,
-  'photoIds' | 'locationUrl' | 'cardNumber' | 'phone' | 'eventAt'
+  | 'photoIds'
+  | 'locationUrl'
+  | 'latitude'
+  | 'longitude'
+  | 'cardNumber'
+  | 'phone'
+  | 'eventAt'
 > & {
   locationUrl?: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
   cardNumber?: string | null;
   phone?: string | null;
   eventAtChanges?: number;
@@ -107,6 +115,8 @@ export class TaklifService {
                 eventAt: new Date(eventAt),
                 musicId: fields.musicId ?? null,
                 locationUrl: fields.locationUrl ?? null,
+                latitude: fields.latitude ?? null,
+                longitude: fields.longitude ?? null,
                 cardNumber: fields.cardNumber ?? null,
                 phone: fields.phone ?? null,
                 slug: generateSlug(),
@@ -606,6 +616,8 @@ export class TaklifService {
       venueName: taklif.venueName,
       venueAddress: taklif.venueAddress,
       locationUrl: taklif.locationUrl,
+      latitude: taklif.latitude,
+      longitude: taklif.longitude,
       photos: taklif.photos.map((photo) => this.filesService.toDto(photo.file)),
       cardNumber: taklif.cardNumber,
       phone: taklif.phone,
@@ -628,6 +640,8 @@ export class TaklifService {
       venueName: taklif.venueName,
       venueAddress: taklif.venueAddress,
       locationUrl: taklif.locationUrl,
+      latitude: taklif.latitude,
+      longitude: taklif.longitude,
       photos: taklif.photos.map((photo) => ({
         id: photo.fileId,
         url: url(photo.file),

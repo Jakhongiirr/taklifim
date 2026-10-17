@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./aurora.css";
 import { greatVibes } from "./fonts";
@@ -203,8 +204,12 @@ export default async function AuroraTheme({
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#6e5638]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl shadow-lg shadow-[#5c4325]/10 ring-1 ring-[#b08a4e]/45"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7a5a2c] px-6 text-sm tracking-wide text-[#f1e0c5] hover:bg-[#5c4325]"
             >
               {t("venue.map")}

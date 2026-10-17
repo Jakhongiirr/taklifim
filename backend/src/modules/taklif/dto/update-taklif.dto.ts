@@ -2,7 +2,9 @@ import { IsOptional, IsUUID, ValidateIf } from 'class-validator';
 import {
   CardNumber,
   EventAt,
+  Latitude,
   LocationUrl,
+  Longitude,
   OptionalPhone,
   PhotoIds,
   Text,
@@ -12,7 +14,8 @@ const sent = (_: object, value: unknown) => value !== undefined; // null is reje
 
 /**
  * Only the fields sent are changed. `locationUrl`, `cardNumber` and `phone`
- * accept null to clear them. `photoIds` replaces the whole list ([] removes all photos).
+ * accept null to clear them; `latitude` and `longitude` are sent together
+ * (both null removes the pin). `photoIds` replaces the whole list ([] removes all photos).
  */
 export class UpdateTaklifDto {
   @ValidateIf(sent)
@@ -42,6 +45,12 @@ export class UpdateTaklifDto {
   @IsOptional()
   @LocationUrl()
   locationUrl?: string | null;
+
+  @Latitude(true)
+  latitude?: number | null;
+
+  @Longitude(true)
+  longitude?: number | null;
 
   @ValidateIf(sent)
   @PhotoIds()

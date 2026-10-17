@@ -8,6 +8,7 @@ import CopyButton from "./shared/copy-button";
 import MadeWith from "./shared/made-with";
 import MapLink from "./shared/map-link";
 import Rsvp from "./shared/rsvp";
+import VenueMap from "./shared/venue-map";
 import type { ThemeProps } from "./types";
 
 /**
@@ -71,8 +72,12 @@ export default async function PlainInvitation({
       <Section title={t("venue.title")}>
         <p className="font-serif text-2xl">{taklif.venueName}</p>
         <p className="mt-1 text-muted">{taklif.venueAddress}</p>
+        <VenueMap
+          taklif={taklif}
+          className="mt-4 rounded-2xl ring-1 ring-line"
+        />
         <MapLink
-          url={taklif.locationUrl}
+          taklif={taklif}
           className="mt-4 inline-block rounded-full bg-ink px-5 py-2 text-sm text-paper"
         >
           {t("venue.map")}

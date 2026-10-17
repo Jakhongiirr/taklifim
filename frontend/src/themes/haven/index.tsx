@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
 import "./haven.css";
@@ -212,8 +213,12 @@ export default async function HavenTheme({
           <div className="haven-reveal">
             <p className={`${prata.className} text-2xl`}>{taklif.venueName}</p>
             <p className="mt-2 text-sm text-[#6f5640]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 shadow-lg shadow-[#3d2b1f]/15 ring-1 ring-[#3d2b1f]/30"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#5a2a30] px-7 text-base tracking-[0.15em] text-[#f3e6cf] hover:bg-[#47201f]`}
             >
               {t("venue.map")}

@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./arcade.css";
 import { yeseva } from "./fonts";
@@ -205,8 +206,12 @@ export default async function ArcadeTheme({
           <div className="arcade-reveal">
             <p className={`${yeseva.className} text-2xl`}>{taklif.venueName}</p>
             <p className="mt-2 text-sm text-[#7d5f74]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl shadow-lg shadow-[#4d3a52]/10 ring-1 ring-[#d27f93]/40"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7d9a7e] px-6 text-sm tracking-wide text-white hover:bg-[#6b886c]"
             >
               {t("venue.map")}

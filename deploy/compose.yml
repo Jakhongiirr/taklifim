@@ -54,6 +54,8 @@ services:
       SITE_URL: https://${SITE_DOMAIN}
       ALERT_TELEGRAM_BOT_TOKEN: ${ALERT_TELEGRAM_BOT_TOKEN:-}
       ALERT_TELEGRAM_CHAT_ID: ${ALERT_TELEGRAM_CHAT_ID:-}
+      YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY:-}
+      YANDEX_MAPS_SUGGEST_API_KEY: ${YANDEX_MAPS_SUGGEST_API_KEY:-}
     depends_on:
       api:
         condition: service_healthy

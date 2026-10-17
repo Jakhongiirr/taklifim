@@ -8,9 +8,13 @@ import {
   IsNotEmpty,
   IsString,
   IsUrl,
+  IsNumber,
   IsUUID,
   Matches,
+  Max,
   MaxLength,
+  Min,
+  ValidateIf,
 } from 'class-validator';
 import { parsePhoneNumberFromString } from 'libphonenumber-js';
 
@@ -52,6 +56,26 @@ export const LocationUrl = () =>
     ),
     MaxLength(500),
   );
+
+type Point = { latitude?: number | null; longitude?: number | null };
+
+/**
+ * The venue's map pin: `latitude` and `longitude` come together. In POST both
+ * or neither; in PATCH both, or both null to remove the pin (one alone fails).
+ */
+const Coordinate = (limit: number, clearable: boolean) =>
+  applyDecorators(
+    ValidateIf(
+      ({ latitude, longitude }: Point) =>
+        (latitude !== undefined || longitude !== undefined) &&
+        !(clearable && latitude === null && longitude === null),
+    ),
+    IsNumber({ allowNaN: false, allowInfinity: false }),
+    Min(-limit),
+    Max(limit),
+  );
+export const Latitude = (clearable = false) => Coordinate(90, clearable);
+export const Longitude = (clearable = false) => Coordinate(180, clearable);
 
 export const PhotoIds = () =>
   applyDecorators(

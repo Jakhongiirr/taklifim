@@ -71,7 +71,7 @@ export class StatsDetailsService {
           COUNT(*) FILTER (WHERE photos > 0)::int AS "withPhotos",
           COALESCE(AVG(photos) FILTER (WHERE photos > 0), 0)::float AS "avgPhotos",
           COUNT(*) FILTER (WHERE "musicId" IS NOT NULL)::int AS "withMusic",
-          COUNT(*) FILTER (WHERE "locationUrl" IS NOT NULL)::int AS "withMap",
+          COUNT(*) FILTER (WHERE "locationUrl" IS NOT NULL OR "latitude" IS NOT NULL)::int AS "withMap",
           COUNT(*) FILTER (WHERE "cardNumber" IS NOT NULL)::int AS "withCard",
           COUNT(*) FILTER (WHERE phone IS NOT NULL)::int AS "withPhone"
         FROM (

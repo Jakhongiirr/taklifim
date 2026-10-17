@@ -50,6 +50,12 @@ export class TaklifDto {
   /** Null without one. @example "https://maps.app.goo.gl/abc123" */
   locationUrl: string | null;
 
+  /** The venue's map pin; null without one. @example 41.311081 */
+  latitude: number | null;
+
+  /** @example 69.240562 */
+  longitude: number | null;
+
   /** In display order. */
   photos: FileDto[];
 
@@ -156,6 +162,12 @@ export class PublicTaklifDto {
 
   /** Null without one. @example "https://maps.app.goo.gl/abc123" */
   locationUrl: string | null;
+
+  /** The venue's map pin; null without one. @example 41.311081 */
+  latitude: number | null;
+
+  /** @example 69.240562 */
+  longitude: number | null;
 
   /** In display order. */
   photos: PublicPhotoDto[];

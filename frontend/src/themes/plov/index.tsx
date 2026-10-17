@@ -10,6 +10,7 @@ import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./plov.css";
 import { lora, oldStandard } from "./fonts";
@@ -208,8 +209,12 @@ export default async function PlovTheme({
           <div className="plov-reveal rounded-t-[7rem] border border-[#b08a45]/55 bg-[#fffaf0]/70 px-6 pt-14 pb-10">
             <p className={`text-3xl ${NAMES} ${SAFFRON}`}>{taklif.venueName}</p>
             <p className={`mt-3 text-lg ${SOFT}`}>{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl ring-1 ring-[#b08a45]/45"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className="mt-7 inline-flex h-11 items-center rounded-full bg-[#3b2a1a] px-6 text-xs font-semibold tracking-[0.25em] text-[#faf6ec] uppercase transition-colors hover:bg-[#a4501f]"
             >
               {t("venue.map")}

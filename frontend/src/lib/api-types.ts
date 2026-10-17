@@ -90,6 +90,9 @@ export interface Taklif {
   venueAddress: string;
   /** Null without one. */
   locationUrl: string | null;
+  /** The venue's map pin; both null without one. */
+  latitude: number | null;
+  longitude: number | null;
   /** In display order. */
   photos: FileDto[];
   cardNumber: string | null;
@@ -113,6 +116,9 @@ export interface PublicTaklif {
   venueAddress: string;
   /** Null without one. */
   locationUrl: string | null;
+  /** The venue's map pin; both null without one. */
+  latitude: number | null;
+  longitude: number | null;
   /** In display order. */
   photos: { id: string; url: string }[];
   cardNumber: string | null;
