@@ -5,4 +5,5 @@ export const greatVibes = Great_Vibes({
   weight: "400",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });

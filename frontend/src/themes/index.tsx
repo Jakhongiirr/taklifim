@@ -17,6 +17,11 @@ import type { Theme, ThemeProps } from "./types";
  * the files in public/themes/<themeId>/); "classic" opens a sealed envelope,
  * "lavel" a folded card and "plov" a lidded platter, drawn in CSS and SVG
  * instead.
+ *
+ * Theme fonts (themes/<id>/fonts.ts) set `preload: false`: every theme ships
+ * with the invitation route, so preloading would make each guest download all
+ * themes' fonts before their own. Without it the browser fetches only the
+ * fonts the open invitation uses.
  */
 const THEMES: Record<string, Theme> = {
   aurora: AuroraTheme,

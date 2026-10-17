@@ -12,9 +12,12 @@ const geistSans = Geist({
   subsets: ["latin", "latin-ext", "cyrillic"],
 });
 
+// Only the builder's monospace bits use it, so it loads when they show
+// instead of being preloaded on every page.
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin", "latin-ext", "cyrillic"],
+  preload: false,
 });
 
 // Display serif for headings; has Cyrillic for the Russian site.
