@@ -1,6 +1,5 @@
 import type { ConfigService } from '@nestjs/config';
 import type { EntityManager, Repository } from 'typeorm';
-import type { Order } from '../payments/order.entity';
 import type { TelegramNotifyService } from '../telegram/telegram-notify.service';
 import type { Theme } from '../themes/theme.entity';
 import type { Gift } from './gift.entity';
@@ -9,7 +8,7 @@ import { GiftsService } from './gifts.service';
 // Jest can't load @nestjs/config (ESM); the service only needs get.
 jest.mock('@nestjs/config', () => ({ ConfigService: class {} }));
 
-function setup({ plovTheme = true } = {}) {
+function setup({ plovTheme = true, price = 150_000, gifted = false } = {}) {
   const gift = { id: 'gift-1', userId: 'user-1', orderId: 'order-1' };
   const insert: Record<string, jest.Mock> = {
     execute: jest.fn(() => Promise.resolve({ raw: [gift] })),
@@ -18,7 +17,12 @@ function setup({ plovTheme = true } = {}) {
     insert[step] = jest.fn(() => insert);
   }
   const manager = {
-    findOne: jest.fn(() => Promise.resolve(plovTheme ? { id: 'plov' } : null)),
+    findOne: jest.fn((_: unknown, { where }: { where: { id?: string } }) =>
+      Promise.resolve(
+        where.id ? { id: where.id, price } : plovTheme ? { id: 'plov' } : null,
+      ),
+    ),
+    exists: jest.fn(() => Promise.resolve(gifted)),
     createQueryBuilder: () => insert,
   } as unknown as EntityManager;
   const telegram = { sendToUser: jest.fn(() => Promise.resolve()) };
@@ -31,28 +35,50 @@ function setup({ plovTheme = true } = {}) {
   return { service, manager, insert, telegram, gift };
 }
 
-const order = (amount: number) =>
-  ({ id: 'order-1', userId: 'user-1', amount }) as Order;
+const taklif = { id: 'taklif-1', userId: 'user-1', themeId: 'theme-1' };
+const order = (amount: number) => ({ id: 'order-1', amount });
 
 describe('GiftsService', () => {
-  it('gives a plov gift for a paid order', async () => {
+  it('gives a plov gift when a paid invitation is published', async () => {
     const { service, manager, insert, gift } = setup();
-    await expect(service.grant(manager, order(150_000))).resolves.toBe(gift);
+    await expect(
+      service.grantForPublish(manager, taklif, order(150_000)),
+    ).resolves.toBe(gift);
     expect(insert.values).toHaveBeenCalledWith({
       userId: 'user-1',
+      sourceTaklifId: 'taklif-1',
       orderId: 'order-1',
     });
   });
 
-  it('gives nothing for a free order', async () => {
-    const { service, manager, insert } = setup();
-    await expect(service.grant(manager, order(0))).resolves.toBeNull();
+  it('gives one when an admin publishes a paid design', async () => {
+    const { service, manager, insert, gift } = setup();
+    await expect(service.grantForPublish(manager, taklif)).resolves.toBe(gift);
+    expect(insert.values).toHaveBeenCalledWith(
+      expect.objectContaining({ sourceTaklifId: 'taklif-1', orderId: null }),
+    );
+  });
+
+  it('gives nothing for a free design', async () => {
+    const { service, manager, insert } = setup({ price: 0 });
+    await expect(service.grantForPublish(manager, taklif)).resolves.toBeNull();
+    await expect(
+      service.grantForPublish(manager, taklif, order(0)),
+    ).resolves.toBeNull();
+    expect(insert.execute).not.toHaveBeenCalled();
+  });
+
+  it('gives nothing for an invitation published with a gift', async () => {
+    const { service, manager, insert } = setup({ gifted: true });
+    await expect(service.grantForPublish(manager, taklif)).resolves.toBeNull();
     expect(insert.execute).not.toHaveBeenCalled();
   });
 
   it('gives nothing while the plov design is not active', async () => {
     const { service, manager, insert } = setup({ plovTheme: false });
-    await expect(service.grant(manager, order(150_000))).resolves.toBeNull();
+    await expect(
+      service.grantForPublish(manager, taklif, order(150_000)),
+    ).resolves.toBeNull();
     expect(insert.execute).not.toHaveBeenCalled();
   });
 
