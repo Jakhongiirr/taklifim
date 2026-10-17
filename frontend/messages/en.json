@@ -460,7 +460,8 @@
       "dateTitle": "Plov time",
       "served": "Plov is served",
       "countdown": "Until the plov",
-      "closing": "Our dastarkhan awaits you!"
+      "closing": "Our dastarkhan awaits you!",
+      "rsvpSubtitle": "Please let us know if you can come to the plov"
     }
   },
   "Builder": {

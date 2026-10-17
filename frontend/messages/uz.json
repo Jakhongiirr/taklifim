@@ -460,7 +460,8 @@
       "dateTitle": "Osh vaqti",
       "served": "Osh tortiladi",
       "countdown": "Oshgacha qoldi",
-      "closing": "Dasturxonimiz sizni kutadi!"
+      "closing": "Dasturxonimiz sizni kutadi!",
+      "rsvpSubtitle": "Iltimos, oshga kelishingizni bildiring"
     }
   },
   "Builder": {

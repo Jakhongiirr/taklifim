@@ -46,10 +46,13 @@ export default function Rsvp({
   slug,
   preview = false,
   palette: p,
+  subtitle,
 }: {
   slug: string;
   preview?: boolean;
   palette: RsvpPalette;
+  /** The line above the form, when the theme's event isn't a wedding. */
+  subtitle?: string;
 }) {
   const t = useTranslations("Rsvp");
   const openedAt = useRef(0);
@@ -156,7 +159,9 @@ export default function Rsvp({
         </div>
       ) : (
         <form onSubmit={submit} noValidate className="flex flex-col gap-4">
-          <p className={`text-center text-sm ${p.muted}`}>{t("subtitle")}</p>
+          <p className={`text-center text-sm ${p.muted}`}>
+            {subtitle ?? t("subtitle")}
+          </p>
           <label className="flex flex-col gap-1.5">
             <span className={`text-sm ${p.muted}`}>{t("name")}</span>
             <input
