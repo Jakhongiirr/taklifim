@@ -308,7 +308,15 @@
       "download": "PNG yuklab olish",
       "downloadQr": "QR kodni yuklab olish",
       "downloading": "Tayyorlanmoqda…",
-      "downloadError": "Rasmni yaratib boʻlmadi. Qaytadan urinib koʻring."
+      "downloadError": "Rasmni yaratib boʻlmadi. Qaytadan urinib koʻring.",
+      "publishGift": "Sovgʻa bilan eʼlon qilish",
+      "payHintGift": "Sovgʻa — osh taklifnomasi bepul eʼlon qilinadi"
+    },
+    "gift": {
+      "eyebrow": "Sovgʻa",
+      "title": "Osh taklifnomasi — bepul",
+      "text": "Sizda {count} ta bepul osh taklifnomasi bor. Har bir sotib olingan taklifnoma uchun bittadan sovgʻa qilamiz.",
+      "button": "Osh taklifnomasini yaratish"
     }
   },
   "Dates": {
@@ -440,7 +448,19 @@
       "statusUnpublished": "Yashirilgan",
       "hiddenNote": "Hozir mehmonlar uni koʻrmaydi. Kabinetda qayta eʼlon qilishingiz mumkin.",
       "fold": "Yigʻish",
-      "unfold": "Batafsil"
+      "unfold": "Batafsil",
+      "readyTextGift": "Bu osh taklifnomasi — bizdan sovgʻa. Bir bosishda bepul eʼlon qiling."
+    },
+    "plov": {
+      "eyebrow": "Nahorgi osh",
+      "occasion": "Nikoh toʻyi munosabati bilan",
+      "lidHint": "Ochish uchun qopqoqni bosing",
+      "scroll": "Pastga suring",
+      "text": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
+      "dateTitle": "Osh vaqti",
+      "served": "Osh tortiladi",
+      "countdown": "Oshgacha qoldi",
+      "closing": "Dasturxonimiz sizni kutadi!"
     }
   },
   "Builder": {

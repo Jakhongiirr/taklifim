@@ -20,6 +20,7 @@ import { RedisThrottlerStorage } from './redis/redis-throttler.storage';
 import { REDIS_CLIENT } from './redis/redis.constants';
 import { RedisModule } from './redis/redis.module';
 import { DemosModule } from './modules/demos/demos.module';
+import { GiftsModule } from './modules/gifts/gifts.module';
 import { FilesModule } from './modules/files/files.module';
 import { MusicModule } from './modules/music/music.module';
 import { PaymentsModule } from './modules/payments/payments.module';
@@ -62,6 +63,7 @@ import { UsersModule } from './modules/users/users.module';
     DemosModule,
     StatsModule,
     PaymentsModule,
+    GiftsModule,
   ],
   controllers: [AppController],
   providers: [

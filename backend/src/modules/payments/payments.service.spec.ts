@@ -1,6 +1,7 @@
 import type { ConfigService } from '@nestjs/config';
 import type { Repository } from 'typeorm';
 import type { JwtPayload } from '../auth/auth.types';
+import type { GiftsService } from '../gifts/gifts.service';
 import { TaklifStatus } from '../taklif/taklif-status.enum';
 import type { Taklif } from '../taklif/taklif.entity';
 import type { Order } from './order.entity';
@@ -13,7 +14,7 @@ jest.mock('@nestjs/config', () => ({ ConfigService: class {} }));
 
 const user = { sub: 'user-1' } as JwtPayload;
 
-function setup(price: number) {
+function setup(price: number, { themeId = 'classic', gifts = 0 } = {}) {
   const taklif = {
     id: 'taklif-1',
     userId: user.sub,
@@ -21,7 +22,7 @@ function setup(price: number) {
     status: TaklifStatus.Draft,
     paidAt: null,
     themeId: 'theme-1',
-    theme: { price },
+    theme: { price, themeId },
     groomName: 'A',
     brideName: 'B',
     eventAt: new Date('2027-01-01'),
@@ -53,13 +54,18 @@ function setup(price: number) {
         siteUrl: 'https://taklifim.uz',
       })[key],
   };
+  let left = gifts;
+  const giftsService = {
+    redeem: jest.fn(() => Promise.resolve(left > 0 && left-- > 0)),
+  };
   const service = new PaymentsService(
     config as unknown as ConfigService,
     orders as unknown as Repository<Order>,
     taklifs as unknown as Repository<Taklif>,
     {} as Repository<PaymeTransaction>,
+    giftsService as unknown as GiftsService,
   );
-  return { service, manager, orders };
+  return { service, manager, orders, giftsService };
 }
 
 describe('PaymentsService.checkout', () => {
@@ -88,5 +94,40 @@ describe('PaymentsService.checkout', () => {
       expect.objectContaining({ amount: 150_000 }),
     );
     expect(manager.update).not.toHaveBeenCalled();
+  });
+
+  it('publishes a plov draft with a gift instead of paying', async () => {
+    const { service, manager, orders, giftsService } = setup(150_000, {
+      themeId: 'plov',
+      gifts: 1,
+    });
+    await expect(
+      service.checkout('taklif-1', { lang: 'uz' }, user),
+    ).resolves.toEqual({ published: true });
+    expect(giftsService.redeem).toHaveBeenCalledWith(
+      manager,
+      user.sub,
+      'taklif-1',
+    );
+    expect(manager.save).toHaveBeenCalledWith(
+      expect.objectContaining({ amount: 0, status: OrderStatus.Paid }),
+    );
+    expect(orders.save).not.toHaveBeenCalled();
+  });
+
+  it('sends a plov draft to Payme when no gift is left', async () => {
+    const { service, manager, orders } = setup(150_000, { themeId: 'plov' });
+    const result = await service.checkout('taklif-1', { lang: 'uz' }, user);
+    expect(result.published).toBe(false);
+    expect(orders.save).toHaveBeenCalledWith(
+      expect.objectContaining({ amount: 150_000 }),
+    );
+    expect(manager.save).not.toHaveBeenCalled();
+  });
+
+  it('never uses a gift for other designs', async () => {
+    const { service, giftsService } = setup(150_000, { gifts: 1 });
+    await service.checkout('taklif-1', { lang: 'uz' }, user);
+    expect(giftsService.redeem).not.toHaveBeenCalled();
   });
 });

@@ -29,7 +29,14 @@ function invitationUrl(slug: string, locale: string) {
   return `${window.location.origin}/${locale}/taklif/${slug}`;
 }
 
-export default function TaklifCard({ taklif }: { taklif: Taklif }) {
+export default function TaklifCard({
+  taklif,
+  gift = false,
+}: {
+  taklif: Taklif;
+  /** A plov draft the owner has a free gift for: publishing costs nothing. */
+  gift?: boolean;
+}) {
   const t = useTranslations("Cabinet");
   const locale = useLocale();
   const router = useRouter();
@@ -206,9 +213,11 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
             disabled={busy || payment.busy}
             onClick={() => void payment.pay()}
           >
-            {taklif.theme.price === 0
-              ? t(payment.busy ? "actions.publishing" : "actions.publishFree")
-              : t(payment.busy ? "actions.paying" : "actions.pay")}
+            {gift
+              ? t(payment.busy ? "actions.publishing" : "actions.publishGift")
+              : taklif.theme.price === 0
+                ? t(payment.busy ? "actions.publishing" : "actions.publishFree")
+                : t(payment.busy ? "actions.paying" : "actions.pay")}
           </ActionButton>
         )}
         {taklif.status === "published" && (
@@ -262,9 +271,11 @@ export default function TaklifCard({ taklif }: { taklif: Taklif }) {
 
       {taklif.status === "draft" && (
         <p className="mt-2 text-xs text-muted">
-          {taklif.theme.price === 0
-            ? t("actions.payHintFree")
-            : t("actions.payHint", { price: formatSum(taklif.theme.price) })}
+          {gift
+            ? t("actions.payHintGift")
+            : taklif.theme.price === 0
+              ? t("actions.payHintFree")
+              : t("actions.payHint", { price: formatSum(taklif.theme.price) })}
         </p>
       )}
       {(payment.error || payment.published) && (

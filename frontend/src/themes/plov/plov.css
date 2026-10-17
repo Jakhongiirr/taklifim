@@ -1,0 +1,162 @@
+/* The "plov" theme: warm ivory with faint gold girih, the lid's lifting,
+   the steam and the page's entrances. Animations are off for visitors who
+   prefer reduced motion, and content is never hidden without them. */
+
+/* Ivory with a faint lattice of eight-pointed stars, drawn in CSS. */
+.plov-paper {
+  background-color: #faf6ec;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #fffdf7 0%, transparent 65%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23b08a45' stroke-opacity='0.11' stroke-width='0.8'%3E%3Crect x='18' y='18' width='20' height='20'/%3E%3Crect x='18' y='18' width='20' height='20' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h14M42 28h14M28 0v14M28 42v14'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+.plov-steam {
+  z-index: 10;
+}
+.plov-lid {
+  z-index: 20;
+}
+.plov-wisp {
+  opacity: 0;
+}
+
+@keyframes plov-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.025);
+  }
+}
+
+/* The lid comes up towards the viewer and away. */
+@keyframes plov-lid-off {
+  0% {
+    transform: none;
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-3%) scale(1.04);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-62%) scale(1.22) rotate(-8deg);
+    opacity: 0;
+  }
+}
+
+@keyframes plov-wisp {
+  0% {
+    opacity: 0;
+    stroke-dasharray: 0 120;
+    transform: translateY(8px);
+  }
+  30% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0;
+    stroke-dasharray: 120 0;
+    transform: translateY(-14px);
+  }
+}
+
+@keyframes plov-dish-in {
+  from {
+    transform: scale(1.08);
+    filter: brightness(0.75);
+  }
+  to {
+    transform: none;
+    filter: none;
+  }
+}
+
+@keyframes plov-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes plov-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes plov-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes plov-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+@keyframes plov-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-lid-cover][data-state="closed"] .plov-lid {
+    animation: plov-breathe 2.6s ease-in-out infinite;
+  }
+  [data-lid-cover]:not([data-state="closed"]) .plov-lid {
+    animation: plov-lid-off 1s cubic-bezier(0.45, 0, 0.3, 1) both;
+  }
+  [data-lid-cover]:not([data-state="closed"]) .plov-dish {
+    animation: plov-dish-in 1.2s ease-out 0.3s both;
+  }
+  [data-lid-cover]:not([data-state="closed"]) .plov-wisp {
+    animation: plov-wisp 1.8s ease-out both;
+    animation-delay: calc(var(--i, 0) * 220ms + 500ms);
+  }
+  [data-lid-cover]:not([data-state="closed"]) .plov-cover-words,
+  [data-lid-cover]:not([data-state="closed"]) .plov-cover-hint {
+    animation: plov-fade-out 0.5s ease-out both;
+  }
+
+  /* The hero comes in as the cover fades (LidCover adds the class). */
+  .plov-opened .plov-rise {
+    animation: plov-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 160ms + 200ms);
+  }
+  .plov-hint {
+    animation: plov-hint 2.2s ease-in-out infinite;
+  }
+  /* The platter's rim turns slowly, like a lagan carried in. */
+  .plov-turn {
+    animation: plov-spin 120s linear infinite;
+  }
+
+  @supports (animation-timeline: view()) {
+    .plov-reveal {
+      animation: plov-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}

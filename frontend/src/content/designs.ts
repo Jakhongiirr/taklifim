@@ -365,6 +365,50 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
       ],
     },
   },
+  plov: {
+    uz: {
+      tagline:
+        "Oltin naqshli lagan va bugʻi chiqib turgan osh — nahorgi osh uchun iliq, fayzli taklifnoma.",
+      about: [
+        "Plov — anʼanaviy nahorgi osh uchun. Taklifnoma oltin naqshli qopqoq bilan yopilgan lagandan boshlanadi: mehmon qopqoqni bosadi, u koʻtariladi va ostidan bugʻi chiqib turgan osh koʻrinadi.",
+        "Iliq fil suyagi rangi, girih va islimi uslubidagi oltin naqshlar, peshtoqdek ravoq ichidagi ismlar, Old Standard kursivi hamda osh tortiladigan vaqtni alohida koʻrsatuvchi sana unga oʻzbekona fayz beradi.",
+      ],
+      highlights: [
+        "Ochilish: lagan qopqogʻi koʻtarilib, osh bugʻi chiqadi",
+        "Fil suyagi, oltin va zaʼfaron ranglari",
+        "Ismlar Old Standard kursivida, matn Lora shriftida",
+        "Sakkiz qirrali yulduzlar, ravoq va osh tortiladigan vaqt",
+      ],
+    },
+    ru: {
+      tagline:
+        "Ляган под золотой крышкой и дымящийся плов — тёплое приглашение на утренний плов.",
+      about: [
+        "Plov — для традиционного утреннего плова. Приглашение начинается с лягана, накрытого крышкой с золотым орнаментом: гость нажимает на крышку, она поднимается, и под ней дымится плов.",
+        "Тёплая слоновая кость, золотые орнаменты в духе гириха и ислими, имена под аркой-пештаком курсивом Old Standard и отдельно выделенное время подачи плова придают ему узбекский колорит.",
+      ],
+      highlights: [
+        "Открытие: крышка лягана поднимается, над пловом идёт пар",
+        "Слоновая кость, золото и шафран",
+        "Имена курсивом Old Standard, текст шрифтом Lora",
+        "Восьмиконечные звёзды, арка и время подачи плова",
+      ],
+    },
+    en: {
+      tagline:
+        "A gold-patterned platter and steaming plov — a warm invitation to a morning plov.",
+      about: [
+        "Plov is for the traditional morning plov. It begins with a lagan, a serving platter, under a lid with gold ornaments: your guests tap the lid, it lifts away and steam rises from the plov beneath.",
+        "Warm ivory, gold ornaments in the spirit of girih and islimi, names under a portal arch in Old Standard italic and the time the plov is served set apart give it an Uzbek warmth.",
+      ],
+      highlights: [
+        "Opening: the platter's lid lifts and the plov steams",
+        "Ivory, gold and saffron",
+        "Names in Old Standard italic, text in Lora",
+        "Eight-pointed stars, a portal arch and the serving time",
+      ],
+    },
+  },
 };
 
 /** The designs with a page, in the order they're listed. */

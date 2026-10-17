@@ -329,3 +329,11 @@ export interface StatsDetails {
   eventHours: { key: number; count: number }[];
   eventMonths: { key: number; count: number }[];
 }
+
+/** The user's free plov invitations (GET /gifts/me). */
+export interface MyGifts {
+  /** Unused gifts: each publishes one plov draft for free. */
+  available: number;
+  /** The plov design's theme id; null while it isn't active. */
+  themeId: string | null;
+}

@@ -6,8 +6,9 @@ import {
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { EntityManager, In, Repository } from 'typeorm';
 import type { JwtPayload } from '../auth/auth.types';
+import { GIFT_THEME_ID, GiftsService } from '../gifts/gifts.service';
 import { TaklifStatus } from '../taklif/taklif-status.enum';
 import { Taklif } from '../taklif/taklif.entity';
 import { CheckoutDto, CheckoutResultDto } from './dto/checkout.dto';
@@ -24,12 +25,14 @@ export class PaymentsService {
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(PaymeTransaction)
     private readonly transactions: Repository<PaymeTransaction>,
+    private readonly gifts: GiftsService,
   ) {}
 
   /**
    * Starts paying for the owner's draft: an order at the design's current
    * price and the Payme checkout link for it (an unpaid order for the same
-   * design and price is reused). A free design is published right away.
+   * design and price is reused). A free design is published right away,
+   * and so is a plov draft while the owner has a free plov gift.
    */
   async checkout(
     taklifId: string,
@@ -51,26 +54,20 @@ export class PaymentsService {
     const title = `Taklifnoma: ${taklif.groomName} & ${taklif.brideName}`;
 
     if (amount === 0) {
-      await this.orders.manager.transaction(async (manager) => {
-        const now = new Date();
-        await manager.save(
-          manager.create(Order, {
-            taklifId: taklif.id,
-            userId: user.sub,
-            themeId: taklif.themeId,
-            amount: 0,
-            title,
-            status: OrderStatus.Paid,
-            paidAt: now,
-          }),
-        );
-        await manager.update(Taklif, taklif.id, {
-          paidAt: now,
-          status: TaklifStatus.Published,
-          ...(!taklif.lockedEventAt && { lockedEventAt: taklif.eventAt }),
-        });
-      });
+      await this.orders.manager.transaction((manager) =>
+        this.publishFree(manager, taklif, title),
+      );
       return { published: true };
+    }
+    if (taklif.theme.themeId === GIFT_THEME_ID) {
+      const gifted = await this.orders.manager.transaction(async (manager) => {
+        if (!(await this.gifts.redeem(manager, user.sub, taklif.id))) {
+          return false;
+        }
+        await this.publishFree(manager, taklif, title);
+        return true;
+      });
+      if (gifted) return { published: true };
     }
 
     const merchantId = this.config.get<string>('payme.merchantId');
@@ -114,6 +111,31 @@ export class PaymentsService {
       url: `${base}/${Buffer.from(params).toString('base64')}`,
       published: false,
     };
+  }
+
+  /** Publishes the draft with a paid 0 so'm order (nothing owed). */
+  private async publishFree(
+    manager: EntityManager,
+    taklif: Taklif,
+    title: string,
+  ) {
+    const now = new Date();
+    await manager.save(
+      manager.create(Order, {
+        taklifId: taklif.id,
+        userId: taklif.userId,
+        themeId: taklif.themeId,
+        amount: 0,
+        title,
+        status: OrderStatus.Paid,
+        paidAt: now,
+      }),
+    );
+    await manager.update(Taklif, taklif.id, {
+      paidAt: now,
+      status: TaklifStatus.Published,
+      ...(!taklif.lockedEventAt && { lockedEventAt: taklif.eventAt }),
+    });
   }
 
   /** Orders, newest first, with the latest Payme transaction of each. */

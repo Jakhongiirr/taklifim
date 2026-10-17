@@ -2,12 +2,14 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import LogoutButton from "@/components/site/cabinet/logout-button";
+import GiftBanner from "@/components/site/cabinet/gift-banner";
 import PaymentReturn from "@/components/site/cabinet/payment-return";
 import TaklifCard from "@/components/site/cabinet/taklif-card";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { Link } from "@/i18n/navigation";
 import { getCurrentUser } from "@/lib/server/current-user";
+import { GIFT_THEME_ID, getMyGifts } from "@/lib/server/gifts";
 import { getMyTaklifs } from "@/lib/server/taklif";
 
 // Mirrors the backend's MAX_DRAFTS.
@@ -27,11 +29,15 @@ export default async function CabinetPage({
   const user = await getCurrentUser();
   if (!user) redirect(`/${locale}/login?next=/${locale}/cabinet`);
 
-  const [t, taklifs] = await Promise.all([
+  const [t, taklifs, gifts] = await Promise.all([
     getTranslations("Cabinet"),
     getMyTaklifs(),
+    getMyGifts(),
   ]);
   const drafts = taklifs?.filter((x) => x.status === "draft").length ?? 0;
+  // Free plov invitations, given for paid ones: a plov draft is then
+  // published with one instead of paying.
+  const giftsLeft = gifts?.themeId ? gifts.available : 0;
 
   return (
     <>
@@ -66,6 +72,10 @@ export default async function CabinetPage({
         {/* Back from Payme: confirms the payment. */}
         <PaymentReturn />
 
+        {giftsLeft > 0 && gifts?.themeId && (
+          <GiftBanner count={giftsLeft} themeId={gifts.themeId} />
+        )}
+
         {taklifs === null ? (
           <p
             role="alert"
@@ -77,7 +87,12 @@ export default async function CabinetPage({
           <ul className="mt-8 flex flex-col gap-4">
             {taklifs.map((taklif) => (
               <li key={taklif.id}>
-                <TaklifCard taklif={taklif} />
+                <TaklifCard
+                  taklif={taklif}
+                  gift={
+                    giftsLeft > 0 && taklif.theme.themeId === GIFT_THEME_ID
+                  }
+                />
               </li>
             ))}
           </ul>
