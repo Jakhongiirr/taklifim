@@ -552,6 +552,21 @@
       "text": "What you've entered won't be saved. Leave anyway?",
       "confirm": "Leave",
       "cancel": "Stay"
+    },
+    "osh": {
+      "titleNew": "Plov invitation",
+      "titleEdit": "Edit the plov invitation",
+      "sections": {
+        "couple": "The couple and hosts",
+        "event": "Plov details"
+      },
+      "fields": {
+        "hostName": "Hosted by",
+        "hostHint": "For example: the Karimov family — the invitation comes from them",
+        "eventAt": "Plov date and time",
+        "eventHint": "Tashkent time. A morning plov is usually served early, e.g. at 06:00",
+        "venueName": "Plov venue"
+      }
     }
   },
   "Legal": {

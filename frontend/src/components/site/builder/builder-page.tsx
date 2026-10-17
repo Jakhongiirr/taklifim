@@ -18,6 +18,10 @@ export default async function BuilderPage({
   initialThemeId?: string;
 }) {
   const t = await getTranslations("Builder");
+  // The plov design is an osh, not a wedding party: its own title.
+  const osh =
+    (taklif?.theme.themeId ??
+      designs.find((design) => design.id === initialThemeId)?.key) === "plov";
 
   return (
     <>
@@ -27,7 +31,9 @@ export default async function BuilderPage({
           ← {t("back")}
         </Link>
         <h1 className="mt-3 font-serif text-4xl font-medium text-ink">
-          {taklif ? t("titleEdit") : t("titleNew")}
+          {taklif
+            ? t(osh ? "osh.titleEdit" : "titleEdit")
+            : t(osh ? "osh.titleNew" : "titleNew")}
         </h1>
         <p className="mt-2 mb-6 text-sm text-muted">
           {taklif?.status === "published" ? t("publishedNote") : t("subtitle")}

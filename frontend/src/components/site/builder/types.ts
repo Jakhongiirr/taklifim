@@ -4,6 +4,8 @@ import type { FileDto } from "@/lib/api-types";
 export interface Design {
   /** The backend theme's id (what an invitation stores). */
   id: string;
+  /** The design's key, e.g. "plov" (the backend theme's `themeId`). */
+  key: string;
   name: string;
   price: number;
   imageUrl: string | null;
