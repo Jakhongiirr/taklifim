@@ -227,6 +227,10 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           </div>
         </Section>
 
+        <div className="px-6 pt-16">
+          <DoveBorder />
+        </div>
+
         <Section title={tRsvp("title")}>
           <div className="dove-reveal">
             <Rsvp
@@ -273,16 +277,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         )}
 
         <footer className="px-6 pt-16 pb-14">
-          {/* Two watercolour doves on a ribbon, among rosehips. */}
-          <Image
-            src={`${ASSETS}/border.webp`}
-            alt=""
-            width={552}
-            height={329}
-            unoptimized
-            sizes="448px"
-            className="dove-reveal mx-auto w-full"
-          />
+          <DoveBorder />
           <p
             className={`${doveScript} dove-reveal mt-4 text-5xl leading-tight text-[#6b3f4a]`}
           >
@@ -305,6 +300,21 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       </h2>
       {children}
     </section>
+  );
+}
+
+/** Two watercolour doves on a ribbon, among rosehips, across the page. */
+function DoveBorder() {
+  return (
+    <Image
+      src={`${ASSETS}/border.webp`}
+      alt=""
+      width={552}
+      height={329}
+      unoptimized
+      sizes="448px"
+      className="dove-reveal mx-auto w-full"
+    />
   );
 }
 
