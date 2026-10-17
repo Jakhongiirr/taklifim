@@ -1,7 +1,8 @@
 import Image from "next/image";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Demo } from "@/lib/api-types";
+import { demoUrlFor } from "@/lib/demo-url";
 import { formatSum } from "@/lib/format";
 
 /**
@@ -10,7 +11,11 @@ import { formatSum } from "@/lib/format";
  * "view" (the live demo). Sized by the grid around it.
  */
 export default async function TemplateCard({ demo }: { demo: Demo }) {
-  const t = await getTranslations("HomePage.templates");
+  const [t, locale] = await Promise.all([
+    getTranslations("HomePage.templates"),
+    getLocale(),
+  ]);
+  const demoUrl = demoUrlFor(demo.demoUrl, locale);
   const price =
     demo.theme.price === 0
       ? t("free")
@@ -19,7 +24,7 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] bg-white shadow-[0_10px_30px_-18px_rgba(42,39,35,0.45)] ring-1 ring-line transition-shadow duration-300 hover:shadow-[0_22px_45px_-20px_rgba(42,39,35,0.5)] sm:rounded-[1.5rem]">
       <a
-        href={demo.demoUrl}
+        href={demoUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="relative block aspect-[9/14] overflow-hidden bg-cream"
@@ -55,7 +60,7 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
             {t("choose")}
           </Link>
           <a
-            href={demo.demoUrl}
+            href={demoUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-sage text-[13px] font-medium text-sage transition-colors hover:bg-sage hover:text-paper sm:h-10 sm:text-sm"
