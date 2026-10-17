@@ -101,7 +101,10 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             >
               {t("cover.invite")}
             </p>
-            <div className="dove-rise mt-3" style={{ "--i": 1 } as CSSProperties}>
+            <div
+              className="dove-rise mt-3"
+              style={{ "--i": 1 } as CSSProperties}
+            >
               {names}
             </div>
             <p
@@ -231,7 +234,6 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#6b3f4a] text-[#fff7f2] hover:bg-[#5a3e45]",
                 muted: "text-[#8a6f73]",
                 accent: "text-[#6b3f4a]",
-                card: "bg-[#fff7f2] ring-1 ring-[#c98b8b]/30",
                 error: "text-red-700",
               }}
             />
@@ -363,7 +365,11 @@ function Feathers() {
             stroke="#e8d3cc"
             strokeWidth="0.6"
           />
-          <path d="M10 4 C10.5 16 10.5 28 10 39" stroke="#e0c4bb" strokeWidth="0.6" />
+          <path
+            d="M10 4 C10.5 16 10.5 28 10 39"
+            stroke="#e0c4bb"
+            strokeWidth="0.6"
+          />
         </svg>
       ))}
     </div>

@@ -86,7 +86,12 @@ const groups: {
   {
     label: "Overview",
     links: [
-      { href: "/admin", label: "Dashboard", icon: icons.dashboard, exact: true },
+      {
+        href: "/admin",
+        label: "Dashboard",
+        icon: icons.dashboard,
+        exact: true,
+      },
       {
         href: "/admin/statistics",
         label: "Statistics",

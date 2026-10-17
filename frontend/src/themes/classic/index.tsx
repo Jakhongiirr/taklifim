@@ -220,7 +220,6 @@ export default async function ClassicTheme({ taklif, preview }: ThemeProps) {
                   "rounded-sm bg-[#7a1f2b] text-[#faf6ee] hover:bg-[#5f1721]",
                 muted: "text-[#7a6a55]",
                 accent: "text-[#7a1f2b]",
-                card: "rounded-sm bg-[#fffdf8] ring-1 ring-[#a8894f]/30",
                 error: "text-red-700",
               }}
             />

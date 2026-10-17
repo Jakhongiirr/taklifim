@@ -246,7 +246,6 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#f5c27a] text-[#1b1430] hover:bg-[#f8d29a]",
                 muted: "text-[#b9aed3]",
                 accent: "text-[#f5c27a]",
-                card: "bg-white/5 ring-1 ring-[#b79ce8]/25",
                 error: "text-[#ffb4c2]",
               }}
             />
@@ -317,10 +316,7 @@ function Crescent({ className = "" }: { className?: string }) {
       viewBox="0 0 40 40"
       className={`h-auto drop-shadow-[0_0_8px_rgba(245,194,122,0.7)] ${className}`}
     >
-      <path
-        d="M24 6 A15 15 0 1 0 34 30 A12 12 0 1 1 24 6Z"
-        fill="#f5c27a"
-      />
+      <path d="M24 6 A15 15 0 1 0 34 30 A12 12 0 1 1 24 6Z" fill="#f5c27a" />
       <path
         d="M33 6 L34.2 9.3 L37.5 10.5 L34.2 11.7 L33 15 L31.8 11.7 L28.5 10.5 L31.8 9.3Z"
         fill="#fbe7c6"
@@ -387,7 +383,13 @@ function Stars() {
   const stars = Array.from({ length: 46 }, (_, i) => {
     const x = (i * 37.7) % 100;
     const y = (i * 61.3 + (i % 7) * 13) % 100;
-    return { x, y, size: 1 + (i % 3), d: `${(i % 9) * 0.45}s`, dur: `${2.5 + (i % 5) * 0.6}s` };
+    return {
+      x,
+      y,
+      size: 1 + (i % 3),
+      d: `${(i % 9) * 0.45}s`,
+      dur: `${2.5 + (i % 5) * 0.6}s`,
+    };
   });
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0">

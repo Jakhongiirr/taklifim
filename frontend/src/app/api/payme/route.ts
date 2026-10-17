@@ -17,7 +17,12 @@ export async function POST(request: Request) {
   try {
     body = JSON.parse(await request.text());
   } catch {
-    return rpcError(-32700, "Parse error", "Ошибка разбора JSON", "JSON xatosi");
+    return rpcError(
+      -32700,
+      "Parse error",
+      "Ошибка разбора JSON",
+      "JSON xatosi",
+    );
   }
 
   const authorization = request.headers.get("authorization");

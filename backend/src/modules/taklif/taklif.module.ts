@@ -4,6 +4,7 @@ import { File } from '../files/file.entity';
 import { FilesModule } from '../files/files.module';
 import { Music } from '../music/music.entity';
 import { MusicModule } from '../music/music.module';
+import { TelegramModule } from '../telegram/telegram.module';
 import { Theme } from '../themes/theme.entity';
 import { ThemesModule } from '../themes/themes.module';
 import { TaklifCleanupService } from './taklif-cleanup.service';
@@ -28,6 +29,7 @@ import { TaklifService } from './taklif.service';
     FilesModule,
     MusicModule,
     ThemesModule,
+    TelegramModule,
   ],
   controllers: [TaklifController, TaklifResponsesController],
   providers: [TaklifService, TaklifCleanupService, TaklifResponsesService],

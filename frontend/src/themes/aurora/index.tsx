@@ -222,7 +222,6 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#7a5a2c] text-[#fffaf0] hover:bg-[#5c4325]",
                 muted: "text-[#8a7457]",
                 accent: "text-[#7a5a2c]",
-                card: "bg-[#fffaf0] ring-1 ring-[#b08a4e]/25",
                 error: "text-red-700",
               }}
             />

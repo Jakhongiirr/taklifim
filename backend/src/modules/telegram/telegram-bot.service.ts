@@ -75,12 +75,38 @@ export class TelegramBotService
     this.handler = handler;
   }
 
-  async sendMessage(chatId: number, text: string, markup?: ReplyMarkup) {
+  async sendMessage(
+    chatId: number | string,
+    text: string,
+    markup?: ReplyMarkup,
+  ) {
     await this.call('sendMessage', {
       chat_id: chatId,
       text,
       ...(markup && { reply_markup: markup }),
     });
+  }
+
+  /**
+   * A message the site sends on its own (not a reply): best effort, so it
+   * never fails the caller. Telegram refuses it if the user blocked the bot
+   * or never opened it; that's logged and dropped. Does nothing without a
+   * bot (development).
+   */
+  async notify(chatId: number | string, text: string) {
+    if (!this.token) {
+      this.logger.debug(`[dev] Would send to ${chatId}: ${text}`);
+      return false;
+    }
+    try {
+      await this.sendMessage(chatId, text);
+      return true;
+    } catch (err) {
+      this.logger.warn(
+        `Notifying Telegram chat ${chatId} failed: ${(err as Error).message}`,
+      );
+      return false;
+    }
   }
 
   onApplicationBootstrap() {

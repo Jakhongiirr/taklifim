@@ -60,22 +60,6 @@ export class UpdateTaklifResponseDto {
   liked: boolean;
 }
 
-/** A wish as guests see it on the invitation. */
-export class PublicWishDto {
-  id: string;
-
-  /** @example "Aziza opa" */
-  name: string;
-
-  /** @example "Baxtli boʻlinglar!" */
-  message: string;
-
-  /** The couple liked this wish. */
-  liked: boolean;
-
-  createdAt: Date;
-}
-
 /** A response as the owner sees it. */
 export class TaklifResponseDto {
   id: string;

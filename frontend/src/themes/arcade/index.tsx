@@ -229,7 +229,6 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#4d3a52] text-[#fffaf6] hover:bg-[#3d2d42]",
                 muted: "text-[#8a6f84]",
                 accent: "text-[#d27f93]",
-                card: "bg-[#fffaf6] ring-1 ring-[#d27f93]/25",
                 error: "text-red-700",
               }}
             />
@@ -387,7 +386,10 @@ function Wreath({ className = "" }: { className?: string }) {
       />
       {steps.map((angle, i) =>
         i % 4 === 0 ? (
-          <g key={angle} transform={`rotate(${angle} 100 100) translate(100 22)`}>
+          <g
+            key={angle}
+            transform={`rotate(${angle} 100 100) translate(100 22)`}
+          >
             <circle r="5.5" fill="#f0b8c4" stroke="#c9707f" strokeWidth="0.7" />
             <circle r="2.2" fill="none" stroke="#c9707f" strokeWidth="0.6" />
           </g>

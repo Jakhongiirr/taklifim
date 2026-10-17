@@ -132,7 +132,10 @@ describe('TelegramLoginService', () => {
 
     const result = await service.check(token, secret);
     expect(result.status).toBe('done');
-    expect(loginWithPhone).toHaveBeenCalledWith('+998901234567');
+    expect(loginWithPhone).toHaveBeenCalledWith('+998901234567', {
+      id: '111',
+      locale: 'en',
+    });
     // Used up.
     expect(await service.check(token, secret)).toEqual({ status: 'expired' });
   });

@@ -8,7 +8,7 @@ import {
   useState,
   useSyncExternalStore,
 } from "react";
-import type { ApiBody, PublicWish } from "@/lib/api-types";
+import type { ApiBody } from "@/lib/api-types";
 
 /** Theme colors for the RSVP section (Tailwind classes). */
 export interface RsvpPalette {
@@ -20,23 +20,11 @@ export interface RsvpPalette {
   button: string;
   muted: string;
   accent: string;
-  /** A wish card. */
-  card: string;
   error: string;
 }
 
 const answeredKey = (slug: string) => `rsvp:${slug}`;
 const noSubscribe = () => () => {};
-/** Wishes on the invitation; [] if they can't be loaded. */
-async function fetchWishes(slug: string): Promise<PublicWish[]> {
-  try {
-    const res = await fetch(`/api/backend/taklif/${slug}/wishes`);
-    const body = (await res.json()) as ApiBody<PublicWish[]>;
-    return body.success ? body.data : [];
-  } catch {
-    return [];
-  }
-}
 
 /** The name this browser last replied with, if any. */
 function readAnswered(slug: string) {
@@ -48,8 +36,9 @@ function readAnswered(slug: string) {
 }
 
 /**
- * Guests reply (name, attendance, guest count, an optional wish) and read
- * the wishes others left. The backend drops bot submissions (the honeypot
+ * Guests reply (name, attendance, guest count, an optional wish). Replies
+ * are private: only the hosts read them, in their cabinet and in Telegram,
+ * so guests don't see each other's. The backend drops bot submissions (the honeypot
  * field, sending faster than a person could) and rate limits; this form
  * just measures the time and keeps the honeypot invisible to people.
  */
@@ -81,23 +70,10 @@ export default function Rsvp({
   const [dismissed, setDismissed] = useState(false);
   const sent = status === "sent" || (!!remembered && !dismissed);
   const thanksName = status === "sent" ? sentName : (remembered ?? "");
-  // The owner's preview may be a draft, whose wishes aren't public (404);
-  // owners read replies on their responses page instead.
-  const [wishes, setWishes] = useState<PublicWish[] | null>(
-    preview ? [] : null,
-  );
-
-  const loadWishes = () => fetchWishes(slug).then(setWishes);
 
   useEffect(() => {
     openedAt.current = Date.now();
-    if (preview) return;
-    let live = true;
-    void fetchWishes(slug).then((list) => live && setWishes(list));
-    return () => {
-      live = false;
-    };
-  }, [slug, preview]);
+  }, []);
 
   async function submit(e: FormEvent) {
     e.preventDefault();
@@ -145,7 +121,6 @@ export default function Rsvp({
       setStatus("sent");
       setName("");
       setMessage("");
-      void loadWishes();
     } catch {
       setError(t("errors.generic"));
       setStatus("idle");
@@ -291,50 +266,6 @@ export default function Rsvp({
             {status === "sending" ? t("sending") : t("send")}
           </button>
         </form>
-      )}
-
-      {/* The wishes wall. */}
-      {wishes !== null && (
-        <div className="mt-10">
-          <p
-            className={`text-center text-[11px] tracking-[0.3em] uppercase ${p.accent}`}
-          >
-            {t("wishesTitle")}
-          </p>
-          {wishes.length ? (
-            <ul
-              // Scrolls on its own, also under the themes' smooth scrolling.
-              data-lenis-prevent
-              className="mt-5 flex max-h-[28rem] flex-col gap-3 overflow-y-auto pr-1"
-            >
-              {wishes.map((wish) => (
-                <li key={wish.id} className={`rounded-2xl px-4 py-3 ${p.card}`}>
-                  <div className="flex items-center justify-between gap-3">
-                    <span className={`font-serif text-lg ${p.accent}`}>
-                      {wish.name}
-                    </span>
-                    {wish.liked && (
-                      <span
-                        title={t("liked")}
-                        aria-label={t("liked")}
-                        className="text-[#c2846f]"
-                      >
-                        ♥
-                      </span>
-                    )}
-                  </div>
-                  <p className={`mt-1 text-sm leading-relaxed ${p.muted}`}>
-                    {wish.message}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className={`mt-4 text-center text-sm ${p.muted}`}>
-              {t("noWishes")}
-            </p>
-          )}
-        </div>
       )}
     </div>
   );

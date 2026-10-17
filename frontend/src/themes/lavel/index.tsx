@@ -248,7 +248,6 @@ export default async function LavelTheme({ taklif, preview }: ThemeProps) {
                   "rounded-full bg-[#6f58a8] text-[#fbf8fe] hover:bg-[#574289]",
                 muted: "text-[#7d6c99]",
                 accent: "text-[#6f58a8]",
-                card: "rounded-2xl bg-[#fdfbff] ring-1 ring-[#a690d4]/35",
                 error: "text-red-700",
               }}
             />

@@ -5,7 +5,7 @@ import { randomUUID } from 'crypto';
 import Redis from 'ioredis';
 import { REDIS_CLIENT } from '../../redis/redis.constants';
 import { User } from '../users/user.entity';
-import { UsersService } from '../users/users.service';
+import { type TelegramAccount, UsersService } from '../users/users.service';
 import type { JwtPayload, RefreshPayload } from './auth.types';
 import { OtpService } from './otp.service';
 
@@ -44,8 +44,8 @@ export class AuthService {
    * Logs in the account with this (already verified) number, creating it
    * on first login.
    */
-  async loginWithPhone(phone: string) {
-    const user = await this.users.findOrCreateByPhone(phone);
+  async loginWithPhone(phone: string, telegram?: TelegramAccount) {
+    const user = await this.users.findOrCreateByPhone(phone, telegram);
     return { user, ...(await this.issueTokens(user)) };
   }
 

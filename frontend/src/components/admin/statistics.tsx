@@ -69,8 +69,9 @@ export default function Statistics() {
       ? `${MONTHS[m - 1]} ${y}`
       : `${d} ${MONTHS[m - 1]}`;
   };
-  const trend = (key: "invitations" | "paid" | "revenue" | "users" | "replies") =>
-    s.trend.map((p) => ({ label: label(p.date), value: p[key] }));
+  const trend = (
+    key: "invitations" | "paid" | "revenue" | "users" | "replies",
+  ) => s.trend.map((p) => ({ label: label(p.date), value: p[key] }));
   const sum = (key: "invitations" | "paid" | "revenue" | "users" | "replies") =>
     s.trend.reduce((total, p) => total + p[key], 0);
   const maxTheme = Math.max(1, ...s.themes.map((t) => t.total));
@@ -181,7 +182,7 @@ export default function Statistics() {
           <BarList
             max={maxMusic}
             rows={s.music.map((m) => ({
-              label: m.id ? m.title ?? "" : "No music",
+              label: m.id ? (m.title ?? "") : "No music",
               sub: m.artist ?? undefined,
               muted: !m.id || m.archived,
               value: m.invitations,
@@ -288,7 +289,10 @@ export default function Statistics() {
             />
           </div>
         </Panel>
-        <Panel title="When weddings are held" note="All invitations, Tashkent time">
+        <Panel
+          title="When weddings are held"
+          note="All invitations, Tashkent time"
+        >
           <div className="grid gap-6 sm:grid-cols-[2fr_3fr]">
             <div>
               <SubTitle>Weekday</SubTitle>

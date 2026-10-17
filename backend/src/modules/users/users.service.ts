@@ -10,6 +10,12 @@ import { AdminUserDto } from './dto/admin-user.dto';
 import { Role } from './role.enum';
 import { User } from './user.entity';
 
+/** A Telegram account a user logged in with. */
+export interface TelegramAccount {
+  id: string;
+  locale: string;
+}
+
 @Injectable()
 export class UsersService {
   private readonly logger = new Logger(UsersService.name);
@@ -61,7 +67,7 @@ export class UsersService {
   }
 
   /** Returns the user with this phone, creating a regular user on first login. */
-  async findOrCreateByPhone(phone: string) {
+  async findOrCreateByPhone(phone: string, telegram?: TelegramAccount) {
     await this.users
       .createQueryBuilder()
       .insert()
@@ -70,6 +76,10 @@ export class UsersService {
       .execute();
     const user = await this.users.findOneByOrFail({ phone });
     user.lastLoginAt = new Date();
+    if (telegram) {
+      user.telegramId = telegram.id;
+      user.locale = telegram.locale;
+    }
     return this.users.save(user);
   }
 

@@ -113,7 +113,6 @@ export default async function PlainInvitation({ taklif, preview }: ThemeProps) {
             button: "bg-ink text-paper",
             muted: "text-muted",
             accent: "text-ink",
-            card: "bg-white ring-1 ring-line",
             error: "text-red-700",
           }}
         />

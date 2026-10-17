@@ -226,7 +226,8 @@ export interface TelegramLoginStarted {
 }
 
 export type TelegramLoginStatus =
-  { status: "pending" | "expired" } | { status: "done"; user: User };
+  | { status: "pending" | "expired" }
+  | { status: "done"; user: User };
 
 export interface AuthTokens {
   accessToken: string;
@@ -245,16 +246,6 @@ export interface ApiErrorBody {
 }
 
 export type ApiBody<T> = { success: true; data: T } | ApiErrorBody;
-
-/** A wish on a published invitation (GET /taklif/:slug/wishes). */
-export interface PublicWish {
-  id: string;
-  name: string;
-  message: string;
-  /** The couple liked it. */
-  liked: boolean;
-  createdAt: string;
-}
 
 /** A guest's reply, as the owner sees it. */
 export interface TaklifResponse {
