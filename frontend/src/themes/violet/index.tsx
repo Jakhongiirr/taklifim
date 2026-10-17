@@ -101,7 +101,7 @@ export default async function VioletTheme({
             unoptimized
             priority
             sizes="448px"
-            className="violet-drift object-cover"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#1b1430]/35 via-65% to-[#1b1430]/70" />
           <Lanterns />

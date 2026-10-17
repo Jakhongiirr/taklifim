@@ -25,24 +25,11 @@
   }
 }
 
-/* The hero keeps strolling toward the tower. */
-@keyframes paris-drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08) translateY(-1%);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .paris-opened .paris-rise {
     animation: paris-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 180ms + 250ms);
-  }
-  .paris-opened .paris-drift {
-    animation: paris-drift 24s ease-out both;
   }
 
   @supports (animation-timeline: view()) {

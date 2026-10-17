@@ -101,7 +101,7 @@ export default async function DoveTheme({
             unoptimized
             priority
             sizes="448px"
-            className="dove-drift object-cover"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f9ecdb]/35 via-65% to-[#f9ecdb]/70" />
           <Feathers />

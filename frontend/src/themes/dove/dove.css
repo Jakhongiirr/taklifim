@@ -25,16 +25,6 @@
   }
 }
 
-/* The hero keeps walking down the aisle, slowly. */
-@keyframes dove-drift {
-  from {
-    transform: scale(1) translateY(0);
-  }
-  to {
-    transform: scale(1.1) translateY(1.5%);
-  }
-}
-
 /* A feather sways down across the hero. */
 @keyframes dove-feather {
   0% {
@@ -71,9 +61,6 @@
   .dove-opened .dove-rise {
     animation: dove-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 180ms + 250ms);
-  }
-  .dove-opened .dove-drift {
-    animation: dove-drift 26s ease-out both;
   }
 
   .dove-feather {

@@ -91,7 +91,7 @@ export default async function AuroraTheme({
             unoptimized
             priority
             sizes="448px"
-            className="aurora-drift object-cover"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf6ec]/35 via-65% to-[#fbf6ec]/70" />
           <Sparkles />

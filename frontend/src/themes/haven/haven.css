@@ -25,16 +25,6 @@
   }
 }
 
-/* The hero keeps walking toward the palace, slowly. */
-@keyframes haven-drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08) translateY(-1%);
-  }
-}
-
 /* A rose petal tumbling down across the hero. */
 @keyframes haven-petal {
   0% {
@@ -81,9 +71,6 @@
   .haven-opened .haven-rise {
     animation: haven-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 180ms + 250ms);
-  }
-  .haven-opened .haven-drift {
-    animation: haven-drift 24s ease-out both;
   }
 
   .haven-petal {
