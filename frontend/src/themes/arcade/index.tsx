@@ -16,14 +16,16 @@ import "./arcade.css";
 import { yeseva } from "./fonts";
 
 // A storybook garden party: cream, rose pink and sage, plum ink, and
-// butterflies everywhere, like the château in the video.
+// butterflies everywhere, like the château in the video; below the hero the
+// page takes the blush paper of the painted letter.
 const ASSETS = "/themes/arcade";
 
 /**
  * Arcade: a fairy-tale château with a fountain, through its glass
  * conservatory and a banquet hall under pink chandeliers, out onto a
  * balcony over a lake (the opening video). The balcony's last frame is the
- * hero; further down the invitation's words sit in a rose-covered arcade.
+ * hero; further down the invitation's words are written onto a watercolour
+ * letter of roses and butterflies, and a rose garland leads to the closing.
  */
 export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -78,7 +80,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
         </div>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#fdf8f4] text-center text-[#4d3a52] md:shadow-2xl md:shadow-[#4d3a52]/15">
+      <article className="mx-auto max-w-md overflow-clip bg-[#f9eff2] text-center text-[#4d3a52] md:shadow-2xl md:shadow-[#4d3a52]/15">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -128,38 +130,35 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, in the rose arcade. */}
-        <section className="relative">
-          <div className="absolute inset-0">
-            <Image
-              src={`${ASSETS}/backdrop.jpg`}
-              alt=""
-              fill
-              unoptimized
-              sizes="448px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative px-7 py-28">
-            {/* A pastel card: rose to sage, like the garden. */}
-            <div className="arcade-reveal rounded-[2.5rem] bg-gradient-to-br from-[#f3d9dc] via-[#e6efe3] to-[#dfeaf1] p-[3px] shadow-xl shadow-[#4d3a52]/15">
-              <div className="rounded-[calc(2.5rem-3px)] bg-[#fffaf6]/85 px-6 py-10 backdrop-blur-md">
-                <Butterfly className="mx-auto w-11" />
-                <h2
-                  className={`${yeseva.className} mt-4 text-2xl text-[#4d3a52]`}
-                >
-                  {t("greeting")}
-                </h2>
-                <p className="mt-5 font-serif text-xl leading-relaxed">
-                  {t("text", {
-                    groom: taklif.groomName,
-                    bride: taklif.brideName,
-                  })}
-                </p>
-                <p className="mt-6 font-serif text-lg text-[#8a6f84] italic">
-                  {t("signature", { host: taklif.hostName })}
-                </p>
-              </div>
+        {/* The words, written straight onto a watercolour letter of pink
+            roses and butterflies. Its blush paper is the page's paper, and
+            its foot fades into it. Sizes follow the section's width so the
+            words always stay between the flowers. */}
+        <section className="@container relative aspect-[736/1055]">
+          <Image
+            src={`${ASSETS}/frame.jpg`}
+            alt=""
+            fill
+            unoptimized
+            sizes="448px"
+            className="object-cover [mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
+          />
+          <div className="absolute inset-x-[25%] top-[11%] bottom-[24%] flex flex-col items-center justify-center">
+            <div className="arcade-reveal">
+              <h2
+                className={`${yeseva.className} text-[6.2cqw] leading-tight text-[#4d3a52]`}
+              >
+                {t("greeting")}
+              </h2>
+              <p className="mt-[4cqw] font-serif text-[4.3cqw] leading-relaxed">
+                {t("text", {
+                  groom: taklif.groomName,
+                  bride: taklif.brideName,
+                })}
+              </p>
+              <p className="mt-[4.5cqw] font-serif text-[4cqw] text-[#7d5f74] italic">
+                {t("signature", { host: taklif.hostName })}
+              </p>
             </div>
           </div>
         </section>
@@ -211,7 +210,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
         <Section title={t("venue.title")}>
           <div className="arcade-reveal">
             <p className={`${yeseva.className} text-2xl`}>{taklif.venueName}</p>
-            <p className="mt-2 text-sm text-[#8a6f84]">{taklif.venueAddress}</p>
+            <p className="mt-2 text-sm text-[#7d5f74]">{taklif.venueAddress}</p>
             <MapLink
               url={taklif.locationUrl}
               className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7d9a7e] px-6 text-sm tracking-wide text-white hover:bg-[#6b886c]"
@@ -232,7 +231,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
                 optionOn: "bg-[#d27f93] text-white",
                 optionOff: "bg-[#fffaf6] ring-1 ring-[#d27f93]/30",
                 button: "bg-[#4d3a52] text-[#fffaf6] hover:bg-[#3d2d42]",
-                muted: "text-[#8a6f84]",
+                muted: "text-[#7d5f74]",
                 accent: "text-[#d27f93]",
                 error: "text-red-700",
               }}
@@ -243,7 +242,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
             <div className="arcade-reveal rounded-[2rem] bg-gradient-to-br from-[#f3d9dc] via-[#fffaf6] to-[#e6efe3] px-6 py-8 ring-1 ring-[#d27f93]/30">
-              <p className="text-sm text-[#8a6f84]">{t("gift.text")}</p>
+              <p className="text-sm text-[#7d5f74]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
@@ -266,14 +265,23 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
           </Section>
         )}
 
-        <footer className="px-6 pt-20 pb-14">
-          <ButterflyDivider />
+        <footer className="px-4 pt-16 pb-14">
+          {/* A garland of watercolour roses and gingham ribbon across the page. */}
+          <Image
+            src={`${ASSETS}/border.webp`}
+            alt=""
+            width={896}
+            height={402}
+            unoptimized
+            sizes="448px"
+            className="arcade-reveal mx-auto w-full"
+          />
           <p
             className={`${yeseva.className} arcade-reveal mt-6 text-3xl leading-snug`}
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#8a6f84]" />
+          <MadeWith className="mt-12 text-xs text-[#7d5f74]" />
         </footer>
       </article>
     </>
