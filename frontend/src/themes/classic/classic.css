@@ -110,18 +110,6 @@
   }
 }
 
-@keyframes classic-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   [data-seal-cover][data-state="closed"] .classic-seal {
     animation: classic-breathe 2.4s ease-in-out infinite;
@@ -145,10 +133,6 @@
     animation: classic-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 160ms + 200ms);
   }
-  .classic-hint {
-    animation: classic-hint 2.2s ease-in-out infinite;
-  }
-
   @supports (animation-timeline: view()) {
     .classic-reveal {
       animation: classic-reveal linear both;

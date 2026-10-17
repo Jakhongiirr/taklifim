@@ -90,18 +90,6 @@
   }
 }
 
-@keyframes lavel-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 /* The sprigs sway a little, as if in a breeze. */
 @keyframes lavel-sway {
   0%,
@@ -134,9 +122,6 @@
   .lavel-opened .lavel-rise {
     animation: lavel-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 160ms + 150ms);
-  }
-  .lavel-hint {
-    animation: lavel-hint 2.2s ease-in-out infinite;
   }
   .lavel-sway {
     transform-origin: 50% 100%;

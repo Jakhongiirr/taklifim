@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import "./plov.css";
 import { lora, oldStandard } from "./fonts";
@@ -119,20 +120,7 @@ export default async function PlovTheme({
                 className="plov-rise mt-10"
                 style={{ "--i": 5 } as CSSProperties}
               >
-                <p className={`text-[10px] ${LABEL}`}>{t("plov.scroll")}</p>
-                <svg
-                  aria-hidden
-                  viewBox="0 0 24 24"
-                  className={`plov-hint mx-auto mt-2 size-5 ${GOLD}`}
-                >
-                  <path
-                    d="M6 9l6 6 6-6"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                  />
-                </svg>
+                <ScrollHint className={GOLD} />
               </div>
             </div>
           </div>

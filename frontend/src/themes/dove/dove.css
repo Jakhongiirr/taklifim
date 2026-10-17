@@ -66,18 +66,6 @@
   }
 }
 
-@keyframes dove-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .dove-opened .dove-rise {
@@ -92,10 +80,6 @@
     animation: dove-feather var(--dur, 14s) linear infinite;
     animation-delay: var(--d, 0s);
   }
-  .dove-hint {
-    animation: dove-hint 2.2s ease-in-out infinite;
-  }
-
   @supports (animation-timeline: view()) {
     .dove-reveal {
       animation: dove-reveal linear both;

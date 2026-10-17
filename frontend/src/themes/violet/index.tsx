@@ -11,6 +11,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import "./violet.css";
 import { marck, tenor } from "./fonts";
@@ -123,19 +124,12 @@ export default async function VioletTheme({
             >
               {fullDate}
             </p>
-            <svg
-              aria-hidden
-              viewBox="0 0 24 24"
-              className="violet-hint mx-auto mt-8 size-6 text-[#f5c27a]"
+            <div
+              className="violet-rise mt-8"
+              style={{ "--i": 3 } as CSSProperties}
             >
-              <path
-                d="M6 9l6 6 6-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
+              <ScrollHint className="text-[#f5c27a]" />
+            </div>
           </div>
         </section>
 

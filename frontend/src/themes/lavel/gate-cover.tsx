@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
+import AutoScroll from "../shared/auto-scroll";
 import SmoothScroll from "../shared/smooth-scroll";
 import { Sprig } from "./lavender";
 
@@ -93,7 +94,12 @@ export default function GateCover({
           onPause={() => setPlaying(false)}
         />
       )}
-      {isOpen && <SmoothScroll />}
+      {isOpen && (
+        <>
+          <SmoothScroll />
+          <AutoScroll />
+        </>
+      )}
 
       {!isOpen && (
         <div
@@ -108,7 +114,10 @@ export default function GateCover({
             <Door side="right" />
           </div>
 
-          <div data-font-reveal className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[13%] px-8 text-center">
+          <div
+            data-font-reveal
+            className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[13%] px-8 text-center"
+          >
             <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
               {t("cover.eyebrow")}
             </p>
@@ -126,7 +135,10 @@ export default function GateCover({
             <WaxSeal />
           </button>
 
-          <div data-font-reveal className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[calc(50%+4.5rem)] px-8 text-center">
+          <div
+            data-font-reveal
+            className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[calc(50%+4.5rem)] px-8 text-center"
+          >
             <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
               {t("lavel.sealHint")}
             </p>

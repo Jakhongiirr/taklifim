@@ -11,6 +11,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import "./arcade.css";
 import { yeseva } from "./fonts";
@@ -116,19 +117,12 @@ export default async function ArcadeTheme({
             >
               {fullDate}
             </p>
-            <svg
-              aria-hidden
-              viewBox="0 0 24 24"
-              className="arcade-hint mx-auto mt-8 size-6 text-[#d27f93]"
+            <div
+              className="arcade-rise mt-8"
+              style={{ "--i": 3 } as CSSProperties}
             >
-              <path
-                d="M6 9l6 6 6-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
+              <ScrollHint className="text-[#d27f93]" />
+            </div>
           </div>
         </section>
 

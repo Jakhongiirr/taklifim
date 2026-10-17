@@ -411,12 +411,12 @@
       "call": "Qoʻngʻiroq qilish"
     },
     "closing": "Sizni intiqlik bilan kutamiz!",
+    "scroll": "Pastga suring",
     "lavel": {
       "forYou": "Bu taklifnoma siz uchun maxsus",
       "sealHint": "Ochish uchun muhrni bosing",
       "hello": "Assalomu alaykum",
       "invite": "Toʻyimizga tashrif buyurishingizni soʻraymiz",
-      "scroll": "Pastga suring",
       "ceremony": "Nikoh toʻyi tantanasi",
       "tagline": "Ikki qalb bir boʻlib gullagan kun — hayotimizning eng goʻzal bahori",
       "dayMonth": "{day}-{month}, {weekday}",
@@ -427,7 +427,6 @@
     },
     "classic": {
       "tagline": "Ikki qalbning birikishi — eng buyuk baxt",
-      "scroll": "Pastga suring",
       "sealHint": "Ochish uchun muhrni bosing",
       "dayMonth": "{day}-{month}, {weekday}",
       "startTime": "Boshlanish vaqti"
@@ -465,7 +464,6 @@
       "eyebrow": "Nahorgi osh",
       "occasion": "Nikoh toʻyi munosabati bilan",
       "lidHint": "Ochish uchun qopqoqni bosing",
-      "scroll": "Pastga suring",
       "text": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
       "dateTitle": "Osh vaqti",
       "served": "Osh tortiladi",

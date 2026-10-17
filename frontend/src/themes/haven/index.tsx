@@ -11,6 +11,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
 import "./haven.css";
@@ -117,19 +118,12 @@ export default async function HavenTheme({
             >
               {fullDate}
             </p>
-            <svg
-              aria-hidden
-              viewBox="0 0 24 24"
-              className="haven-hint mx-auto mt-8 size-6 text-[#b5707a]"
+            <div
+              className="haven-rise mt-8"
+              style={{ "--i": 3 } as CSSProperties}
             >
-              <path
-                d="M6 9l6 6 6-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
+              <ScrollHint className="text-[#b5707a]" />
+            </div>
           </div>
         </section>
 

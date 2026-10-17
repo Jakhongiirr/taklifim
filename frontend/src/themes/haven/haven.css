@@ -76,18 +76,6 @@
   }
 }
 
-@keyframes haven-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .haven-opened .haven-rise {
@@ -105,10 +93,6 @@
   .haven-glow {
     animation: haven-glow 4s ease-in-out infinite;
   }
-  .haven-hint {
-    animation: haven-hint 2.2s ease-in-out infinite;
-  }
-
   @supports (animation-timeline: view()) {
     .haven-reveal {
       animation: haven-reveal linear both;

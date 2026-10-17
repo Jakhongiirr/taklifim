@@ -8,6 +8,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import "./classic.css";
 import { cormorant } from "./fonts";
@@ -114,20 +115,7 @@ export default async function ClassicTheme({
               className="classic-rise mt-12"
               style={{ "--i": 4 } as CSSProperties}
             >
-              <p className={`text-[10px] ${LABEL}`}>{t("classic.scroll")}</p>
-              <svg
-                aria-hidden
-                viewBox="0 0 24 24"
-                className={`classic-hint mx-auto mt-2 size-5 ${GOLD}`}
-              >
-                <path
-                  d="M6 9l6 6 6-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                />
-              </svg>
+              <ScrollHint className={GOLD} />
             </div>
           </Frame>
         </section>

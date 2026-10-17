@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import AutoScroll from "../shared/auto-scroll";
 import SmoothScroll from "../shared/smooth-scroll";
 
 /** The flap opens and the card rises out of the envelope. */
@@ -90,7 +91,12 @@ export default function SealCover({
           onPause={() => setPlaying(false)}
         />
       )}
-      {isOpen && <SmoothScroll />}
+      {isOpen && (
+        <>
+          <SmoothScroll />
+          <AutoScroll />
+        </>
+      )}
 
       {!isOpen && (
         <div
@@ -100,7 +106,9 @@ export default function SealCover({
           className="classic-paper fixed inset-0 z-40 overflow-hidden text-[#2b2420] transition-opacity duration-[900ms] ease-out motion-reduce:duration-300 data-[state=closed]:cursor-pointer data-[state=revealing]:pointer-events-none data-[state=revealing]:opacity-0"
         >
           <div className="relative mx-auto flex h-full max-w-md flex-col items-center justify-center px-6 text-center">
-            <div data-font-reveal className="classic-cover-words">{children}</div>
+            <div data-font-reveal className="classic-cover-words">
+              {children}
+            </div>
 
             <div className="classic-envelope relative mt-10 aspect-[10/7] w-full max-w-[20rem]">
               {/* The card, tucked inside; it rises as the flap opens. */}
@@ -151,7 +159,10 @@ export default function SealCover({
               </button>
             </div>
 
-            <p data-font-reveal className="classic-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#7a6a55] uppercase">
+            <p
+              data-font-reveal
+              className="classic-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#7a6a55] uppercase"
+            >
               {t("classic.sealHint")}
             </p>
           </div>
