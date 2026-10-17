@@ -15,14 +15,9 @@ import {
   photosDeletedAfterEventAt,
 } from "@/lib/retention";
 import { useConfirm } from "../confirm-dialog";
+import StatusBadge from "./status-badge";
 import { usePay } from "./use-pay";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
-
-const STATUS_STYLES: Record<Taklif["status"], string> = {
-  draft: "bg-cream text-muted ring-line",
-  published: "bg-sage/10 text-sage ring-sage/30",
-  unpublished: "bg-gold/10 text-gold ring-gold/30",
-};
 
 /** The invitation's link for guests, in the given language. */
 function invitationUrl(slug: string, locale: string) {
@@ -118,11 +113,7 @@ export default function TaklifCard({
           )}
         </div>
         <div className="min-w-0 flex-1">
-          <span
-            className={`inline-flex rounded-full px-2.5 py-0.5 text-xs font-medium ring-1 ${STATUS_STYLES[taklif.status]}`}
-          >
-            {t(`status.${taklif.status}`)}
-          </span>
+          <StatusBadge status={taklif.status} />
           <h2 className="mt-1.5 truncate font-serif text-2xl leading-tight text-ink">
             {names}
           </h2>
