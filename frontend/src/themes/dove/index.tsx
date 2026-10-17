@@ -15,15 +15,16 @@ import type { ThemeProps } from "../types";
 import "./dove.css";
 import { doveScript, forum } from "./fonts";
 
-// Sunset blush and ivory from the rose arches, rosewood text, and a dusty
-// blue for the small lines.
+// Sunset blush from the rose arches for the opening, then the ivory paper
+// and gold scrolls of the letter; rosewood text, a dusty blue for small lines.
 const ASSETS = "/themes/dove";
 
 /**
  * Dove: through a rose-covered arch, doves fly up and the guest walks down
  * a lantern-lit aisle (the opening video). The aisle's last frame is the
- * hero; further down the invitation's words sit in a blossoming palace
- * garden, under an arch of their own.
+ * hero; further down the invitation's words are written onto a letter
+ * under a dove with an olive branch, and two doves on a ribbon lead to the
+ * closing line.
  */
 export default async function DoveTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -84,7 +85,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         </div>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#fbf3ee] text-center text-[#5a3e45] md:shadow-2xl md:shadow-[#6b3f4a]/15">
+      <article className="mx-auto max-w-md overflow-clip bg-[#f8f4ec] text-center text-[#5a3e45] md:shadow-2xl md:shadow-[#6b3f4a]/15">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -96,10 +97,10 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="dove-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf3ee]/35 via-65% to-[#fbf3ee]/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f8f4ec]/35 via-65% to-[#f8f4ec]/70" />
           <Feathers />
           <div className="relative isolate">
-            <TextGlow tone="bg-[#fbf3ee]/75" className="dove-rise" />
+            <TextGlow tone="bg-[#f8f4ec]/75" className="dove-rise" />
             <p
               className={`${forum.className} dove-rise text-xs tracking-[0.4em] text-[#6b3f4a] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
@@ -134,33 +135,33 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, under an arch in the garden. */}
-        <section className="relative">
-          <div className="absolute inset-0">
-            <Image
-              src={`${ASSETS}/backdrop.jpg`}
-              alt=""
-              fill
-              unoptimized
-              sizes="448px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative px-7 py-28">
-            <div className="dove-reveal rounded-t-full rounded-b-[2rem] bg-[#fff7f2]/80 px-7 pt-24 pb-10 shadow-xl shadow-[#6b3f4a]/10 ring-1 ring-[#fff7f2] backdrop-blur-md">
-              <DovePair className="mx-auto w-32" />
+        {/* The words, written straight onto a letter with gold scrolls,
+            white blossoms and a dove carrying an olive branch. Its paper is
+            the page's paper. Sizes follow the section's width so the words
+            always fit inside the scrolls. */}
+        <section className="@container relative aspect-[862/1190]">
+          <Image
+            src={`${ASSETS}/frame.jpg`}
+            alt=""
+            fill
+            unoptimized
+            sizes="448px"
+            className="object-cover"
+          />
+          <div className="absolute inset-x-[14%] top-[23%] bottom-[11%] flex flex-col items-center justify-center">
+            <div className="dove-reveal">
               <h2
-                className={`${forum.className} mt-5 text-2xl tracking-[0.12em] text-[#6b3f4a] uppercase`}
+                className={`${forum.className} text-[5.6cqw] tracking-[0.12em] text-[#6b3f4a] uppercase`}
               >
                 {t("greeting")}
               </h2>
-              <p className="mt-5 font-serif text-xl leading-relaxed">
+              <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
                 {t("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
               </p>
-              <p className="mt-6 font-serif text-lg text-[#8a6f73] italic">
+              <p className="mt-[4.5cqw] font-serif text-[4.2cqw] text-[#8a6f73] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
             </div>
@@ -170,8 +171,8 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         <Section title={t("date.title")}>
           <div className="dove-reveal">
             {/* The day under an arch, like the ones in the video. */}
-            <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#f6e2d8] to-[#fbf3ee] ring-1 ring-[#c98b8b]/50">
-              <div className="absolute inset-2 rounded-t-full ring-1 ring-[#c98b8b]/25" />
+            <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#efe5d3] to-[#f8f4ec] ring-1 ring-[#b8955a]/50">
+              <div className="absolute inset-2 rounded-t-full ring-1 ring-[#b8955a]/25" />
               <p
                 className={`${forum.className} text-xs tracking-[0.35em] text-[#6f8597] uppercase`}
               >
@@ -196,7 +197,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             </p>
             <Countdown
               eventAt={taklif.eventAt}
-              boxClassName="rounded-t-full rounded-b-xl bg-[#f6e2d8]/70 pt-5 pb-3 ring-1 ring-[#c98b8b]/30"
+              boxClassName="rounded-t-full rounded-b-xl bg-[#efe5d3]/70 pt-5 pb-3 ring-1 ring-[#b8955a]/30"
             />
           </div>
         </Section>
@@ -206,7 +207,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="dove-reveal bg-[#fff7f2] p-1.5 shadow-lg shadow-[#6b3f4a]/10 ring-1 ring-[#c98b8b]/50"
+              frameClass="dove-reveal bg-[#fdfaf4] p-1.5 shadow-lg shadow-[#6b3f4a]/10 ring-1 ring-[#b8955a]/50"
             />
           </Section>
         )}
@@ -219,12 +220,16 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             <p className="mt-2 text-sm text-[#8a6f73]">{taklif.venueAddress}</p>
             <MapLink
               url={taklif.locationUrl}
-              className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fff7f2] uppercase hover:bg-[#5a3e45]`}
+              className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fdfaf4] uppercase hover:bg-[#5a3e45]`}
             >
               {t("venue.map")}
             </MapLink>
           </div>
         </Section>
+
+        <div className="px-6 pt-16">
+          <DoveBorder />
+        </div>
 
         <Section title={tRsvp("title")}>
           <div className="dove-reveal">
@@ -233,10 +238,10 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
               preview={preview}
               palette={{
                 input:
-                  "bg-[#fff7f2] ring-1 ring-[#c98b8b]/35 focus:ring-[#c98b8b]",
-                optionOn: "bg-[#6b3f4a] text-[#fff7f2]",
-                optionOff: "bg-[#fff7f2] ring-1 ring-[#c98b8b]/35",
-                button: "bg-[#6b3f4a] text-[#fff7f2] hover:bg-[#5a3e45]",
+                  "bg-[#fdfaf4] ring-1 ring-[#b8955a]/35 focus:ring-[#b8955a]",
+                optionOn: "bg-[#6b3f4a] text-[#fdfaf4]",
+                optionOff: "bg-[#fdfaf4] ring-1 ring-[#b8955a]/35",
+                button: "bg-[#6b3f4a] text-[#fdfaf4] hover:bg-[#5a3e45]",
                 muted: "text-[#8a6f73]",
                 accent: "text-[#6b3f4a]",
                 error: "text-red-700",
@@ -247,14 +252,14 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="dove-reveal rounded-3xl bg-gradient-to-br from-[#f6e2d8] via-[#fff7f2] to-[#e3eaf0] px-6 py-8 ring-1 ring-[#c98b8b]/35">
+            <div className="dove-reveal rounded-3xl bg-gradient-to-br from-[#efe5d3] via-[#fdfaf4] to-[#e7ece2] px-6 py-8 ring-1 ring-[#b8955a]/35">
               <p className="text-sm text-[#8a6f73]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
               <CopyButton
                 value={taklif.cardNumber}
-                className="mt-4 rounded-full px-5 py-2 text-sm ring-1 ring-[#6b3f4a]/40 hover:bg-[#fff7f2]"
+                className="mt-4 rounded-full px-5 py-2 text-sm ring-1 ring-[#6b3f4a]/40 hover:bg-[#fdfaf4]"
               />
             </div>
           </Section>
@@ -264,15 +269,15 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="dove-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#6b3f4a]/40 hover:bg-[#f6e2d8]"
+              className="dove-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#6b3f4a]/40 hover:bg-[#efe5d3]"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
           </Section>
         )}
 
-        <footer className="px-6 pt-20 pb-14">
-          <DovePair className="mx-auto w-36" />
+        <footer className="px-6 pt-16 pb-14">
+          <DoveBorder />
           <p
             className={`${doveScript} dove-reveal mt-4 text-5xl leading-tight text-[#6b3f4a]`}
           >
@@ -295,6 +300,21 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       </h2>
       {children}
     </section>
+  );
+}
+
+/** Two watercolour doves on a ribbon, among rosehips, across the page. */
+function DoveBorder() {
+  return (
+    <Image
+      src={`${ASSETS}/border.webp`}
+      alt=""
+      width={552}
+      height={329}
+      unoptimized
+      sizes="448px"
+      className="dove-reveal mx-auto w-full"
+    />
   );
 }
 
