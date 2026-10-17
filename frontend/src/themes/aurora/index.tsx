@@ -212,6 +212,10 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           </div>
         </Section>
 
+        <div className="px-4 pt-16">
+          <Garland />
+        </div>
+
         <Section title={tRsvp("title")}>
           <div className="aurora-reveal">
             <Rsvp
@@ -258,16 +262,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
         )}
 
         <footer className="px-4 pt-16 pb-14">
-          {/* A garland of watercolour peonies and wildflowers across the page. */}
-          <Image
-            src={`${ASSETS}/border.webp`}
-            alt=""
-            width={734}
-            height={253}
-            unoptimized
-            sizes="448px"
-            className="aurora-reveal mx-auto w-full"
-          />
+          <Garland />
           <p
             className={`${greatVibes.className} aurora-reveal mt-6 text-5xl text-[#7a5a2c]`}
           >
@@ -288,6 +283,21 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       </h2>
       {children}
     </section>
+  );
+}
+
+/** A garland of watercolour peonies and wildflowers across the page. */
+function Garland() {
+  return (
+    <Image
+      src={`${ASSETS}/border.webp`}
+      alt=""
+      width={734}
+      height={253}
+      unoptimized
+      sizes="448px"
+      className="aurora-reveal mx-auto w-full"
+    />
   );
 }
 
