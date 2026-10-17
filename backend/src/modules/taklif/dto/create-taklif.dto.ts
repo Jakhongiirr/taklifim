@@ -2,7 +2,9 @@ import { IsOptional, IsUUID } from 'class-validator';
 import {
   CardNumber,
   EventAt,
+  Latitude,
   LocationUrl,
+  Longitude,
   OptionalPhone,
   PhotoIds,
   Text,
@@ -40,6 +42,14 @@ export class CreateTaklifDto {
   @IsOptional()
   @LocationUrl()
   locationUrl?: string;
+
+  /** The venue's pin on the map; sent with `longitude`. @example 41.311081 */
+  @Latitude()
+  latitude?: number;
+
+  /** @example 69.240562 */
+  @Longitude()
+  longitude?: number;
 
   /**
    * Up to 6 image ids from POST /files, in display order. Users can only use

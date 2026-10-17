@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./violet.css";
 import { marck, tenor } from "./fonts";
@@ -226,8 +227,12 @@ export default async function VioletTheme({
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#b9aed3]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl shadow-[0_0_30px_-8px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className={`${tenor.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#f5c27a] px-6 text-xs tracking-[0.2em] text-[#1b1430] uppercase shadow-[0_0_24px_-4px_rgba(245,194,122,0.7)] hover:bg-[#f8d29a]`}
             >
               {t("venue.map")}

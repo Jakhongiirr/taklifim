@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./dove.css";
 import { doveScript, forum } from "./fonts";
@@ -218,8 +219,12 @@ export default async function DoveTheme({
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#8a6f73]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl shadow-lg shadow-[#6b3f4a]/10 ring-1 ring-[#b8955a]/50"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className={`${forum.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#6b3f4a] px-6 text-sm tracking-[0.15em] text-[#fdfaf4] uppercase hover:bg-[#5a3e45]`}
             >
               {t("venue.map")}

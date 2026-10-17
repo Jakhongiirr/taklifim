@@ -20,9 +20,11 @@ import {
 } from "@/lib/format";
 import { prepareImage } from "@/lib/prepare-image";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
+import type { Pin } from "@/lib/venue-map";
 import { useConfirm } from "../confirm-dialog";
 import DesignPicker from "./design-picker";
 import Field, { inputClass, pickerClass } from "./field";
+import MapPicker, { type MapKeys } from "./map-picker";
 import MusicPicker from "./music-picker";
 import PhotoPicker from "./photo-picker";
 import type { Design, Photo } from "./types";
@@ -85,17 +87,20 @@ const deleteFile = (id: string) =>
  * Creates an invitation (no `taklif`) or edits one. New photos are uploaded on
  * save and deleted again if saving fails; photos removed from an existing
  * invitation are deleted by the backend. Ends on the invitation's preview.
+ * Without Yandex `mapKeys` the venue is only given as a pasted map link.
  */
 export default function InvitationBuilder({
   designs,
   tracks,
   taklif,
   initialThemeId,
+  mapKeys,
 }: {
   designs: Design[];
   tracks: Music[];
   taklif?: Taklif;
   initialThemeId?: string;
+  mapKeys?: MapKeys;
 }) {
   const t = useTranslations("Builder");
   const router = useRouter();
@@ -129,6 +134,11 @@ export default function InvitationBuilder({
         : DEFAULT_EVENT_TIME,
   );
   const eventDate = fields.eventAt.slice(0, 10);
+  const [pin, setPin] = useState<Pin | null>(
+    taklif?.latitude != null && taklif.longitude != null
+      ? { lat: taklif.latitude, lng: taklif.longitude }
+      : null,
+  );
   const [photos, setPhotos] = useState<Photo[]>(
     taklif?.photos.map((file) => ({ key: file.id, existing: file })) ?? [],
   );
@@ -340,6 +350,10 @@ export default function InvitationBuilder({
         // Optional: empty saves as none (and clears an earlier one).
         locationUrl: fields.locationUrl.trim() || null,
       };
+      const location = {
+        latitude: pin?.lat ?? null,
+        longitude: pin?.lng ?? null,
+      };
 
       let saved: Taklif;
       if (taklif) {
@@ -349,6 +363,7 @@ export default function InvitationBuilder({
           method: "PATCH",
           json: {
             ...body,
+            ...location,
             cardNumber: card || null,
             phone: phone || null,
             musicId: fields.musicId || null,
@@ -360,6 +375,7 @@ export default function InvitationBuilder({
           method: "POST",
           json: {
             ...body,
+            ...(pin && location),
             ...(card && { cardNumber: card }),
             ...(phone && { phone }),
             ...(fields.musicId && { musicId: fields.musicId }),
@@ -506,9 +522,22 @@ export default function InvitationBuilder({
               {...input("venueAddress")}
             />
           </Field>
+          {mapKeys && (
+            <MapPicker
+              keys={mapKeys}
+              value={pin}
+              onChange={(next, address) => {
+                setPin(next);
+                setDirty(true);
+                if (address && !fields.venueAddress.trim()) {
+                  set("venueAddress", address.slice(0, 300));
+                }
+              }}
+            />
+          )}
           <Field
             label={t("fields.locationUrl")}
-            hint={t("fields.locationHint")}
+            hint={t(mapKeys ? "map.linkHint" : "fields.locationHint")}
             error={errors.locationUrl}
           >
             <input

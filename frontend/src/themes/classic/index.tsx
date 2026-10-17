@@ -9,6 +9,7 @@ import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./classic.css";
 import { cormorant } from "./fonts";
@@ -188,8 +189,12 @@ export default async function ClassicTheme({
               <p className="mt-3 text-lg text-[#5a4c3e]">
                 «{taklif.venueAddress}»
               </p>
+              <VenueMap
+                taklif={taklif}
+                className="mt-6 rounded-sm ring-1 ring-[#a8894f]/45"
+              />
               <MapLink
-                url={taklif.locationUrl}
+                taklif={taklif}
                 className="mt-7 inline-flex h-11 items-center rounded-sm bg-[#2b2420] px-6 text-xs font-semibold tracking-[0.25em] text-[#faf6ee] uppercase transition-colors hover:bg-[#7a1f2b]"
               >
                 {t("venue.map")}

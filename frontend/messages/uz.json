@@ -506,6 +506,20 @@
       "phoneHint": "Ixtiyoriy. Savollari boʻlsa, mehmonlar qoʻngʻiroq qiladi.",
       "eventChangesHint": "Eʼlon qilingan taklifnoma sanasini {count, plural, =0 {endi oʻzgartirib boʻlmaydi} other {yana # marta oʻzgartirish mumkin}}."
     },
+    "map": {
+      "label": "Xaritadagi joy",
+      "choose": "Xaritadan tanlash",
+      "hint": "Ixtiyoriy. Mehmonlar taklifnomada xaritani koʻradi va yoʻlni ochadi.",
+      "change": "Oʻzgartirish",
+      "remove": "Olib tashlash",
+      "title": "Joyni tanlang",
+      "tapHint": "Xaritaga bosing yoki qidiruvdan toping.",
+      "confirm": "Shu joyni tanlash",
+      "cancel": "Bekor qilish",
+      "loading": "Xarita yuklanmoqda…",
+      "failed": "Xarita yuklanmadi. Internetni tekshiring yoki pastga xarita havolasini qoʻying.",
+      "linkHint": "Ixtiyoriy. Yoki Google yoki Yandex xarita havolasini qoʻying."
+    },
     "design": {
       "free": "Bepul",
       "price": "{price} soʻm",

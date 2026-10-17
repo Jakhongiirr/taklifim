@@ -81,6 +81,13 @@ export class Taklif {
   @Column({ type: 'varchar', length: 500, nullable: true })
   locationUrl: string | null;
 
+  /** The venue's pin, picked on the map; both or neither. */
+  @Column({ type: 'double precision', nullable: true })
+  latitude: number | null;
+
+  @Column({ type: 'double precision', nullable: true })
+  longitude: number | null;
+
   /** Digits only. */
   @Column({ type: 'varchar', length: 19, nullable: true })
   cardNumber: string | null;

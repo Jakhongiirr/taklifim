@@ -9,6 +9,7 @@ import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
 import { garamond, lavelScript } from "./fonts";
@@ -219,8 +220,12 @@ export default async function LavelTheme({
             <Sprig bend={4} className="mx-auto -mt-2 mb-4 h-16 w-4" />
             <p className={`text-2xl font-medium ${PLUM}`}>{taklif.venueName}</p>
             <p className={`mt-3 text-lg ${MUTED}`}>{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl ring-1 ring-[#a690d4]/45"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className="mt-7 inline-flex h-11 items-center rounded-full bg-[#6f58a8] px-7 text-xs font-semibold tracking-[0.22em] text-[#fbf8fe] uppercase transition-colors hover:bg-[#574289]"
             >
               {t("venue.map")}

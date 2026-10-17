@@ -506,6 +506,20 @@
       "phoneHint": "Optional. Guests can call with questions.",
       "eventChangesHint": "{count, plural, =0 {This invitation's date can't be changed any more} one {A published invitation's date can be changed # more time} other {A published invitation's date can be changed # more times}}."
     },
+    "map": {
+      "label": "Place on the map",
+      "choose": "Choose on the map",
+      "hint": "Optional. Guests see the map on the invitation and can open the route.",
+      "change": "Change",
+      "remove": "Remove",
+      "title": "Pick the place",
+      "tapHint": "Tap the map or search to move the pin.",
+      "confirm": "Choose this place",
+      "cancel": "Cancel",
+      "loading": "Loading the map…",
+      "failed": "The map didn't load. Check your connection, or paste a map link below.",
+      "linkHint": "Optional. Or paste a Google or Yandex Maps link."
+    },
     "design": {
       "free": "Free",
       "price": "{price} UZS",

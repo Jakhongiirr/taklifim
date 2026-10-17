@@ -18,6 +18,15 @@ export default async function BuilderPage({
   initialThemeId?: string;
 }) {
   const t = await getTranslations("Builder");
+  // Read per request (not baked in at build), so a key set in .env works
+  // after a restart.
+  const apiKey = process.env.YANDEX_MAPS_API_KEY;
+  const mapKeys = apiKey
+    ? {
+        apiKey,
+        suggestKey: process.env.YANDEX_MAPS_SUGGEST_API_KEY || undefined,
+      }
+    : undefined;
   // The plov design is an osh, not a wedding party: its own title.
   const osh =
     (taklif?.theme.themeId ??
@@ -43,6 +52,7 @@ export default async function BuilderPage({
           tracks={tracks}
           taklif={taklif}
           initialThemeId={initialThemeId}
+          mapKeys={mapKeys}
         />
       </main>
     </>

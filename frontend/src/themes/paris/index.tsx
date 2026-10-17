@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
+import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import { playfair, poiret } from "./fonts";
 import "./paris.css";
@@ -212,8 +213,12 @@ export default async function ParisTheme({
               {taklif.venueName}
             </p>
             <p className="mt-2 text-sm text-[#5d6280]">{taklif.venueAddress}</p>
+            <VenueMap
+              taklif={taklif}
+              className="mt-6 rounded-2xl shadow-lg shadow-[#2c3550]/10 ring-1 ring-[#b8925a]/45"
+            />
             <MapLink
-              url={taklif.locationUrl}
+              taklif={taklif}
               className={`${poiret.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#2c3550] px-6 text-sm font-semibold tracking-[0.15em] text-[#fbf7f2] uppercase hover:bg-[#222a41]`}
             >
               {t("venue.map")}
