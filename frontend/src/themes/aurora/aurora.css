@@ -25,16 +25,6 @@
   }
 }
 
-/* The hero's frame keeps drifting closer, continuing the video's walk. */
-@keyframes aurora-drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08);
-  }
-}
-
 @keyframes aurora-shimmer {
   0%,
   100% {
@@ -50,9 +40,6 @@
   .aurora-opened .aurora-rise {
     animation: aurora-rise 1.4s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 180ms + 250ms);
-  }
-  .aurora-opened .aurora-drift {
-    animation: aurora-drift 24s ease-out both;
   }
 
   .aurora-sparkle {

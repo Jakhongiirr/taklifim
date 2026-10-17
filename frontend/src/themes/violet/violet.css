@@ -27,16 +27,6 @@
   }
 }
 
-/* The hero keeps floating toward the castle. */
-@keyframes violet-drift {
-  from {
-    transform: scale(1);
-  }
-  to {
-    transform: scale(1.08) translateY(1%);
-  }
-}
-
 /* A sky lantern rising and swaying, fading out high up. */
 @keyframes violet-lantern {
   0% {
@@ -104,9 +94,6 @@
   .violet-opened .violet-rise {
     animation: violet-rise 1.6s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 200ms + 250ms);
-  }
-  .violet-opened .violet-drift {
-    animation: violet-drift 26s ease-out both;
   }
 
   .violet-lantern {

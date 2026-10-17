@@ -94,7 +94,7 @@ export default async function ParisTheme({
             unoptimized
             priority
             sizes="448px"
-            className="paris-drift object-cover"
+            className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf7f2]/35 via-65% to-[#fbf7f2]/70" />
           <div className="relative isolate">
