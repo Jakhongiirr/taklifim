@@ -55,7 +55,9 @@ const statusTones: Record<TaklifStatus, string> = {
 };
 
 type Editing =
-  { mode: "create" } | { mode: "edit"; taklif: AdminTaklif } | null;
+  | { mode: "create" }
+  | { mode: "edit"; taklif: AdminTaklif }
+  | null;
 
 const errorText = (error: unknown, fallback: string) =>
   error instanceof ApiError ? error.fullMessage : fallback;
@@ -182,8 +184,8 @@ export default function TaklifManager({
           <div>
             <h1 className="text-2xl font-semibold">Invitations</h1>
             <p className="text-sm text-zinc-500">
-              Only published invitations are public; drafts and unpublished
-              ones are visible to their owner and admins.
+              Only published invitations are public; drafts and unpublished ones
+              are visible to their owner and admins.
             </p>
           </div>
           <Button onClick={() => setEditing({ mode: "create" })}>

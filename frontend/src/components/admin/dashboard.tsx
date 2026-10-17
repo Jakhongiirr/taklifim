@@ -89,10 +89,7 @@ export default function Dashboard() {
       </Panel>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <Panel
-          title="Upcoming weddings"
-          note="Published, in the next 30 days"
-        >
+        <Panel title="Upcoming weddings" note="Published, in the next 30 days">
           {s.upcoming.length === 0 ? (
             <Empty>No weddings in the next 30 days.</Empty>
           ) : (
@@ -220,7 +217,10 @@ export default function Dashboard() {
                     <div className="text-sm">
                       <span className="font-medium">{r.name}</span>
                       {r.attending && r.guests > 1 && (
-                        <span className="text-zinc-500"> · {r.guests} people</span>
+                        <span className="text-zinc-500">
+                          {" "}
+                          · {r.guests} people
+                        </span>
                       )}
                     </div>
                     {r.message && (

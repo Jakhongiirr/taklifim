@@ -242,7 +242,6 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#2c3550] text-[#fbf7f2] hover:bg-[#222a41]",
                 muted: "text-[#6b7088]",
                 accent: "text-[#b8925a]",
-                card: "bg-white ring-1 ring-[#e9b7b9]/60",
                 error: "text-red-700",
               }}
             />

@@ -128,7 +128,9 @@ export default function UserDetail({
               refresh).
             </p>
             {setRole.isError && (
-              <Alert>{errorText(setRole.error, "Could not change the role")}</Alert>
+              <Alert>
+                {errorText(setRole.error, "Could not change the role")}
+              </Alert>
             )}
             <div className="flex justify-end gap-2">
               <Button

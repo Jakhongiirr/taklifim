@@ -81,11 +81,11 @@
       },
       "rsvp": {
         "title": "Mehmonlar tilaklari va javobi",
-        "text": "Kim kelishini va necha kishi boʻlishini koʻring, tilaklarini oʻqing."
+        "text": "Kim kelishini va necha kishi boʻlishini koʻring — har bir javob Telegramingizga keladi."
       },
       "wishes": {
         "title": "Tilaklar",
-        "text": "Mehmonlar tilak qoldiradi — eng yoqqanlarini belgilang."
+        "text": "Mehmonlar tilaklarini faqat sizga yozadi — eng yoqqanlarini belgilang."
       },
       "gift": {
         "title": "Toʻyona",
@@ -336,15 +336,7 @@
       "juma",
       "shanba"
     ],
-    "weekdaysShort": [
-      "Du",
-      "Se",
-      "Ch",
-      "Pa",
-      "Ju",
-      "Sh",
-      "Ya"
-    ],
+    "weekdaysShort": ["Du", "Se", "Ch", "Pa", "Ju", "Sh", "Ya"],
     "monthsStandalone": [
       "yanvar",
       "fevral",
@@ -557,9 +549,6 @@
     "thanks": "Rahmat, {name}!",
     "thanksText": "Javobingiz kelin-kuyovga yetkazildi.",
     "again": "Yana javob yuborish",
-    "wishesTitle": "Tilaklar",
-    "liked": "Kelin-kuyovga yoqdi",
-    "noWishes": "Hali tilaklar yoʻq — birinchi boʻling!",
     "previewNote": "Javob yuborish taklifnoma eʼlon qilingandan soʻng ishlaydi.",
     "errors": {
       "name": "Ismingizni yozing.",

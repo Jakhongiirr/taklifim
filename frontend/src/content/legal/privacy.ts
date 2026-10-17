@@ -19,7 +19,7 @@ const uz: LegalDoc = {
         {
           list: [
             "Telefon raqami — roʻyxatdan oʻtish va kirish uchun.",
-            "Telegram akkaunt identifikatori — faqat kirish jarayonida, 5 daqiqagacha saqlanadi.",
+            "Telegram akkaunt identifikatori — Telegram orqali kirganingizda saqlanadi, mehmonlarning javoblarini sizga botimiz orqali yuborish uchun.",
             "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, suratlar, tanlangan musiqa, ixtiyoriy ravishda xarita havolasi, karta raqami va aloqa telefoni.",
             "Mehmonlarning javoblari — ism, kelish yoki kelmasligi, mehmonlar soni va ixtiyoriy tilak.",
             "Toʻlov maʼlumotlari — buyurtma (summa, dizayn, taklifnoma), Payme tranzaksiya raqami va vaqtlari. Bank kartasi maʼlumotlari faqat Payme sahifasida kiritiladi; Operator ularni olmaydi va saqlamaydi.",
@@ -35,7 +35,7 @@ const uz: LegalDoc = {
         {
           list: [
             "Xizmatni koʻrsatish: hisobga kirish, taklifnomani yaratish, saqlash va mehmonlarga koʻrsatish.",
-            "Mehmonlarning javoblarini taklifnoma egasiga yetkazish va tilaklarni taklifnomada koʻrsatish.",
+            "Mehmonlarning javoblarini taklifnoma egasiga — kabinetida va Telegram orqali — yetkazish.",
             "Toʻlovlarni qayta ishlash va buxgalteriya hisobini yuritish.",
             "Xavfsizlik: soʻrovlar sonini cheklash va suiisteʼmolning oldini olish.",
             "Foydalanuvchi murojaatlariga javob berish va qonun talablarini bajarish.",
@@ -47,11 +47,11 @@ const uz: LegalDoc = {
       title: "Maʼlumotlarni kim koʻradi",
       body: [
         "Eʼlon qilingan taklifnoma mazmuni (ismlar, sana, manzil, suratlar, karta raqami va telefon) havolaga ega har qanday shaxsga koʻrinadi. Havolani kimga yuborishni Foydalanuvchining oʻzi hal qiladi.",
-        "Mehmon qoldirgan tilak uning ismi bilan taklifnomada barcha mehmonlarga koʻrinadi. Javoblarning toʻliq roʻyxatini (kelish yoki kelmaslik, mehmonlar soni) faqat taklifnoma egasi va administratorlar koʻradi.",
+        "Mehmonlarning javoblari va tilaklari boshqa mehmonlarga koʻrinmaydi: ularni faqat taklifnoma egasi (kabinetida va Telegramda) va administratorlar koʻradi.",
         "Maʼlumotlar faqat xizmat koʻrsatish uchun zarur hollarda uzatiladi:",
         {
           list: [
-            "Telegram — kirish uchun telefon raqamingizni Telegramdagi botimizga oʻzingiz yuborasiz; Telegram bu yozishmani oʻz qoidalariga koʻra saqlaydi.",
+            "Telegram — kirish uchun telefon raqamingizni Telegramdagi botimizga oʻzingiz yuborasiz, bot esa mehmonlaringiz javoblarini sizga yuboradi; Telegram bu yozishmani oʻz qoidalariga koʻra saqlaydi.",
             "Hosting va fayl saqlash provayderlari — saytni va suratlarni saqlash uchun.",
             "Payme toʻlov tizimi — toʻlov uchun buyurtma raqami va summasi, chek uchun esa xizmat nomi (kelin-kuyov ismlari bilan). Karta maʼlumotlarini Payme oʻzi qabul qiladi.",
             "Davlat organlari — faqat qonunda nazarda tutilgan hollarda.",
@@ -143,7 +143,7 @@ const ru: LegalDoc = {
         {
           list: [
             "Номер телефона — для регистрации и входа.",
-            "Идентификатор аккаунта Telegram — только на время входа, до 5 минут.",
+            "Идентификатор аккаунта Telegram — сохраняется при входе через Telegram, чтобы наш бот присылал вам ответы гостей.",
             "Данные приглашения — имена, дата торжества, название и адрес заведения, фотографии, выбранная музыка, по желанию ссылка на карту, номер карты и контактный телефон.",
             "Ответы гостей — имя, придёт ли гость, количество человек и пожелание (по желанию).",
             "Платёжные данные — заказ (сумма, дизайн, приглашение), номер и время транзакции Payme. Данные банковской карты вводятся только на странице Payme; Оператор их не получает и не хранит.",
@@ -159,7 +159,7 @@ const ru: LegalDoc = {
         {
           list: [
             "Оказание услуги: вход в учётную запись, создание, хранение и показ приглашения гостям.",
-            "Передача ответов гостей владельцу приглашения и показ пожеланий на приглашении.",
+            "Передача ответов гостей владельцу приглашения — в кабинете и через Telegram.",
             "Обработка платежей и ведение бухгалтерского учёта.",
             "Безопасность: ограничение числа запросов и предотвращение злоупотреблений.",
             "Ответы на обращения пользователей и выполнение требований закона.",
@@ -171,11 +171,11 @@ const ru: LegalDoc = {
       title: "Кто видит данные",
       body: [
         "Содержимое опубликованного приглашения (имена, дата, адрес, фотографии, номер карты и телефон) видно любому, у кого есть ссылка. Кому отправлять ссылку, решает сам Пользователь.",
-        "Пожелание гостя вместе с его именем видно на приглашении всем гостям. Полный список ответов (придёт ли гость, количество человек) видят только владелец приглашения и администраторы.",
+        "Ответы и пожелания гостей не видны другим гостям: их видят только владелец приглашения (в кабинете и в Telegram) и администраторы.",
         "Данные передаются только когда это необходимо для оказания услуги:",
         {
           list: [
-            "Telegram — для входа вы сами отправляете номер телефона нашему боту в Telegram; Telegram хранит эту переписку по своим правилам.",
+            "Telegram — для входа вы сами отправляете номер телефона нашему боту в Telegram, а бот присылает вам ответы ваших гостей; Telegram хранит эту переписку по своим правилам.",
             "Провайдеры хостинга и хранения файлов — для работы сайта и хранения фотографий.",
             "Платёжная система Payme — номер заказа и сумма для оплаты, а для чека — название услуги (с именами молодожёнов). Данные карты Payme принимает сама.",
             "Государственные органы — только в случаях, предусмотренных законом.",
@@ -267,7 +267,7 @@ const en: LegalDoc = {
         {
           list: [
             "Phone number — to register and log in.",
-            "Telegram account ID — only during login, for up to 5 minutes.",
+            "Telegram account ID — kept when you log in with Telegram, so our bot can send you your guests' replies.",
             "Invitation data — names, event date, venue name and address, photos, chosen music, and optionally a map link, card number and contact phone.",
             "Guests' replies — name, whether they're coming, how many people, and an optional wish.",
             "Payment data — the order (amount, design, invitation) and the Payme transaction number and times. Bank card details are entered only on Payme's page; the Operator never receives or stores them.",
@@ -283,7 +283,7 @@ const en: LegalDoc = {
         {
           list: [
             "To provide the service: logging in, creating, storing and showing invitations to guests.",
-            "To pass guests' replies to the invitation's owner and show their wishes on the invitation.",
+            "To pass guests' replies to the invitation's owner, in their cabinet and on Telegram.",
             "To process payments and keep accounting records.",
             "For security: rate limiting and abuse prevention.",
             "To answer user requests and meet legal obligations.",
@@ -295,11 +295,11 @@ const en: LegalDoc = {
       title: "Who sees your data",
       body: [
         "The content of a published invitation (names, date, address, photos, card number and phone) is visible to anyone with the link. The User decides whom to send the link to.",
-        "A guest's wish is shown on the invitation with their name, to all guests. The full list of replies (who's coming, how many people) is seen only by the invitation's owner and administrators.",
+        "Guests' replies and wishes are not shown to other guests: only the invitation's owner (in their cabinet and on Telegram) and administrators see them.",
         "Data is shared only where needed to provide the service:",
         {
           list: [
-            "Telegram — to log in, you share your phone number with our Telegram bot yourself; Telegram keeps that chat under its own rules.",
+            "Telegram — to log in, you share your phone number with our Telegram bot yourself, and the bot sends you your guests' replies; Telegram keeps that chat under its own rules.",
             "Hosting and file storage providers — to run the site and store photos.",
             "Payme — the order number and amount for the payment, and for the receipt the service name (with the couple's names). Card details are taken by Payme itself.",
             "Government authorities — only where required by law.",

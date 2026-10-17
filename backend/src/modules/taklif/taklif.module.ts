@@ -4,8 +4,10 @@ import { File } from '../files/file.entity';
 import { FilesModule } from '../files/files.module';
 import { Music } from '../music/music.entity';
 import { MusicModule } from '../music/music.module';
+import { TelegramModule } from '../telegram/telegram.module';
 import { Theme } from '../themes/theme.entity';
 import { ThemesModule } from '../themes/themes.module';
+import { User } from '../users/user.entity';
 import { TaklifCleanupService } from './taklif-cleanup.service';
 import { TaklifPhoto } from './taklif-photo.entity';
 import { TaklifResponse } from './taklif-response.entity';
@@ -24,10 +26,12 @@ import { TaklifService } from './taklif.service';
       Music,
       Theme,
       File,
+      User,
     ]),
     FilesModule,
     MusicModule,
     ThemesModule,
+    TelegramModule,
   ],
   controllers: [TaklifController, TaklifResponsesController],
   providers: [TaklifService, TaklifCleanupService, TaklifResponsesService],

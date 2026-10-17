@@ -236,7 +236,6 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
                 button: "bg-[#2f3a2c] text-[#f4efe6] hover:bg-[#232c21]",
                 muted: "text-[#6d7262]",
                 accent: "text-[#8a4f58]",
-                card: "bg-[#fbf6ee] ring-1 ring-[#2b2a28]/20",
                 error: "text-red-700",
               }}
             />
@@ -327,7 +326,14 @@ function Ironwork({ className = "" }: { className?: string }) {
       <g>{half}</g>
       <g transform="translate(200 0) scale(-1 1)">{half}</g>
       {/* The rose. */}
-      <circle cx="100" cy="20" r="5.5" fill="#b5707a" fillOpacity="0.35" stroke="#b5707a" />
+      <circle
+        cx="100"
+        cy="20"
+        r="5.5"
+        fill="#b5707a"
+        fillOpacity="0.35"
+        stroke="#b5707a"
+      />
       <path
         pathLength={1}
         d="M100 16.5 C102.5 17.5 102.5 21 100 22 C98 21 98 18.5 100.5 18.5"

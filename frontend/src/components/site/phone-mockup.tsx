@@ -229,7 +229,10 @@ export default async function PhoneMockup() {
           </span>
         </div>
       </FloatingCard>
-      <FloatingCard className="top-[29%] -left-10 sm:top-[36%] sm:-left-20" delay="1.5s">
+      <FloatingCard
+        className="top-[29%] -left-10 sm:top-[36%] sm:-left-20"
+        delay="1.5s"
+      >
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-paper">
             <span aria-hidden className="flex h-3.5 items-end gap-[3px]">

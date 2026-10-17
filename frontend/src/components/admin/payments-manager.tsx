@@ -99,9 +99,7 @@ export default function PaymentsManager() {
         </Alert>
       ) : orders.data.items.length === 0 ? (
         <EmptyState>
-          {status === "all"
-            ? "No orders yet."
-            : `No ${status} orders.`}
+          {status === "all" ? "No orders yet." : `No ${status} orders.`}
         </EmptyState>
       ) : (
         <div

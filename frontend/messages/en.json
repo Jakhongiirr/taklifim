@@ -81,11 +81,11 @@
       },
       "rsvp": {
         "title": "Guest wishes and replies",
-        "text": "See who's coming and how many, and read their wishes."
+        "text": "See who's coming and how many — every reply arrives in your Telegram."
       },
       "wishes": {
         "title": "Wishes",
-        "text": "Guests leave wishes — mark the ones you love."
+        "text": "Guests write their wishes to you alone — mark the ones you love."
       },
       "gift": {
         "title": "Gifts",
@@ -336,15 +336,7 @@
       "Friday",
       "Saturday"
     ],
-    "weekdaysShort": [
-      "Mo",
-      "Tu",
-      "We",
-      "Th",
-      "Fr",
-      "Sa",
-      "Su"
-    ],
+    "weekdaysShort": ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
     "monthsStandalone": [
       "January",
       "February",
@@ -557,9 +549,6 @@
     "thanks": "Thank you, {name}!",
     "thanksText": "Your reply has been passed to the couple.",
     "again": "Send another reply",
-    "wishesTitle": "Wishes",
-    "liked": "Liked by the couple",
-    "noWishes": "No wishes yet — be the first!",
     "previewNote": "Replies work once the invitation is published.",
     "errors": {
       "name": "Please enter your name.",

@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { Taklif } from './taklif.entity';
 
-/** A guest's RSVP: attendance, and optionally a wish shown on the invitation. */
+/** A guest's RSVP: attendance, and optionally a wish. Only the owner sees it. */
 @Entity('taklif_responses')
 @Index(['taklifId', 'createdAt'])
 export class TaklifResponse {
@@ -34,7 +34,7 @@ export class TaklifResponse {
   @Column({ type: 'smallint', default: 1 })
   guests: number;
 
-  /** The wish, shown publicly on the invitation; null without one. */
+  /** The guest's wish to the hosts; null without one. */
   @Column({ type: 'varchar', length: 500, nullable: true })
   message: string | null;
 

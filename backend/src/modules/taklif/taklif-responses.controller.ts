@@ -26,7 +26,6 @@ import { CurrentUser } from '../auth/decorators/current-user.decorator';
 import { Public } from '../auth/decorators/public.decorator';
 import {
   CreateTaklifResponseDto,
-  PublicWishDto,
   TaklifResponseDto,
   TaklifResponsesDto,
   UpdateTaklifResponseDto,
@@ -46,7 +45,7 @@ export class TaklifResponsesController {
   @ApiOperation({
     summary: 'RSVP to a published invitation (guests, no login)',
     description:
-      'Name, attendance, guest count and an optional wish (no links). Spam-protected: honeypot field, minimum fill time, rate limit, duplicate check and a per-invitation cap.',
+      'Name, attendance, guest count and an optional wish (no links). Private to the owner, who also gets it in Telegram. Spam-protected: honeypot field, minimum fill time, rate limit, duplicate check and a per-invitation cap.',
   })
   @ApiBadRequestResponse({ description: 'Invalid body, or a link in the wish' })
   @ApiNotFoundResponse({ description: 'No published invitation' })
@@ -57,16 +56,6 @@ export class TaklifResponsesController {
     @Body() dto: CreateTaklifResponseDto,
   ): Promise<{ ok: boolean }> {
     return this.service.create(slug, dto);
-  }
-
-  @Get(':slug/wishes')
-  @Public()
-  @ApiOperation({
-    summary: 'Wishes shown on a published invitation (liked first)',
-  })
-  @ApiNotFoundResponse({ description: 'No published invitation' })
-  listWishes(@Param('slug') slug: string): Promise<PublicWishDto[]> {
-    return this.service.listWishes(slug);
   }
 
   @Get(':id/responses')

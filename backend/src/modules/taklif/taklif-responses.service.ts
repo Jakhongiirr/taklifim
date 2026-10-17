@@ -5,16 +5,20 @@ import {
   Logger,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository } from 'typeorm';
 import type { JwtPayload } from '../auth/auth.types';
+import { BOT_LOCALES, type BotLocale } from '../auth/bot-messages';
+import { TelegramBotService } from '../telegram/telegram-bot.service';
 import { Role } from '../users/role.enum';
+import { User } from '../users/user.entity';
 import {
   CreateTaklifResponseDto,
-  PublicWishDto,
   TaklifResponseDto,
   TaklifResponsesDto,
 } from './dto/taklif-response.dto';
+import { replyNotification } from './reply-notification';
 import { TaklifResponse } from './taklif-response.entity';
 import { TaklifStatus } from './taklif-status.enum';
 import { Taklif } from './taklif.entity';
@@ -23,20 +27,29 @@ import { Taklif } from './taklif.entity';
 const MIN_FILL_MS = 3000;
 /** Per invitation; beyond this it's flooding, not guests. */
 export const MAX_RESPONSES = 500;
-const PUBLIC_WISHES_LIMIT = 100;
 const LINK =
   /(https?:\/\/|www\.|t\.me\/|@\w{4,}|\b[\w-]+\.(com|uz|ru|net|org|me|io)\b)/i;
 
-/** Guests' RSVPs and wishes; owners like or delete them. */
+/**
+ * Guests' RSVPs and wishes. They're private: only the owner (and admins)
+ * see them, on the responses page and in Telegram as they arrive; owners
+ * like or delete them.
+ */
 @Injectable()
 export class TaklifResponsesService {
   private readonly logger = new Logger(TaklifResponsesService.name);
+  private readonly siteUrl: string;
 
   constructor(
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(TaklifResponse)
     private readonly responses: Repository<TaklifResponse>,
-  ) {}
+    @InjectRepository(User) private readonly users: Repository<User>,
+    private readonly bot: TelegramBotService,
+    config: ConfigService,
+  ) {
+    this.siteUrl = config.getOrThrow<string>('siteUrl').replace(/\/$/, '');
+  }
 
   /**
    * A guest's response to a published invitation. Bots that fill the
@@ -63,7 +76,7 @@ export class TaklifResponsesService {
     });
     if (duplicate) return { ok: true };
 
-    await this.responses.save(
+    const response = await this.responses.save(
       this.responses.create({
         taklifId: taklif.id,
         name: dto.name,
@@ -72,27 +85,33 @@ export class TaklifResponsesService {
         message,
       }),
     );
+    // The guest doesn't wait for Telegram.
+    void this.notifyOwner(taklif, response).catch((err: Error) =>
+      this.logger.error(
+        `Notifying about reply ${response.id} failed`,
+        err.stack,
+      ),
+    );
     return { ok: true };
   }
 
-  /** Wishes on a published invitation: liked first, then newest. */
-  async listWishes(slug: string): Promise<PublicWishDto[]> {
-    const taklif = await this.findPublished(slug);
-    const rows = await this.responses
-      .createQueryBuilder('r')
-      .where('r.taklifId = :id', { id: taklif.id })
-      .andWhere('r.message IS NOT NULL')
-      .orderBy('r.likedAt IS NULL', 'ASC')
-      .addOrderBy('r.createdAt', 'DESC')
-      .limit(PUBLIC_WISHES_LIMIT)
-      .getMany();
-    return rows.map((r) => ({
-      id: r.id,
-      name: r.name,
-      message: r.message!,
-      liked: !!r.likedAt,
-      createdAt: r.createdAt,
-    }));
+  /** Sends the reply to the owner's Telegram, if they logged in with it. */
+  private async notifyOwner(taklif: Taklif, r: TaklifResponse) {
+    const owner = await this.users.findOneBy({ id: taklif.userId });
+    if (!owner?.telegramId) return;
+    const locale = BOT_LOCALES.includes(owner.locale as BotLocale)
+      ? (owner.locale as BotLocale)
+      : 'uz';
+    await this.bot.notify(
+      owner.telegramId,
+      replyNotification(locale, {
+        name: r.name,
+        attending: r.attending,
+        guests: r.guests,
+        message: r.message,
+        link: `${this.siteUrl}/${locale}/cabinet/responses/${taklif.slug}`,
+      }),
+    );
   }
 
   /** All responses with totals, for the owner or an admin. */

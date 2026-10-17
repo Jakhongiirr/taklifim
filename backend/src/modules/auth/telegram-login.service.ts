@@ -113,9 +113,13 @@ export class TelegramLoginService implements OnModuleInit {
     if (!(await this.redis.del(loginKey(token)))) {
       return { status: 'expired' as const };
     }
+    // Remembered so the bot can write to them later (guests' replies).
+    const telegram = login.telegramUserId
+      ? { id: login.telegramUserId, locale: login.locale }
+      : undefined;
     return {
       status: 'done' as const,
-      ...(await this.auth.loginWithPhone(login.phone)),
+      ...(await this.auth.loginWithPhone(login.phone, telegram)),
     };
   }
 
