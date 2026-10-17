@@ -1,12 +1,12 @@
-/* The "lavel" theme: lilac paper, the card's opening and the page's
+/* The "lavel" theme: cream paper, the card's opening and the page's
    entrances. Animations are off for visitors who prefer reduced motion, and
    content is never hidden without them. */
 
-/* Lilac paper with a faint wash of light from above, drawn in CSS. */
+/* Cream paper (the same as paris) with faint lilac washes, drawn in CSS. */
 .lavel-paper {
-  background-color: #f6f1fb;
+  background-color: #f9ecdb;
   background-image:
-    radial-gradient(ellipse at 50% -10%, #fdfbff 0%, transparent 65%),
+    radial-gradient(ellipse at 50% -10%, #fdf6ec 0%, transparent 65%),
     radial-gradient(
       circle at 0% 100%,
       rgb(166 144 212 / 0.14),

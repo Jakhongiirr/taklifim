@@ -79,7 +79,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
         </div>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#f9eff2] text-center text-[#4d3a52] md:shadow-2xl md:shadow-[#4d3a52]/15">
+      <article className="mx-auto max-w-md overflow-clip bg-[#f9ecdb] text-center text-[#4d3a52] md:shadow-2xl md:shadow-[#4d3a52]/15">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image

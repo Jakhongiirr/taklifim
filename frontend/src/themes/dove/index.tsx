@@ -85,7 +85,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         </div>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#f8f4ec] text-center text-[#5a3e45] md:shadow-2xl md:shadow-[#6b3f4a]/15">
+      <article className="mx-auto max-w-md overflow-clip bg-[#f9ecdb] text-center text-[#5a3e45] md:shadow-2xl md:shadow-[#6b3f4a]/15">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -97,10 +97,10 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
             sizes="448px"
             className="dove-drift object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f8f4ec]/35 via-65% to-[#f8f4ec]/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f9ecdb]/35 via-65% to-[#f9ecdb]/70" />
           <Feathers />
           <div className="relative isolate">
-            <TextGlow tone="bg-[#f8f4ec]/75" className="dove-rise" />
+            <TextGlow tone="bg-[#f9ecdb]/75" className="dove-rise" />
             <p
               className={`${forum.className} dove-rise text-xs tracking-[0.4em] text-[#6b3f4a] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
@@ -171,7 +171,7 @@ export default async function DoveTheme({ taklif, preview }: ThemeProps) {
         <Section title={t("date.title")}>
           <div className="dove-reveal">
             {/* The day under an arch, like the ones in the video. */}
-            <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#efe5d3] to-[#f8f4ec] ring-1 ring-[#b8955a]/50">
+            <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#efe5d3] to-[#f9ecdb] ring-1 ring-[#b8955a]/50">
               <div className="absolute inset-2 rounded-t-full ring-1 ring-[#b8955a]/25" />
               <p
                 className={`${forum.className} text-xs tracking-[0.35em] text-[#6f8597] uppercase`}
