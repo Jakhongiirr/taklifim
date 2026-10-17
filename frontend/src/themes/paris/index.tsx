@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import { playfair, poiret } from "./fonts";
@@ -48,7 +49,7 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
     >
       {taklif.groomName}
       <span
-        className={`${poiret.className} my-1 block text-2xl text-[#b8925a] not-italic`}
+        className={`${poiret.className} my-1 block text-2xl text-[#9c7640] not-italic`}
       >
         &amp;
       </span>
@@ -91,9 +92,10 @@ export default async function ParisTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf7f2]/35 via-65% to-[#fbf7f2]/70" />
           <Blossoms />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#fbf7f2]/80" className="paris-rise" />
             <p
-              className={`${poiret.className} paris-rise text-xs font-semibold tracking-[0.35em] text-[#6b5228] uppercase`}
+              className={`${poiret.className} paris-rise text-[13px] font-semibold tracking-[0.3em] text-[#2c3550] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}

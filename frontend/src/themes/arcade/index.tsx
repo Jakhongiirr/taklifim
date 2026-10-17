@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import "./arcade.css";
@@ -66,12 +67,15 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
         buttonClass="border-[#d27f93]/60 bg-[#fffaf6]/85 text-[#4d3a52] backdrop-blur-sm hover:bg-[#fffaf6]"
         musicClass="bg-[#fffaf6]/90 text-[#4d3a52] ring-1 ring-[#d27f93]/50"
       >
-        <Butterfly className="w-12" />
-        <p className="mt-3 text-[11px] tracking-[0.4em] text-[#8a5a74] uppercase">
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-4">{names}</div>
-        <p className="mt-5 font-serif text-lg text-[#4d3a52]">{fullDate}</p>
+        <div className="relative isolate">
+          <TextGlow tone="bg-[#fffaf6]/70" />
+          <Butterfly className="w-12" />
+          <p className="mt-3 text-[11px] tracking-[0.4em] text-[#7a4a64] uppercase">
+            {t("cover.eyebrow")}
+          </p>
+          <div className="mt-4">{names}</div>
+          <p className="mt-5 font-serif text-lg text-[#4d3a52]">{fullDate}</p>
+        </div>
       </VideoCover>
 
       <article className="mx-auto max-w-md overflow-clip bg-[#fdf8f4] text-center text-[#4d3a52] md:shadow-2xl md:shadow-[#4d3a52]/15">
@@ -88,7 +92,8 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fdf8f4]/35 via-65% to-[#fdf8f4]/70" />
           <Flight />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#fdf8f4]/75" className="arcade-rise" />
             <p
               className="arcade-rise text-[11px] tracking-[0.35em] text-[#8a5a74] uppercase"
               style={{ "--i": 0 } as CSSProperties}

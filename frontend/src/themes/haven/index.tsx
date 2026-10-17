@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
@@ -91,9 +92,10 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f4efe6]/35 via-65% to-[#f4efe6]/70" />
           <Petals />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#f4efe6]/80" className="haven-rise" />
             <p
-              className={`${cormorantSc.className} haven-rise text-sm tracking-[0.35em] text-[#8a4f58]`}
+              className={`${cormorantSc.className} haven-rise text-sm tracking-[0.35em] text-[#7a3f48]`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
@@ -102,7 +104,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
               className="haven-rise mt-3"
               style={{ "--i": 1 } as CSSProperties}
             >
-              {names("text-[#2f3a2c]", "text-[#b5707a]")}
+              {names("text-[#2f3a2c]", "text-[#a35d68]")}
             </div>
             <p
               className={`${cormorantSc.className} haven-rise mt-4 text-xl`}

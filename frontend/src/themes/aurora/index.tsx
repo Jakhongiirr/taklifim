@@ -9,6 +9,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import type { ThemeProps } from "../types";
 import "./aurora.css";
@@ -63,11 +64,14 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
         buttonClass="border-[#b08a4e] bg-[#fffaf0]/80 text-[#5c4325] backdrop-blur-sm hover:bg-[#fffaf0]"
         musicClass="bg-[#fffaf0]/85 text-[#7a5a2c] ring-1 ring-[#b08a4e]/40"
       >
-        <p className="text-[11px] tracking-[0.4em] text-[#8a6a3a] uppercase">
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-5">{names}</div>
-        <p className="mt-5 font-serif text-lg text-[#5c4325]">{fullDate}</p>
+        <div className="relative isolate">
+          <TextGlow tone="bg-[#fffaf0]/60" />
+          <p className="text-[11px] tracking-[0.4em] text-[#6e5128] uppercase">
+            {t("cover.eyebrow")}
+          </p>
+          <div className="mt-5">{names}</div>
+          <p className="mt-5 font-serif text-lg text-[#5c4325]">{fullDate}</p>
+        </div>
       </VideoCover>
 
       <article className="mx-auto max-w-md overflow-clip bg-[#fbf6ec] text-center text-[#5c4325] md:shadow-2xl md:shadow-[#5c4325]/15">
@@ -84,9 +88,10 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#fbf6ec]/35 via-65% to-[#fbf6ec]/70" />
           <Sparkles />
-          <div className="relative">
+          <div className="relative isolate">
+            <TextGlow tone="bg-[#fbf6ec]/75" className="aurora-rise" />
             <p
-              className="aurora-rise text-[11px] tracking-[0.4em] text-[#8a6a3a] uppercase"
+              className="aurora-rise text-[11px] tracking-[0.4em] text-[#6e5128] uppercase"
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
