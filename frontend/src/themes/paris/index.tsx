@@ -283,7 +283,7 @@ export default async function ParisTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#5d6280]" />
+          <MadeWith className="mt-12 text-[#5d6280]" />
         </footer>
       </article>
     </>

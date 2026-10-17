@@ -155,7 +155,7 @@ export default async function PlainInvitation({
       )}
 
       <p className="mt-14 font-serif text-2xl">{t("closing")}</p>
-      <MadeWith className="mt-10 text-xs text-muted" />
+      <MadeWith className="mt-10 text-muted" />
     </article>
   );
 }
