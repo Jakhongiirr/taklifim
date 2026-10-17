@@ -161,6 +161,7 @@ export default function VideoCover({
             />
 
             <div
+              data-font-reveal
               className={`relative flex h-full flex-col items-center px-6 text-center opacity-0 transition-opacity duration-500 group-data-[state=closed]:opacity-100 ${contentClass}`}
             >
               {children}

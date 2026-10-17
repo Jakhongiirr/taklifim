@@ -5,6 +5,7 @@ const alexBrush = Alex_Brush({
   weight: "400",
   subsets: ["latin", "latin-ext"],
   display: "swap",
+  preload: false,
   variable: "--font-lavel-script",
   // No system-font fallback in its stack, so Cyrillic reaches Great Vibes.
   adjustFontFallback: false,
@@ -16,6 +17,7 @@ const greatVibesCyrillic = Great_Vibes({
   weight: "400",
   subsets: ["cyrillic"],
   display: "swap",
+  preload: false,
   variable: "--font-lavel-script-cyr",
 });
 
@@ -28,4 +30,5 @@ export const garamond = EB_Garamond({
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });

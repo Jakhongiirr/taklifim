@@ -9,6 +9,7 @@ export const oldStandard = Old_Standard_TT({
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });
 
 /** A warm, readable serif for the text. */
@@ -17,4 +18,5 @@ export const lora = Lora({
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });
