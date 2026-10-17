@@ -5,4 +5,5 @@ export const yeseva = Yeseva_One({
   weight: "400",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });

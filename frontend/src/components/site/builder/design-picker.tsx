@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { demoUrlFor } from "@/lib/demo-url";
 import { formatSum } from "@/lib/format";
 import type { Design } from "./types";
 
@@ -21,6 +22,7 @@ export default function DesignPicker({
   locked?: boolean;
 }) {
   const t = useTranslations("Builder.design");
+  const locale = useLocale();
   const shown = locked
     ? designs.filter((design) => design.id === value)
     : designs;
@@ -81,7 +83,7 @@ export default function DesignPicker({
                 </div>
                 {design.demoUrl && (
                   <a
-                    href={design.demoUrl}
+                    href={demoUrlFor(design.demoUrl, locale)}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="shrink-0 pt-0.5 text-xs text-sage underline-offset-4 hover:underline"

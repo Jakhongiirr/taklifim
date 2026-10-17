@@ -6,6 +6,7 @@ export const playfair = Playfair_Display({
   style: ["italic", "normal"],
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });
 
 /** Thin Art Deco capitals, like old Parisian signage, for small lines. */
@@ -13,4 +14,5 @@ export const poiret = Poiret_One({
   weight: "400",
   subsets: ["latin", "latin-ext", "cyrillic"],
   display: "swap",
+  preload: false,
 });

@@ -108,7 +108,7 @@ export default function GateCover({
             <Door side="right" />
           </div>
 
-          <div className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[13%] px-8 text-center">
+          <div data-font-reveal className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[13%] px-8 text-center">
             <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
               {t("cover.eyebrow")}
             </p>
@@ -126,7 +126,7 @@ export default function GateCover({
             <WaxSeal />
           </button>
 
-          <div className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[calc(50%+4.5rem)] px-8 text-center">
+          <div data-font-reveal className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[calc(50%+4.5rem)] px-8 text-center">
             <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
               {t("lavel.sealHint")}
             </p>

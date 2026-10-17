@@ -11,6 +11,7 @@ import SiteHeader from "@/components/site/site-header";
 import { DESIGN_COPY, DESIGN_IDS, designName } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
+import { demoUrlFor } from "@/lib/demo-url";
 import { formatSum } from "@/lib/format";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
@@ -184,7 +185,7 @@ export default async function DesignPage({
               </Link>
               {demo && (
                 <a
-                  href={demo.demoUrl}
+                  href={demoUrlFor(demo.demoUrl, locale)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
