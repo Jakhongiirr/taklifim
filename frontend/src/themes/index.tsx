@@ -34,7 +34,7 @@ const THEMES: Record<string, Theme> = {
  * Renders the invitation in its theme's design. Unknown ids fall back to the
  * plain layout, so an invitation always renders.
  */
-export function ThemedInvitation({ taklif, preview }: ThemeProps) {
+export function ThemedInvitation({ taklif, preview, guest }: ThemeProps) {
   const Theme = THEMES[taklif.theme.themeId] ?? PlainInvitation;
-  return <Theme taklif={taklif} preview={preview} />;
+  return <Theme taklif={taklif} preview={preview} guest={guest} />;
 }

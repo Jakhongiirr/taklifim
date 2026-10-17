@@ -198,6 +198,13 @@ export default function TaklifCard({
             </ActionButton>
           </>
         )}
+        {/* Guests can be listed before publishing; their links open after. */}
+        <Link
+          href={`/cabinet/guests/${taklif.slug}`}
+          className="inline-flex h-10 items-center rounded-full px-4 text-sm font-medium text-ink ring-1 ring-line transition-colors hover:ring-ink/30"
+        >
+          {t("actions.guests")}
+        </Link>
         {taklif.status !== "draft" && (
           <Link
             href={`/cabinet/responses/${taklif.slug}`}

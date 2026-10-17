@@ -27,7 +27,11 @@ const ASSETS = "/themes/arcade";
  * hero; further down the invitation's words are written onto a watercolour
  * letter of roses and butterflies, and a rose garland leads to the closing.
  */
-export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
+export default async function ArcadeTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -146,7 +150,9 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
               <h2
                 className={`${yeseva.className} text-[6.2cqw] leading-tight text-[#4d3a52]`}
               >
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.3cqw] leading-relaxed">
                 {t("text", {
@@ -222,6 +228,7 @@ export default async function ArcadeTheme({ taklif, preview }: ThemeProps) {
           <div className="arcade-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

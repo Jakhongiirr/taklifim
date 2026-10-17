@@ -314,7 +314,8 @@
       "downloading": "Preparing…",
       "downloadError": "Couldn't create the image. Please try again.",
       "publishGift": "Publish with your gift",
-      "payHintGift": "A gift — this plov invitation is published for free"
+      "payHintGift": "A gift — this plov invitation is published for free",
+      "guests": "Named invitations"
     },
     "gift": {
       "eyebrow": "Gift",
@@ -373,6 +374,7 @@
       "skip": "Skip"
     },
     "greeting": "Dear guest!",
+    "greetingNamed": "Dear {name}!",
     "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
     "signature": "With respect, {host}",
     "date": {
@@ -617,6 +619,34 @@
     "confirmText": "The reply and its wish will be permanently deleted.",
     "cancel": "Cancel",
     "error": "Couldn't do that. Please try again.",
-    "loadError": "Couldn't load replies. Refresh the page."
+    "loadError": "Couldn't load replies. Refresh the page.",
+    "viaLink": "Personal link: {name}"
+  },
+  "Guests": {
+    "metaTitle": "Named invitations",
+    "title": "Named invitations",
+    "back": "My account",
+    "intro": "Send each guest a personal link: the invitation greets them by name, and their name is already filled in the reply form. The shared link keeps working too.",
+    "addLabel": "Guests' names, one per line",
+    "addPlaceholder": "Aziza and family\nJasur",
+    "add": "Add",
+    "adding": "Adding…",
+    "linkLang": "Link language:",
+    "copy": "Copy",
+    "copied": "Link for {name} copied",
+    "share": "Telegram",
+    "delete": "Delete",
+    "confirmTitle": "Remove this guest?",
+    "confirmText": "Their link will open the invitation without their name. Any reply they sent is kept.",
+    "cancel": "Cancel",
+    "empty": "No guests yet. Write their names and each gets a personal link.",
+    "notPublished": "The links open once the invitation is published.",
+    "coming": "Coming · {count} people",
+    "declined": "Not coming",
+    "waiting": "No reply yet",
+    "total": "Guests: {count}",
+    "error": "Couldn't do that. Please try again.",
+    "tooMany": "An invitation can have at most 500 named guests.",
+    "loadError": "Couldn't load guests. Refresh the page."
   }
 }

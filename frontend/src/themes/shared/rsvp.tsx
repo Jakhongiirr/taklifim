@@ -9,6 +9,7 @@ import {
   useSyncExternalStore,
 } from "react";
 import type { ApiBody } from "@/lib/api-types";
+import type { InvitedGuest } from "../types";
 
 /** Theme colors for the RSVP section (Tailwind classes). */
 export interface RsvpPalette {
@@ -45,18 +46,21 @@ function readAnswered(slug: string) {
 export default function Rsvp({
   slug,
   preview = false,
+  guest,
   palette: p,
   subtitle,
 }: {
   slug: string;
   preview?: boolean;
+  /** From a personal link: their name is filled in, and the reply is theirs. */
+  guest?: InvitedGuest;
   palette: RsvpPalette;
   /** The line above the form, when the theme's event isn't a wedding. */
   subtitle?: string;
 }) {
   const t = useTranslations("Rsvp");
   const openedAt = useRef(0);
-  const [name, setName] = useState("");
+  const [name, setName] = useState(guest?.name ?? "");
   const [attending, setAttending] = useState(true);
   const [guests, setGuests] = useState(1);
   const [message, setMessage] = useState("");
@@ -95,6 +99,7 @@ export default function Rsvp({
           message: message.trim() || undefined,
           website: honeypot || undefined,
           elapsedMs: Date.now() - openedAt.current,
+          guestToken: guest?.token,
         }),
       });
       if (!res.ok) {
@@ -122,7 +127,7 @@ export default function Rsvp({
       }
       setSentName(sent);
       setStatus("sent");
-      setName("");
+      setName(guest?.name ?? "");
       setMessage("");
     } catch {
       setError(t("errors.generic"));

@@ -25,7 +25,11 @@ const ASSETS = "/themes/violet";
  * frame is the hero; further down the invitation's words sit on a
  * lantern-lit terrace looking out over the city at night.
  */
-export default async function VioletTheme({ taklif, preview }: ThemeProps) {
+export default async function VioletTheme({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
     getTranslations("Dates"),
@@ -154,7 +158,9 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
               <h2
                 className={`${tenor.className} mt-4 text-lg tracking-[0.2em] text-[#f5c27a] uppercase`}
               >
-                {t("greeting")}
+                {guest
+                  ? t("greetingNamed", { name: guest.name })
+                  : t("greeting")}
               </h2>
               <p className="mt-5 font-serif text-xl leading-relaxed text-[#f7f2ff]">
                 {t("text", {
@@ -239,6 +245,7 @@ export default async function VioletTheme({ taklif, preview }: ThemeProps) {
           <div className="violet-reveal">
             <Rsvp
               slug={taklif.slug}
+              guest={guest}
               preview={preview}
               palette={{
                 input:

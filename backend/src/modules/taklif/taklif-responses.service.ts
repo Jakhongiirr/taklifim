@@ -17,6 +17,7 @@ import {
   TaklifResponsesDto,
 } from './dto/taklif-response.dto';
 import { replyNotification } from './reply-notification';
+import { TaklifGuest } from './taklif-guest.entity';
 import { TaklifResponse } from './taklif-response.entity';
 import { TaklifStatus } from './taklif-status.enum';
 import { Taklif } from './taklif.entity';
@@ -42,6 +43,8 @@ export class TaklifResponsesService {
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(TaklifResponse)
     private readonly responses: Repository<TaklifResponse>,
+    @InjectRepository(TaklifGuest)
+    private readonly guests: Repository<TaklifGuest>,
     private readonly telegram: TelegramNotifyService,
     config: ConfigService,
   ) {
@@ -72,11 +75,19 @@ export class TaklifResponsesService {
       message: message ?? IsNull(),
     });
     if (duplicate) return { ok: true };
+    // A stale or made-up token just leaves the reply unlinked.
+    const guest = dto.guestToken
+      ? await this.guests.findOneBy({
+          taklifId: taklif.id,
+          token: dto.guestToken,
+        })
+      : null;
 
     const response = await this.responses.save(
       this.responses.create({
         taklifId: taklif.id,
         name: dto.name,
+        guestId: guest?.id ?? null,
         attending: dto.attending,
         guests: dto.attending ? dto.guests : 1,
         message,
@@ -108,6 +119,7 @@ export class TaklifResponsesService {
     await this.findOwned(id, user);
     const rows = await this.responses.find({
       where: { taklifId: id },
+      relations: { guest: true },
       order: { createdAt: 'DESC' },
     });
     const coming = rows.filter((r) => r.attending);
@@ -161,7 +173,10 @@ export class TaklifResponsesService {
   }
 
   private async findResponse(taklifId: string, id: string) {
-    const response = await this.responses.findOneBy({ id, taklifId });
+    const response = await this.responses.findOne({
+      where: { id, taklifId },
+      relations: { guest: true },
+    });
     if (!response) throw new NotFoundException('Response not found');
     return response;
   }
@@ -170,6 +185,7 @@ export class TaklifResponsesService {
     return {
       id: r.id,
       name: r.name,
+      guestName: r.guest?.name ?? null,
       attending: r.attending,
       guests: r.guests,
       message: r.message,

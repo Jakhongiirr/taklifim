@@ -9,6 +9,9 @@ import { TelegramModule } from '../telegram/telegram.module';
 import { Theme } from '../themes/theme.entity';
 import { ThemesModule } from '../themes/themes.module';
 import { TaklifCleanupService } from './taklif-cleanup.service';
+import { TaklifGuest } from './taklif-guest.entity';
+import { TaklifGuestsController } from './taklif-guests.controller';
+import { TaklifGuestsService } from './taklif-guests.service';
 import { TaklifPhoto } from './taklif-photo.entity';
 import { TaklifResponse } from './taklif-response.entity';
 import { TaklifResponsesController } from './taklif-responses.controller';
@@ -23,6 +26,7 @@ import { TaklifService } from './taklif.service';
       Taklif,
       TaklifPhoto,
       TaklifResponse,
+      TaklifGuest,
       Music,
       Theme,
       File,
@@ -33,7 +37,16 @@ import { TaklifService } from './taklif.service';
     ThemesModule,
     TelegramModule,
   ],
-  controllers: [TaklifController, TaklifResponsesController],
-  providers: [TaklifService, TaklifCleanupService, TaklifResponsesService],
+  controllers: [
+    TaklifController,
+    TaklifResponsesController,
+    TaklifGuestsController,
+  ],
+  providers: [
+    TaklifService,
+    TaklifCleanupService,
+    TaklifResponsesService,
+    TaklifGuestsService,
+  ],
 })
 export class TaklifModule {}

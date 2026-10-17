@@ -3,6 +3,7 @@ import type {
   ApiBody,
   PublicTaklif,
   Taklif,
+  TaklifGuest,
   TaklifResponses,
 } from "@/lib/api-types";
 import { clientIp, getAccessToken } from "./current-user";
@@ -38,6 +39,44 @@ export async function getPublishedTaklif(
       next: { revalidate: 60 },
     });
     const body = (await res.json()) as ApiBody<PublicTaklif>;
+    return body.success ? body.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The guest a personal link is for, on a published invitation; null if the
+ * link is unknown (or the guest was removed). Cached like the invitation.
+ */
+export async function getInvitedGuest(
+  slug: string,
+  token: string,
+): Promise<{ name: string } | null> {
+  try {
+    const res = await fetch(
+      `${API_URL}/taklif/${encodeURIComponent(slug)}/guests/${encodeURIComponent(token)}`,
+      { headers: internalHeaders(), next: { revalidate: 60 } },
+    );
+    const body = (await res.json()) as ApiBody<{ name: string }>;
+    return body.success ? body.data : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The owner's named guests with their replies; null if loading failed. */
+export async function getTaklifGuests(
+  id: string,
+): Promise<TaklifGuest[] | null> {
+  const accessToken = await getAccessToken();
+  if (!accessToken) return null;
+  try {
+    const res = await fetch(`${API_URL}/taklif/${id}/guests`, {
+      headers: backendHeaders(accessToken, await clientIp()),
+      cache: "no-store",
+    });
+    const body = (await res.json()) as ApiBody<TaklifGuest[]>;
     return body.success ? body.data : null;
   } catch {
     return null;

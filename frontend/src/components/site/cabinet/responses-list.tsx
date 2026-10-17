@@ -61,6 +61,11 @@ export default function ResponsesList({
                 <p className="mt-0.5 text-xs text-muted">
                   {when(item.createdAt)}
                 </p>
+                {item.guestName && (
+                  <p className="mt-0.5 text-xs text-sage">
+                    {t("viaLink", { name: item.guestName })}
+                  </p>
+                )}
               </div>
               <span
                 className={`rounded-full px-2.5 py-1 text-xs font-medium ring-1 ${item.attending ? "bg-sage/10 text-sage ring-sage/30" : "bg-cream text-muted ring-line"}`}

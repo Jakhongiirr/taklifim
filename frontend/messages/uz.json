@@ -314,7 +314,8 @@
       "downloading": "Tayyorlanmoqda…",
       "downloadError": "Rasmni yaratib boʻlmadi. Qaytadan urinib koʻring.",
       "publishGift": "Sovgʻa bilan eʼlon qilish",
-      "payHintGift": "Sovgʻa — osh taklifnomasi bepul eʼlon qilinadi"
+      "payHintGift": "Sovgʻa — osh taklifnomasi bepul eʼlon qilinadi",
+      "guests": "Ismli taklifnomalar"
     },
     "gift": {
       "eyebrow": "Sovgʻa",
@@ -373,6 +374,7 @@
       "skip": "Oʻtkazib yuborish"
     },
     "greeting": "Hurmatli mehmon!",
+    "greetingNamed": "Hurmatli {name}!",
     "text": "Hayotimizning eng quvonchli kunida yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning nikoh toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
     "signature": "Hurmat bilan, {host}",
     "date": {
@@ -617,6 +619,34 @@
     "confirmText": "Javob va tilak butunlay oʻchiriladi.",
     "cancel": "Bekor qilish",
     "error": "Amalni bajarib boʻlmadi. Qayta urinib koʻring.",
-    "loadError": "Javoblarni yuklab boʻlmadi. Sahifani yangilang."
+    "loadError": "Javoblarni yuklab boʻlmadi. Sahifani yangilang.",
+    "viaLink": "Shaxsiy havola: {name}"
+  },
+  "Guests": {
+    "metaTitle": "Ismli taklifnomalar",
+    "title": "Ismli taklifnomalar",
+    "back": "Kabinet",
+    "intro": "Har bir mehmonga shaxsiy havola yuboring: taklifnoma uni ismi bilan kutib oladi, javob formasida esa ismi yozilgan boʻladi. Umumiy havola ham ishlashda davom etadi.",
+    "addLabel": "Mehmonlar ismlari, har biri yangi qatorda",
+    "addPlaceholder": "Aziza opa va oilasi\nJasur aka",
+    "add": "Qoʻshish",
+    "adding": "Qoʻshilmoqda…",
+    "linkLang": "Havolalar tili:",
+    "copy": "Nusxalash",
+    "copied": "{name} uchun havola nusxalandi",
+    "share": "Telegram",
+    "delete": "Oʻchirish",
+    "confirmTitle": "Mehmonni oʻchirasizmi?",
+    "confirmText": "Uning havolasi taklifnomani ismsiz ochadi. Yuborgan javobi saqlanib qoladi.",
+    "cancel": "Bekor qilish",
+    "empty": "Hali mehmonlar yoʻq. Ismlarni yozing — har biriga shaxsiy havola tayyorlanadi.",
+    "notPublished": "Havolalar taklifnoma eʼlon qilingandan keyin ochiladi.",
+    "coming": "Keladi · {count} kishi",
+    "declined": "Kelmaydi",
+    "waiting": "Javob bermagan",
+    "total": "Mehmonlar: {count}",
+    "error": "Amalni bajarib boʻlmadi. Qayta urinib koʻring.",
+    "tooMany": "Bitta taklifnomaga koʻpi bilan 500 ta mehmon qoʻshish mumkin.",
+    "loadError": "Mehmonlarni yuklab boʻlmadi. Sahifani yangilang."
   }
 }

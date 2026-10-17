@@ -7,6 +7,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { TaklifGuest } from './taklif-guest.entity';
 import { Taklif } from './taklif.entity';
 
 /** A guest's RSVP: attendance, and optionally a wish. Only the owner sees it. */
@@ -25,6 +26,15 @@ export class TaklifResponse {
 
   @Column({ length: 60 })
   name: string;
+
+  /** Set when the guest replied from their personal link. */
+  @Index()
+  @Column({ type: 'uuid', nullable: true })
+  guestId: string | null;
+
+  @ManyToOne(() => TaklifGuest, { nullable: true, onDelete: 'SET NULL' })
+  @JoinColumn({ name: 'guestId' })
+  guest?: TaklifGuest | null;
 
   /** Whether the guest is coming. */
   @Column()

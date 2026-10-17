@@ -12,7 +12,14 @@ import { Link } from "@/i18n/navigation";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDemos } from "@/lib/server/demos";
 
-const FEATURES = ["designsMusic", "plovGift", "rsvp", "card", "qr", "map"] as const;
+const FEATURES = [
+  "designsMusic",
+  "plovGift",
+  "rsvp",
+  "card",
+  "qr",
+  "map",
+] as const;
 
 /**
  * Of `options`, the column count whose last row is fullest (6 → 3, 10 → 5,
