@@ -308,7 +308,15 @@
       "download": "Download PNG",
       "downloadQr": "Download QR",
       "downloading": "Preparing…",
-      "downloadError": "Couldn't create the image. Please try again."
+      "downloadError": "Couldn't create the image. Please try again.",
+      "publishGift": "Publish with your gift",
+      "payHintGift": "A gift — this plov invitation is published for free"
+    },
+    "gift": {
+      "eyebrow": "Gift",
+      "title": "A plov invitation — free",
+      "text": "{count, plural, one {You have # free plov invitation.} other {You have # free plov invitations.}} We give one for every invitation you buy.",
+      "button": "Create a plov invitation"
     }
   },
   "Dates": {
@@ -440,7 +448,19 @@
       "statusUnpublished": "Hidden",
       "hiddenNote": "Guests can’t see it right now. You can republish it from your account.",
       "fold": "Fold",
-      "unfold": "Details"
+      "unfold": "Details",
+      "readyTextGift": "This plov invitation is our gift to you. Publish it for free in one tap."
+    },
+    "plov": {
+      "eyebrow": "Morning plov",
+      "occasion": "In honour of the wedding",
+      "lidHint": "Tap the lid to open",
+      "scroll": "Scroll down",
+      "text": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
+      "dateTitle": "Plov time",
+      "served": "Plov is served",
+      "countdown": "Until the plov",
+      "closing": "Our dastarkhan awaits you!"
     }
   },
   "Builder": {

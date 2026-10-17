@@ -32,6 +32,7 @@ export default function PreviewChrome({
   slug,
   status,
   price,
+  gift = false,
   owner,
 }: {
   id: string;
@@ -39,6 +40,8 @@ export default function PreviewChrome({
   status: TaklifStatus;
   /** The design's price in so'm (0: free). */
   price: number;
+  /** Published with the owner's free plov gift (price is then 0). */
+  gift?: boolean;
   /** Whether the viewer owns it (only the owner can pay). */
   owner: boolean;
 }) {
@@ -119,7 +122,11 @@ export default function PreviewChrome({
                       {t("readyTitle")}
                     </p>
                     <p className="mt-0.5 text-sm text-muted">
-                      {price === 0 ? t("readyTextFree") : t("readyText")}
+                      {gift
+                        ? t("readyTextGift")
+                        : price === 0
+                          ? t("readyTextFree")
+                          : t("readyText")}
                     </p>
                   </div>
                   <button
@@ -164,7 +171,11 @@ export default function PreviewChrome({
                 ) : (
                   <>
                     <span className="font-medium">
-                      {price === 0 ? t("publishFree") : tPay("pay")}
+                      {gift
+                        ? tPay("publishGift")
+                        : price === 0
+                          ? t("publishFree")
+                          : tPay("pay")}
                     </span>
                     {price > 0 && (
                       <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-sm tabular-nums">
