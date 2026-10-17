@@ -9,10 +9,8 @@ import { ConfigService } from '@nestjs/config';
 import { InjectRepository } from '@nestjs/typeorm';
 import { IsNull, Repository } from 'typeorm';
 import type { JwtPayload } from '../auth/auth.types';
-import { BOT_LOCALES, type BotLocale } from '../auth/bot-messages';
-import { TelegramBotService } from '../telegram/telegram-bot.service';
+import { TelegramNotifyService } from '../telegram/telegram-notify.service';
 import { Role } from '../users/role.enum';
-import { User } from '../users/user.entity';
 import {
   CreateTaklifResponseDto,
   TaklifResponseDto,
@@ -44,8 +42,7 @@ export class TaklifResponsesService {
     @InjectRepository(Taklif) private readonly taklifs: Repository<Taklif>,
     @InjectRepository(TaklifResponse)
     private readonly responses: Repository<TaklifResponse>,
-    @InjectRepository(User) private readonly users: Repository<User>,
-    private readonly bot: TelegramBotService,
+    private readonly telegram: TelegramNotifyService,
     config: ConfigService,
   ) {
     this.siteUrl = config.getOrThrow<string>('siteUrl').replace(/\/$/, '');
@@ -86,24 +83,13 @@ export class TaklifResponsesService {
       }),
     );
     // The guest doesn't wait for Telegram.
-    void this.notifyOwner(taklif, response).catch((err: Error) =>
-      this.logger.error(
-        `Notifying about reply ${response.id} failed`,
-        err.stack,
-      ),
-    );
+    void this.notifyOwner(taklif, response);
     return { ok: true };
   }
 
   /** Sends the reply to the owner's Telegram, if they logged in with it. */
-  private async notifyOwner(taklif: Taklif, r: TaklifResponse) {
-    const owner = await this.users.findOneBy({ id: taklif.userId });
-    if (!owner?.telegramId) return;
-    const locale = BOT_LOCALES.includes(owner.locale as BotLocale)
-      ? (owner.locale as BotLocale)
-      : 'uz';
-    await this.bot.notify(
-      owner.telegramId,
+  private notifyOwner(taklif: Taklif, r: TaklifResponse) {
+    return this.telegram.sendToUser(taklif.userId, (locale) =>
       replyNotification(locale, {
         name: r.name,
         attending: r.attending,
