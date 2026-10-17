@@ -68,6 +68,8 @@ const MAX_DAYS_AHEAD = 730;
 const DAY_MS = 24 * 60 * 60 * 1000;
 /** Weddings usually start in the evening. */
 const DEFAULT_EVENT_TIME = "18:00";
+/** A morning plov ("nahorgi osh") is served early. */
+const DEFAULT_OSH_TIME = "06:00";
 const latestEventAt = () => new Date(Date.now() + MAX_DAYS_AHEAD * DAY_MS);
 
 const noSubscribe = () => () => {};
@@ -113,10 +115,18 @@ export default function InvitationBuilder({
     phone: taklif?.phone ?? "",
     musicId: taklif?.music?.id ?? "",
   });
+  // The plov design is an osh, not a wedding party: its own wording.
+  const osh =
+    designs.find((design) => design.id === fields.themeId)?.key === "plov";
   // The event's time of day, kept while no date is picked yet: weddings
-  // usually start in the evening, so a new invitation starts at 18:00.
+  // usually start in the evening, so a new invitation starts at 18:00 (an
+  // osh at 06:00).
   const [eventTime, setEventTime] = useState(
-    taklif ? toTashkentInput(taklif.eventAt).slice(11, 16) : DEFAULT_EVENT_TIME,
+    taklif
+      ? toTashkentInput(taklif.eventAt).slice(11, 16)
+      : osh
+        ? DEFAULT_OSH_TIME
+        : DEFAULT_EVENT_TIME,
   );
   const eventDate = fields.eventAt.slice(0, 10);
   const [photos, setPhotos] = useState<Photo[]>(
@@ -390,7 +400,10 @@ export default function InvitationBuilder({
           )}
         </Section>
 
-        <Section n={2} title={t("sections.couple")}>
+        <Section
+          n={2}
+          title={t(osh ? "osh.sections.couple" : "sections.couple")}
+        >
           <div className="grid gap-4 sm:grid-cols-2">
             <Field label={t("fields.groomName")} error={errors.groomName}>
               <input
@@ -408,8 +421,8 @@ export default function InvitationBuilder({
             </Field>
           </div>
           <Field
-            label={t("fields.hostName")}
-            hint={t("fields.hostHint")}
+            label={t(osh ? "osh.fields.hostName" : "fields.hostName")}
+            hint={t(osh ? "osh.fields.hostHint" : "fields.hostHint")}
             error={errors.hostName}
           >
             <input
@@ -420,13 +433,13 @@ export default function InvitationBuilder({
           </Field>
         </Section>
 
-        <Section n={3} title={t("sections.event")}>
+        <Section n={3} title={t(osh ? "osh.sections.event" : "sections.event")}>
           <Field
-            label={t("fields.eventAt")}
+            label={t(osh ? "osh.fields.eventAt" : "fields.eventAt")}
             hint={
               changesLeft !== null
-                ? `${t("fields.eventHint")}. ${t("fields.eventChangesHint", { count: changesLeft })}`
-                : t("fields.eventHint")
+                ? `${t(osh ? "osh.fields.eventHint" : "fields.eventHint")}. ${t("fields.eventChangesHint", { count: changesLeft })}`
+                : t(osh ? "osh.fields.eventHint" : "fields.eventHint")
             }
             error={errors.eventAt}
           >
@@ -480,7 +493,10 @@ export default function InvitationBuilder({
               </div>
             </div>
           </Field>
-          <Field label={t("fields.venueName")} error={errors.venueName}>
+          <Field
+            label={t(osh ? "osh.fields.venueName" : "fields.venueName")}
+            error={errors.venueName}
+          >
             <input className={inputClass} {...input("venueName")} />
           </Field>
           <Field label={t("fields.venueAddress")} error={errors.venueAddress}>

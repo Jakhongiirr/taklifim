@@ -27,6 +27,7 @@ export async function getDesigns(
     const demo = demos.find((d) => d.theme.id === theme.id);
     return {
       id: theme.id,
+      key: theme.themeId,
       name:
         demo?.title ??
         theme.themeId.charAt(0).toUpperCase() + theme.themeId.slice(1),
