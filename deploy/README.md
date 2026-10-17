@@ -104,6 +104,11 @@ cd deploy && docker compose up -d --build
 docker image prune -f
 ```
 
+Builds keep npm's download cache and Next.js's build cache between runs, so a
+code-only deploy recompiles just what changed. `docker image prune -f` keeps
+them; `docker builder prune` or `docker system prune -a` wipes them and makes
+the next build a slow, from-scratch one.
+
 The build runs on the server. If it ever slows the live site down, build
 images in CI, push them to a registry and only `docker compose pull` here.
 
