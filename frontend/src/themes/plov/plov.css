@@ -102,18 +102,6 @@
   }
 }
 
-@keyframes plov-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @keyframes plov-spin {
   to {
     transform: rotate(360deg);
@@ -143,9 +131,6 @@
   .plov-opened .plov-rise {
     animation: plov-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 160ms + 200ms);
-  }
-  .plov-hint {
-    animation: plov-hint 2.2s ease-in-out infinite;
   }
   /* The platter's rim turns slowly, like a lagan carried in. */
   .plov-turn {

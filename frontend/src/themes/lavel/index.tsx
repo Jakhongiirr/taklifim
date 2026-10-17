@@ -8,6 +8,7 @@ import MapLink from "../shared/map-link";
 import Moments from "../shared/moments";
 import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
+import ScrollHint from "../shared/scroll-hint";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
 import { garamond, lavelScript } from "./fonts";
@@ -109,20 +110,7 @@ export default async function LavelTheme({
             className="lavel-rise mt-10"
             style={{ "--i": 5 } as CSSProperties}
           >
-            <p className={`text-[10px] ${LABEL}`}>{t("lavel.scroll")}</p>
-            <svg
-              aria-hidden
-              viewBox="0 0 24 24"
-              className={`lavel-hint mx-auto mt-2 size-5 ${LILAC}`}
-            >
-              <path
-                d="M6 9l6 6 6-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-              />
-            </svg>
+            <ScrollHint className={LILAC} />
           </div>
         </section>
 

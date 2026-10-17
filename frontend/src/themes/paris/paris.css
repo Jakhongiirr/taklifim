@@ -35,18 +35,6 @@
   }
 }
 
-@keyframes paris-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .paris-opened .paris-rise {
@@ -55,10 +43,6 @@
   }
   .paris-opened .paris-drift {
     animation: paris-drift 24s ease-out both;
-  }
-
-  .paris-hint {
-    animation: paris-hint 2.2s ease-in-out infinite;
   }
 
   @supports (animation-timeline: view()) {

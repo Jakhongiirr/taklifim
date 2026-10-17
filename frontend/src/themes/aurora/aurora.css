@@ -45,18 +45,6 @@
   }
 }
 
-@keyframes aurora-hint {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.5;
-  }
-  50% {
-    transform: translateY(6px);
-    opacity: 1;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .aurora-opened .aurora-rise {
@@ -71,10 +59,6 @@
     animation: aurora-shimmer 3.2s ease-in-out infinite;
     animation-delay: var(--d, 0s);
   }
-  .aurora-hint {
-    animation: aurora-hint 2.2s ease-in-out infinite;
-  }
-
   @supports (animation-timeline: view()) {
     .aurora-reveal {
       animation: aurora-reveal linear both;

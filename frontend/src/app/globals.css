@@ -188,3 +188,42 @@ html[data-fonts="wait"] [data-font-reveal] {
     transform: none;
   }
 }
+
+/* Invitation pages: the hero's "scroll down" sign (themes/shared/scroll-hint.tsx).
+   The dot glides down its capsule and the whole sign breathes gently. */
+@keyframes scroll-hint-dot {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(14px);
+    opacity: 0;
+  }
+}
+
+@keyframes scroll-hint-breathe {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-hint {
+    animation: scroll-hint-breathe 2.4s ease-in-out infinite;
+  }
+  .scroll-hint-dot {
+    animation: scroll-hint-dot 1.8s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+  }
+}

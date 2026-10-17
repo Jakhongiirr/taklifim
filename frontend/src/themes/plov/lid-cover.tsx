@@ -9,6 +9,7 @@ import {
   useRef,
   useState,
 } from "react";
+import AutoScroll from "../shared/auto-scroll";
 import SmoothScroll from "../shared/smooth-scroll";
 import { Lid, PlatterRim } from "./ornaments";
 
@@ -94,7 +95,12 @@ export default function LidCover({
           onPause={() => setPlaying(false)}
         />
       )}
-      {isOpen && <SmoothScroll />}
+      {isOpen && (
+        <>
+          <SmoothScroll />
+          <AutoScroll />
+        </>
+      )}
 
       {!isOpen && (
         <div
@@ -104,7 +110,9 @@ export default function LidCover({
           className="plov-paper fixed inset-0 z-40 overflow-hidden text-[#3b2a1a] transition-opacity duration-[900ms] ease-out motion-reduce:duration-300 data-[state=closed]:cursor-pointer data-[state=revealing]:pointer-events-none data-[state=revealing]:opacity-0"
         >
           <div className="relative mx-auto flex h-full max-w-md flex-col items-center justify-center px-6 text-center">
-            <div data-font-reveal className="plov-cover-words">{children}</div>
+            <div data-font-reveal className="plov-cover-words">
+              {children}
+            </div>
 
             <div className="plov-platter relative mt-10 aspect-square w-full max-w-[19rem]">
               <div className="absolute inset-[15%] overflow-hidden rounded-full bg-[#e9d7b0]">
@@ -129,7 +137,10 @@ export default function LidCover({
               </button>
             </div>
 
-            <p data-font-reveal className="plov-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#8a6a2f] uppercase">
+            <p
+              data-font-reveal
+              className="plov-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#8a6a2f] uppercase"
+            >
               {t("plov.lidHint")}
             </p>
           </div>

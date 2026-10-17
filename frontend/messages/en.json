@@ -411,12 +411,12 @@
       "call": "Call"
     },
     "closing": "We look forward to seeing you!",
+    "scroll": "Scroll down",
     "lavel": {
       "forYou": "This invitation is just for you",
       "sealHint": "Tap the seal to open",
       "hello": "Hello",
       "invite": "We would love you to join us on our wedding day",
-      "scroll": "Scroll down",
       "ceremony": "Wedding celebration",
       "tagline": "The day two hearts bloom as one — the loveliest spring of our lives",
       "dayMonth": "{weekday}, {month} {day}",
@@ -427,7 +427,6 @@
     },
     "classic": {
       "tagline": "Two hearts joined as one — the greatest joy",
-      "scroll": "Scroll down",
       "sealHint": "Tap the seal to open",
       "dayMonth": "{weekday}, {month} {day}",
       "startTime": "Ceremony begins"
@@ -465,7 +464,6 @@
       "eyebrow": "Morning plov",
       "occasion": "In honour of the wedding",
       "lidHint": "Tap the lid to open",
-      "scroll": "Scroll down",
       "text": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
       "dateTitle": "Plov time",
       "served": "Plov is served",

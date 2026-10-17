@@ -2,6 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { type ReactNode, useEffect, useRef, useState } from "react";
+import AutoScroll from "./auto-scroll";
 import SmoothScroll from "./smooth-scroll";
 
 const REVEAL_MS = 900;
@@ -127,7 +128,12 @@ export default function VideoCover({
           onPause={() => setPlaying(false)}
         />
       )}
-      {isOpen && <SmoothScroll />}
+      {isOpen && (
+        <>
+          <SmoothScroll />
+          <AutoScroll />
+        </>
+      )}
 
       {!isOpen && (
         <div
