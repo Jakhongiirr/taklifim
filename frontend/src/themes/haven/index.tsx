@@ -15,14 +15,15 @@ import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
 import "./haven.css";
 
-// A painted old garden: linen paper, forest-green ink, old roses, black
-// wrought iron and the lanterns' amber.
+// A painted old garden for the opening, then an old letter: parchment,
+// brown ink, burgundy roses and the lanterns' amber.
 const ASSETS = "/themes/haven";
 
 /**
  * Haven: an iron gate in a rose garden opens onto an old palace under the
  * lanterns (the opening video). The palace's last frame is the hero;
- * further down the invitation's words hang by a swing among the roses.
+ * further down the invitation's words are written onto an old letter, and
+ * a garland of peonies leads to the closing line.
  */
 export default async function HavenTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -78,7 +79,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
         </p>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#f4efe6] text-center text-[#2f3a2c] md:shadow-2xl md:shadow-[#2b2a28]/20">
+      <article className="mx-auto max-w-md overflow-clip bg-[#d3b68f] text-center text-[#3d2b1f] md:shadow-2xl md:shadow-[#3d2b1f]/25">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -107,7 +108,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
               {names("text-[#2f3a2c]", "text-[#a35d68]")}
             </div>
             <p
-              className={`${cormorantSc.className} haven-rise mt-4 text-xl`}
+              className={`${cormorantSc.className} haven-rise mt-4 text-xl text-[#2f3a2c]`}
               style={{ "--i": 2 } as CSSProperties}
             >
               {fullDate}
@@ -128,38 +129,33 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, by the swing among the roses. */}
-        <section className="relative">
-          <div className="absolute inset-0">
-            <Image
-              src={`${ASSETS}/backdrop.jpg`}
-              alt=""
-              fill
-              unoptimized
-              sizes="448px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative px-7 py-28">
-            {/* A linen card in a double frame, like an old print. */}
-            <div className="haven-reveal bg-[#f4efe6]/85 p-2 shadow-xl shadow-[#2b2a28]/15 backdrop-blur-md">
-              <div className="border border-[#2b2a28]/35 px-6 py-10 outline outline-1 outline-offset-4 outline-[#2b2a28]/15">
-                <Ironwork className="mx-auto w-40 text-[#2b2a28]/70" />
-                <h2
-                  className={`${cormorantSc.className} mt-5 text-2xl tracking-[0.1em] text-[#8a4f58]`}
-                >
-                  {t("greeting")}
-                </h2>
-                <p className="mt-5 font-serif text-xl leading-relaxed">
-                  {t("text", {
-                    groom: taklif.groomName,
-                    bride: taklif.brideName,
-                  })}
-                </p>
-                <p className="mt-6 font-serif text-lg text-[#6d7262] italic">
-                  {t("signature", { host: taklif.hostName })}
-                </p>
-              </div>
+        {/* The words, written straight onto an old letter among roses,
+            stamps and a pocket watch. Its parchment is the page's paper. */}
+        <section className="relative aspect-[736/1104]">
+          <Image
+            src={`${ASSETS}/frame.jpg`}
+            alt=""
+            fill
+            unoptimized
+            sizes="448px"
+            className="object-cover"
+          />
+          <div className="absolute inset-x-[19%] top-[19%] bottom-[15%] flex flex-col items-center justify-center">
+            <div className="haven-reveal">
+              <h2
+                className={`${cormorantSc.className} text-2xl tracking-[0.1em] text-[#6e2f36]`}
+              >
+                {t("greeting")}
+              </h2>
+              <p className="mt-4 font-serif text-lg leading-relaxed sm:text-xl">
+                {t("text", {
+                  groom: taklif.groomName,
+                  bride: taklif.brideName,
+                })}
+              </p>
+              <p className="mt-5 font-serif text-lg text-[#6f5640] italic">
+                {t("signature", { host: taklif.hostName })}
+              </p>
             </div>
           </div>
         </section>
@@ -167,17 +163,17 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
         <Section title={t("date.title")}>
           <div className="haven-reveal">
             <p
-              className={`${cormorantSc.className} text-sm tracking-[0.35em] text-[#6d7262]`}
+              className={`${cormorantSc.className} text-sm tracking-[0.35em] text-[#6f5640]`}
             >
               {weekdays[date.weekday]}
             </p>
             {/* The day in a lantern's glow, ringed in iron. */}
             <div className="relative mx-auto mt-4 flex size-44 items-center justify-center">
               <div className="haven-glow absolute inset-0 rounded-full bg-[radial-gradient(circle,#f3c77d_0%,#f3c77d55_45%,transparent_70%)]" />
-              <div className="absolute inset-3 rounded-full ring-1 ring-[#2b2a28]/40" />
-              <div className="absolute inset-5 rounded-full ring-1 ring-[#2b2a28]/15" />
+              <div className="absolute inset-3 rounded-full ring-1 ring-[#3d2b1f]/40" />
+              <div className="absolute inset-5 rounded-full ring-1 ring-[#3d2b1f]/15" />
               <span
-                className={`${prata.className} relative text-6xl text-[#2f3a2c]`}
+                className={`${prata.className} relative text-6xl text-[#5a2a30]`}
               >
                 {date.day}
               </span>
@@ -185,19 +181,19 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
             <p className={`${cormorantSc.className} mt-4 text-xl`}>
               {monthsStandalone[date.month]} {date.year}
             </p>
-            <p className="mt-1 font-serif text-lg text-[#6d7262] italic">
+            <p className="mt-1 font-serif text-lg text-[#6f5640] italic">
               {t("date.time", { time: date.time })}
             </p>
           </div>
           <div className="haven-reveal mt-10">
             <p
-              className={`${cormorantSc.className} mb-4 text-sm tracking-[0.3em] text-[#6d7262]`}
+              className={`${cormorantSc.className} mb-4 text-sm tracking-[0.3em] text-[#6f5640]`}
             >
               {t("countdown.title")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
-              boxClassName="border border-[#2b2a28]/30 bg-[#ebe3d4]/70 py-3 outline outline-1 -outline-offset-4 outline-[#2b2a28]/10"
+              boxClassName="border border-[#3d2b1f]/30 bg-[#dec5a0]/70 py-3 outline outline-1 -outline-offset-4 outline-[#3d2b1f]/10"
             />
           </div>
         </Section>
@@ -207,7 +203,7 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="haven-reveal bg-[#fbf6ee] p-1.5 shadow-lg shadow-[#2b2a28]/15 ring-1 ring-[#2b2a28]/30"
+              frameClass="haven-reveal bg-[#e8d5b4] p-1.5 shadow-lg shadow-[#3d2b1f]/15 ring-1 ring-[#3d2b1f]/30"
             />
           </Section>
         )}
@@ -215,10 +211,10 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
         <Section title={t("venue.title")}>
           <div className="haven-reveal">
             <p className={`${prata.className} text-2xl`}>{taklif.venueName}</p>
-            <p className="mt-2 text-sm text-[#6d7262]">{taklif.venueAddress}</p>
+            <p className="mt-2 text-sm text-[#6f5640]">{taklif.venueAddress}</p>
             <MapLink
               url={taklif.locationUrl}
-              className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#2f3a2c] px-7 text-base tracking-[0.15em] text-[#f4efe6] hover:bg-[#232c21]`}
+              className={`${cormorantSc.className} mt-6 inline-flex h-11 items-center bg-[#5a2a30] px-7 text-base tracking-[0.15em] text-[#f3e6cf] hover:bg-[#47201f]`}
             >
               {t("venue.map")}
             </MapLink>
@@ -232,12 +228,12 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
               preview={preview}
               palette={{
                 input:
-                  "bg-[#fbf6ee] ring-1 ring-[#2b2a28]/25 focus:ring-[#2f3a2c]",
-                optionOn: "bg-[#2f3a2c] text-[#f4efe6]",
-                optionOff: "bg-[#fbf6ee] ring-1 ring-[#2b2a28]/25",
-                button: "bg-[#2f3a2c] text-[#f4efe6] hover:bg-[#232c21]",
-                muted: "text-[#6d7262]",
-                accent: "text-[#8a4f58]",
+                  "bg-[#e8d5b4] ring-1 ring-[#3d2b1f]/25 focus:ring-[#5a2a30]",
+                optionOn: "bg-[#5a2a30] text-[#f3e6cf]",
+                optionOff: "bg-[#e8d5b4] ring-1 ring-[#3d2b1f]/25",
+                button: "bg-[#5a2a30] text-[#f3e6cf] hover:bg-[#47201f]",
+                muted: "text-[#6f5640]",
+                accent: "text-[#6e2f36]",
                 error: "text-red-700",
               }}
             />
@@ -246,14 +242,14 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="haven-reveal border border-[#2b2a28]/30 bg-[#ebe3d4]/60 px-6 py-8 outline outline-1 -outline-offset-[6px] outline-[#2b2a28]/10">
-              <p className="text-sm text-[#6d7262]">{t("gift.text")}</p>
+            <div className="haven-reveal border border-[#3d2b1f]/30 bg-[#dec5a0]/60 px-6 py-8 outline outline-1 -outline-offset-[6px] outline-[#3d2b1f]/10">
+              <p className="text-sm text-[#6f5640]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
               <CopyButton
                 value={taklif.cardNumber}
-                className="mt-4 px-5 py-2 text-sm ring-1 ring-[#2b2a28]/40 hover:bg-[#fbf6ee]"
+                className="mt-4 px-5 py-2 text-sm ring-1 ring-[#3d2b1f]/40 hover:bg-[#e8d5b4]"
               />
             </div>
           </Section>
@@ -263,21 +259,30 @@ export default async function HavenTheme({ taklif, preview }: ThemeProps) {
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="haven-reveal inline-flex h-11 items-center px-6 text-sm ring-1 ring-[#2b2a28]/40 hover:bg-[#ebe3d4]"
+              className="haven-reveal inline-flex h-11 items-center px-6 text-sm ring-1 ring-[#3d2b1f]/40 hover:bg-[#dec5a0]"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
           </Section>
         )}
 
-        <footer className="px-6 pt-20 pb-14">
-          <Ironwork className="mx-auto w-44 text-[#2b2a28]/70" />
+        <footer className="px-4 pt-16 pb-14">
+          {/* A garland of watercolour peonies across the page. */}
+          <Image
+            src={`${ASSETS}/border.webp`}
+            alt=""
+            width={900}
+            height={387}
+            unoptimized
+            sizes="448px"
+            className="haven-reveal mx-auto w-full"
+          />
           <p
-            className={`${prata.className} haven-reveal mt-6 text-3xl leading-snug text-[#2f3a2c]`}
+            className={`${prata.className} haven-reveal mt-6 text-3xl leading-snug text-[#5a2a30]`}
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#6d7262]" />
+          <MadeWith className="mt-12 text-xs text-[#6f5640]" />
         </footer>
       </article>
     </>
@@ -289,11 +294,11 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
     <section className="px-6 pt-20">
       <div className="haven-reveal mb-8">
         <h2
-          className={`${cormorantSc.className} text-3xl tracking-[0.08em] text-[#2f3a2c]`}
+          className={`${cormorantSc.className} text-3xl tracking-[0.08em] text-[#5a2a30]`}
         >
           {title}
         </h2>
-        <span className="mx-auto mt-3 block h-px w-12 bg-[#b5707a]" />
+        <span className="mx-auto mt-3 block h-px w-12 bg-[#8e4a52]" />
       </div>
       {children}
     </section>
