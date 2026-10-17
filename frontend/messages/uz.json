@@ -59,9 +59,13 @@
         "title": "Videoli ochilish",
         "text": "Har bir dizayn oʻz videosi bilan ochiladi — darvozalar, ravoqlar, saroylar."
       },
-      "designs": {
-        "title": "Noyob dizaynlar",
-        "text": "Har birining oʻz ranglari, shrifti va bezaklari bor."
+      "designsMusic": {
+        "title": "Noyob dizaynlar va musiqa",
+        "text": "Har birining oʻz ranglari, shrifti va bezaklari bor, ochilganda esa tanlagan kuyingiz yangraydi."
+      },
+      "plovGift": {
+        "title": "Osh taklifnomasi — sovgʻa",
+        "text": "Har bir sotib olingan taklifnoma uchun nahorgi osh taklifnomasini bepul sovgʻa qilamiz."
       },
       "photos": {
         "title": "Suratlar galereyasi",
