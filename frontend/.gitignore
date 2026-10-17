@@ -60,3 +60,6 @@ Thumbs.db
 
 # Claude Code local settings
 .claude/settings.local.json
+
+# local theme preview route (never commit)
+/src/app/[[]locale]/dev-x/
