@@ -35,36 +35,6 @@
   }
 }
 
-/* A gold blossom drifting down and turning, like in the video. */
-@keyframes paris-blossom {
-  0% {
-    transform: translate3d(0, -10vh, 0) rotate(0deg);
-    opacity: 0;
-  }
-  12% {
-    opacity: 0.95;
-  }
-  88% {
-    opacity: 0.95;
-  }
-  100% {
-    transform: translate3d(var(--drift, 30px), 100vh, 0) rotate(300deg);
-    opacity: 0;
-  }
-}
-
-/* The street sign swinging into place. */
-@keyframes paris-sign {
-  from {
-    opacity: 0;
-    transform: perspective(600px) rotateX(-35deg);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
 @keyframes paris-hint {
   0%,
   100% {
@@ -87,10 +57,6 @@
     animation: paris-drift 24s ease-out both;
   }
 
-  .paris-blossom {
-    animation: paris-blossom var(--dur, 14s) linear infinite;
-    animation-delay: var(--d, 0s);
-  }
   .paris-hint {
     animation: paris-hint 2.2s ease-in-out infinite;
   }
@@ -100,12 +66,6 @@
       animation: paris-reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
-    }
-    .paris-sign {
-      transform-origin: top center;
-      animation: paris-sign linear both;
-      animation-timeline: view();
-      animation-range: entry 10% entry 100%;
     }
   }
 }
