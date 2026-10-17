@@ -89,7 +89,9 @@ export default async function CabinetPage({
               <li key={taklif.id}>
                 <TaklifCard
                   taklif={taklif}
-                  gift={giftsLeft > 0 && taklif.theme.themeId === GIFT_THEME_ID}
+                  gift={
+                    giftsLeft > 0 && taklif.theme.themeId === GIFT_THEME_ID
+                  }
                 />
               </li>
             ))}
