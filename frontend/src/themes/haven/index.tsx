@@ -283,7 +283,7 @@ export default async function HavenTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#6f5640]" />
+          <MadeWith className="mt-12 text-[#6f5640]" />
         </footer>
       </article>
     </>

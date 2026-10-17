@@ -293,7 +293,7 @@ export default async function VioletTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#b9aed3]" />
+          <MadeWith className="mt-12 text-[#b9aed3]" />
         </footer>
       </article>
     </>

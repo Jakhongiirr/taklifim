@@ -276,7 +276,7 @@ export default async function ArcadeTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#7d5f74]" />
+          <MadeWith className="mt-12 text-[#7d5f74]" />
         </footer>
       </article>
     </>

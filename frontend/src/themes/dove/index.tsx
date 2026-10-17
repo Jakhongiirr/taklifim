@@ -289,7 +289,7 @@ export default async function DoveTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#8a6f73]" />
+          <MadeWith className="mt-12 text-[#8a6f73]" />
         </footer>
       </article>
     </>

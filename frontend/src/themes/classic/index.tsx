@@ -269,7 +269,7 @@ export default async function ClassicTheme({
           >
             {taklif.groomName[0]} ♡ {taklif.brideName[0]}
           </p>
-          <MadeWith className="mt-8 text-sm text-[#7a6a55]" />
+          <MadeWith className="mt-8 text-[#7a6a55]" />
         </footer>
       </article>
     </div>

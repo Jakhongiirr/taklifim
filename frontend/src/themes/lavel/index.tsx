@@ -298,7 +298,7 @@ export default async function LavelTheme({
           >
             {initials}
           </p>
-          <MadeWith className="mt-8 text-sm text-[#7d6c99]" />
+          <MadeWith className="mt-8 text-[#7d6c99]" />
         </footer>
       </article>
     </div>

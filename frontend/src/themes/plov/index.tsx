@@ -282,7 +282,7 @@ export default async function PlovTheme({
             </p>
           </div>
           <StarRule className="mt-12" />
-          <MadeWith className={`mt-8 text-sm ${SOFT}`} />
+          <MadeWith className={`mt-8 ${SOFT}`} />
         </footer>
       </article>
     </div>

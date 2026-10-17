@@ -274,7 +274,7 @@ export default async function AuroraTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#6e5638]" />
+          <MadeWith className="mt-12 text-[#6e5638]" />
         </footer>
       </article>
     </>
