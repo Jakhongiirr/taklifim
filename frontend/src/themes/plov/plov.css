@@ -1,12 +1,12 @@
-/* The "plov" theme: warm ivory with faint gold girih, the lid's lifting,
+/* The "plov" theme: warm cream with faint gold girih, the lid's lifting,
    the steam and the page's entrances. Animations are off for visitors who
    prefer reduced motion, and content is never hidden without them. */
 
-/* Ivory with a faint lattice of eight-pointed stars, drawn in CSS. */
+/* Cream like paris, with a faint lattice of eight-pointed stars, in CSS. */
 .plov-paper {
-  background-color: #faf6ec;
+  background-color: #f9ecdb;
   background-image:
-    radial-gradient(ellipse at 50% 0%, #fffdf7 0%, transparent 65%),
+    radial-gradient(ellipse at 50% 0%, #fdf6ec 0%, transparent 65%),
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='56' viewBox='0 0 56 56'%3E%3Cg fill='none' stroke='%23b08a45' stroke-opacity='0.11' stroke-width='0.8'%3E%3Crect x='18' y='18' width='20' height='20'/%3E%3Crect x='18' y='18' width='20' height='20' transform='rotate(45 28 28)'/%3E%3Cpath d='M0 28h14M42 28h14M28 0v14M28 42v14'/%3E%3C/g%3E%3C/svg%3E");
 }
 

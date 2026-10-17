@@ -1,12 +1,12 @@
-/* The "classic" theme: ivory paper, the envelope's opening and the page's
+/* The "classic" theme: cream paper, the envelope's opening and the page's
    entrances. Animations are off for visitors who prefer reduced motion, and
    content is never hidden without them. */
 
-/* Ivory paper with a faint laid texture, drawn in CSS (no image). */
+/* Cream paper like paris, with a faint laid texture, in CSS (no image). */
 .classic-paper {
-  background-color: #faf6ee;
+  background-color: #f9ecdb;
   background-image:
-    radial-gradient(ellipse at 50% 0%, #fffdf8 0%, transparent 70%),
+    radial-gradient(ellipse at 50% 0%, #fdf6ec 0%, transparent 70%),
     repeating-linear-gradient(
       0deg,
       rgb(168 137 79 / 0.035) 0 1px,
