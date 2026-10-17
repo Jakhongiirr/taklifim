@@ -12,7 +12,14 @@ import { Link } from "@/i18n/navigation";
 import { localeAlternates, SITE_URL } from "@/lib/seo";
 import { getDemos } from "@/lib/server/demos";
 
-const FEATURES = ["designsMusic", "plovGift", "rsvp", "card", "qr", "map"] as const;
+const FEATURES = [
+  "designsMusic",
+  "plovGift",
+  "rsvp",
+  "card",
+  "qr",
+  "named",
+] as const;
 
 /**
  * Of `options`, the column count whose last row is fullest (6 → 3, 10 → 5,
@@ -326,7 +333,7 @@ const ICON_PATHS: Record<(typeof FEATURES)[number], string> = {
     "M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.3-1.7-.4-1.1.3-2.3 1.5-2.3H17a4 4 0 0 0 4-4c0-5.5-4-10-9-10ZM7.5 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM10 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2ZM15 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
   plovGift:
     "M4 11h16v10H4zM3 7h18v4H3zM12 7v14M12 7c-1.5-3-5-3.5-5-1.5S10 7 12 7Zm0 0c1.5-3 5-3.5 5-1.5S14 7 12 7Z",
-  map: "M12 21s-7-6.2-7-12a7 7 0 0 1 14 0c0 5.8-7 12-7 12ZM12 11.5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z",
+  named: "M3 6h18v12H3zM3 6l9 7 9-7",
   rsvp: "M9 11a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7ZM2.5 20a6.5 6.5 0 0 1 13 0M15 11.5l2 2 4-4",
   card: "M5 3h14v18H5zM8.5 15l2.5-3 2 2 2.5-3.5 2 4.5M9.5 8.5a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z",
   qr: "M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h2v2h-2zM18 14h2M14 18v2h2M18 18h2v2M7 7h0M17 7h0M7 17h0",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import GuestsList from "@/components/site/cabinet/guests-list";
+import StatusBadge from "@/components/site/cabinet/status-badge";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { Link } from "@/i18n/navigation";
@@ -34,9 +35,12 @@ export default async function GuestsPage({
         <h1 className="mt-3 font-serif text-4xl font-medium text-ink">
           {t("title")}
         </h1>
-        <p className="mt-1 font-serif text-xl text-sage italic">
-          {coupleNames(taklif)}
-        </p>
+        <div className="mt-1 flex flex-wrap items-center gap-3">
+          <p className="font-serif text-xl text-sage italic">
+            {coupleNames(taklif)}
+          </p>
+          <StatusBadge status={taklif.status} />
+        </div>
         <p className="mt-4 text-sm leading-relaxed text-muted">{t("intro")}</p>
 
         {guests === null ? (

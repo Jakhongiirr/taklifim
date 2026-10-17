@@ -83,6 +83,10 @@
         "title": "Manzil va xarita",
         "text": "Mehmonlar toʻyxonani bir bosishda topadi."
       },
+      "named": {
+        "title": "Ismli taklifnomalar",
+        "text": "Har bir mehmonga shaxsiy havola: taklifnoma uni ismi bilan kutib oladi."
+      },
       "rsvp": {
         "title": "Mehmonlar tilaklari va javobi",
         "text": "Kim kelishini va necha kishi boʻlishini koʻring — har bir javob Telegramingizga keladi."

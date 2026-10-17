@@ -128,8 +128,16 @@ export default function GuestsList({
         </button>
       </form>
 
-      {!published && guests.length > 0 && (
-        <p className="mt-4 rounded-2xl bg-gold/10 px-4 py-3 text-sm text-gold">
+      {/* Guests' links 404 until it's published: hard to miss on purpose. */}
+      {!published && (
+        <p
+          role="status"
+          className="mt-4 flex items-start gap-2 rounded-2xl bg-amber-100 px-4 py-3 text-sm font-medium text-amber-900 ring-1 ring-amber-300"
+        >
+          <span
+            aria-hidden
+            className="mt-1.5 size-2 shrink-0 rounded-full bg-amber-500"
+          />
           {t("notPublished")}
         </p>
       )}

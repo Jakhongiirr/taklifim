@@ -83,6 +83,10 @@
         "title": "Venue and map",
         "text": "Guests find the venue in one tap."
       },
+      "named": {
+        "title": "Named invitations",
+        "text": "A personal link for each guest: the invitation greets them by name."
+      },
       "rsvp": {
         "title": "Guest wishes and replies",
         "text": "See who's coming and how many — every reply arrives in your Telegram."
