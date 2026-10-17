@@ -59,9 +59,13 @@
         "title": "Video opening",
         "text": "Every design opens with its own video — gates, arches, palaces."
       },
-      "designs": {
-        "title": "Unique designs",
-        "text": "Each with its own colours, lettering and ornaments."
+      "designsMusic": {
+        "title": "Unique designs and music",
+        "text": "Each with its own colours, lettering and ornaments, and your chosen song plays as it opens."
+      },
+      "plovGift": {
+        "title": "A plov invitation as a gift",
+        "text": "For every invitation you buy, we give you a free morning plov invitation."
       },
       "photos": {
         "title": "Photo gallery",
