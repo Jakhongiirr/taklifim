@@ -15,14 +15,15 @@ import type { ThemeProps } from "../types";
 import "./aurora.css";
 import { greatVibes } from "./fonts";
 
-// Ivory, champagne and gold, like the palace in the video; warm brown text
-// because the art is too bright for white.
+// Ivory, champagne and gold, like the palace in the video, then the painted
+// letter's parchment; warm brown text because the art is too bright for white.
 const ASSETS = "/themes/aurora";
 
 /**
  * Aurora: golden gates open onto a palace and its staircase hall (the
  * opening video). The hall's last frame is the hero; further down the
- * invitation's words sit on a sunlit marble terrace.
+ * invitation's words are written onto a painted letter, and a garland of
+ * flowers leads to the closing line.
  */
 export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
   const [t, tDates, tRsvp] = await Promise.all([
@@ -74,7 +75,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
         </div>
       </VideoCover>
 
-      <article className="mx-auto max-w-md overflow-clip bg-[#fbf6ec] text-center text-[#5c4325] md:shadow-2xl md:shadow-[#5c4325]/15">
+      <article className="mx-auto max-w-md overflow-clip bg-[#e3c59f] text-center text-[#4f3a22] md:shadow-2xl md:shadow-[#4f3a22]/20">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -103,7 +104,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
               {names}
             </div>
             <p
-              className="aurora-rise mt-4 font-serif text-xl"
+              className="aurora-rise mt-4 font-serif text-xl text-[#5c4325]"
               style={{ "--i": 2 } as CSSProperties}
             >
               {fullDate}
@@ -124,43 +125,40 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           </div>
         </section>
 
-        {/* The words, on the sunlit terrace. */}
-        <section className="relative">
-          <div className="absolute inset-0 -z-0">
-            <Image
-              src={`${ASSETS}/backdrop.jpg`}
-              alt=""
-              fill
-              unoptimized
-              sizes="448px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative px-6 py-28">
-            <div className="aurora-reveal rounded-[2rem] bg-[#fffaf0]/75 px-6 py-10 shadow-xl shadow-[#5c4325]/10 ring-1 ring-[#fffaf0] backdrop-blur-md">
-              <Flourish />
-              <h2 className="mt-5 font-serif text-3xl text-[#7a5a2c]">
+        {/* The words, written straight onto a painted letter with gold
+            scrolls, roses, a castle and a swan. Its parchment is the page's
+            paper. Sizes follow the section's width so the words always fit
+            inside the scrolls. */}
+        <section className="@container relative aspect-[736/1104]">
+          <Image
+            src={`${ASSETS}/frame.jpg`}
+            alt=""
+            fill
+            unoptimized
+            sizes="448px"
+            className="object-cover"
+          />
+          <div className="absolute inset-x-[18%] top-[31%] bottom-[29%] flex flex-col items-center justify-center">
+            <div className="aurora-reveal">
+              <h2 className="font-serif text-[6.2cqw] leading-tight text-[#7a5a2c]">
                 {t("greeting")}
               </h2>
-              <p className="mt-5 font-serif text-xl leading-relaxed">
+              <p className="mt-[3cqw] font-serif text-[4cqw] leading-relaxed">
                 {t("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
               </p>
-              <p className="mt-6 font-serif text-lg text-[#8a7457] italic">
+              <p className="mt-[3.5cqw] font-serif text-[3.9cqw] text-[#6e5638] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
-              <div className="mt-6">
-                <Flourish />
-              </div>
             </div>
           </div>
         </section>
 
         <Section title={t("date.title")}>
           <div className="aurora-reveal">
-            <p className="text-xs tracking-[0.35em] text-[#8a6a3a] uppercase">
+            <p className="text-xs tracking-[0.35em] text-[#755528] uppercase">
               {weekdays[date.weekday]}
             </p>
             <div className="mt-3 flex items-center justify-center gap-5 font-serif">
@@ -179,12 +177,12 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
             </p>
           </div>
           <div className="aurora-reveal mt-10">
-            <p className="mb-4 text-xs tracking-[0.3em] text-[#8a6a3a] uppercase">
+            <p className="mb-4 text-xs tracking-[0.3em] text-[#755528] uppercase">
               {t("countdown.title")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
-              boxClassName="rounded-2xl bg-[#f3e7d3]/70 py-3 ring-1 ring-[#b08a4e]/25"
+              boxClassName="rounded-2xl bg-[#ead2ae]/70 py-3 ring-1 ring-[#b08a4e]/25"
             />
           </div>
         </Section>
@@ -194,7 +192,7 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="aurora-reveal bg-[#fffaf0] p-1.5 shadow-lg shadow-[#5c4325]/10 ring-1 ring-[#b08a4e]/45"
+              frameClass="aurora-reveal bg-[#f1e0c5] p-1.5 shadow-lg shadow-[#5c4325]/10 ring-1 ring-[#b08a4e]/45"
             />
           </Section>
         )}
@@ -204,10 +202,10 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
             <p className="font-serif text-2xl text-[#7a5a2c]">
               {taklif.venueName}
             </p>
-            <p className="mt-2 text-sm text-[#8a7457]">{taklif.venueAddress}</p>
+            <p className="mt-2 text-sm text-[#6e5638]">{taklif.venueAddress}</p>
             <MapLink
               url={taklif.locationUrl}
-              className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7a5a2c] px-6 text-sm tracking-wide text-[#fffaf0] hover:bg-[#5c4325]"
+              className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7a5a2c] px-6 text-sm tracking-wide text-[#f1e0c5] hover:bg-[#5c4325]"
             >
               {t("venue.map")}
             </MapLink>
@@ -221,11 +219,11 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
               preview={preview}
               palette={{
                 input:
-                  "bg-[#fffaf0] ring-1 ring-[#b08a4e]/30 focus:ring-[#b08a4e]",
-                optionOn: "bg-[#7a5a2c] text-[#fffaf0]",
-                optionOff: "bg-[#fffaf0] ring-1 ring-[#b08a4e]/30",
-                button: "bg-[#7a5a2c] text-[#fffaf0] hover:bg-[#5c4325]",
-                muted: "text-[#8a7457]",
+                  "bg-[#f1e0c5] ring-1 ring-[#b08a4e]/30 focus:ring-[#b08a4e]",
+                optionOn: "bg-[#7a5a2c] text-[#f1e0c5]",
+                optionOff: "bg-[#f1e0c5] ring-1 ring-[#b08a4e]/30",
+                button: "bg-[#7a5a2c] text-[#f1e0c5] hover:bg-[#5c4325]",
+                muted: "text-[#6e5638]",
                 accent: "text-[#7a5a2c]",
                 error: "text-red-700",
               }}
@@ -235,14 +233,14 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="aurora-reveal rounded-3xl bg-gradient-to-br from-[#f3e7d3] to-[#fffaf0] px-6 py-8 ring-1 ring-[#b08a4e]/30">
-              <p className="text-sm text-[#8a7457]">{t("gift.text")}</p>
+            <div className="aurora-reveal rounded-3xl bg-gradient-to-br from-[#ead2ae] to-[#f1e0c5] px-6 py-8 ring-1 ring-[#b08a4e]/30">
+              <p className="text-sm text-[#6e5638]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
               <CopyButton
                 value={taklif.cardNumber}
-                className="mt-4 rounded-full px-5 py-2 text-sm ring-1 ring-[#b08a4e]/60 hover:bg-[#fffaf0]"
+                className="mt-4 rounded-full px-5 py-2 text-sm ring-1 ring-[#b08a4e]/60 hover:bg-[#f1e0c5]"
               />
             </div>
           </Section>
@@ -252,21 +250,30 @@ export default async function AuroraTheme({ taklif, preview }: ThemeProps) {
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="aurora-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#b08a4e]/60 hover:bg-[#f3e7d3]"
+              className="aurora-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#b08a4e]/60 hover:bg-[#ead2ae]"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
           </Section>
         )}
 
-        <footer className="px-6 pt-20 pb-14">
-          <Flourish />
+        <footer className="px-4 pt-16 pb-14">
+          {/* A garland of watercolour peonies and wildflowers across the page. */}
+          <Image
+            src={`${ASSETS}/border.webp`}
+            alt=""
+            width={734}
+            height={253}
+            unoptimized
+            sizes="448px"
+            className="aurora-reveal mx-auto w-full"
+          />
           <p
             className={`${greatVibes.className} aurora-reveal mt-6 text-5xl text-[#7a5a2c]`}
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-xs text-[#8a7457]" />
+          <MadeWith className="mt-12 text-xs text-[#6e5638]" />
         </footer>
       </article>
     </>
@@ -281,26 +288,6 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
       </h2>
       {children}
     </section>
-  );
-}
-
-/** A thin gold line with a diamond and two leaves. */
-function Flourish() {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 200 20"
-      className="mx-auto h-5 w-48 text-[#b08a4e]"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="0.8"
-      strokeLinecap="round"
-    >
-      <path d="M4 10 H78 M122 10 H196" />
-      <path d="M100 4 L106 10 L100 16 L94 10Z" fill="currentColor" />
-      <path d="M90 10 C84 4 78 4 74 8 C80 11 85 11 90 10Z" />
-      <path d="M110 10 C116 4 122 4 126 8 C120 11 115 11 110 10Z" />
-    </svg>
   );
 }
 
@@ -320,7 +307,7 @@ function Sparkles() {
       {specks.map(([x, y, size, delay]) => (
         <span
           key={`${x}-${y}`}
-          className="aurora-sparkle absolute rounded-full bg-[#fffaf0] shadow-[0_0_10px_3px_#fff3d6]"
+          className="aurora-sparkle absolute rounded-full bg-[#f1e0c5] shadow-[0_0_10px_3px_#fff3d6]"
           style={
             {
               left: `${x}%`,
