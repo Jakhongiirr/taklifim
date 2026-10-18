@@ -65,8 +65,11 @@ export class TaklifDto {
   /** @example "+998901234567" */
   phone: string | null;
 
-  /** Null when the invitation has no music. */
+  /** A library track; null without one. */
   music: MusicDto | null;
+
+  /** The couple's own uploaded music, used instead of `music`. */
+  customMusic: FileDto | null;
 
   theme: ThemeDto;
 
@@ -119,6 +122,7 @@ export class PublicPhotoDto extends PublicFileDto {
   id: string;
 }
 
+/** A library track, or the couple's own music (titled by its file name). */
 export class PublicMusicDto {
   /** @example "Perfect" */
   title: string;

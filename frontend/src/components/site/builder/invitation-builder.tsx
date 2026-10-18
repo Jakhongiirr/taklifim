@@ -27,7 +27,7 @@ import Field, { inputClass, pickerClass } from "./field";
 import MapPicker, { type MapKeys } from "./map-picker";
 import MusicPicker from "./music-picker";
 import PhotoPicker from "./photo-picker";
-import type { Design, Photo } from "./types";
+import { type Design, OWN_MUSIC, type OwnMusic, type Photo } from "./types";
 
 type Fields = {
   themeId: string;
@@ -82,9 +82,9 @@ const deleteFile = (id: string) =>
   api(`/files/${id}`, { method: "DELETE" }).catch(() => undefined);
 
 /**
- * Creates an invitation (no `taklif`) or edits one. New photos are uploaded on
- * save and deleted again if saving fails; photos removed from an existing
- * invitation are deleted by the backend. Ends on the invitation's preview.
+ * Creates an invitation (no `taklif`) or edits one. New photos and own music
+ * are uploaded on save and deleted again if saving fails; photos and own music
+ * removed from an existing invitation are deleted by the backend. Ends on the invitation's preview.
  * Without Yandex `mapKeys` there is no map picker (and no venue pin).
  */
 export default function InvitationBuilder({
@@ -115,7 +115,7 @@ export default function InvitationBuilder({
     venueAddress: taklif?.venueAddress ?? "",
     cardNumber: taklif?.cardNumber ? formatCardNumber(taklif.cardNumber) : "",
     phone: taklif?.phone ?? "",
-    musicId: taklif?.music?.id ?? "",
+    musicId: taklif?.customMusic ? OWN_MUSIC : (taklif?.music?.id ?? ""),
   });
   // The plov design is an osh, not a wedding party: its own wording.
   const osh =
@@ -138,6 +138,9 @@ export default function InvitationBuilder({
   );
   const [photos, setPhotos] = useState<Photo[]>(
     taklif?.photos.map((file) => ({ key: file.id, existing: file })) ?? [],
+  );
+  const [ownMusic, setOwnMusic] = useState<OwnMusic | null>(
+    taklif?.customMusic ? { existing: taklif.customMusic } : null,
   );
   const [errors, setErrors] = useState<Errors>({});
   const [formError, setFormError] = useState("");
@@ -202,6 +205,11 @@ export default function InvitationBuilder({
     },
     [],
   );
+  // Likewise the picked own music's, when it's replaced or on unmount.
+  useEffect(() => {
+    if (!ownMusic || !("preview" in ownMusic)) return;
+    return () => URL.revokeObjectURL(ownMusic.preview);
+  }, [ownMusic]);
 
   function set<K extends FieldKey>(key: K, value: Fields[K]) {
     setFields((f) => ({ ...f, [key]: value }));
@@ -324,6 +332,26 @@ export default function InvitationBuilder({
         photoIds.push(file.id);
       }
 
+      // Own music is uploaded only if it's the one chosen.
+      let customMusicId: string | null = null;
+      if (fields.musicId === OWN_MUSIC && ownMusic) {
+        if ("existing" in ownMusic) {
+          customMusicId = ownMusic.existing.id;
+        } else {
+          setProgress(t("save.uploadingMusic"));
+          let file: FileDto;
+          try {
+            file = await uploadFile(ownMusic.file);
+          } catch (err) {
+            throw Object.assign(new Error("uploadMusic"), { cause: err });
+          }
+          uploaded.push(file);
+          customMusicId = file.id;
+        }
+      }
+      const musicId =
+        fields.musicId === OWN_MUSIC ? null : fields.musicId || null;
+
       setProgress(t("save.saving"));
       const card = fields.cardNumber.replace(/[\s-]/g, "");
       const phone = fields.phone.trim();
@@ -352,7 +380,8 @@ export default function InvitationBuilder({
             ...location,
             cardNumber: card || null,
             phone: phone || null,
-            musicId: fields.musicId || null,
+            musicId,
+            customMusicId,
             ...(photosChanged && { photoIds }),
           },
         });
@@ -364,7 +393,8 @@ export default function InvitationBuilder({
             ...(pin && location),
             ...(card && { cardNumber: card }),
             ...(phone && { phone }),
-            ...(fields.musicId && { musicId: fields.musicId }),
+            ...(musicId && { musicId }),
+            ...(customMusicId && { customMusicId }),
             ...(photoIds.length && { photoIds }),
           },
         });
@@ -376,6 +406,8 @@ export default function InvitationBuilder({
       setProgress(null);
       if (err instanceof Error && err.message === "upload") {
         setFormError(t("errors.upload"));
+      } else if (err instanceof Error && err.message === "uploadMusic") {
+        setFormError(t("errors.uploadMusic"));
       } else {
         showApiError(err);
       }
@@ -540,6 +572,15 @@ export default function InvitationBuilder({
             tracks={tracks}
             value={fields.musicId}
             onChange={(id) => set("musicId", id)}
+            own={ownMusic}
+            onOwnChange={(own) => {
+              setOwnMusic(own);
+              if (own) set("musicId", OWN_MUSIC);
+              else if (fields.musicId === OWN_MUSIC) set("musicId", "");
+              else setDirty(true);
+              setFormError("");
+            }}
+            onError={setFormError}
           />
         </Section>
 

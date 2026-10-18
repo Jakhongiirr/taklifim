@@ -56,6 +56,7 @@ export const envValidationSchema = Joi.object({
   S3_PUBLIC_URL: Joi.string().uri().required(),
   UPLOAD_IMAGE_MAX_SIZE_MB: Joi.number().positive().default(10),
   UPLOAD_AUDIO_MAX_SIZE_MB: Joi.number().positive().default(50),
+  UPLOAD_USER_AUDIO_MAX_SIZE_MB: Joi.number().positive().default(10),
 
   // Login: users share their phone number with this bot (from @BotFather).
   // Without it in development, logins are confirmed through a dev endpoint.

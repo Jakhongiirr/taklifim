@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { randomUUID } from 'crypto';
-import { Repository } from 'typeorm';
+import { Brackets, Repository } from 'typeorm';
 import { isPgError, PG_FOREIGN_KEY_VIOLATION } from '../../database/pg-errors';
 import type { JwtPayload } from '../auth/auth.types';
 import { StorageService } from '../storage/storage.service';
@@ -18,6 +18,7 @@ import {
   ALLOWED_FILE_TYPES,
   AUDIO_FILE_TYPES,
   IMAGE_FILE_TYPES,
+  USER_AUDIO_FILE_TYPES,
 } from './file-types';
 import { UploadLimits } from './upload-limits';
 
@@ -36,10 +37,17 @@ export class FilesService {
     upload: Express.Multer.File,
     user: JwtPayload,
   ): Promise<FileDto> {
-    if (upload.mimetype in AUDIO_FILE_TYPES && user.role !== Role.Admin) {
-      throw new ForbiddenException('Only admins can upload audio');
+    const admin = user.role === Role.Admin;
+    if (
+      upload.mimetype in AUDIO_FILE_TYPES &&
+      !admin &&
+      !(upload.mimetype in USER_AUDIO_FILE_TYPES)
+    ) {
+      throw new ForbiddenException(
+        `Audio must be one of: ${Object.keys(USER_AUDIO_FILE_TYPES).join(', ')}`,
+      );
     }
-    const maxSize = this.limits.forType(upload.mimetype);
+    const maxSize = this.limits.forType(upload.mimetype, admin);
     if (upload.size > maxSize) {
       throw new PayloadTooLargeException(
         `File too large. Max ${UploadLimits.toMb(maxSize)} MB for this type`,
@@ -104,11 +112,12 @@ export class FilesService {
   }
 
   /**
-   * Deletes images uploaded before `before` that nothing references (any
-   * foreign key to `files`: invitation photos, demo images, ...). Audio is
-   * never touched. Returns how many were deleted; failures are skipped.
+   * Deletes images, and audio uploaded by users (not admins), uploaded before
+   * `before` that nothing references (any foreign key to `files`: invitation
+   * photos and music, demo images, ...). The admins' music library is never
+   * touched. Returns how many were deleted; failures are skipped.
    */
-  async deleteUnattachedImages(before: Date): Promise<number> {
+  async deleteUnattachedUploads(before: Date): Promise<number> {
     const { driver, entityMetadatas } = this.files.manager.connection;
     const references = entityMetadatas.flatMap((metadata) =>
       metadata.foreignKeys
@@ -125,9 +134,18 @@ export class FilesService {
       const query = this.files
         .createQueryBuilder('file')
         .select(['file.id', 'file.key'])
-        .where('file.mimeType IN (:...types)', {
-          types: Object.keys(IMAGE_FILE_TYPES),
-        })
+        .where(
+          new Brackets((qb) =>
+            qb
+              .where('file.mimeType IN (:...images)', {
+                images: Object.keys(IMAGE_FILE_TYPES),
+              })
+              .orWhere(
+                `file.mimeType IN (:...audio) AND NOT EXISTS (SELECT 1 FROM users u WHERE u.id = file."uploadedById" AND u.role = :admin)`,
+                { audio: Object.keys(AUDIO_FILE_TYPES), admin: Role.Admin },
+              ),
+          ),
+        )
         .andWhere('file.createdAt < :before', { before })
         .orderBy('file.id')
         .limit(CLEANUP_BATCH_SIZE);

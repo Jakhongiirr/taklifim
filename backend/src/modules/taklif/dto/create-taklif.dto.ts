@@ -74,6 +74,14 @@ export class CreateTaklifDto {
   @IsUUID()
   musicId?: string;
 
+  /**
+   * Optional, instead of `musicId`: the couple's own music, an audio file id
+   * from POST /files. Users can only use audio they uploaded.
+   */
+  @IsOptional()
+  @IsUUID()
+  customMusicId?: string;
+
   /** An active theme's `id` from GET /themes. */
   @IsUUID()
   themeId: string;

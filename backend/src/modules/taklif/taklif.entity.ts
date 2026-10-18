@@ -9,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import { File } from '../files/file.entity';
 import { Music } from '../music/music.entity';
 import { Theme } from '../themes/theme.entity';
 import { User } from '../users/user.entity';
@@ -103,6 +104,19 @@ export class Taklif {
   @ManyToOne(() => Music, { nullable: true, onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'musicId' })
   music: Music | null;
+
+  /**
+   * The couple's own music instead of a library track: an audio file they
+   * uploaded. Never set together with `musicId`.
+   */
+  @Index('UQ_taklif_customMusicFileId', { unique: true })
+  @Column({ type: 'uuid', nullable: true })
+  customMusicFileId: string | null;
+
+  // RESTRICT: the file can't be deleted while the invitation uses it.
+  @ManyToOne(() => File, { nullable: true, onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'customMusicFileId' })
+  customMusicFile: File | null;
 
   @Column({ type: 'uuid' })
   themeId: string;

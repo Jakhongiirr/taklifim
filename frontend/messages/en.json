@@ -536,13 +536,23 @@
       "play": "Listen",
       "stop": "Stop",
       "showAll": "All music ({count})",
-      "showLess": "Show less"
+      "showLess": "Show less",
+      "own": {
+        "add": "Upload your own music",
+        "hint": "MP3, M4A, AAC or OGG · up to 10 MB",
+        "label": "Your music",
+        "replace": "Replace",
+        "remove": "Remove",
+        "badType": "Music must be an MP3, M4A, AAC or OGG file.",
+        "tooBig": "The music file must be 10 MB or smaller."
+      }
     },
     "save": {
       "create": "Save and preview",
       "edit": "Save changes",
       "uploading": "Uploading photos: {index}/{total}",
-      "saving": "Saving…"
+      "saving": "Saving…",
+      "uploadingMusic": "Uploading music…"
     },
     "errors": {
       "required": "Required.",
@@ -554,6 +564,7 @@
       "draftLimit": "You already have 30 drafts. Delete some or publish them.",
       "generic": "Couldn't save. Please try again.",
       "upload": "Couldn't upload a photo. Please try again.",
+      "uploadMusic": "Couldn't upload the music. Please try again.",
       "postpone": "The date has already been changed 5 times and can't be changed again.",
       "eventRange": "Choose a date from now up to {date}."
     },

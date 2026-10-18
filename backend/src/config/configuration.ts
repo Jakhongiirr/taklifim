@@ -46,6 +46,9 @@ export default () => ({
   upload: {
     imageMaxSizeMb: parseFloat(process.env.UPLOAD_IMAGE_MAX_SIZE_MB ?? '10'),
     audioMaxSizeMb: parseFloat(process.env.UPLOAD_AUDIO_MAX_SIZE_MB ?? '50'),
+    userAudioMaxSizeMb: parseFloat(
+      process.env.UPLOAD_USER_AUDIO_MAX_SIZE_MB ?? '10',
+    ),
   },
   telegram: {
     gatewayToken: process.env.TELEGRAM_GATEWAY_TOKEN || undefined,

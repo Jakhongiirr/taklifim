@@ -16,3 +16,9 @@ export interface Design {
 export type Photo =
   | { key: string; existing: FileDto }
   | { key: string; file: File; preview: string };
+
+/** The couple's own music: already on the invitation, or picked but not yet uploaded. */
+export type OwnMusic = { existing: FileDto } | { file: File; preview: string };
+
+/** The music picker's value for the couple's own music (else a track id, or ""). */
+export const OWN_MUSIC = "own";

@@ -13,6 +13,7 @@ import { api, ApiError } from "@/lib/api-client";
 import { copyText } from "@/lib/copy-text";
 import type { AdminTaklif, Page, TaklifStatus, Theme } from "@/lib/api-types";
 import { formatDateTime, formatEventAt, coupleNames } from "@/lib/format";
+import { guestMusic } from "@/lib/own-music";
 import { invitationUrl, repliesUrl } from "./links";
 import TaklifForm from "./taklif-form";
 import {
@@ -358,9 +359,10 @@ export default function TaklifManager({
                         <div className="font-mono">{taklif.theme.themeId}</div>
                         <div
                           className="max-w-48 truncate text-zinc-500"
-                          title={taklif.music?.title}
+                          title={guestMusic(taklif)?.title}
                         >
-                          {taklif.music?.title ?? "No music"}
+                          {taklif.customMusic && "Own: "}
+                          {guestMusic(taklif)?.title ?? "No music"}
                         </div>
                       </td>
                       {!embedded && (

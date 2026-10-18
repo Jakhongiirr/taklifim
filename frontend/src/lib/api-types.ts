@@ -97,8 +97,10 @@ export interface Taklif {
   photos: FileDto[];
   cardNumber: string | null;
   phone: string | null;
-  /** Null when the invitation has no music. */
+  /** A library track; null without one. */
   music: Music | null;
+  /** The couple's own uploaded music, played instead of `music`. */
+  customMusic: FileDto | null;
   theme: Theme;
   createdAt: string;
   updatedAt: string;
