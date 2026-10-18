@@ -4,7 +4,7 @@ import { join } from "node:path";
 import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 
-// Shared pieces of the generated link previews (Open Graph images):
+// Shared pieces of the generated images (the PNG and QR cards):
 // Cormorant Garamond (WOFF: next/og can't read WOFF2) and the brand logo.
 
 const FONT_DIR = join(process.cwd(), "assets/fonts/cormorant");
@@ -109,21 +109,6 @@ export async function ogFont(
   };
 }
 
-const publicImages = new Map<string, Promise<string>>();
-
-/** A JPEG from public/ (e.g. a theme's art) as a data URI. */
-export function ogPublicImage(path: string) {
-  if (!publicImages.has(path)) {
-    publicImages.set(
-      path,
-      readFile(join(process.cwd(), "public", path)).then(
-        (data) => `data:image/jpeg;base64,${data.toString("base64")}`,
-      ),
-    );
-  }
-  return publicImages.get(path)!;
-}
-
 let logo: Promise<string> | undefined;
 
 /** The horizontal logo as a data URI (logo-horizontal.svg is 2425×545). */
@@ -133,8 +118,6 @@ export function ogLogo() {
   ).then((svg) => `data:image/svg+xml;base64,${svg.toString("base64")}`);
   return logo;
 }
-
-export const OG_SIZE = { width: 1200, height: 630 };
 
 /** The route's locale, narrowed for typed translations. */
 export function ogLocale(locale: string) {

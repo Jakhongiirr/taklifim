@@ -7,7 +7,7 @@ import SiteHeader from "@/components/site/site-header";
 import { DESIGN_COPY, DESIGN_IDS, designName } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { localeAlternates, SITE_URL } from "@/lib/seo";
+import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
 
 const copyFor = (id: string, locale: string) =>
@@ -29,7 +29,7 @@ export async function generateMetadata({
       description,
       siteName: "taklifim.uz",
       type: "website",
-      images: [`/themes/${DESIGN_IDS[0]}/opening-end.jpg`],
+      images: OG_IMAGES,
     },
   };
 }

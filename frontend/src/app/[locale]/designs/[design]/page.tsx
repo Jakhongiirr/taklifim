@@ -13,7 +13,7 @@ import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
 import { demoUrlFor } from "@/lib/demo-url";
 import { formatSum } from "@/lib/format";
-import { localeAlternates, SITE_URL } from "@/lib/seo";
+import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
 
 /** What every design comes with (the home page's feature names). */
@@ -53,7 +53,7 @@ export async function generateMetadata({
       description,
       siteName: "taklifim.uz",
       type: "website",
-      images: [`/themes/${design}/opening-end.jpg`],
+      images: OG_IMAGES,
     },
   };
 }
