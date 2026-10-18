@@ -246,75 +246,71 @@ function Caps({
   );
 }
 
-/** The greeting to the guest, in italics. */
-function Greeting({ text, size }: { text: string; size: number }) {
-  return (
-    <div
-      style={{
-        display: "flex",
-        maxWidth: 720,
-        fontSize: size,
-        fontWeight: 600,
-        fontStyle: "italic",
-        lineHeight: 1.25,
-        color: GREEN,
-        justifyContent: "center",
-      }}
-    >
-      {text}
-    </div>
-  );
-}
-
 /**
  * The closing credit, as on the guest page (themes/shared/made-with): the
  * logo mark and "Taklifim.uz orqali yaratildi" in a plain sans, in a thin
- * rounded outline. The same words in every locale.
+ * rounded outline. The same words in every locale. It sits on the frame's
+ * bottom rule, centred over its diamond and clear of the flowers.
  */
-function Credit({ assets, top }: { assets: Assets; top: number }) {
-  const size = 30;
+function Credit({ assets }: { assets: Assets }) {
+  const size = 28;
   return (
+    // The diamond is at x 470: a box twice that wide centres the pill on it.
     <div
       style={{
         position: "absolute",
-        top,
+        left: 0,
+        width: 940,
+        bottom: 116,
         display: "flex",
-        alignItems: "center",
-        gap: 14,
-        padding: "16px 30px",
-        borderRadius: 999,
-        border: "2px solid rgba(122,85,32,0.35)",
-        background: "rgba(249,243,231,0.85)",
-        fontFamily: CREDIT_FONT,
-        fontSize: size,
-        lineHeight: 1,
-        color: GOLD,
-        textShadow: "none",
+        justifyContent: "center",
       }}
     >
       <div
-        style={{ display: "flex", position: "relative", width: 44, height: 44 }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          padding: "14px 26px",
+          borderRadius: 999,
+          border: "2px solid rgba(122,85,32,0.35)",
+          background: "rgba(249,243,231,0.85)",
+          fontFamily: CREDIT_FONT,
+          fontSize: size,
+          lineHeight: 1,
+          color: GOLD,
+          textShadow: "none",
+        }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-        <img
-          src={assets.mark[1]}
-          alt=""
-          width={44}
-          height={44}
-          style={{ position: "absolute", opacity: 0.45 }}
-        />
-        {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-        <img
-          src={assets.mark[0]}
-          alt=""
-          width={44}
-          height={44}
-          style={{ position: "absolute" }}
-        />
-      </div>
-      <div style={{ display: "flex" }}>
-        <span style={{ fontWeight: 600 }}>Taklifim.uz</span>
-        <span>&nbsp;orqali yaratildi</span>
+        <div
+          style={{
+            display: "flex",
+            position: "relative",
+            width: 40,
+            height: 40,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+          <img
+            src={assets.mark[1]}
+            alt=""
+            width={40}
+            height={40}
+            style={{ position: "absolute", opacity: 0.45 }}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+          <img
+            src={assets.mark[0]}
+            alt=""
+            width={40}
+            height={40}
+            style={{ position: "absolute" }}
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <span style={{ fontWeight: 600 }}>Taklifim.uz</span>
+          <span>&nbsp;orqali yaratildi</span>
+        </div>
       </div>
     </div>
   );
@@ -336,8 +332,6 @@ export interface CardText {
   /** The formatted date and time. */
   date: string;
   venue: string;
-  /** The line greeting the guest. */
-  greeting: string;
 }
 
 export const STORY_SIZE = CARD_SIZE;
@@ -374,9 +368,8 @@ export function StoryCard({
   return (
     <Frame assets={assets}>
       {/* Below the arch and the top flowers, above the bottom ones. */}
-      <Content top={380} height={1080}>
-        <Greeting text={text.greeting} size={40} />
-        <div style={{ marginTop: 30, display: "flex" }}>
+      <Content top={340} height={1140}>
+        <div style={{ display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
@@ -457,7 +450,7 @@ export function StoryCard({
           {signature}
         </div>
       </Content>
-      <Credit assets={assets} top={1530} />
+      <Credit assets={assets} />
     </Frame>
   );
 }
@@ -469,20 +462,17 @@ const QR_SIZE = 520;
 export function QrCard({
   assets,
   qr,
-  scan,
   ...text
 }: Omit<CardText, "venue"> & {
   assets: Assets;
   /** The code as an SVG string. */
   qr: string;
-  scan: string;
 }) {
   const names = `${text.groom} & ${text.bride}`;
   return (
     <Frame assets={assets}>
       <Content top={340} height={1120}>
-        <Greeting text={text.greeting} size={40} />
-        <div style={{ marginTop: 14, display: "flex" }}>
+        <div style={{ display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
@@ -496,22 +486,14 @@ export function QrCard({
           size={40}
           color={GOLD}
           spacing={0.08}
-          style={{ marginTop: 8 }}
+          style={{ marginTop: 16 }}
         >
           {text.date}
-        </Caps>
-        <Caps
-          assets={assets}
-          size={30}
-          spacing={0.08}
-          style={{ marginTop: 22 }}
-        >
-          {scan}
         </Caps>
         {/* The code, on white with a quiet zone around it. */}
         <div
           style={{
-            marginTop: 20,
+            marginTop: 56,
             display: "flex",
             padding: 30,
             background: "#ffffff",
@@ -528,7 +510,7 @@ export function QrCard({
           />
         </div>
       </Content>
-      <Credit assets={assets} top={1500} />
+      <Credit assets={assets} />
     </Frame>
   );
 }

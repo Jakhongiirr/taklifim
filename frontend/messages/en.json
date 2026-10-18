@@ -438,7 +438,6 @@
     "cardGreeting": {
       "title": "Hello, dear guest!"
     },
-    "qrScan": "Scan to open the invitation",
     "preview": {
       "back": "My account",
       "edit": "Edit",

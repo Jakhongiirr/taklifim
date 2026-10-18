@@ -35,7 +35,6 @@ export async function GET(
   const image = new ImageResponse(
     <StoryCard
       assets={assets}
-      greeting={t("cardGreeting.title")}
       groom={taklif.groomName}
       bride={taklif.brideName}
       weekday={weekdays[weekday]}
