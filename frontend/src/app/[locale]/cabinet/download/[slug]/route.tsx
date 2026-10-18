@@ -35,10 +35,7 @@ export async function GET(
   const image = new ImageResponse(
     <StoryCard
       assets={assets}
-      greeting={{
-        title: t("cardGreeting.title"),
-        text: t("cardGreeting.text"),
-      }}
+      greeting={t("cardGreeting.title")}
       groom={taklif.groomName}
       bride={taklif.brideName}
       weekday={weekdays[weekday]}
@@ -49,7 +46,6 @@ export async function GET(
       venue={taklif.venueName}
       address={taklif.venueAddress}
       signature={t("signature", { host: taklif.hostName })}
-      ad={t("cardAd")}
     />,
     { ...STORY_SIZE, fonts: assets.fonts },
   );

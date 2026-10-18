@@ -436,10 +436,8 @@
       "pause": "Musiqani toʻxtatish"
     },
     "cardGreeting": {
-      "title": "Assalomu alaykum, hurmatli mehmon!",
-      "text": "Sizni hayotimizning eng quvonchli va unutilmas kunlaridan biri — nikoh toʻyimiz munosabati bilan tashkil etilayotgan toʻy bazmimizga taklif etamiz"
+      "title": "Assalomu alaykum, hurmatli mehmon!"
     },
-    "cardAd": "Oʻz taklifnomangizni yarating",
     "qrScan": "Taklifnomani ochish uchun skanerlang",
     "preview": {
       "back": "Kabinet",
