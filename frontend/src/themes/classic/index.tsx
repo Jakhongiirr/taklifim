@@ -22,8 +22,10 @@ import SealCover from "./seal-cover";
 const INK = "text-[#2b2420]";
 const GOLD = "text-[#a8894f]";
 const WINE = "text-[#7a1f2b]";
+/** GOLD deepened for words and marks set in type, so they read on the paper. */
+const GOLD_TEXT = "text-[#957946]";
 const LABEL =
-  "text-[11px] font-semibold tracking-[0.35em] text-[#7a6a55] uppercase";
+  "text-[11px] font-semibold tracking-[0.35em] text-[#6f614e] uppercase";
 
 /**
  * Classic: an envelope closed with a wax seal opens onto a framed card
@@ -64,7 +66,7 @@ export default async function ClassicTheme({
             <p className={`text-[9px] ${LABEL}`}>{t("cover.eyebrow")}</p>
             <p className={`mt-2 text-2xl leading-tight italic ${INK}`}>
               {taklif.groomName}
-              <span className={`mx-1.5 ${GOLD}`}>&amp;</span>
+              <span className={`mx-1.5 ${GOLD_TEXT}`}>&amp;</span>
               {taklif.brideName}
             </p>
           </>
@@ -95,7 +97,7 @@ export default async function ClassicTheme({
               style={{ "--i": 1 } as CSSProperties}
             >
               {taklif.groomName}
-              <span className={`my-2 block text-4xl font-normal ${GOLD}`}>
+              <span className={`my-2 block text-4xl font-normal ${GOLD_TEXT}`}>
                 &amp;
               </span>
               {taklif.brideName}
@@ -116,7 +118,7 @@ export default async function ClassicTheme({
               className="classic-rise mt-12"
               style={{ "--i": 4 } as CSSProperties}
             >
-              <ScrollHint className={GOLD} />
+              <ScrollHint className="text-[#7b643a]" />
             </div>
           </Frame>
         </section>
@@ -165,7 +167,7 @@ export default async function ClassicTheme({
             />
             <p className="mt-6 text-2xl">
               <span className={`font-semibold ${WINE}`}>{date.time}</span>
-              <span className="mx-3 text-[#a8894f]">—</span>
+              <span className={`mx-3 ${GOLD_TEXT}`}>—</span>
               <span className="text-[#5a4c3e] italic">
                 {t("classic.startTime")}
               </span>
@@ -216,7 +218,7 @@ export default async function ClassicTheme({
                 optionOff: "rounded-sm bg-[#fffdf8] ring-1 ring-[#a8894f]/40",
                 button:
                   "rounded-sm bg-[#7a1f2b] text-[#faf6ee] hover:bg-[#5f1721]",
-                muted: "text-[#7a6a55]",
+                muted: "text-[#6f614e]",
                 accent: "text-[#7a1f2b]",
                 error: "text-red-700",
               }}
@@ -265,11 +267,11 @@ export default async function ClassicTheme({
           </div>
           <p
             aria-hidden
-            className={`mt-12 text-2xl tracking-[0.3em] italic ${GOLD}`}
+            className={`mt-12 text-2xl tracking-[0.3em] italic ${GOLD_TEXT}`}
           >
             {taklif.groomName[0]} ♡ {taklif.brideName[0]}
           </p>
-          <MadeWith className="mt-8 text-[#7a6a55]" />
+          <MadeWith className="mt-8 text-[#6f614e]" />
         </footer>
       </article>
     </div>
@@ -435,7 +437,7 @@ function Calendar({
         {weekdays.map((w) => (
           <span
             key={w}
-            className="pb-1 text-xs font-semibold tracking-wider text-[#a8894f] uppercase"
+            className="pb-1 text-xs font-semibold tracking-wider text-[#7b643a] uppercase"
           >
             {w}
           </span>

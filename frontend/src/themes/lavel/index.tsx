@@ -21,12 +21,12 @@ import { Bouquet, Divider, Sprig, Wreath } from "./lavender";
 // art files to load (public/themes/lavel only holds the catalog's
 // previews).
 const INK = "text-[#43345e]";
-const MUTED = "text-[#6e6283]";
-const LILAC = "text-[#8a73c0]";
+const MUTED = "text-[#64587a]";
+const LILAC = "text-[#7257b3]";
 const PLUM = "text-[#6f58a8]";
 const SCRIPT = `${lavelScript} font-normal not-italic`;
 const LABEL =
-  "text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase";
+  "text-[11px] font-semibold tracking-[0.35em] text-[#64557f] uppercase";
 
 /**
  * Lavel: a folded lilac card sealed with lavender wax opens onto a
@@ -111,7 +111,7 @@ export default async function LavelTheme({
             className="lavel-rise mt-10"
             style={{ "--i": 5 } as CSSProperties}
           >
-            <ScrollHint className={LILAC} />
+            <ScrollHint className={PLUM} />
           </div>
         </section>
 
@@ -246,7 +246,7 @@ export default async function LavelTheme({
                 optionOff: "rounded-xl bg-[#fdfbff] ring-1 ring-[#a690d4]/45",
                 button:
                   "rounded-full bg-[#6f58a8] text-[#fbf8fe] hover:bg-[#574289]",
-                muted: "text-[#7d6c99]",
+                muted: "text-[#64557f]",
                 accent: "text-[#6f58a8]",
                 error: "text-red-700",
               }}
@@ -298,7 +298,7 @@ export default async function LavelTheme({
           >
             {initials}
           </p>
-          <MadeWith className="mt-8 text-[#7d6c99]" />
+          <MadeWith className="mt-8 text-[#64557f]" />
         </footer>
       </article>
     </div>
@@ -348,7 +348,7 @@ function Calendar({
         {weekdays.map((w) => (
           <span
             key={w}
-            className={`pb-1 text-xs font-semibold tracking-wider uppercase ${LILAC}`}
+            className={`pb-1 text-xs font-semibold tracking-wider uppercase ${PLUM}`}
           >
             {w}
           </span>

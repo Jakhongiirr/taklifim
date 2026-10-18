@@ -70,19 +70,22 @@ export default async function HavenTheme({
         musicClass="bg-[#f4efe6]/90 text-[#2f3a2c] ring-1 ring-[#2b2a28]/30"
       >
         <Ironwork className="w-44 text-[#fbf6ee]/80" />
-        <p
-          className={`${cormorantSc.className} mt-4 text-sm tracking-[0.4em] text-[#f1d9c8]`}
-        >
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-4 [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]">
-          {names("text-[#fbf6ee]", "text-[#f1c9c4]")}
+        <div className="relative isolate">
+          <TextGlow tone="bg-[#1c211a]/40" />
+          <p
+            className={`${cormorantSc.className} mt-4 text-sm font-semibold tracking-[0.4em] text-[#fbeee4] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]`}
+          >
+            {t("cover.eyebrow")}
+          </p>
+          <div className="mt-4 [text-shadow:0_2px_16px_rgba(0,0,0,0.45)]">
+            {names("text-[#fbf6ee]", "text-[#f1c9c4]")}
+          </div>
+          <p
+            className={`${cormorantSc.className} mt-5 text-xl text-[#fbf6ee] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]`}
+          >
+            {fullDate}
+          </p>
         </div>
-        <p
-          className={`${cormorantSc.className} mt-5 text-xl text-[#fbf6ee] [text-shadow:0_1px_8px_rgba(0,0,0,0.5)]`}
-        >
-          {fullDate}
-        </p>
       </VideoCover>
 
       <article className="mx-auto max-w-md overflow-clip bg-[#f9ecdb] text-center text-[#3d2b1f] md:shadow-2xl md:shadow-[#3d2b1f]/25">
@@ -100,9 +103,9 @@ export default async function HavenTheme({
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#f4efe6]/35 via-65% to-[#f4efe6]/70" />
           <Petals />
           <div className="relative isolate">
-            <TextGlow tone="bg-[#f4efe6]/80" className="haven-rise" />
+            <TextGlow tone="bg-[#f4efe6]/85" className="haven-rise" />
             <p
-              className={`${cormorantSc.className} haven-rise text-sm tracking-[0.35em] text-[#7a3f48]`}
+              className={`${cormorantSc.className} haven-rise text-sm font-semibold tracking-[0.25em] text-[#6e2f36]`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
@@ -123,7 +126,7 @@ export default async function HavenTheme({
               className="haven-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#b5707a]" />
+              <ScrollHint className="text-[#8e4a52]" />
             </div>
           </div>
         </section>
@@ -154,7 +157,7 @@ export default async function HavenTheme({
                   bride: taklif.brideName,
                 })}
               </p>
-              <p className="mt-5 font-serif text-lg text-[#6f5640] italic">
+              <p className="mt-5 font-serif text-lg text-[#56402c] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
             </div>

@@ -55,7 +55,7 @@ export default async function ArcadeTheme({
       className={`${yeseva.className} text-[2.7rem] leading-[1.1] text-[#4d3a52] [text-shadow:0_0_18px_#fffaf6,0_0_5px_#fffaf6]`}
     >
       {taklif.groomName}
-      <span className="my-1 block font-serif text-3xl text-[#d27f93] italic">
+      <span className="my-1 block font-serif text-3xl text-[#c55b75] italic">
         &amp;
       </span>
       {taklif.brideName}
@@ -101,7 +101,7 @@ export default async function ArcadeTheme({
           <div className="relative isolate">
             <TextGlow tone="bg-[#fdf8f4]/75" className="arcade-rise" />
             <p
-              className="arcade-rise text-[11px] tracking-[0.35em] text-[#8a5a74] uppercase"
+              className="arcade-rise text-[11px] tracking-[0.35em] text-[#74475f] uppercase"
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
@@ -122,7 +122,7 @@ export default async function ArcadeTheme({
               className="arcade-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#d27f93]" />
+              <ScrollHint className="text-[#a8455e]" />
             </div>
           </div>
         </section>
@@ -165,7 +165,7 @@ export default async function ArcadeTheme({
         <Section title={t("date.title")}>
           <div className="arcade-reveal">
             <div className="flex flex-col items-center">
-              <p className="text-[10px] tracking-[0.3em] text-[#7d9a7e] uppercase">
+              <p className="text-[10px] tracking-[0.3em] text-[#556e56] uppercase">
                 {weekdays[date.weekday]}
               </p>
               <p
@@ -182,7 +182,7 @@ export default async function ArcadeTheme({
             </p>
           </div>
           <div className="arcade-reveal mt-10">
-            <p className="mb-4 text-xs tracking-[0.3em] text-[#7d9a7e] uppercase">
+            <p className="mb-4 text-xs tracking-[0.3em] text-[#556e56] uppercase">
               {t("countdown.title")}
             </p>
             <Countdown
@@ -212,7 +212,7 @@ export default async function ArcadeTheme({
             />
             <MapLink
               taklif={taklif}
-              className="mt-6 inline-flex h-11 items-center rounded-full bg-[#7d9a7e] px-6 text-sm tracking-wide text-white hover:bg-[#6b886c]"
+              className="mt-6 inline-flex h-11 items-center rounded-full bg-[#607c61] px-6 text-sm tracking-wide text-white hover:bg-[#516b52]"
             >
               {t("venue.map")}
             </MapLink>
@@ -232,11 +232,11 @@ export default async function ArcadeTheme({
               palette={{
                 input:
                   "bg-[#fffaf6] ring-1 ring-[#d27f93]/30 focus:ring-[#d27f93]",
-                optionOn: "bg-[#d27f93] text-white",
+                optionOn: "bg-[#c04c68] text-white",
                 optionOff: "bg-[#fffaf6] ring-1 ring-[#d27f93]/30",
                 button: "bg-[#4d3a52] text-[#fffaf6] hover:bg-[#3d2d42]",
                 muted: "text-[#7d5f74]",
-                accent: "text-[#d27f93]",
+                accent: "text-[#c55b75]",
                 error: "text-red-700",
               }}
             />

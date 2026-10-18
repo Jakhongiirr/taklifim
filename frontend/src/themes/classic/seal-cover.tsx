@@ -161,7 +161,7 @@ export default function SealCover({
 
             <p
               data-font-reveal
-              className="classic-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#7a6a55] uppercase"
+              className="classic-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#6f614e] uppercase"
             >
               {t("classic.sealHint")}
             </p>

@@ -139,7 +139,7 @@ export default function LidCover({
 
             <p
               data-font-reveal
-              className="plov-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#8a6a2f] uppercase"
+              className="plov-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#765a27] uppercase"
             >
               {t("plov.lidHint")}
             </p>
@@ -156,7 +156,7 @@ export default function LidCover({
           onClick={toggleMusic}
           aria-label={playing ? t("music.pause") : t("music.play")}
           data-music-button
-          className="fixed right-4 bottom-4 z-30 flex size-12 items-center justify-center rounded-full bg-[#fffaf0]/90 text-[#8a6a2f] shadow-lg ring-1 ring-[#b08a45]/50 backdrop-blur"
+          className="fixed right-4 bottom-4 z-30 flex size-12 items-center justify-center rounded-full bg-[#fffaf0]/90 text-[#765a27] shadow-lg ring-1 ring-[#b08a45]/50 backdrop-blur"
         >
           <svg
             aria-hidden

@@ -14,7 +14,7 @@ export default function MadeWith({ className }: { className: string }) {
       <Link
         href="/"
         target="_blank"
-        className="inline-flex items-center gap-2 rounded-full border border-current/25 px-4 py-2 font-sans text-[13px] leading-none font-normal tracking-normal not-italic normal-case opacity-90 transition hover:border-current/50 hover:opacity-100"
+        className="inline-flex items-center gap-2 rounded-full border border-current/25 px-4 py-2 font-sans text-[13px] leading-none font-normal tracking-normal not-italic normal-case transition hover:border-current/50"
       >
         <span aria-hidden className="relative size-[22px] shrink-0">
           <span className="absolute inset-0 bg-current opacity-45 [mask:url(/brand/logo-mark-accent.svg)_center/contain_no-repeat]" />

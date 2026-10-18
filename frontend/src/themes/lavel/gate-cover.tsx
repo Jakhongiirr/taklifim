@@ -118,7 +118,7 @@ export default function GateCover({
             data-font-reveal
             className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[13%] px-8 text-center"
           >
-            <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
+            <p className="text-[11px] font-semibold tracking-[0.35em] text-[#64557f] uppercase">
               {t("cover.eyebrow")}
             </p>
             <p className="mt-4 text-2xl leading-snug italic">
@@ -139,10 +139,10 @@ export default function GateCover({
             data-font-reveal
             className="lavel-cover-words pointer-events-none absolute inset-x-0 top-[calc(50%+4.5rem)] px-8 text-center"
           >
-            <p className="text-[11px] font-semibold tracking-[0.35em] text-[#7d6c99] uppercase">
+            <p className="text-[11px] font-semibold tracking-[0.35em] text-[#64557f] uppercase">
               {t("lavel.sealHint")}
             </p>
-            <p className="mt-4 text-xl tracking-[0.3em] text-[#8a73c0] italic">
+            <p className="mt-4 text-xl tracking-[0.3em] text-[#7257b3] italic">
               {initials}
             </p>
           </div>

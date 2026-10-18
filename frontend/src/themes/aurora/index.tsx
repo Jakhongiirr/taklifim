@@ -53,7 +53,7 @@ export default async function AuroraTheme({
       className={`${greatVibes.className} text-[3.6rem] leading-[1.05] text-[#7a5a2c] [text-shadow:0_0_18px_#fffaf0,0_0_4px_#fffaf0]`}
     >
       {taklif.groomName}
-      <span className="mx-2 block text-[2.4rem] text-[#b08a4e]">&amp;</span>
+      <span className="mx-2 block text-[2.4rem] text-[#997844]">&amp;</span>
       {taklif.brideName}
     </h1>
   );
@@ -119,7 +119,7 @@ export default async function AuroraTheme({
               className="aurora-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#b08a4e]" />
+              <ScrollHint className="text-[#7f6338]" />
             </div>
           </div>
         </section>
