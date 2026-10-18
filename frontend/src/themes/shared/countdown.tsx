@@ -57,7 +57,7 @@ export default function Countdown({
               {left ? String(left[unit]).padStart(2, "0") : "––"}
             </span>
           </span>
-          <span className="text-[11px] tracking-wide uppercase opacity-70">
+          <span className="text-[11px] tracking-wide uppercase opacity-85">
             {t(unit)}
           </span>
         </div>

@@ -55,7 +55,7 @@ export default async function DoveTheme({
     >
       {taklif.groomName}
       <span
-        className={`${forum.className} my-1 block text-xl tracking-[0.5em] text-[#b9737f]`}
+        className={`${forum.className} my-1 block text-xl tracking-[0.5em] text-[#a2626e]`}
       >
         &amp;
       </span>
@@ -129,7 +129,7 @@ export default async function DoveTheme({
               className="dove-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#c98b8b]" />
+              <ScrollHint className="text-[#94565b]" />
             </div>
           </div>
         </section>
@@ -162,7 +162,7 @@ export default async function DoveTheme({
                   bride: taklif.brideName,
                 })}
               </p>
-              <p className="mt-[4.5cqw] font-serif text-[4.2cqw] text-[#8a6f73] italic">
+              <p className="mt-[4.5cqw] font-serif text-[4.2cqw] text-[#796165] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
             </div>
@@ -175,7 +175,7 @@ export default async function DoveTheme({
             <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#efe5d3] to-[#f9ecdb] ring-1 ring-[#b8955a]/50">
               <div className="absolute inset-2 rounded-t-full ring-1 ring-[#b8955a]/25" />
               <p
-                className={`${forum.className} text-xs tracking-[0.35em] text-[#6f8597] uppercase`}
+                className={`${forum.className} text-xs tracking-[0.35em] text-[#576a79] uppercase`}
               >
                 {weekdays[date.weekday]}
               </p>
@@ -192,7 +192,7 @@ export default async function DoveTheme({
           </div>
           <div className="dove-reveal mt-10">
             <p
-              className={`${forum.className} mb-4 text-xs tracking-[0.3em] text-[#6f8597] uppercase`}
+              className={`${forum.className} mb-4 text-xs tracking-[0.3em] text-[#576a79] uppercase`}
             >
               {t("countdown.title")}
             </p>
@@ -218,7 +218,7 @@ export default async function DoveTheme({
             <p className="font-serif text-2xl text-[#6b3f4a]">
               {taklif.venueName}
             </p>
-            <p className="mt-2 text-sm text-[#8a6f73]">{taklif.venueAddress}</p>
+            <p className="mt-2 text-sm text-[#796165]">{taklif.venueAddress}</p>
             <VenueMap
               taklif={taklif}
               className="mt-6 rounded-2xl shadow-lg shadow-[#6b3f4a]/10 ring-1 ring-[#b8955a]/50"
@@ -248,7 +248,7 @@ export default async function DoveTheme({
                 optionOn: "bg-[#6b3f4a] text-[#fdfaf4]",
                 optionOff: "bg-[#fdfaf4] ring-1 ring-[#b8955a]/35",
                 button: "bg-[#6b3f4a] text-[#fdfaf4] hover:bg-[#5a3e45]",
-                muted: "text-[#8a6f73]",
+                muted: "text-[#796165]",
                 accent: "text-[#6b3f4a]",
                 error: "text-red-700",
               }}
@@ -259,7 +259,7 @@ export default async function DoveTheme({
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
             <div className="dove-reveal rounded-3xl bg-gradient-to-br from-[#efe5d3] via-[#fdfaf4] to-[#e7ece2] px-6 py-8 ring-1 ring-[#b8955a]/35">
-              <p className="text-sm text-[#8a6f73]">{t("gift.text")}</p>
+              <p className="text-sm text-[#796165]">{t("gift.text")}</p>
               <p className="mt-4 font-mono text-xl tracking-wider">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
@@ -289,7 +289,7 @@ export default async function DoveTheme({
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-[#8a6f73]" />
+          <MadeWith className="mt-12 text-[#796165]" />
         </footer>
       </article>
     </>

@@ -76,17 +76,20 @@ export default async function VioletTheme({
         musicClass="bg-[#2a1f48]/85 text-[#f5c27a] ring-1 ring-[#b79ce8]/40"
       >
         <Crescent className="w-10" />
-        <p
-          className={`${tenor.className} mt-4 text-[11px] tracking-[0.45em] text-[#efe8fc] uppercase [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
-        >
-          {t("cover.eyebrow")}
-        </p>
-        <div className="mt-4">{names}</div>
-        <p
-          className={`${tenor.className} mt-5 text-sm tracking-[0.15em] text-[#f7f2ff] [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
-        >
-          {fullDate}
-        </p>
+        <div className="relative isolate">
+          <TextGlow tone="bg-[#1b1430]/45" />
+          <p
+            className={`${tenor.className} mt-4 text-[11px] tracking-[0.45em] text-[#f7f2ff] uppercase [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
+          >
+            {t("cover.eyebrow")}
+          </p>
+          <div className="mt-4">{names}</div>
+          <p
+            className={`${tenor.className} mt-5 text-sm tracking-[0.15em] text-[#f7f2ff] [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
+          >
+            {fullDate}
+          </p>
+        </div>
       </VideoCover>
 
       <article className="relative mx-auto max-w-md overflow-clip bg-gradient-to-b from-[#1b1430] via-[#241a40] to-[#1b1430] text-center text-[#f1ecfa] md:shadow-2xl md:shadow-black/40">

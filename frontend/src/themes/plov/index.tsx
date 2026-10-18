@@ -21,11 +21,11 @@ import { PlatterRim, Rosette, StarRule } from "./ornaments";
 // islimi ornaments, and a lagan of plov at its heart. The ornaments are
 // SVG; the only art file is the plov photo (public/themes/plov/plov.webp).
 const INK = "text-[#3b2a1a]";
-const GOLD = "text-[#b08a45]";
+const GOLD = "text-[#98773c]";
 const SAFFRON = "text-[#a4501f]";
 const SOFT = "text-[#6b5640]";
 const LABEL =
-  "text-[11px] font-semibold tracking-[0.35em] text-[#8a6a2f] uppercase";
+  "text-[11px] font-semibold tracking-[0.35em] text-[#765a27] uppercase";
 const NAMES = `${oldStandard.className} italic`;
 
 /**
@@ -121,7 +121,7 @@ export default async function PlovTheme({
                 className="plov-rise mt-10"
                 style={{ "--i": 5 } as CSSProperties}
               >
-                <ScrollHint className={GOLD} />
+                <ScrollHint className="text-[#7f6332]" />
               </div>
             </div>
           </div>
@@ -236,7 +236,7 @@ export default async function PlovTheme({
                 optionOff: "rounded-xl bg-[#fffaf0] ring-1 ring-[#b08a45]/40",
                 button:
                   "rounded-full bg-[#a4501f] text-[#faf6ec] hover:bg-[#87401a]",
-                muted: "text-[#8a6a2f]",
+                muted: "text-[#765a27]",
                 accent: "text-[#a4501f]",
                 error: "text-red-700",
               }}

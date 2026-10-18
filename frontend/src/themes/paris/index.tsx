@@ -121,7 +121,7 @@ export default async function ParisTheme({
               className="paris-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#b8925a]" />
+              <ScrollHint className="text-[#7f6237]" />
             </div>
           </div>
         </section>
@@ -243,7 +243,7 @@ export default async function ParisTheme({
                 optionOff: "bg-[#fdf6ec] ring-1 ring-[#2c3550]/20",
                 button: "bg-[#2c3550] text-[#fbf7f2] hover:bg-[#222a41]",
                 muted: "text-[#5d6280]",
-                accent: "text-[#b8925a]",
+                accent: "text-[#9a7742]",
                 error: "text-red-700",
               }}
             />
