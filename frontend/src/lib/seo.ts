@@ -38,3 +38,8 @@ export function localeAlternates(
 ): Metadata["alternates"] {
   return { canonical: `/${locale}${path}`, languages: languageUrls(path) };
 }
+
+/** The one link preview image every page shares (public/og.jpg), with no text on it. */
+export const OG_IMAGES = [
+  { url: "/og.jpg", width: 736, height: 1104, alt: "taklifim.uz" },
+];

@@ -7,7 +7,7 @@ import WordingCta from "@/components/site/wording/wording-cta";
 import { WORDING, WORDING_TOPICS } from "@/content/wording";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
-import { localeAlternates, SITE_URL } from "@/lib/seo";
+import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
 
 // Only the topics in content/wording.ts have a page.
 export const dynamicParams = false;
@@ -33,6 +33,7 @@ export async function generateMetadata({
       description: topic.metaDescription,
       siteName: "taklifim.uz",
       type: "article",
+      images: OG_IMAGES,
     },
   };
 }

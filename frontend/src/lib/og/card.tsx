@@ -4,8 +4,8 @@ import { join } from "node:path";
 import type { CSSProperties, ReactNode } from "react";
 import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
 
-// The invitation's generated images — the link preview, the downloadable
-// card and the QR card — share one background (assets/og: a dusty blue
+// The invitation's generated images — the downloadable card and the QR
+// card — share one background (assets/og: a dusty blue
 // panel in a cream frame with roses in the corners), one palette and
 // typography, whatever the theme, and end with a small taklifim.uz ad. The
 // text sits in the blue panel.
@@ -427,70 +427,6 @@ export interface CardText {
 export interface CardGreeting {
   title: string;
   text: string;
-}
-
-export const PREVIEW_SIZE = { width: 1200, height: 630 };
-
-/** The link preview guests see in Telegram before opening the invitation. */
-export function PreviewCard({
-  assets,
-  ...text
-}: CardText & { assets: Assets }) {
-  const { width, height } = PREVIEW_SIZE;
-  // Short couples on one line, longer ones stacked.
-  const inline = text.groom.length + text.bride.length <= 20;
-  return (
-    // The frame drawn small, its plain edges repeated along the width.
-    <Frame assets={assets} width={width} height={height} scale={0.7}>
-      {/* A soft wash of the panel's blue calms the repeats behind the text. */}
-      <div
-        style={{
-          position: "absolute",
-          left: 140,
-          top: 60,
-          width: 920,
-          height: 500,
-          background:
-            "radial-gradient(ellipse at center, rgba(205,217,229,0.8) 0%, rgba(205,217,229,0.55) 45%, rgba(205,217,229,0) 72%)",
-        }}
-      />
-      <Content top={50} height={470}>
-        <Names
-          assets={assets}
-          groom={text.groom}
-          bride={text.bride}
-          size={inline ? 112 : 80}
-          inline={inline}
-        />
-        <div style={{ marginTop: 14, display: "flex" }}>
-          <Divider />
-        </div>
-        <Caps
-          assets={assets}
-          size={42}
-          color={BRONZE}
-          spacing={0.08}
-          style={{ marginTop: 22 }}
-        >
-          {text.date}
-        </Caps>
-        <div
-          style={{
-            display: "flex",
-            marginTop: 10,
-            fontSize: 44,
-            fontWeight: 700,
-            maxWidth: 760,
-            justifyContent: "center",
-          }}
-        >
-          {text.venue}
-        </div>
-      </Content>
-      {/* Inside the frame, just above its bottom ornament. */}
-      <Ad assets={assets} text={text.ad} scale={0.6} bottom={72} />
-    </Frame>
-  );
 }
 
 export const STORY_SIZE = { width: 1080, height: 1920 };

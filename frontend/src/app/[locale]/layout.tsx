@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
 import { routing } from "@/i18n/routing";
-import { SITE_URL } from "@/lib/seo";
+import { OG_IMAGES, SITE_URL } from "@/lib/seo";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -55,8 +55,9 @@ export async function generateMetadata({
       siteName: "taklifim.uz",
       locale: OG_LOCALES[locale],
       type: "website",
+      images: OG_IMAGES,
     },
-    twitter: { card: "summary_large_image" },
+    twitter: { card: "summary_large_image", images: OG_IMAGES },
   };
 }
 
