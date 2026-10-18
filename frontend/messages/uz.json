@@ -494,8 +494,6 @@
       "eventHint": "Toshkent vaqti bilan",
       "venueName": "Toʻyxona nomi",
       "venueAddress": "Manzil",
-      "locationUrl": "Xarita havolasi",
-      "locationHint": "Ixtiyoriy. Google yoki Yandex xaritada joyni oching, «Ulashish»ni bosing va havolani shu yerga qoʻying.",
       "cardNumber": "Toʻyona uchun karta raqami",
       "cardHint": "Ixtiyoriy. Mehmonlar raqamni nusxalab, pul oʻtkazishi mumkin.",
       "phone": "Aloqa uchun telefon",
@@ -513,8 +511,7 @@
       "confirm": "Shu joyni tanlash",
       "cancel": "Bekor qilish",
       "loading": "Xarita yuklanmoqda…",
-      "failed": "Xarita yuklanmadi. Internetni tekshiring yoki pastga xarita havolasini qoʻying.",
-      "linkHint": "Ixtiyoriy. Yoki Google yoki Yandex xarita havolasini qoʻying."
+      "failed": "Xarita yuklanmadi. Internetni tekshirib, qaytadan urinib koʻring."
     },
     "design": {
       "free": "Bepul",
@@ -550,7 +547,6 @@
     "errors": {
       "required": "Toʻldirilishi shart.",
       "tooLong": "Juda uzun.",
-      "url": "Havola http:// yoki https:// bilan boshlanishi kerak.",
       "card": "Karta raqami 16 ta raqamdan iborat boʻlishi kerak.",
       "phone": "Telefon raqam notoʻgʻri.",
       "design": "Dizaynni tanlang.",

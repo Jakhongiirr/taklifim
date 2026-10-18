@@ -37,7 +37,6 @@ type Fields = {
   eventAt: string;
   venueName: string;
   venueAddress: string;
-  locationUrl: string;
   cardNumber: string;
   phone: string;
   musicId: string;
@@ -52,7 +51,6 @@ const MAX_LENGTH: Partial<Record<FieldKey, number>> = {
   hostName: 100,
   venueName: 200,
   venueAddress: 300,
-  locationUrl: 500,
 };
 const REQUIRED: FieldKey[] = [
   "themeId",
@@ -87,7 +85,7 @@ const deleteFile = (id: string) =>
  * Creates an invitation (no `taklif`) or edits one. New photos are uploaded on
  * save and deleted again if saving fails; photos removed from an existing
  * invitation are deleted by the backend. Ends on the invitation's preview.
- * Without Yandex `mapKeys` the venue is only given as a pasted map link.
+ * Without Yandex `mapKeys` there is no map picker (and no venue pin).
  */
 export default function InvitationBuilder({
   designs,
@@ -115,7 +113,6 @@ export default function InvitationBuilder({
     eventAt: taklif ? toTashkentInput(taklif.eventAt) : "",
     venueName: taklif?.venueName ?? "",
     venueAddress: taklif?.venueAddress ?? "",
-    locationUrl: taklif?.locationUrl ?? "",
     cardNumber: taklif?.cardNumber ? formatCardNumber(taklif.cardNumber) : "",
     phone: taklif?.phone ?? "",
     musicId: taklif?.music?.id ?? "",
@@ -234,14 +231,6 @@ export default function InvitationBuilder({
         found[key] = t("errors.tooLong");
       }
     }
-    const url = fields.locationUrl.trim();
-    if (
-      url &&
-      !found.locationUrl &&
-      !/^https?:\/\/[^\s.]+\.[^\s]+$/i.test(url)
-    ) {
-      found.locationUrl = t("errors.url");
-    }
     // Only a new date: an invitation whose event has passed stays editable.
     const eventChanged =
       !taklif || fields.eventAt !== toTashkentInput(taklif.eventAt);
@@ -301,7 +290,6 @@ export default function InvitationBuilder({
         const key = detail.split(" ")[0] as FieldKey;
         if (key === "phone") found.phone = t("errors.phone");
         else if (key === "cardNumber") found.cardNumber = t("errors.card");
-        else if (key === "locationUrl") found.locationUrl = t("errors.url");
         else if (key in fields) found[key] = t("errors.required");
       }
       if (Object.keys(found).length) return showErrors(found);
@@ -347,8 +335,6 @@ export default function InvitationBuilder({
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
         venueAddress: fields.venueAddress.trim(),
-        // Optional: empty saves as none (and clears an earlier one).
-        locationUrl: fields.locationUrl.trim() || null,
       };
       const location = {
         latitude: pin?.lat ?? null,
@@ -535,19 +521,6 @@ export default function InvitationBuilder({
               }}
             />
           )}
-          <Field
-            label={t("fields.locationUrl")}
-            hint={t(mapKeys ? "map.linkHint" : "fields.locationHint")}
-            error={errors.locationUrl}
-          >
-            <input
-              className={inputClass}
-              type="url"
-              inputMode="url"
-              placeholder="https://maps.app.goo.gl/…"
-              {...input("locationUrl")}
-            />
-          </Field>
         </Section>
 
         <Section n={4} title={t("sections.photos")}>

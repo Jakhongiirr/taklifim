@@ -494,8 +494,6 @@
       "eventHint": "Tashkent time",
       "venueName": "Venue name",
       "venueAddress": "Address",
-      "locationUrl": "Map link",
-      "locationHint": "Optional. Open the place in Google or Yandex Maps, tap “Share” and paste the link here.",
       "cardNumber": "Card number for gifts",
       "cardHint": "Optional. Guests can copy it to send a gift.",
       "phone": "Contact phone",
@@ -513,8 +511,7 @@
       "confirm": "Choose this place",
       "cancel": "Cancel",
       "loading": "Loading the map…",
-      "failed": "The map didn't load. Check your connection, or paste a map link below.",
-      "linkHint": "Optional. Or paste a Google or Yandex Maps link."
+      "failed": "The map didn't load. Check your connection and try again."
     },
     "design": {
       "free": "Free",
@@ -550,7 +547,6 @@
     "errors": {
       "required": "Required.",
       "tooLong": "Too long.",
-      "url": "The link must start with http:// or https://.",
       "card": "A card number has 16 digits.",
       "phone": "Invalid phone number.",
       "design": "Choose a design.",
