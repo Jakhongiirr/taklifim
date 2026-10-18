@@ -38,12 +38,17 @@ export default async function proxy(request: NextRequest) {
       keepNext: pathname !== "/admin",
     });
   }
-  // Shared invitation links open in Uzbek whatever the guest's browser
-  // language; guests switch on the invitation itself.
+  // Short invitation links (/taklif/<slug>, personal ones too) show the
+  // Uzbek invitation at the same address, whatever the guest's browser
+  // language. A rewrite, not a redirect: link preview bots (Telegram) read
+  // the page's own tags only if it answers 200. The owner's preview still
+  // redirects, so it goes through the session check below.
   if (pathname.startsWith("/taklif/")) {
     const url = request.nextUrl.clone();
     url.pathname = `/${routing.defaultLocale}${pathname}`;
-    return NextResponse.redirect(url);
+    return SITE_SESSION_PATH.test(url.pathname)
+      ? NextResponse.redirect(url)
+      : NextResponse.rewrite(url);
   }
   const site = SITE_SESSION_PATH.exec(pathname);
   if (site) {
