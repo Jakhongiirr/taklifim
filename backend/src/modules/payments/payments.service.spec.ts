@@ -29,6 +29,7 @@ function setup(price: number, { themeId = 'classic', gifts = 0 } = {}) {
     lockedEventAt: null,
   } as unknown as Taklif;
   const manager = {
+    findOne: jest.fn(() => Promise.resolve(taklif)),
     create: jest.fn((_: unknown, data: object) => data),
     save: jest.fn((data: object) => Promise.resolve(data)),
     update: jest.fn(() => Promise.resolve()),
@@ -65,7 +66,7 @@ function setup(price: number, { themeId = 'classic', gifts = 0 } = {}) {
     {} as Repository<PaymeTransaction>,
     giftsService as unknown as GiftsService,
   );
-  return { service, manager, orders, giftsService };
+  return { service, manager, orders, giftsService, taklif };
 }
 
 describe('PaymentsService.checkout', () => {
@@ -129,5 +130,21 @@ describe('PaymentsService.checkout', () => {
     const { service, giftsService } = setup(150_000, { gifts: 1 });
     await service.checkout('taklif-1', { lang: 'uz' }, user);
     expect(giftsService.redeem).not.toHaveBeenCalled();
+  });
+
+  it('uses no second gift when a double tap already published it', async () => {
+    const { service, manager, giftsService, taklif } = setup(150_000, {
+      themeId: 'plov',
+      gifts: 2,
+    });
+    manager.findOne.mockResolvedValueOnce({
+      ...taklif,
+      status: TaklifStatus.Published,
+    });
+    await expect(
+      service.checkout('taklif-1', { lang: 'uz' }, user),
+    ).resolves.toEqual({ published: true });
+    expect(giftsService.redeem).not.toHaveBeenCalled();
+    expect(manager.save).not.toHaveBeenCalled();
   });
 });

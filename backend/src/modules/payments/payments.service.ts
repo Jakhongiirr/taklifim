@@ -54,13 +54,17 @@ export class PaymentsService {
     const title = `Taklifnoma: ${taklif.groomName} & ${taklif.brideName}`;
 
     if (amount === 0) {
-      await this.orders.manager.transaction((manager) =>
-        this.publishFree(manager, taklif, title),
-      );
+      await this.orders.manager.transaction(async (manager) => {
+        if (await this.stillDraft(manager, taklif.id)) {
+          await this.publishFree(manager, taklif, title);
+        }
+      });
       return { published: true };
     }
     if (taklif.theme.themeId === GIFT_THEME_ID) {
       const gifted = await this.orders.manager.transaction(async (manager) => {
+        // Published meanwhile (a double tap): no second gift is used.
+        if (!(await this.stillDraft(manager, taklif.id))) return true;
         if (!(await this.gifts.redeem(manager, user.sub, taklif.id))) {
           return false;
         }
@@ -111,6 +115,18 @@ export class PaymentsService {
       url: `${base}/${Buffer.from(params).toString('base64')}`,
       published: false,
     };
+  }
+
+  /**
+   * Locks the invitation until the transaction ends, so concurrent checkouts
+   * publish it (and use a gift) once; false if it's no longer an unpaid draft.
+   */
+  private async stillDraft(manager: EntityManager, id: string) {
+    const taklif = await manager.findOne(Taklif, {
+      where: { id },
+      lock: { mode: 'pessimistic_write' },
+    });
+    return taklif?.status === TaklifStatus.Draft && !taklif.paidAt;
   }
 
   /** Publishes the draft with a paid 0 so'm order (nothing owed). */

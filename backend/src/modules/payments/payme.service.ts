@@ -332,6 +332,11 @@ export class PaymeService {
             })
           : null;
         if (!taklif) throw errors.invitationGone();
+        // Created before the invitation was paid through another order, or
+        // before its design changed: Payme cancels it, nothing is taken.
+        if (taklif.paidAt || taklif.themeId !== order.themeId) {
+          throw errors.cannotPerform();
+        }
 
         const now = new Date();
         tx.state = PaymeState.Performed;

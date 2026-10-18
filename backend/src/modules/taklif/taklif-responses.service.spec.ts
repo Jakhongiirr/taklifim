@@ -88,4 +88,12 @@ describe('TaklifResponsesService', () => {
       expect.objectContaining({ guestId: null }),
     );
   });
+
+  it('only skips a reply sent again unchanged', async () => {
+    const { service, responses } = setup();
+    await service.create('abc123', { ...reply, attending: false });
+    expect(responses.existsBy).toHaveBeenCalledWith(
+      expect.objectContaining({ name: 'Aziza', attending: false, guests: 1 }),
+    );
+  });
 });
