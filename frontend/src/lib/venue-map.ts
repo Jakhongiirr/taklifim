@@ -65,15 +65,21 @@ export function venuePin(taklif: WithLocation): Pin | null {
 
 const point = ({ lat, lng }: Pin) => `${lng},${lat}`;
 
-/** Opens the point in Yandex Maps (the app on phones). */
+/**
+ * Opens Yandex Maps on the pin. `ll` centres the map on it: with `pt` alone
+ * Yandex opens on the visitor's own city and the pin can be off screen.
+ */
 export const yandexMapsUrl = (pin: Pin) =>
-  `https://yandex.uz/maps/?pt=${point(pin)}&z=17&l=map`;
+  `https://yandex.uz/maps/?ll=${point(pin)}&pt=${point(pin)},pm2rdm&z=17&l=map`;
 
-/** The link guests open: the owner's own link, else the pin in Yandex Maps. */
+/**
+ * The link guests open: the pin in Yandex Maps. Only invitations from before
+ * the map picker, with no pin, still open the link their owner pasted.
+ */
 export function venueMapUrl(taklif: WithLocation): string | null {
-  if (taklif.locationUrl) return taklif.locationUrl;
   const pin = venuePin(taklif);
-  return pin && yandexMapsUrl(pin);
+  if (pin) return yandexMapsUrl(pin);
+  return taklif.locationUrl;
 }
 
 /** Yandex's language for a site locale; Uzbek pages get Russian names. */
