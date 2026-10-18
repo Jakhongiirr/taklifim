@@ -234,7 +234,7 @@ export default async function ArcadeTheme({
                   "bg-[#fffaf6] ring-1 ring-[#d27f93]/30 focus:ring-[#d27f93]",
                 optionOn: "bg-[#c04c68] text-white",
                 optionOff: "bg-[#fffaf6] ring-1 ring-[#d27f93]/30",
-                button: "bg-[#4d3a52] text-[#fffaf6] hover:bg-[#3d2d42]",
+                button: "bg-[#c04c68] text-white hover:bg-[#a8455e]",
                 muted: "text-[#7d5f74]",
                 accent: "text-[#c55b75]",
                 error: "text-red-700",
