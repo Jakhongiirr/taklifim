@@ -68,10 +68,14 @@ export class TaklifResponsesService {
     if (count >= MAX_RESPONSES) {
       throw new ConflictException('This invitation has too many responses');
     }
-    // The same name sending the same wish again (double taps, replays).
+    const guests = dto.attending ? dto.guests : 1;
+    // The same reply sent again (double taps, replays). A changed answer,
+    // e.g. after "reply again", is a new reply.
     const duplicate = await this.responses.existsBy({
       taklifId: taklif.id,
       name: dto.name,
+      attending: dto.attending,
+      guests,
       message: message ?? IsNull(),
     });
     if (duplicate) return { ok: true };
@@ -89,7 +93,7 @@ export class TaklifResponsesService {
         name: dto.name,
         guestId: guest?.id ?? null,
         attending: dto.attending,
-        guests: dto.attending ? dto.guests : 1,
+        guests,
         message,
       }),
     );
