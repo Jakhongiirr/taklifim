@@ -436,11 +436,8 @@
       "pause": "Pause music"
     },
     "cardGreeting": {
-      "title": "Hello, dear guest!",
-      "text": "We invite you to our wedding reception, held in honour of one of the happiest and most unforgettable days of our lives — our marriage"
+      "title": "Hello, dear guest!"
     },
-    "cardAd": "Create your own invitation",
-    "qrScan": "Scan to open the invitation",
     "preview": {
       "back": "My account",
       "edit": "Edit",

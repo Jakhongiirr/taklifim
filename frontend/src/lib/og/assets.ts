@@ -5,7 +5,7 @@ import { hasLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 
 // Shared pieces of the generated images (the PNG and QR cards):
-// Cormorant Garamond (WOFF: next/og can't read WOFF2) and the brand logo.
+// Cormorant Garamond and the extra faces (WOFF: next/og can't read WOFF2).
 
 const FONT_DIR = join(process.cwd(), "assets/fonts/cormorant");
 // One family name per subset: the renderer takes a single file per
@@ -26,7 +26,7 @@ const VARIANTS = [
   { file: "700-normal", weight: 700, style: "normal" },
 ] as const;
 
-type OgFont = {
+export type OgFont = {
   name: string;
   data: Buffer;
   weight: 400 | 500 | 600 | 700;
@@ -107,16 +107,6 @@ export async function ogFont(
     fonts: loaded.flatMap((font) => font.fonts),
     family: [...loaded.flatMap((font) => font.family), OG_FONT].join(", "),
   };
-}
-
-let logo: Promise<string> | undefined;
-
-/** The horizontal logo as a data URI (logo-horizontal.svg is 2425×545). */
-export function ogLogo() {
-  logo ??= readFile(
-    join(process.cwd(), "public/brand/logo-horizontal.svg"),
-  ).then((svg) => `data:image/svg+xml;base64,${svg.toString("base64")}`);
-  return logo;
 }
 
 /** The route's locale, narrowed for typed translations. */

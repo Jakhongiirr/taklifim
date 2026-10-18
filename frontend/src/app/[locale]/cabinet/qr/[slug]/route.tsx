@@ -29,8 +29,7 @@ export async function GET(
   }
 
   const url = `${SITE_URL}/${locale}/taklif/${taklif.slug}`;
-  const [t, tDates, assets, qr] = await Promise.all([
-    getTranslations({ locale, namespace: "Invitation" }),
+  const [tDates, assets, qr] = await Promise.all([
     getTranslations({ locale, namespace: "Dates" }),
     cardAssets(),
     QRCode.toString(url, {
@@ -46,16 +45,10 @@ export async function GET(
   const image = new ImageResponse(
     <QrCard
       assets={assets}
-      greeting={{
-        title: t("cardGreeting.title"),
-        text: t("cardGreeting.text"),
-      }}
       groom={taklif.groomName}
       bride={taklif.brideName}
       date={tDates("dateTime", { day, month: months[month], year, time })}
       qr={qr}
-      scan={t("qrScan")}
-      ad={t("cardAd")}
     />,
     { ...QR_CARD_SIZE, fonts: assets.fonts },
   );

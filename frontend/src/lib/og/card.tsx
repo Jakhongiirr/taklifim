@@ -2,69 +2,23 @@ import "server-only";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import type { CSSProperties, ReactNode } from "react";
-import { OG_FONT, ogFont, ogFonts, ogLogo } from "./assets";
+import { OG_FONT, ogFont, ogFonts, type OgFont } from "./assets";
 
 // The invitation's generated images — the downloadable card and the QR
-// card — share one background (assets/og: a dusty blue
-// panel in a cream frame with roses in the corners), one palette and
-// typography, whatever the theme, and end with a small taklifim.uz ad. The
-// text sits in the blue panel.
+// card — share one background (assets/og: cream paper in a thin gold arch
+// frame, white flowers in the top-left and bottom-right corners), one
+// palette and typography, whatever the theme, and end with the site's
+// "Taklifim.uz orqali yaratildi" credit. The text sits on the plain paper
+// inside the frame, clear of the flowers.
 
-/** Picked from the background: the panel's deep blue, the roses' bronze. */
-const INK = "#101d33";
-const NAVY = "#10213c";
-const BRONZE = "#4a300c";
-const MUTED = "#1c2d47";
+/** Dark tones picked from the background: the leaves' green, the gilding. */
+const INK = "#2b2a22";
+const GREEN = "#334330";
+const GOLD = "#7a5520";
+const MUTED = "#4d4638";
 
-/** The background's size. */
-const BG = { width: 720, height: 1011 };
-
-/**
- * The background's bands along each axis, in its pixels: the corners and
- * the centre ornaments keep their shape, the plain stretches between them
- * (`true`) give or take the rest of the card's size.
- */
-type Band = readonly [from: number, to: number, stretch?: boolean];
-const BANDS_X: Band[] = [
-  [0, 240],
-  [240, 330, true],
-  [330, 395],
-  [395, 440, true],
-  [440, 720],
-];
-const BANDS_Y: Band[] = [
-  [0, 250],
-  [250, 440, true],
-  [440, 540],
-  [540, 690, true],
-  [690, 1011],
-];
-
-/** Where each band lands on a card `length` long at `scale`. */
-function place(bands: Band[], scale: number, length: number) {
-  const fixed = bands.reduce(
-    (sum, [from, to, stretch]) => (stretch ? sum : sum + (to - from) * scale),
-    0,
-  );
-  const loose = bands.reduce(
-    (sum, [from, to, stretch]) => (stretch ? sum + to - from : sum),
-    0,
-  );
-  const k = (length - fixed) / loose;
-  let at = 0;
-  return bands.map(([from, to, stretch]) => {
-    const start = Math.round(at);
-    at += (to - from) * (stretch ? k : scale);
-    const size = Math.round(at) - start;
-    // Much longer than drawn: repeat it instead of smearing it, every other
-    // copy mirrored so the seams meet; an odd count, so both ends still
-    // meet the neighbouring bands.
-    const copies = stretch
-      ? Math.max(1, 2 * Math.round((k / scale - 1) / 2) + 1)
-      : 1;
-    return { from, to, start, size, copies };
-  });
-}
+/** Both cards: a phone screen, the background's own shape (736×1307). */
+const CARD_SIZE = { width: 1080, height: 1920 };
 
 let background: Promise<string> | undefined;
 
@@ -76,65 +30,70 @@ function ogBackground() {
   return background;
 }
 
+/** The credit's logo mark, its two tones (ink, accent) in `color`. */
+function creditMark(color: string) {
+  return Promise.all(
+    ["ink", "accent"].map((tone) =>
+      readFile(
+        join(process.cwd(), `public/brand/logo-mark-${tone}.svg`),
+        "utf8",
+      ).then(
+        (svg) =>
+          `data:image/svg+xml;base64,${Buffer.from(
+            svg.replace(/fill="[^"]*"/g, `fill="${color}"`),
+          ).toString("base64")}`,
+      ),
+    ),
+  );
+}
+
+const CREDIT_FONT = "GeistSans";
+
+let credit: Promise<{ fonts: OgFont[]; mark: string[] }> | undefined;
+
+/** The credit's plain sans (Geist, as on the site) and its logo mark. */
+function creditAssets() {
+  credit ??= Promise.all([
+    Promise.all(
+      ([400, 600] as const).map(async (weight) => ({
+        name: CREDIT_FONT,
+        data: await readFile(
+          join(
+            process.cwd(),
+            `assets/fonts/geist/geist-sans-latin-${weight}-normal.woff`,
+          ),
+        ),
+        weight,
+        style: "normal" as const,
+      })),
+    ),
+    creditMark(GOLD),
+  ]).then(([fonts, mark]) => ({ fonts, mark }));
+  return credit;
+}
+
 /** Everything a card renders with: fonts (pass to ImageResponse) and images. */
 export async function cardAssets() {
-  const [base, names, caps, bg, logo] = await Promise.all([
+  const [base, names, caps, bg, extra] = await Promise.all([
     ogFonts(),
     ogFont("great-vibes"),
     ogFont("forum"),
     ogBackground(),
-    ogLogo(),
+    creditAssets(),
   ]);
   return {
-    fonts: [...base, ...names.fonts, ...caps.fonts],
+    fonts: [...base, ...names.fonts, ...caps.fonts, ...extra.fonts],
     nameFamily: names.family,
     capsFamily: caps.family,
     bg,
-    logo,
+    mark: extra.mark,
   };
 }
 
 type Assets = Awaited<ReturnType<typeof cardAssets>>;
 
-/**
- * The full-size frame: the background drawn at `scale`, its plain bands
- * stretched (or repeated) to fill the card.
- */
-function Frame({
-  assets,
-  width,
-  height,
-  scale,
-  children,
-}: {
-  assets: Assets;
-  width: number;
-  height: number;
-  scale: number;
-  children: ReactNode;
-}) {
-  const xs = place(BANDS_X, scale, width);
-  const ys = place(BANDS_Y, scale, height);
-  const tiles = xs.flatMap((x) =>
-    ys.flatMap((y) =>
-      Array.from({ length: x.copies * y.copies }, (_, i) => {
-        const cx = i % x.copies;
-        const cy = Math.floor(i / x.copies);
-        const left = x.start + Math.round((x.size * cx) / x.copies);
-        const top = y.start + Math.round((y.size * cy) / y.copies);
-        return {
-          key: `${x.from}-${y.from}-${i}`,
-          left,
-          top,
-          width: x.start + Math.round((x.size * (cx + 1)) / x.copies) - left,
-          height: y.start + Math.round((y.size * (cy + 1)) / y.copies) - top,
-          x,
-          y,
-          flip: [cx % 2 === 1 ? -1 : 1, cy % 2 === 1 ? -1 : 1],
-        };
-      }),
-    ),
-  );
+/** The background across the whole card, the text on top. */
+function Frame({ assets, children }: { assets: Assets; children: ReactNode }) {
   return (
     <div
       style={{
@@ -147,43 +106,18 @@ function Frame({
         fontFamily: OG_FONT,
         color: INK,
         textAlign: "center",
-        // A soft light halo lifts the text off the mottled blue.
-        textShadow:
-          "0 0 6px rgba(240,245,250,0.9), 0 0 18px rgba(236,242,248,0.85)",
+        // A soft paper-coloured halo where a letter meets a leaf or the gilding.
+        textShadow: "0 0 6px rgba(249,243,231,0.9)",
       }}
     >
-      {tiles.map(({ key, left, top, width: w, height: h, x, y, flip }) => {
-        const kx = w / (x.to - x.from);
-        const ky = h / (y.to - y.from);
-        return (
-          <div
-            key={key}
-            style={{
-              position: "absolute",
-              left,
-              top,
-              width: w,
-              height: h,
-              display: "flex",
-              overflow: "hidden",
-              transform: `scale(${flip[0]}, ${flip[1]})`,
-            }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-            <img
-              src={assets.bg}
-              alt=""
-              width={BG.width * kx}
-              height={BG.height * ky}
-              style={{
-                position: "absolute",
-                left: -x.from * kx,
-                top: -y.from * ky,
-              }}
-            />
-          </div>
-        );
-      })}
+      {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+      <img
+        src={assets.bg}
+        alt=""
+        width={CARD_SIZE.width}
+        height={CARD_SIZE.height}
+        style={{ position: "absolute", left: 0, top: 0 }}
+      />
       {children}
     </div>
   );
@@ -242,7 +176,7 @@ function Names({
         fontFamily: assets.nameFamily,
         fontSize: size,
         lineHeight: 1.1,
-        color: NAVY,
+        color: GREEN,
       }}
     >
       <span>{groom}</span>
@@ -250,7 +184,7 @@ function Names({
         style={{
           fontFamily: assets.capsFamily,
           fontSize: size * 0.42,
-          color: BRONZE,
+          color: GOLD,
           margin: inline ? "0 0.5em" : "0",
         }}
       >
@@ -265,16 +199,16 @@ function Names({
 function Divider({ width = 90 }: { width?: number }) {
   return (
     <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-      <div style={{ width, height: 1.5, background: BRONZE }} />
+      <div style={{ width, height: 1.5, background: GOLD }} />
       <div
         style={{
           width: 10,
           height: 10,
-          border: `1.5px solid ${BRONZE}`,
+          border: `1.5px solid ${GOLD}`,
           transform: "rotate(45deg)",
         }}
       />
-      <div style={{ width, height: 1.5, background: BRONZE }} />
+      <div style={{ width, height: 1.5, background: GOLD }} />
     </div>
   );
 }
@@ -283,7 +217,7 @@ function Divider({ width = 90 }: { width?: number }) {
 function Caps({
   assets,
   size,
-  color = BRONZE,
+  color = GOLD,
   spacing = 0.14,
   style,
   children,
@@ -312,92 +246,71 @@ function Caps({
   );
 }
 
-/** The guest greeting: a line in italics, then the invitation itself. */
-function Greeting({
-  greeting,
-  size,
-  width,
-}: {
-  greeting: CardGreeting;
-  size: number;
-  width: number;
-}) {
+/**
+ * The closing credit, as on the guest page (themes/shared/made-with): the
+ * logo mark and "Taklifim.uz orqali yaratildi" in a plain sans, in a thin
+ * rounded outline. The same words in every locale. It sits on the frame's
+ * bottom rule, centred over its diamond and clear of the flowers.
+ */
+function Credit({ assets }: { assets: Assets }) {
+  const size = 28;
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        maxWidth: width,
-      }}
-    >
-      <div
-        style={{
-          display: "flex",
-          fontSize: size * 1.15,
-          fontWeight: 600,
-          fontStyle: "italic",
-          color: NAVY,
-        }}
-      >
-        {greeting.title}
-      </div>
-      <div
-        style={{
-          display: "flex",
-          marginTop: size * 0.3,
-          fontSize: size,
-          fontWeight: 600,
-          lineHeight: 1.3,
-          color: INK,
-          justifyContent: "center",
-        }}
-      >
-        {greeting.text}
-      </div>
-    </div>
-  );
-}
-
-/** The ad at the bottom: the logo and a line of text. */
-function Ad({
-  assets,
-  text,
-  scale = 1,
-  bottom,
-}: {
-  assets: Assets;
-  text: string;
-  scale?: number;
-  bottom: number;
-}) {
-  return (
+    // The diamond is at x 470: a box twice that wide centres the pill on it.
     <div
       style={{
         position: "absolute",
-        bottom,
+        left: 0,
+        width: 940,
+        bottom: 116,
         display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
+        justifyContent: "center",
       }}
     >
-      {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-      <img
-        src={assets.logo}
-        alt=""
-        width={Math.round(267 * scale)}
-        height={Math.round(60 * scale)}
-      />
       <div
         style={{
           display: "flex",
-          marginTop: 6 * scale,
-          fontSize: 32 * scale,
-          fontWeight: 700,
-          color: INK,
+          alignItems: "center",
+          gap: 14,
+          padding: "14px 26px",
+          borderRadius: 999,
+          border: "2px solid rgba(122,85,32,0.35)",
+          background: "rgba(249,243,231,0.85)",
+          fontFamily: CREDIT_FONT,
+          fontSize: size,
+          lineHeight: 1,
+          color: GOLD,
+          textShadow: "none",
         }}
       >
-        {text}
+        <div
+          style={{
+            display: "flex",
+            position: "relative",
+            width: 40,
+            height: 40,
+          }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+          <img
+            src={assets.mark[1]}
+            alt=""
+            width={40}
+            height={40}
+            style={{ position: "absolute", opacity: 0.45 }}
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+          <img
+            src={assets.mark[0]}
+            alt=""
+            width={40}
+            height={40}
+            style={{ position: "absolute" }}
+          />
+        </div>
+        <div style={{ display: "flex" }}>
+          <span style={{ fontWeight: 600 }}>Taklifim.uz</span>
+          <span>&nbsp;orqali yaratildi</span>
+        </div>
       </div>
     </div>
   );
@@ -419,22 +332,13 @@ export interface CardText {
   /** The formatted date and time. */
   date: string;
   venue: string;
-  /** The ad's line. */
-  ad: string;
 }
 
-/** The greeting to the guest on the PNG and QR cards. */
-export interface CardGreeting {
-  title: string;
-  text: string;
-}
-
-export const STORY_SIZE = { width: 1080, height: 1920 };
+export const STORY_SIZE = CARD_SIZE;
 
 /** The invitation as a phone-screen PNG the owner can send anywhere. */
 export function StoryCard({
   assets,
-  greeting,
   weekday,
   day,
   month,
@@ -445,7 +349,6 @@ export function StoryCard({
   ...text
 }: Omit<CardText, "date"> & {
   assets: Assets;
-  greeting: CardGreeting;
   weekday: string;
   day: number;
   month: string;
@@ -454,22 +357,19 @@ export function StoryCard({
   address: string;
   signature: string;
 }) {
-  const { width, height } = STORY_SIZE;
   // Weekday and time either side of the day, between thin gold rules.
   const side: CSSProperties = {
     width: 230,
     justifyContent: "center",
     padding: "12px 0",
-    borderTop: `1.5px solid ${BRONZE}`,
-    borderBottom: `1.5px solid ${BRONZE}`,
+    borderTop: `1.5px solid ${GOLD}`,
+    borderBottom: `1.5px solid ${GOLD}`,
   };
   return (
-    // The frame across the full width, its plain sides drawn out.
-    <Frame assets={assets} width={width} height={height} scale={1.5}>
-      {/* The panel, between the corner roses. */}
-      <Content top={250} height={1220}>
-        <Greeting greeting={greeting} size={34} width={780} />
-        <div style={{ marginTop: 30, display: "flex" }}>
+    <Frame assets={assets}>
+      {/* Below the arch and the top flowers, above the bottom ones. */}
+      <Content top={340} height={1140}>
+        <div style={{ display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
@@ -497,7 +397,7 @@ export function StoryCard({
               fontFamily: assets.capsFamily,
               fontSize: 108,
               lineHeight: 1,
-              color: BRONZE,
+              color: GOLD,
             }}
           >
             {day}
@@ -544,77 +444,61 @@ export function StoryCard({
             fontSize: 50,
             fontWeight: 600,
             fontStyle: "italic",
-            color: NAVY,
+            color: GREEN,
           }}
         >
           {signature}
         </div>
       </Content>
-      {/* Inside the frame, just above its bottom ornament. */}
-      <Ad assets={assets} text={text.ad} scale={0.85} bottom={210} />
+      <Credit assets={assets} />
     </Frame>
   );
 }
 
-export const QR_CARD_SIZE = { width: 1080, height: 1350 };
-const QR_SIZE = 360;
+export const QR_CARD_SIZE = CARD_SIZE;
+const QR_SIZE = 520;
 
 /** The invitation's QR code, to print or put on a screen. */
 export function QrCard({
   assets,
-  greeting,
   qr,
-  scan,
   ...text
 }: Omit<CardText, "venue"> & {
   assets: Assets;
-  greeting: CardGreeting;
   /** The code as an SVG string. */
   qr: string;
-  scan: string;
 }) {
-  const { width, height } = QR_CARD_SIZE;
   const names = `${text.groom} & ${text.bride}`;
   return (
-    // The frame a little smaller, so the code fits between the roses.
-    <Frame assets={assets} width={width} height={height} scale={1.3}>
-      <Content top={170} height={890}>
-        <Greeting greeting={greeting} size={26} width={780} />
-        <div style={{ marginTop: 14, display: "flex" }}>
+    <Frame assets={assets}>
+      <Content top={340} height={1120}>
+        <div style={{ display: "flex" }}>
           <Names
             assets={assets}
             groom={text.groom}
             bride={text.bride}
-            size={names.length > 26 ? 60 : names.length > 18 ? 72 : 84}
-            inline={names.length <= 26}
+            size={names.length > 26 ? 72 : names.length > 18 ? 84 : 100}
+            inline={names.length <= 18}
           />
         </div>
         <Caps
           assets={assets}
           size={40}
-          color={BRONZE}
+          color={GOLD}
           spacing={0.08}
-          style={{ marginTop: 8 }}
+          style={{ marginTop: 16 }}
         >
           {text.date}
-        </Caps>
-        <Caps
-          assets={assets}
-          size={30}
-          spacing={0.08}
-          style={{ marginTop: 22 }}
-        >
-          {scan}
         </Caps>
         {/* The code, on white with a quiet zone around it. */}
         <div
           style={{
-            marginTop: 20,
+            marginTop: 56,
             display: "flex",
             padding: 30,
             background: "#ffffff",
             borderRadius: 24,
-            border: `2px solid ${BRONZE}`,
+            border: `2px solid ${GOLD}`,
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
@@ -626,8 +510,7 @@ export function QrCard({
           />
         </div>
       </Content>
-      {/* Inside the frame, just above its bottom ornament. */}
-      <Ad assets={assets} text={text.ad} scale={0.8} bottom={180} />
+      <Credit assets={assets} />
     </Frame>
   );
 }
