@@ -254,7 +254,7 @@ export default async function VioletTheme({
                   "bg-white/5 text-[#f7f2ff] ring-1 ring-[#b79ce8]/30 placeholder:text-[#b9aed3]/60 focus:ring-[#b79ce8]",
                 optionOn: "bg-[#b79ce8] text-[#1b1430]",
                 optionOff: "bg-white/5 text-[#f1ecfa] ring-1 ring-[#b79ce8]/30",
-                button: "bg-[#f5c27a] text-[#1b1430] hover:bg-[#f8d29a]",
+                button: "bg-[#b79ce8] text-[#1b1430] hover:bg-[#c9b7ee]",
                 muted: "text-[#b9aed3]",
                 accent: "text-[#f5c27a]",
                 error: "text-[#ffb4c2]",
