@@ -536,13 +536,23 @@
       "play": "Tinglash",
       "stop": "Toʻxtatish",
       "showAll": "Barcha musiqalar ({count})",
-      "showLess": "Kamroq koʻrsatish"
+      "showLess": "Kamroq koʻrsatish",
+      "own": {
+        "add": "Oʻz musiqangizni yuklang",
+        "hint": "MP3, M4A, AAC yoki OGG · 10 MB gacha",
+        "label": "Sizning musiqangiz",
+        "replace": "Almashtirish",
+        "remove": "Olib tashlash",
+        "badType": "Musiqa MP3, M4A, AAC yoki OGG formatida boʻlishi kerak.",
+        "tooBig": "Musiqa fayli 10 MB dan oshmasligi kerak."
+      }
     },
     "save": {
       "create": "Saqlash va koʻrish",
       "edit": "Oʻzgarishlarni saqlash",
       "uploading": "Suratlar yuklanmoqda: {index}/{total}",
-      "saving": "Saqlanmoqda…"
+      "saving": "Saqlanmoqda…",
+      "uploadingMusic": "Musiqa yuklanmoqda…"
     },
     "errors": {
       "required": "Toʻldirilishi shart.",
@@ -554,6 +564,7 @@
       "draftLimit": "Sizda 30 ta qoralama bor. Keraksizlarini oʻchiring yoki eʼlon qiling.",
       "generic": "Saqlab boʻlmadi. Qayta urinib koʻring.",
       "upload": "Suratni yuklab boʻlmadi. Qayta urinib koʻring.",
+      "uploadMusic": "Musiqani yuklab boʻlmadi. Qayta urinib koʻring.",
       "postpone": "Sana allaqachon 5 marta oʻzgartirilgan, uni boshqa oʻzgartirib boʻlmaydi.",
       "eventRange": "Bugundan {date} gacha boʻlgan sanani tanlang."
     },

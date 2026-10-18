@@ -22,7 +22,7 @@ function setup(locked = true) {
     ),
   };
   const filesService = {
-    deleteUnattachedImages: jest.fn<Promise<number>, [Date]>(() =>
+    deleteUnattachedUploads: jest.fn<Promise<number>, [Date]>(() =>
       Promise.resolve(0),
     ),
   };

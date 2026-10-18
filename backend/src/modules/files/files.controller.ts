@@ -33,6 +33,7 @@ import {
   ALLOWED_FILE_TYPES_PATTERN,
   AUDIO_FILE_TYPES,
   IMAGE_FILE_TYPES,
+  USER_AUDIO_FILE_TYPES,
 } from './file-types';
 import { FilesService } from './files.service';
 
@@ -47,7 +48,7 @@ export class FilesController {
   @ApiUnauthorizedResponse({ description: 'Missing or invalid access token' })
   @ApiOperation({
     summary: 'Upload a public file',
-    description: `Images (any user): ${Object.keys(IMAGE_FILE_TYPES).join(', ')}. Audio (admin only): ${Object.keys(AUDIO_FILE_TYPES).join(', ')}. Max size: images UPLOAD_IMAGE_MAX_SIZE_MB (default 10 MB), audio UPLOAD_AUDIO_MAX_SIZE_MB (default 50 MB).`,
+    description: `Images (any user): ${Object.keys(IMAGE_FILE_TYPES).join(', ')}. Audio: users ${Object.keys(USER_AUDIO_FILE_TYPES).join(', ')} (an invitation's own music), admins ${Object.keys(AUDIO_FILE_TYPES).join(', ')}. Max size: images UPLOAD_IMAGE_MAX_SIZE_MB (default 10 MB), users' audio UPLOAD_USER_AUDIO_MAX_SIZE_MB (default 10 MB), admins' audio UPLOAD_AUDIO_MAX_SIZE_MB (default 50 MB).`,
   })
   @ApiConsumes('multipart/form-data')
   @ApiBody({
@@ -59,7 +60,9 @@ export class FilesController {
   })
   @ApiBadRequestResponse({ description: 'Missing file or type not allowed' })
   @ApiPayloadTooLargeResponse({ description: 'File too large' })
-  @ApiForbiddenResponse({ description: 'Audio upload by a non-admin' })
+  @ApiForbiddenResponse({
+    description: 'Audio of a type only admins can upload',
+  })
   upload(
     @UploadedFile(
       new ParseFilePipe({

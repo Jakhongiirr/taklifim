@@ -23,7 +23,7 @@ import {
 import { isPgError, PG_UNIQUE_VIOLATION } from '../../database/pg-errors';
 import type { JwtPayload } from '../auth/auth.types';
 import { File } from '../files/file.entity';
-import { IMAGE_FILE_TYPES } from '../files/file-types';
+import { AUDIO_FILE_TYPES, IMAGE_FILE_TYPES } from '../files/file-types';
 import { FilesService } from '../files/files.service';
 import { Music } from '../music/music.entity';
 import { MusicService } from '../music/music.service';
@@ -54,6 +54,7 @@ import { Taklif } from './taklif.entity';
 const RELATIONS = {
   photos: { file: true },
   music: { file: true },
+  customMusicFile: true,
   theme: true,
 } as const;
 const ORDER = { photos: { position: 'ASC' } } as const;
@@ -64,6 +65,7 @@ const CLEANUP_BATCH_SIZE = 100;
 type Writable = Omit<
   UpdateTaklifDto,
   | 'photoIds'
+  | 'customMusicId'
   | 'locationUrl'
   | 'latitude'
   | 'longitude'
@@ -78,6 +80,7 @@ type Writable = Omit<
   phone?: string | null;
   eventAtChanges?: number;
   eventAt?: Date;
+  customMusicFileId?: string | null;
 };
 
 const isAdmin = (user?: JwtPayload) => user?.role === Role.Admin;
@@ -98,9 +101,11 @@ export class TaklifService {
   ) {}
 
   async create(dto: CreateTaklifDto, user: JwtPayload): Promise<TaklifDto> {
-    const { photoIds = [], eventAt, ...fields } = dto;
+    const { photoIds = [], eventAt, customMusicId, ...fields } = dto;
     this.assertEventAtRange(new Date(eventAt), user);
+    if (fields.musicId && customMusicId) throw bothMusic();
     if (fields.musicId) await this.assertMusic(fields.musicId);
+    if (customMusicId) await this.assertCustomMusic(customMusicId, user);
     await this.assertTheme(fields.themeId);
     await this.assertPhotos(photoIds, user);
 
@@ -114,6 +119,7 @@ export class TaklifService {
                 ...fields,
                 eventAt: new Date(eventAt),
                 musicId: fields.musicId ?? null,
+                customMusicFileId: customMusicId ?? null,
                 locationUrl: fields.locationUrl ?? null,
                 latitude: fields.latitude ?? null,
                 longitude: fields.longitude ?? null,
@@ -141,7 +147,10 @@ export class TaklifService {
     }
   }
 
-  /** Owner or admin. Photos removed from the list are deleted. */
+  /**
+   * Owner or admin. Photos removed from the list, and replaced or removed own
+   * music, are deleted.
+   */
   async update(
     id: string,
     dto: UpdateTaklifDto,
@@ -150,8 +159,15 @@ export class TaklifService {
     const taklif = await this.findOrFail(id);
     this.assertCanEdit(taklif, user);
 
-    const { photoIds, eventAt, ...rest } = dto;
+    const { photoIds, eventAt, customMusicId, ...rest } = dto;
+    if (rest.musicId && customMusicId) throw bothMusic();
     const changes: Writable = {};
+    if (
+      customMusicId !== undefined &&
+      customMusicId !== taklif.customMusicFileId
+    ) {
+      changes.customMusicFileId = customMusicId;
+    }
     if (eventAt !== undefined) {
       const date = new Date(eventAt);
       if (date.getTime() !== taklif.eventAt.getTime()) changes.eventAt = date;
@@ -176,6 +192,14 @@ export class TaklifService {
       if (left !== null) changes.eventAtChanges = taklif.eventAtChanges + 1;
     }
     if (changes.musicId) await this.assertMusic(changes.musicId);
+    if (changes.customMusicFileId) {
+      await this.assertCustomMusic(changes.customMusicFileId, user);
+    }
+    // One kind of music at a time: choosing one replaces the other.
+    if (changes.musicId && taklif.customMusicFileId) {
+      changes.customMusicFileId = null;
+    }
+    if (changes.customMusicFileId && taklif.musicId) changes.musicId = null;
     if (changes.themeId) {
       // The price paid was for this design (admins may still switch it).
       if (taklif.paidAt && !isAdmin(user)) {
@@ -210,6 +234,9 @@ export class TaklifService {
           (fileId) => !photoIds.includes(fileId),
         );
         await this.deleteFiles(removed);
+      }
+      if (changes.customMusicFileId !== undefined && taklif.customMusicFileId) {
+        await this.deleteFiles([taklif.customMusicFileId]);
       }
     }
     return this.toDto(await this.findOrFail(id));
@@ -278,8 +305,8 @@ export class TaklifService {
 
   /**
    * Owners delete their own drafts only; once published (live or hidden,
-   * paid or not) only admins can delete it. Also deletes the photos (and,
-   * by cascade, the guests' replies).
+   * paid or not) only admins can delete it. Also deletes the photos and own
+   * music (and, by cascade, the guests' replies).
    */
   async remove(id: string, user: JwtPayload) {
     const taklif = await this.findOrFail(id);
@@ -301,7 +328,10 @@ export class TaklifService {
       }
       throw new ConflictException('Only drafts can be deleted');
     }
-    await this.deleteFiles(taklif.photos.map((photo) => photo.fileId));
+    await this.deleteFiles([
+      ...taklif.photos.map((photo) => photo.fileId),
+      ...(taklif.customMusicFileId ? [taklif.customMusicFileId] : []),
+    ]);
     if (taklif.userId !== user.sub) {
       this.logger.log(
         `Admin ${user.sub} deleted invitation ${id} (${taklif.status}) of user ${taklif.userId}`,
@@ -344,18 +374,19 @@ export class TaklifService {
   }
 
   /**
-   * Deletes the photos (and their files) of the matching invitations, in
-   * batches, keeping the invitations. Returns how many invitations lost
-   * their photos. Only invitations that still have photos are picked, so
-   * the loop ends; one that stops matching meanwhile (e.g. edited) keeps
-   * its photos.
+   * Deletes the photos (and their files) and own music of the matching
+   * invitations, in batches, keeping the invitations. Returns how many
+   * invitations lost them. Only invitations that still have photos or own
+   * music are picked, so the loop ends; one that stops matching meanwhile
+   * (e.g. edited) keeps them. The music's file is left to the unattached
+   * uploads cleanup.
    */
   private async deletePhotosMatching(
     where: FindOptionsWhere<Taklif>,
     /** Extra SQL on the invitation, aliased `taklif`. */
     sql = 'TRUE',
   ) {
-    const hasPhotos = `EXISTS (SELECT 1 FROM taklif_photos p WHERE p."taklifId" = taklif.id)`;
+    const hasMedia = `(EXISTS (SELECT 1 FROM taklif_photos p WHERE p."taklifId" = taklif.id) OR taklif."customMusicFileId" IS NOT NULL)`;
     let cleared = 0;
     for (;;) {
       const batch = await this.taklifs
@@ -363,7 +394,7 @@ export class TaklifService {
         .select('taklif.id')
         .where(where)
         .andWhere(sql)
-        .andWhere(hasPhotos)
+        .andWhere(hasMedia)
         .take(CLEANUP_BATCH_SIZE)
         .getMany();
       if (!batch.length) return cleared;
@@ -387,10 +418,31 @@ export class TaklifService {
         .execute();
       const rows = result.raw as { taklifId: string; fileId: string }[];
       await this.deleteFiles(rows.map((row) => row.fileId));
-      cleared += new Set(rows.map((row) => row.taklifId)).size;
+      const music = await this.taklifs
+        .createQueryBuilder()
+        .update(Taklif)
+        // Not an edit by the owner: keep updatedAt as it was.
+        .set({ customMusicFileId: null, updatedAt: () => '"updatedAt"' })
+        .where(
+          `id IN (${stillMatching.getQuery()})`,
+          stillMatching.getParameters(),
+        )
+        .andWhere('"customMusicFileId" IS NOT NULL')
+        .returning(['id'])
+        .execute();
+      const musicRows = music.raw as { id: string }[];
+      cleared += new Set([
+        ...rows.map((row) => row.taklifId),
+        ...musicRows.map((row) => row.id),
+      ]).size;
       // A batch whose invitations all changed meanwhile deletes nothing and
       // would be picked again: stop instead of looping.
-      if (!rows.length || batch.length < CLEANUP_BATCH_SIZE) return cleared;
+      if (
+        (!rows.length && !musicRows.length) ||
+        batch.length < CLEANUP_BATCH_SIZE
+      ) {
+        return cleared;
+      }
     }
   }
 
@@ -531,6 +583,20 @@ export class TaklifService {
     }
   }
 
+  /** Audio; users can only use files they uploaded. */
+  private async assertCustomMusic(id: string, user: JwtPayload) {
+    const file = await this.files.findOneBy({ id });
+    if (!file) {
+      throw new BadRequestException('customMusicId is an unknown file');
+    }
+    if (!(file.mimeType in AUDIO_FILE_TYPES)) {
+      throw new BadRequestException('customMusicId must be audio');
+    }
+    if (!isAdmin(user) && file.uploadedById !== user.sub) {
+      throw new BadRequestException('customMusicId must be audio you uploaded');
+    }
+  }
+
   private async assertTheme(id: string) {
     const theme = await this.themes.findOneBy({ id });
     if (!theme || theme.archivedAt) {
@@ -577,7 +643,7 @@ export class TaklifService {
     }
   }
 
-  /** Runs a write, reporting a photo used by another invitation as 409. */
+  /** Runs a write, reporting a file used by another invitation as 409. */
   private async write<T>(operation: () => Promise<T>) {
     try {
       return await operation();
@@ -585,6 +651,11 @@ export class TaklifService {
       if (isUniqueViolation(err, 'UQ_taklif_photos_fileId')) {
         throw new ConflictException(
           'A photo is already used by another invitation',
+        );
+      }
+      if (isUniqueViolation(err, 'UQ_taklif_customMusicFileId')) {
+        throw new ConflictException(
+          'This music is already used by another invitation',
         );
       }
       throw err;
@@ -622,6 +693,9 @@ export class TaklifService {
       cardNumber: taklif.cardNumber,
       phone: taklif.phone,
       music: taklif.music ? this.musicService.toDto(taklif.music) : null,
+      customMusic: taklif.customMusicFile
+        ? this.filesService.toDto(taklif.customMusicFile)
+        : null,
       theme: this.themesService.toDto(taklif.theme),
       createdAt: taklif.createdAt,
       updatedAt: taklif.updatedAt,
@@ -648,14 +722,28 @@ export class TaklifService {
       })),
       cardNumber: taklif.cardNumber,
       phone: taklif.phone,
-      music: taklif.music && {
-        title: taklif.music.title,
-        artist: taklif.music.artist,
-        file: { url: url(taklif.music.file) },
-      },
+      music: taklif.customMusicFile
+        ? {
+            title: customMusicTitle(taklif.customMusicFile.originalName),
+            artist: null,
+            file: { url: url(taklif.customMusicFile) },
+          }
+        : taklif.music && {
+            title: taklif.music.title,
+            artist: taklif.music.artist,
+            file: { url: url(taklif.music.file) },
+          },
       theme: { themeId: taklif.theme.themeId },
     };
   }
+}
+
+const bothMusic = () =>
+  new BadRequestException('Send musicId or customMusicId, not both');
+
+/** "Bizning qo'shig'imiz.mp3" -> "Bizning qo'shig'imiz". */
+function customMusicTitle(fileName: string) {
+  return fileName.replace(/\.[^.]*$/, '').trim() || fileName;
 }
 
 function isUniqueViolation(err: unknown, constraint: string) {

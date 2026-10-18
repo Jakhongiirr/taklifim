@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import PreviewChrome from "@/components/site/cabinet/preview-chrome";
 import { getCurrentUser } from "@/lib/server/current-user";
 import { GIFT_THEME_ID, getMyGifts } from "@/lib/server/gifts";
+import { guestMusic } from "@/lib/own-music";
 import { getTaklifPreview } from "@/lib/server/taklif";
 import { ThemedInvitation } from "@/themes";
 import { invitationMetadata } from "../invitation-metadata";
@@ -42,7 +43,10 @@ export default async function InvitationPreviewPage({
         // Only the owner can pay: an admin looking at it can't.
         owner={owner}
       />
-      <ThemedInvitation taklif={taklif} preview />
+      <ThemedInvitation
+        taklif={{ ...taklif, music: guestMusic(taklif) }}
+        preview
+      />
     </>
   );
 }

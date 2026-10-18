@@ -20,7 +20,7 @@ const uz: LegalDoc = {
           list: [
             "Telefon raqami — roʻyxatdan oʻtish va kirish uchun.",
             "Telegram akkaunt identifikatori — Telegram orqali kirganingizda saqlanadi, mehmonlarning javoblarini sizga botimiz orqali yuborish uchun.",
-            "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, suratlar, tanlangan musiqa, ixtiyoriy ravishda xarita havolasi, karta raqami va aloqa telefoni.",
+            "Taklifnoma maʼlumotlari — ismlar, tadbir sanasi, toʻyxona nomi va manzili, suratlar, tanlangan yoki yuklangan musiqa, ixtiyoriy ravishda xarita havolasi, karta raqami va aloqa telefoni.",
             "Mehmonlarning javoblari — ism, kelish yoki kelmasligi, mehmonlar soni va ixtiyoriy tilak.",
             "Toʻlov maʼlumotlari — buyurtma (summa, dizayn, taklifnoma), Payme tranzaksiya raqami va vaqtlari. Bank kartasi maʼlumotlari faqat Payme sahifasida kiritiladi; Operator ularni olmaydi va saqlamaydi.",
             "Texnik maʼlumotlar — IP manzil (xavfsizlik va suiisteʼmolning oldini olish uchun), brauzer soʻrovlari jurnallari.",
@@ -65,11 +65,11 @@ const uz: LegalDoc = {
       body: [
         {
           list: [
-            "Qoralamalar — saqlanadi; ularning suratlari oxirgi tahrirdan 7 kun oʻtgach oʻchiriladi.",
-            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — qoralamalarini egasi kabinetda oʻchirishi mumkin; eʼlon qilinganlari hisobni yoki taklifnomani oʻchirish soʻralguncha saqlanadi; suratlari tadbir sanasidan bir yil oʻtgach oʻchiriladi.",
+            "Qoralamalar — saqlanadi; ularning suratlari va yuklangan musiqasi oxirgi tahrirdan 7 kun oʻtgach oʻchiriladi.",
+            "Taklifnomalar (matni: ismlar, sana, manzil, karta va telefon raqami) — qoralamalarini egasi kabinetda oʻchirishi mumkin; eʼlon qilinganlari hisobni yoki taklifnomani oʻchirish soʻralguncha saqlanadi; suratlari va yuklangan musiqasi tadbir sanasidan bir yil oʻtgach oʻchiriladi.",
             "Mehmonlarning javoblari — taklifnoma bilan birga oʻchiriladi; taklifnoma egasi ularni istalgan payt oʻchirishi mumkin.",
             "Toʻlov maʼlumotlari — buxgalteriya va soliq hisobi uchun qonunchilikda belgilangan muddat davomida, taklifnoma yoki hisob oʻchirilganidan keyin ham saqlanadi.",
-            "Taklifnomaga biriktirilmagan suratlar — 24 soatdan soʻng oʻchiriladi.",
+            "Taklifnomaga biriktirilmagan suratlar va musiqa — 24 soatdan soʻng oʻchiriladi.",
             "Telefon raqami (hisob) — hisobni oʻchirish soʻralguncha saqlanadi.",
             "Kirish sessiyasi — 30 kungacha amal qiladi.",
             "Soʻrovlar jurnallari (IP manzil, ochilgan sahifa, vaqt) — 30 kun saqlanadi, soʻng avtomatik oʻchiriladi.",
@@ -144,7 +144,7 @@ const ru: LegalDoc = {
           list: [
             "Номер телефона — для регистрации и входа.",
             "Идентификатор аккаунта Telegram — сохраняется при входе через Telegram, чтобы наш бот присылал вам ответы гостей.",
-            "Данные приглашения — имена, дата торжества, название и адрес заведения, фотографии, выбранная музыка, по желанию ссылка на карту, номер карты и контактный телефон.",
+            "Данные приглашения — имена, дата торжества, название и адрес заведения, фотографии, выбранная или загруженная музыка, по желанию ссылка на карту, номер карты и контактный телефон.",
             "Ответы гостей — имя, придёт ли гость, количество человек и пожелание (по желанию).",
             "Платёжные данные — заказ (сумма, дизайн, приглашение), номер и время транзакции Payme. Данные банковской карты вводятся только на странице Payme; Оператор их не получает и не хранит.",
             "Технические данные — IP-адрес (для безопасности и предотвращения злоупотреблений), журналы запросов.",
@@ -189,11 +189,11 @@ const ru: LegalDoc = {
       body: [
         {
           list: [
-            "Черновики — хранятся; их фотографии удаляются через 7 дней после последнего редактирования.",
-            "Приглашения (текст: имена, дата, место, номера карты и телефона) — черновики владелец может удалить в личном кабинете; опубликованные хранятся до запроса на удаление приглашения или учётной записи; их фотографии удаляются через год после даты торжества.",
+            "Черновики — хранятся; их фотографии и загруженная музыка удаляются через 7 дней после последнего редактирования.",
+            "Приглашения (текст: имена, дата, место, номера карты и телефона) — черновики владелец может удалить в личном кабинете; опубликованные хранятся до запроса на удаление приглашения или учётной записи; их фотографии и загруженная музыка удаляются через год после даты торжества.",
             "Ответы гостей — удаляются вместе с приглашением; владелец приглашения может удалить их в любой момент.",
             "Платёжные данные — хранятся в течение срока, установленного законодательством для бухгалтерского и налогового учёта, в том числе после удаления приглашения или учётной записи.",
-            "Фотографии, не прикреплённые к приглашению, — удаляются через 24 часа.",
+            "Фотографии и музыка, не прикреплённые к приглашению, — удаляются через 24 часа.",
             "Номер телефона (учётная запись) — хранится до запроса на удаление учётной записи.",
             "Сессия входа — действует до 30 дней.",
             "Журналы запросов (IP-адрес, открытая страница, время) — хранятся 30 дней, затем удаляются автоматически.",
@@ -268,7 +268,7 @@ const en: LegalDoc = {
           list: [
             "Phone number — to register and log in.",
             "Telegram account ID — kept when you log in with Telegram, so our bot can send you your guests' replies.",
-            "Invitation data — names, event date, venue name and address, photos, chosen music, and optionally a map link, card number and contact phone.",
+            "Invitation data — names, event date, venue name and address, photos, chosen or uploaded music, and optionally a map link, card number and contact phone.",
             "Guests' replies — name, whether they're coming, how many people, and an optional wish.",
             "Payment data — the order (amount, design, invitation) and the Payme transaction number and times. Bank card details are entered only on Payme's page; the Operator never receives or stores them.",
             "Technical data — IP address (for security and abuse prevention) and request logs.",
@@ -313,11 +313,11 @@ const en: LegalDoc = {
       body: [
         {
           list: [
-            "Drafts — kept; their photos are deleted 7 days after the last edit.",
-            "Invitations (text: names, date, venue, card and phone numbers) — drafts you can delete in your account; published ones are kept until you ask for the invitation or the account to be deleted; their photos are deleted one year after the event date.",
+            "Drafts — kept; their photos and uploaded music are deleted 7 days after the last edit.",
+            "Invitations (text: names, date, venue, card and phone numbers) — drafts you can delete in your account; published ones are kept until you ask for the invitation or the account to be deleted; their photos and uploaded music are deleted one year after the event date.",
             "Guests' replies — deleted together with the invitation; its owner can delete them at any time.",
             "Payment data — kept for the period the law requires for accounting and tax records, including after the invitation or account is deleted.",
-            "Photos not attached to an invitation — deleted after 24 hours.",
+            "Photos and music not attached to an invitation — deleted after 24 hours.",
             "Phone number (account) — kept until you ask for the account to be deleted.",
             "Login session — valid for up to 30 days.",
             "Request logs (IP address, page requested, time) — kept for 30 days, then deleted automatically.",

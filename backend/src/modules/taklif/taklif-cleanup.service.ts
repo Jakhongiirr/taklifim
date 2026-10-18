@@ -11,7 +11,7 @@ const DRAFT_MAX_AGE_HOURS = 7 * 24;
 const KEEP_AFTER_EVENT_MONTHS = 12;
 /** Invitations published on a free design lose them sooner. */
 const KEEP_FREE_AFTER_EVENT_MONTHS = 3;
-/** Uploaded images nothing uses are deleted after this long. */
+/** Uploaded images and users' audio nothing uses are deleted after this long. */
 const UNATTACHED_MAX_AGE_HOURS = 24;
 const LOCK_KEY = 'cron:taklif:cleanup';
 // Held until it expires, so instances with slightly skewed clocks don't rerun.
@@ -43,9 +43,9 @@ export class TaklifCleanupService {
     const draftCutoff = new Date(
       Date.now() - DRAFT_MAX_AGE_HOURS * 60 * 60 * 1000,
     );
-    // Invitations themselves are kept: only their photos are deleted.
+    // Invitations themselves are kept: only their photos and own music are deleted.
     await this.run(
-      `photos of draft(s) last edited before ${draftCutoff.toISOString()}`,
+      `photos and own music of draft(s) last edited before ${draftCutoff.toISOString()}`,
       () => this.taklifService.deleteStaleDraftPhotos(draftCutoff),
     );
 
@@ -54,7 +54,7 @@ export class TaklifCleanupService {
       freeEventCutoff.getUTCMonth() - KEEP_FREE_AFTER_EVENT_MONTHS,
     );
     await this.run(
-      `photos of free invitation(s) with an event before ${freeEventCutoff.toISOString()}`,
+      `photos and own music of free invitation(s) with an event before ${freeEventCutoff.toISOString()}`,
       () => this.taklifService.deleteFreeEndedPhotos(freeEventCutoff),
     );
 
@@ -63,7 +63,7 @@ export class TaklifCleanupService {
       eventCutoff.getUTCMonth() - KEEP_AFTER_EVENT_MONTHS,
     );
     await this.run(
-      `photos of invitation(s) with an event before ${eventCutoff.toISOString()}`,
+      `photos and own music of invitation(s) with an event before ${eventCutoff.toISOString()}`,
       () => this.taklifService.deleteEndedPhotos(eventCutoff),
     );
 
@@ -72,8 +72,8 @@ export class TaklifCleanupService {
       Date.now() - UNATTACHED_MAX_AGE_HOURS * 60 * 60 * 1000,
     );
     await this.run(
-      `unattached image(s) uploaded before ${uploadCutoff.toISOString()}`,
-      () => this.filesService.deleteUnattachedImages(uploadCutoff),
+      `unattached upload(s) from before ${uploadCutoff.toISOString()}`,
+      () => this.filesService.deleteUnattachedUploads(uploadCutoff),
     );
   }
 

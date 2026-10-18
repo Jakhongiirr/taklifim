@@ -68,11 +68,11 @@ Public files live in S3-compatible storage. Locally that's the `minio` container
 
 | Method | Path | Notes |
 | --- | --- | --- |
-| POST | `/files` | `multipart/form-data` with a `file` field. Returns `{ id, url, ... }`. Audio: admin only |
+| POST | `/files` | `multipart/form-data` with a `file` field. Returns `{ id, url, ... }`. Users' audio: own music for an invitation |
 | GET | `/files/:id` | File details. Uploader or admin (404 for anyone else) |
 | DELETE | `/files/:id` | Uploader or admin only |
 
-Any logged-in user can upload images (JPEG, PNG, WebP); audio (MP3, M4A, AAC, OGG, Opus, FLAC, WAV) is admin only. Types are checked against the file's contents, not its name or the type the client claims; edit `src/modules/files/file-types.ts` to change them. Max size: images `UPLOAD_IMAGE_MAX_SIZE_MB` (default 10), audio `UPLOAD_AUDIO_MAX_SIZE_MB` (default 50). Uploads are held in memory before going to storage. Store a file's `id` on other entities to reference it.
+Any logged-in user can upload images (JPEG, PNG, WebP) and audio for their invitation's own music (MP3, M4A, AAC, OGG, Opus; `customMusicId` on the invitation); admins can also upload FLAC and WAV for the music library. Types are checked against the file's contents, not its name or the type the client claims; edit `src/modules/files/file-types.ts` to change them. Max size: images `UPLOAD_IMAGE_MAX_SIZE_MB` (default 10), users' audio `UPLOAD_USER_AUDIO_MAX_SIZE_MB` (default 10), admins' audio `UPLOAD_AUDIO_MAX_SIZE_MB` (default 50). Images and users' audio that nothing uses are deleted after a day. Uploads are held in memory before going to storage. Store a file's `id` on other entities to reference it.
 
 A file used by another record (e.g. a music track) can't be deleted (409).
 
