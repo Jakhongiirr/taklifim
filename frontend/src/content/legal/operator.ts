@@ -6,7 +6,7 @@ export const OPERATOR = {
   /** Taxpayer identification number (STIR / ИНН). */
   tin: "52607025380013",
   email: "jakhongir_ravshanov@icloud.com",
-  telegram: "@JustCodeIt",
+  telegram: "@taklifim_admin",
   site: "taklifim.uz",
 };
 
@@ -14,4 +14,4 @@ export const OPERATOR = {
 export const TELEGRAM_URL = `https://t.me/${OPERATOR.telegram.replace(/^@/, "")}`;
 
 /** When the documents last changed (shown on the pages). */
-export const LEGAL_UPDATED = "2026-10-14";
+export const LEGAL_UPDATED = "2026-10-19";
