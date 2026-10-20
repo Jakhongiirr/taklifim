@@ -58,7 +58,7 @@ export default function Dashboard() {
         </p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-3">
         <Kpi
           href="/admin/users"
           label="Users"
@@ -81,6 +81,18 @@ export default function Dashboard() {
           label="Guest replies"
           value={s.responses.total}
           note={`+${s.responses.new7d} this week · ${s.responses.guests} guests coming`}
+        />
+        <Kpi
+          label="Site visitors today"
+          value={s.visits.today}
+          note={`${formatSum(s.visits.week)} this week · ${formatSum(s.visits.month)} in 30 days`}
+          title="Unique visitors per day, added up: someone who comes back the next day counts again"
+        />
+        <Kpi
+          label="Invitation views"
+          value={s.views.total}
+          note={`+${formatSum(s.views.week)} this week · ${formatSum(s.views.today)} today`}
+          title="Guest page views of all invitations: each visitor once a day per invitation; owners and admins aren't counted"
         />
       </div>
 
@@ -252,11 +264,14 @@ function Kpi({
   label,
   value,
   note,
+  title,
 }: {
   href?: string;
   label: string;
   value: number;
   note: string;
+  /** How the number is counted, on hover. */
+  title?: string;
 }) {
   const body = (
     <>
@@ -272,6 +287,7 @@ function Kpi({
   return href ? (
     <Link
       href={href}
+      title={title}
       className={cx(
         box,
         "transition-colors hover:border-zinc-400 dark:hover:border-zinc-600",
@@ -280,7 +296,9 @@ function Kpi({
       {body}
     </Link>
   ) : (
-    <div className={box}>{body}</div>
+    <div className={box} title={title}>
+      {body}
+    </div>
   );
 }
 

@@ -10,7 +10,14 @@ import {
   ThemeStatsDto,
   UpcomingTaklifDto,
   UserStatsDto,
+  VisitStatsDto,
 } from './dto/stats.dto';
+
+type VisitRow = VisitStatsDto & {
+  views: number;
+  viewsToday: number;
+  viewsWeek: number;
+};
 
 const RECENT = 6;
 const UPCOMING = 8;
@@ -26,6 +33,7 @@ export class StatsService {
       [invitations],
       [responses],
       [revenue],
+      [visits],
       themes,
       upcoming,
       recentInvitations,
@@ -54,6 +62,17 @@ export class StatsService {
           COALESCE(SUM(amount) FILTER (WHERE "paidAt" > now() - interval '7 days'), 0)::bigint AS week,
           COUNT(*)::int AS orders
         FROM orders WHERE status = 'paid'`),
+      // Days are Tashkent dates, as recorded by VisitsService.
+      this.db.query<VisitRow[]>(`
+        WITH today AS (SELECT (now() AT TIME ZONE 'Asia/Tashkent')::date AS d)
+        SELECT
+          COALESCE(SUM(visitors) FILTER (WHERE day = (SELECT d FROM today)), 0)::int AS today,
+          COALESCE(SUM(visitors) FILTER (WHERE day > (SELECT d FROM today) - 7), 0)::int AS week,
+          COALESCE(SUM(visitors) FILTER (WHERE day > (SELECT d FROM today) - 30), 0)::int AS month,
+          COALESCE(SUM("invitationViews") FILTER (WHERE day = (SELECT d FROM today)), 0)::int AS "viewsToday",
+          COALESCE(SUM("invitationViews") FILTER (WHERE day > (SELECT d FROM today) - 7), 0)::int AS "viewsWeek",
+          COALESCE(SUM("invitationViews"), 0)::int AS views
+        FROM daily_visits`),
       this.db.query<ThemeStatsDto[]>(`
         SELECT th.id, th."themeId",
           COUNT(t.id)::int AS total,
@@ -93,6 +112,12 @@ export class StatsService {
         total: Number(revenue.total),
         week: Number(revenue.week),
         orders: revenue.orders,
+      },
+      visits: { today: visits.today, week: visits.week, month: visits.month },
+      views: {
+        total: visits.views,
+        today: visits.viewsToday,
+        week: visits.viewsWeek,
       },
       themes,
       upcoming,

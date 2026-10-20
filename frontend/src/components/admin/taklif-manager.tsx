@@ -12,7 +12,12 @@ import { useEffect, useRef, useState } from "react";
 import { api, ApiError } from "@/lib/api-client";
 import { copyText } from "@/lib/copy-text";
 import type { AdminTaklif, Page, TaklifStatus, Theme } from "@/lib/api-types";
-import { formatDateTime, formatEventAt, coupleNames } from "@/lib/format";
+import {
+  coupleNames,
+  formatDateTime,
+  formatEventAt,
+  formatSum,
+} from "@/lib/format";
 import { guestMusic } from "@/lib/own-music";
 import { invitationUrl, repliesUrl } from "./links";
 import TaklifForm from "./taklif-form";
@@ -293,6 +298,7 @@ export default function TaklifManager({
                   {!embedded && (
                     <th className="px-3 py-3 font-medium">Owner</th>
                   )}
+                  <th className="px-3 py-3 font-medium">Views</th>
                   <th className="px-3 py-3 font-medium">Replies</th>
                   <th className="px-3 py-3 font-medium">Status</th>
                   <th className="px-3 py-3" />
@@ -375,6 +381,13 @@ export default function TaklifManager({
                           </Link>
                         </td>
                       )}
+                      <td className="px-3 py-3 whitespace-nowrap tabular-nums">
+                        {taklif.viewCount > 0 ? (
+                          formatSum(taklif.viewCount)
+                        ) : (
+                          <span className="text-zinc-400">0</span>
+                        )}
+                      </td>
                       <td className="px-3 py-3 whitespace-nowrap tabular-nums">
                         {taklif.responseCount > 0 ? (
                           <a
