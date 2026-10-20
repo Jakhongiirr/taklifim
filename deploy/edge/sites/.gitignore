@@ -1,5 +1,0 @@
-# Other sites on this server keep their routes here, untracked: only
-# taklifim's file belongs to this repository.
-*
-!.gitignore
-!taklifim.caddy
