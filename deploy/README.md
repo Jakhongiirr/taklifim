@@ -2,9 +2,12 @@
 
 Everything runs on one server with Docker Compose, as two projects:
 
-- `edge/`: Caddy, the only thing reachable from the internet. It owns ports
-  80/443 for every site on the server, gets HTTPS certificates by itself, and
-  reads each site's routes from `edge/sites/<site>.caddy`.
+- Caddy, from its own repository
+  ([Jakhongiirr/caddy](https://github.com/Jakhongiirr/caddy), checked out at
+  e.g. `/home/jony/caddy`): the only thing reachable from the internet. It
+  owns ports 80/443 for every site on the server, gets HTTPS certificates by
+  itself, and reads each site's routes from `sites/<site>.caddy`; taklifim's
+  are in `sites/taklifim.caddy` there.
 - `compose.yml` (this folder): taklifim itself. It publishes no ports; `web`
   and `minio` join Caddy's shared `edge` network as `taklifim-web` and
   `taklifim-minio`, everything else stays on taklifim's own network.
@@ -12,7 +15,7 @@ Everything runs on one server with Docker Compose, as two projects:
 ```
 Internet ──:80/:443──► caddy (edge) ─┬─ taklifim.uz ──────► web (Next.js) ──► api (NestJS) ──► postgres, redis, minio
                                      ├─ files.taklifim.uz ─► minio (read-only: GET/HEAD on the bucket)
-                                     └─ other sites (see "Another site on this server")
+                                     └─ other sites (see the caddy repository)
 ```
 
 - The API isn't public: browsers reach it through Next's `/api/backend`, and
@@ -83,13 +86,16 @@ docker network create edge   # once per server: shared by Caddy and the sites
 docker compose up -d --build
 docker compose ps  # all healthy; minio-init "exited (0)"
 
-cd edge
+# Caddy, if it isn't running on this server yet
+git clone https://github.com/Jakhongiirr/caddy /home/jony/caddy
+cd /home/jony/caddy
 cp .env.example .env && nano .env   # ACME_EMAIL
 docker compose up -d
 ```
 
-If the domains aren't `taklifim.uz`, change them in `edge/sites/taklifim.caddy`
-too (and the bucket name, if `S3_BUCKET` isn't `taklifim`).
+If the domains aren't `taklifim.uz`, change them in the caddy repository's
+`sites/taklifim.caddy` too (and the bucket name, if `S3_BUCKET` isn't
+`taklifim`).
 
 Then open `https://taklifim.uz`, log in with Telegram and make yourself
 admin:
@@ -120,15 +126,9 @@ cd deploy && docker compose up -d --build
 docker image prune -f
 ```
 
-When a pull changes `edge/` (Caddy's routes or its compose file), also apply
-that. A reload keeps every site up; `up -d` restarts Caddy only if its
-compose file changed:
-
-```sh
-cd /opt/taklifim/deploy/edge
-docker compose up -d
-docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile
-```
+Caddy's routes are updated from its own repository: `git pull` there, then
+`docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile`
+(every site stays up).
 
 Builds keep npm's download cache and Next.js's build cache between runs, so a
 code-only deploy recompiles just what changed. `docker image prune -f` keeps
@@ -180,70 +180,10 @@ From restic first: `restic restore latest --target /` puts
 
 ## Another site on this server
 
-Caddy already holds ports 80/443, so another site doesn't run its own proxy
-and publishes no ports. It goes through this Caddy:
-
-1. In the new site's compose file, put the container Caddy should reach on
-   the shared network under a name of its own, and publish nothing:
-
-   ```yaml
-   services:
-     app:
-       # ...
-       networks:
-         default:
-         edge:
-           aliases: [mysite-app]
-   networks:
-     edge:
-       external: true
-   ```
-
-2. Give it a routes file next to taklifim's, `edge/sites/mysite.caddy`
-   (other sites' files stay untracked in this checkout):
-
-   ```caddy
-   mysite.uz {
-   	encode zstd gzip
-   	reverse_proxy mysite-app:3000
-   }
-   ```
-
-3. Point the domain's DNS at the server, start the site
-   (`docker compose up -d` in its folder), then reload Caddy:
-   `cd /opt/taklifim/deploy/edge && docker compose exec caddy caddy reload --config /etc/caddy/Caddyfile`.
-   It gets the new certificate by itself; taklifim stays up.
-
-All sites share the server's CPU, memory and disk, and `backup.sh` backs up
-only taklifim: give each site its own backups.
-
-## Moving an existing server to edge/
-
-Servers set up before Caddy moved to `edge/` ran it inside the taklifim
-project. To switch (the site is down for the few seconds between removing
-the old Caddy and starting the new one):
-
-```sh
-cd /opt/taklifim && git pull
-docker network create edge
-
-# Recreate taklifim without its old Caddy (this frees 80/443)
-cd deploy && docker compose up -d --build --remove-orphans
-
-# Keep the existing certificates rather than requesting them again
-docker volume create edge_caddy_data
-docker run --rm -v taklifim_caddy_data:/from -v edge_caddy_data:/to alpine cp -a /from/. /to/
-
-# Start Caddy on its own
-cd edge
-printf 'ACME_EMAIL=%s\n' "$(grep '^ACME_EMAIL=' ../.env | cut -d= -f2-)" > .env
-docker compose up -d
-docker compose logs --tail 50 caddy   # no certificate errors
-```
-
-Once `https://taklifim.uz` works, remove the old volumes with
-`docker volume rm taklifim_caddy_data taklifim_caddy_config` and the
-`ACME_EMAIL` line from `deploy/.env`.
+Other sites go through the same Caddy: they join the `edge` network under
+their own alias, publish no ports, and get a routes file in the caddy
+repository's `sites/`. Keep in mind they share the server's CPU, memory and
+disk, and `backup.sh` backs up only taklifim.
 
 ## Everyday commands
 
@@ -252,7 +192,7 @@ docker compose ps                    # status and health
 docker compose logs -f --tail 100 api
 docker compose restart web
 docker compose exec postgres sh -c 'psql -U "$POSTGRES_USER" "$POSTGRES_DB"'
-cd edge && docker compose logs -f --tail 100 caddy
+cd /home/jony/caddy && docker compose logs -f --tail 100 caddy
 ```
 
 For monitoring, an external uptime check on `https://taklifim.uz/api/health`
