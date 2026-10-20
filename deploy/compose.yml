@@ -1,9 +1,9 @@
-# Production: the whole site on one server.
-# Usage (from this folder): docker compose up -d --build
+# Production: taklifim.uz. Usage (from this folder): docker compose up -d --build
 #
-# Only Caddy publishes ports (80/443). Everything else talks over the
-# project's private network: Docker opens published ports in the firewall
-# itself, so publishing nothing else is what keeps them private.
+# Nothing here publishes ports: Docker opens published ports in the firewall
+# itself. The server's Caddy (edge/, its own Compose project) owns 80/443 and
+# reaches web and minio over the shared "edge" network; everything else stays
+# on this project's private network.
 name: taklifim
 
 # Logs go to the systemd journal, which keeps them 30 days (see README:
@@ -15,30 +15,6 @@ x-logging: &logging
     tag: "{{.Name}}"
 
 services:
-  # HTTPS (automatic Let's Encrypt certificates) and routing.
-  caddy:
-    image: caddy:2-alpine
-    ports:
-      - "80:80"
-      - "443:443"
-      - "443:443/udp" # HTTP/3
-    environment:
-      SITE_DOMAIN: ${SITE_DOMAIN}
-      FILES_DOMAIN: ${FILES_DOMAIN}
-      ACME_EMAIL: ${ACME_EMAIL}
-      S3_BUCKET: ${S3_BUCKET}
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile:ro
-      - caddy_data:/data
-      - caddy_config:/config
-    depends_on:
-      web:
-        condition: service_healthy
-      minio:
-        condition: service_healthy
-    restart: unless-stopped
-    logging: *logging
-
   web:
     image: taklifim-web:prod
     build:
@@ -56,6 +32,11 @@ services:
       ALERT_TELEGRAM_CHAT_ID: ${ALERT_TELEGRAM_CHAT_ID:-}
       YANDEX_MAPS_API_KEY: ${YANDEX_MAPS_API_KEY:-}
       YANDEX_MAPS_SUGGEST_API_KEY: ${YANDEX_MAPS_SUGGEST_API_KEY:-}
+    networks:
+      default:
+      # Caddy's routes (edge/sites/taklifim.caddy) use this name.
+      edge:
+        aliases: [taklifim-web]
     depends_on:
       api:
         condition: service_healthy
@@ -137,6 +118,11 @@ services:
       MC_HOST_local: http://${S3_ACCESS_KEY}:${S3_SECRET_KEY}@localhost:9000
     volumes:
       - minio_data:/data
+    networks:
+      default:
+      # Caddy only lets reads of the bucket through (edge/sites/taklifim.caddy).
+      edge:
+        aliases: [taklifim-minio]
     healthcheck:
       test: ["CMD", "mc", "ready", "local"]
       interval: 5s
@@ -164,9 +150,12 @@ services:
         condition: service_healthy
     restart: "no"
 
+networks:
+  # Shared with Caddy (edge/compose.yml); created once by hand.
+  edge:
+    external: true
+
 volumes:
-  caddy_data:
-  caddy_config:
   postgres_data:
   redis_data:
   minio_data:

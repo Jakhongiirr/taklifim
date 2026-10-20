@@ -1,0 +1,9 @@
+{
+	# Let's Encrypt account: expiry warnings and the like.
+	email {$ACME_EMAIL}
+}
+
+# One file per site. A site's containers are reached by the aliases they
+# take on the edge network (e.g. taklifim-web), never by bare service names,
+# which two sites could share.
+import sites/*.caddy
