@@ -1,9 +1,9 @@
 # Production: taklifim.uz. Usage (from this folder): docker compose up -d --build
 #
 # Nothing here publishes ports: Docker opens published ports in the firewall
-# itself. The server's Caddy (edge/, its own Compose project) owns 80/443 and
-# reaches web and minio over the shared "edge" network; everything else stays
-# on this project's private network.
+# itself. The server's Caddy (github.com/Jakhongiirr/caddy, its own Compose
+# project) owns 80/443 and reaches web and minio over the shared "edge"
+# network; everything else stays on this project's private network.
 name: taklifim
 
 # Logs go to the systemd journal, which keeps them 30 days (see README:
@@ -34,7 +34,7 @@ services:
       YANDEX_MAPS_SUGGEST_API_KEY: ${YANDEX_MAPS_SUGGEST_API_KEY:-}
     networks:
       default:
-      # Caddy's routes (edge/sites/taklifim.caddy) use this name.
+      # Caddy's routes (sites/taklifim.caddy in the caddy repo) use this name.
       edge:
         aliases: [taklifim-web]
     depends_on:
@@ -120,7 +120,8 @@ services:
       - minio_data:/data
     networks:
       default:
-      # Caddy only lets reads of the bucket through (edge/sites/taklifim.caddy).
+      # Caddy only lets reads of the bucket through (sites/taklifim.caddy in
+      # the caddy repo).
       edge:
         aliases: [taklifim-minio]
     healthcheck:
@@ -151,7 +152,7 @@ services:
     restart: "no"
 
 networks:
-  # Shared with Caddy (edge/compose.yml); created once by hand.
+  # Shared with Caddy (the caddy repo); created once by hand.
   edge:
     external: true
 
