@@ -1,0 +1,39 @@
+# The server's front door: Caddy owns ports 80/443 for every site on this
+# server, gets their HTTPS certificates and routes each domain to its site.
+# Usage (from this folder): docker compose up -d
+#
+# Each site is its own Compose project that joins the shared "edge" network
+# and publishes no ports. Its routes go in sites/<name>.caddy (see README).
+name: edge
+
+services:
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp" # HTTP/3
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./sites:/etc/caddy/sites:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks:
+      - edge
+    restart: unless-stopped
+    logging:
+      driver: journald
+      options:
+        tag: "{{.Name}}"
+
+networks:
+  # Created once by hand (docker network create edge), so neither this
+  # project nor a site's owns it and each can be restarted on its own.
+  edge:
+    external: true
+
+volumes:
+  caddy_data:
+  caddy_config:
