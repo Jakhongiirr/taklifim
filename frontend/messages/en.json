@@ -282,6 +282,7 @@
     "eventAt": "Event: {date}",
     "draftExpires": "Photos deleted {date} unless edited",
     "liveUntil": "Photos kept until {date}",
+    "views": "{count, plural, one {# view} other {# views}}",
     "payment": {
       "pending": "Confirming your payment…",
       "pendingText": "Your invitation is published as soon as Payme confirms the payment. It takes a few seconds.",

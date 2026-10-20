@@ -29,6 +29,7 @@ import { ThemesModule } from './modules/themes/themes.module';
 import { StatsModule } from './modules/stats/stats.module';
 import { StorageModule } from './modules/storage/storage.module';
 import { UsersModule } from './modules/users/users.module';
+import { VisitsModule } from './modules/visits/visits.module';
 
 @Module({
   imports: [
@@ -62,6 +63,7 @@ import { UsersModule } from './modules/users/users.module';
     TaklifModule,
     DemosModule,
     StatsModule,
+    VisitsModule,
     PaymentsModule,
     GiftsModule,
   ],

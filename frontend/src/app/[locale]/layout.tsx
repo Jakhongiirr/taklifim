@@ -3,6 +3,7 @@ import { Cormorant_Garamond, Geist, Geist_Mono } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
+import VisitBeacon from "@/components/site/visit-beacon";
 import { routing } from "@/i18n/routing";
 import { OG_IMAGES, SITE_URL } from "@/lib/seo";
 import "../globals.css";
@@ -75,6 +76,7 @@ export default async function LocaleLayout({
     >
       <body className="flex min-h-full flex-col overflow-x-clip bg-paper text-ink">
         <NextIntlClientProvider>{children}</NextIntlClientProvider>
+        <VisitBeacon />
       </body>
     </html>
   );

@@ -282,6 +282,7 @@
     "eventAt": "Tadbir: {date}",
     "draftExpires": "Tahrirlanmasa suratlari {date} oʻchiriladi",
     "liveUntil": "Suratlar {date} gacha saqlanadi",
+    "views": "{count} marta koʻrildi",
     "payment": {
       "pending": "Toʻlov tasdiqlanmoqda…",
       "pendingText": "Payme toʻlovni tasdiqlashi bilan taklifnomangiz eʼlon qilinadi. Bu bir necha soniya oladi.",

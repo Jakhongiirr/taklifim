@@ -121,6 +121,13 @@ export default function TaklifCard({
             {t("eventAt", { date: when(taklif.eventAt) })}
           </p>
           <p className="truncate text-sm text-muted">{taklif.venueName}</p>
+          {/* Views start once guests can open it. */}
+          {taklif.status !== "draft" && (
+            <p className="mt-1 flex items-center gap-1.5 text-sm text-ink">
+              <EyeIcon />
+              {t("views", { count: taklif.viewCount })}
+            </p>
+          )}
         </div>
       </div>
 
@@ -319,5 +326,23 @@ function ActionButton({
     >
       {children}
     </button>
+  );
+}
+
+function EyeIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="size-4 shrink-0 text-muted"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
   );
 }

@@ -73,6 +73,13 @@ export class TaklifDto {
 
   theme: ThemeDto;
 
+  /**
+   * Guest page views: each visitor once a day; the owner's and admins' own
+   * visits aren't counted.
+   * @example 128
+   */
+  viewCount: number;
+
   createdAt: Date;
 
   updatedAt: Date;

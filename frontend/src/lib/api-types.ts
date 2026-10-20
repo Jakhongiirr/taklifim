@@ -102,6 +102,11 @@ export interface Taklif {
   /** The couple's own uploaded music, played instead of `music`. */
   customMusic: FileDto | null;
   theme: Theme;
+  /**
+   * Guest page views: each visitor once a day; the owner's and admins' own
+   * visits aren't counted.
+   */
+  viewCount: number;
   createdAt: string;
   updatedAt: string;
 }
@@ -182,6 +187,10 @@ export interface Stats {
   responses: { total: number; new7d: number; guests: number };
   /** Paid orders, in so'm. */
   revenue: { total: number; week: number; orders: number };
+  /** Unique site visitors per day, added up (week, month: the last 7, 30 days). */
+  visits: { today: number; week: number; month: number };
+  /** Invitation page views, each visitor once a day per invitation. */
+  views: { total: number; today: number; week: number };
   /** Most used first. */
   themes: { id: string; themeId: string; total: number; published: number }[];
   upcoming: {

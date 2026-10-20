@@ -697,6 +697,7 @@ export class TaklifService {
         ? this.filesService.toDto(taklif.customMusicFile)
         : null,
       theme: this.themesService.toDto(taklif.theme),
+      viewCount: taklif.viewCount,
       createdAt: taklif.createdAt,
       updatedAt: taklif.updatedAt,
     };

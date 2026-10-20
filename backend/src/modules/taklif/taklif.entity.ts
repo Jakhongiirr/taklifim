@@ -125,6 +125,13 @@ export class Taklif {
   @JoinColumn({ name: 'themeId' })
   theme: Theme;
 
+  /**
+   * Guest page views: each visitor once a day, the owner and admins not
+   * counted (see VisitsService).
+   */
+  @Column({ type: 'int', default: 0 })
+  viewCount: number;
+
   @OneToMany(() => TaklifPhoto, (photo) => photo.taklif)
   photos: TaklifPhoto[];
 

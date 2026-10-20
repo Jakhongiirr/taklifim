@@ -35,6 +35,24 @@ export class RevenueStatsDto {
   orders: number;
 }
 
+/** Unique site visitors per day, added up over the period. */
+export class VisitStatsDto {
+  today: number;
+  /** The last 7 days, today included. */
+  week: number;
+  /** The last 30 days, today included. */
+  month: number;
+}
+
+/** Guest page views of all invitations (each visitor once a day). */
+export class ViewStatsDto {
+  /** All time, deleted invitations included. */
+  total: number;
+  today: number;
+  /** The last 7 days, today included. */
+  week: number;
+}
+
 export class ThemeStatsDto {
   /** The theme row's id. */
   id: string;
@@ -89,6 +107,8 @@ export class StatsDto {
   responses: ResponseStatsDto;
   /** Paid orders, in so'm. */
   revenue: RevenueStatsDto;
+  visits: VisitStatsDto;
+  views: ViewStatsDto;
   /** Most used first. */
   themes: ThemeStatsDto[];
   /** Published invitations with an event in the next 30 days, soonest first. */
