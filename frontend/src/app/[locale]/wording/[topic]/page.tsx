@@ -1,9 +1,13 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
+import RichText from "@/components/site/articles/rich-text";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import SampleCard from "@/components/site/wording/sample-card";
 import WordingCta from "@/components/site/wording/wording-cta";
+import WordingFaq from "@/components/site/wording/wording-faq";
+import WordingNudge from "@/components/site/wording/wording-nudge";
+import WordingWhy from "@/components/site/wording/wording-why";
 import { WORDING, WORDING_TOPICS } from "@/content/wording";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -27,6 +31,7 @@ export async function generateMetadata({
   return {
     title: topic.metaTitle,
     description: topic.metaDescription,
+    keywords: topic.keywords,
     alternates: localeAlternates(locale, `/wording/${id}`),
     openGraph: {
       title: topic.metaTitle,
@@ -53,11 +58,20 @@ export default async function WordingTopicPage({
         "@type": "Article",
         headline: topic.title,
         description: topic.metaDescription,
+        keywords: topic.keywords.join(", "),
         inLanguage: locale,
         url,
         mainEntityOfPage: url,
         author: { "@id": `${SITE_URL}/#organization` },
         publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: topic.faq.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: a },
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -107,10 +121,14 @@ export default async function WordingTopicPage({
           </h1>
           <div className="mt-5 space-y-3 leading-relaxed text-ink/85">
             {topic.intro.map((p) => (
-              <p key={p}>{p}</p>
+              <p key={p}>
+                <RichText text={p} />
+              </p>
             ))}
           </div>
         </header>
+
+        <WordingNudge />
 
         <section className="mt-10 rounded-3xl bg-cream/70 p-6 ring-1 ring-line sm:p-7">
           <h2 className="font-serif text-2xl font-medium text-ink">
@@ -123,7 +141,9 @@ export default async function WordingTopicPage({
                   aria-hidden
                   className="mt-2 size-1.5 shrink-0 rounded-full bg-gold"
                 />
-                {tip}
+                <span>
+                  <RichText text={tip} />
+                </span>
               </li>
             ))}
           </ul>
@@ -141,11 +161,16 @@ export default async function WordingTopicPage({
                   sample={sample}
                   copyLabel={t("copy")}
                   copiedLabel={t("copied")}
+                  nextLabel={t("afterCopy")}
                 />
               </li>
             ))}
           </ul>
         </section>
+
+        <WordingWhy {...topic.why} />
+
+        <WordingFaq title={t("faqTitle")} faq={topic.faq} />
 
         <WordingCta />
 

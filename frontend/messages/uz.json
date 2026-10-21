@@ -218,21 +218,69 @@
     "open": "Namunalarni koʻrish",
     "tipsTitle": "Matn yozishda maslahatlar",
     "samplesTitle": "Tayyor matnlar",
-    "samplesHint": "Kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring.",
+    "samplesHint": "Kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring va matnni taklifnoma havolasi bilan yuboring.",
     "copy": "Nusxa olish",
     "copied": "Nusxalandi",
     "othersTitle": "Boshqa matnlar",
     "index": {
       "title": "Taklifnoma matni namunalari",
-      "text": "Toʻy, fotiha va boshqa marosimlarga taklif qilish uchun tayyor matnlar. Yoqqanidan nusxa oling, ismlar va sanani qoʻying — taklifnoma havolasi bilan yuboring.",
-      "metaTitle": "Taklifnoma matni namunalari — toʻy, fotiha, Telegram uchun | Taklifim",
-      "metaDescription": "Toʻy taklifnomasi uchun tayyor matnlar: ota-ona nomidan, fotiha toʻyiga, doʻstlar va hamkasblarga, Telegram uchun qisqa matnlar va toʻydan keyin rahmat."
+      "text": "Toʻy, fotiha, ota-ona nomidan va Telegram uchun tayyor taklif matnlari. Yoqqanidan nusxa oling, ismlar va sanani qoʻying — va Taklifim.uz’da yaratilgan onlayn taklifnoma havolasi bilan yuboring.",
+      "metaTitle": "Taklifnoma matni namunalari — toʻy taklifnomasi, fotiha, Telegram uchun | Taklifim",
+      "metaDescription": "Toʻy taklifnomasi uchun 30 dan ortiq tayyor matn: ota-ona nomidan, fotiha toʻyiga, doʻstlar va hamkasblarga, Telegram uchun qisqa matnlar va rahmat xati. Onlayn taklifnomani bepul yarating.",
+      "keywords": [
+        "taklifnoma matni",
+        "taklifnoma namunalari",
+        "toʻy taklifnomasi matni",
+        "toʻyga taklif matni",
+        "onlayn taklifnoma",
+        "elektron taklifnoma",
+        "online taklifnoma",
+        "taklifnoma yaratish",
+        "таклифнома матни",
+        "тўй таклифномаси"
+      ],
+      "about": {
+        "title": "Matn tayyor. Endi taklifnomaning oʻzi",
+        "paragraphs": [
+          "Eng chiroyli taklif matni ham oddiy xabarda yoʻqolib ketadi. Shuning uchun bugun koʻpchilik toʻy taklifnomasini onlayn yuboradi: mehmon havolani ochadi va video bilan ochiladigan, musiqali, xaritali elektron taklifnomani koʻradi.",
+          "Taklifim.uz — oʻzbek toʻylari uchun yaratilgan onlayn taklifnoma xizmati. [Dizayn tanlang](/designs), maʼlumotlarni telefoningizda kiriting va taklifnomani bitta havola bilan Telegram’da yuboring. Elektron taklifnoma haqida batafsil: [elektron taklifnoma nima](/articles/electronic-invitation)."
+        ],
+        "list": [
+          "Videoli ochilish va siz tanlagan musiqa",
+          "Toʻyxona manzili xaritada",
+          "Mehmonlar javobi va tilaklari Telegramingizga",
+          "Har bir mehmonga ismli havola",
+          "PNG rasm va QR kod sifatida yuklab olish",
+          "Oʻzbek, rus va ingliz tillarida"
+        ]
+      },
+      "faq": [
+        {
+          "q": "Taklifnoma matnini qayerdan olsam boʻladi?",
+          "a": "Shu sahifadagi namunalardan: toʻy, fotiha, ota-ona nomidan, doʻstlar va hamkasblar uchun hamda Telegram uchun qisqa matnlar bor. Hammasi bepul — nusxa oling va ismlarni qoʻying."
+        },
+        {
+          "q": "Onlayn taklifnoma qanday yaratiladi?",
+          "a": "Taklifim.uz’da dizayn tanlang, ismlar, sana, manzil, suratlar va musiqani kiriting. Yaratish va koʻrib chiqish bepul, toʻlov faqat taklifnomani eʼlon qilganda olinadi."
+        },
+        {
+          "q": "Elektron taklifnomani qanday yuboraman?",
+          "a": "Eʼlon qilingach, taklifnomaning havolasi paydo boʻladi. Uni shu sahifadagi matnlardan biri bilan Telegram, WhatsApp yoki SMS orqali yuboring."
+        }
+      ]
     },
     "cta": {
-      "title": "Matnni chiroyli taklifnoma bilan yuboring",
-      "text": "Videoli elektron taklifnoma yarating va havolasini shu matn bilan mehmonlarga yuboring. Qoralama bepul.",
+      "title": "Taklifnomangizni hoziroq yarating",
+      "text": "Matn bor — endi unga munosib taklifnoma kerak. Taklifim.uz’da videoli onlayn toʻy taklifnomasini telefoningizda bir necha daqiqada yarating.",
       "button": "Taklifnoma yaratish",
-      "designs": "Dizaynlarni koʻrish"
+      "designs": "Dizaynlarni koʻrish",
+      "points": ["Yaratish bepul", "Bir necha daqiqada", "Telegram’da yuborish"]
+    },
+    "afterCopy": "Matn tayyor — endi taklifnomani yarating",
+    "faqTitle": "Koʻp soʻraladigan savollar",
+    "nudge": {
+      "text": "Matnni oddiy xabar emas, videoli onlayn taklifnoma bilan yuboring: musiqa, xarita va mehmonlar javobi — bitta havolada.",
+      "button": "Bepul boshlash"
     }
   },
   "Articles": {

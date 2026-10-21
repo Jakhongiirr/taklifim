@@ -218,21 +218,66 @@
     "open": "See the examples",
     "tipsTitle": "Tips for your wording",
     "samplesTitle": "Ready-made texts",
-    "samplesHint": "Replace what's in square brackets with your own details.",
+    "samplesHint": "Replace what's in square brackets with your own details and send it with your invitation link.",
     "copy": "Copy",
     "copied": "Copied",
     "othersTitle": "More wording",
     "index": {
       "title": "Invitation wording samples",
-      "text": "Ready-made texts to invite guests to a wedding, a fotiha and other celebrations. Copy one you like, add the names and date, and send it with your invitation link.",
-      "metaTitle": "Wedding invitation wording samples — for Telegram and more | Taklifim",
-      "metaDescription": "Ready-made wedding invitation wording: from the parents, for a fotiha, for friends and colleagues, short texts for messengers and thank-you messages."
+      "text": "Ready-made wording for weddings, a fotiha, from the parents and for Telegram. Copy one you like, add the names and date, and send it with a link to an online invitation made on Taklifim.uz.",
+      "metaTitle": "Wedding Invitation Wording Samples & Online Invitations | Taklifim",
+      "metaDescription": "30+ ready-made wedding invitation texts: from the parents, for a fotiha, for friends and colleagues, short messages for Telegram and thank-you notes. Create an online invitation for free.",
+      "keywords": [
+        "wedding invitation wording",
+        "invitation wording samples",
+        "wedding invitation message",
+        "online wedding invitation",
+        "digital wedding invitation",
+        "wedding invitation Uzbekistan",
+        "online invitation maker"
+      ],
+      "about": {
+        "title": "Your wording's ready. Now the invitation",
+        "paragraphs": [
+          "Even the best wording gets lost in a plain message. That's why more and more couples send their wedding invitation online: guests open a link and see a digital invitation with a video opening, music and a map.",
+          "Taklifim.uz is an online invitation maker built for Uzbek weddings. [Choose a design](/designs), fill in the details on your phone and send the invitation with one link on Telegram. More on this: [what is an online invitation](/articles/electronic-invitation)."
+        ],
+        "list": [
+          "A video opening and the music you choose",
+          "The venue on a map",
+          "Guests' replies and wishes in your Telegram",
+          "A named link for every guest",
+          "Download as a PNG picture or a QR code",
+          "In Uzbek, Russian and English"
+        ]
+      },
+      "faq": [
+        {
+          "q": "Where can I find wedding invitation wording?",
+          "a": "Right here: wording for weddings, a fotiha, from the parents, for friends and colleagues, and short messages for Telegram. It's all free — copy it and add your names."
+        },
+        {
+          "q": "How do I create an online invitation?",
+          "a": "On Taklifim.uz, choose a design and fill in the names, date, address, photos and music. Creating and previewing is free; you only pay when you publish."
+        },
+        {
+          "q": "How do I send a digital invitation?",
+          "a": "Once it's published, your invitation gets its own link. Send it with one of the texts on this page on Telegram, WhatsApp or by SMS."
+        }
+      ]
     },
     "cta": {
-      "title": "Send your text with a beautiful invitation",
-      "text": "Create a digital invitation with a video opening and send guests its link with this text. Drafts are free.",
+      "title": "Create your invitation now",
+      "text": "You have the words — now give them an invitation to match. Create an online wedding invitation with video on Taklifim.uz in a few minutes, right on your phone.",
       "button": "Create an invitation",
-      "designs": "See the designs"
+      "designs": "See the designs",
+      "points": ["Free to create", "Ready in minutes", "Send on Telegram"]
+    },
+    "afterCopy": "Text ready — now create your invitation",
+    "faqTitle": "Frequently asked questions",
+    "nudge": {
+      "text": "Don't send your wording as a plain message — send it with an online invitation with video: music, a map and guest replies, all in one link.",
+      "button": "Start for free"
     }
   },
   "Articles": {
