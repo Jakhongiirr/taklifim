@@ -14,6 +14,28 @@ import {
 import { invitationUrl, repliesUrl } from "./links";
 import { Alert, Badge, cx, EmptyState, Spinner } from "./ui";
 
+const sourceNames: Record<string, string> = {
+  direct: "Direct / unknown",
+  chatgpt: "ChatGPT",
+  perplexity: "Perplexity",
+  gemini: "Gemini",
+  claude: "Claude",
+  copilot: "Copilot",
+  deepseek: "DeepSeek",
+  google: "Google",
+  yandex: "Yandex",
+  bing: "Bing",
+  telegram: "Telegram",
+  instagram: "Instagram",
+  facebook: "Facebook",
+  youtube: "YouTube",
+  tiktok: "TikTok",
+  twitter: "X (Twitter)",
+  vk: "VK",
+  whatsapp: "WhatsApp",
+  gmail: "Gmail",
+};
+
 const statusTone: Record<TaklifStatus, "neutral" | "green" | "amber"> = {
   draft: "neutral",
   published: "green",
@@ -98,6 +120,13 @@ export default function Dashboard() {
 
       <Panel title="Invitations by status">
         <StatusBar invitations={s.invitations} />
+      </Panel>
+
+      <Panel
+        title="Where visitors come from"
+        note="The last 30 days: each visitor once a day, by how they arrived · this week"
+      >
+        <Sources sources={s.sources} />
       </Panel>
 
       <div className="grid gap-6 lg:grid-cols-2">
@@ -368,6 +397,58 @@ function StatusBar({ invitations }: { invitations: Stats["invitations"] }) {
             </span>
           </Link>
         ))}
+      </div>
+    </div>
+  );
+}
+
+/**
+ * Visitors per source, split into those who landed on the site and those who
+ * opened someone's invitation (mostly guests following a shared link).
+ */
+function Sources({ sources }: { sources: Stats["sources"] }) {
+  if (sources.length === 0) {
+    return <Empty>No visits counted yet.</Empty>;
+  }
+  const max = Math.max(1, ...sources.map((r) => r.site + r.invitation));
+  return (
+    <div className="flex flex-col gap-3">
+      <ul className="flex flex-col gap-2.5">
+        {sources.map((r) => (
+          <li key={r.source} className="flex items-center gap-3">
+            <span className="w-32 shrink-0 truncate text-sm" title={r.source}>
+              {sourceNames[r.source] ?? r.source}
+            </span>
+            <span className="relative flex h-2.5 flex-1 overflow-hidden rounded-full bg-zinc-100 dark:bg-zinc-800">
+              <span
+                className="bg-sky-500"
+                style={{ width: `${(r.site / max) * 100}%` }}
+              />
+              <span
+                className="bg-violet-400"
+                style={{ width: `${(r.invitation / max) * 100}%` }}
+              />
+            </span>
+            <span className="w-24 shrink-0 text-right text-sm tabular-nums">
+              {formatSum(r.site + r.invitation)}{" "}
+              <span className="text-zinc-500">· {formatSum(r.week)}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <div className="flex flex-wrap gap-x-6 gap-y-1 text-xs text-zinc-500">
+        <span className="flex items-center gap-2">
+          <span className="size-2.5 rounded-full bg-sky-500" />
+          Landed on the site
+        </span>
+        <span className="flex items-center gap-2">
+          <span className="size-2.5 rounded-full bg-violet-400" />
+          Opened an invitation
+        </span>
+        <span>
+          Telegram and WhatsApp links often arrive with no trace, so they land
+          in “Direct / unknown”. Tag your own links with ?utm_source=…
+        </span>
       </div>
     </div>
   );

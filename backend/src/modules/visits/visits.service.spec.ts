@@ -15,9 +15,13 @@ function setup({ published = true } = {}) {
     }),
   };
   const sql: string[] = [];
+  const sources: [string, string | undefined][] = [];
   const db = {
-    query: jest.fn((query: string) => {
+    query: jest.fn((query: string, params: string[] = []) => {
       sql.push(query);
+      if (query.startsWith('INSERT INTO daily_sources')) {
+        sources.push([params[1], /"(\w+)"\) VALUES/.exec(query)?.[1]]);
+      }
       if (query.startsWith('SELECT')) {
         return Promise.resolve(published ? [TAKLIF] : []);
       }
@@ -35,6 +39,7 @@ function setup({ published = true } = {}) {
     dailyViews: () =>
       count(/INSERT INTO daily_visits \(day, "invitationViews"\)/),
     views: () => count(/UPDATE taklif SET "viewCount"/),
+    sources: () => sources,
   };
 }
 
@@ -86,6 +91,31 @@ describe('VisitsService', () => {
     const s = setup({ published: false });
     await s.service.record(guest);
     expect(s.views()).toBe(0);
+  });
+});
+
+describe('VisitsService sources', () => {
+  it("records the source of each visitor's first visit of the day", async () => {
+    const s = setup();
+    await s.service.record(
+      { ...guest, referrer: 'https://www.google.com/' },
+      undefined,
+      'Mozilla/5.0',
+    );
+    await s.service.record(
+      { ...guest, referrer: 'https://chatgpt.com/' },
+      undefined,
+      'Mozilla/5.0',
+    );
+    await s.service.record(
+      { visitorId: 'visitor-0002', utm: 'instagram' },
+      undefined,
+      'Mozilla/5.0',
+    );
+    expect(s.sources()).toEqual([
+      ['google', 'invitation'],
+      ['instagram', 'site'],
+    ]);
   });
 });
 

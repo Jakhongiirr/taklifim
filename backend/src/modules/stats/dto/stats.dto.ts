@@ -53,6 +53,18 @@ export class ViewStatsDto {
   week: number;
 }
 
+/** Where site visitors came from over the last 30 days. */
+export class SourceStatsDto {
+  /** "google", "instagram", "chatgpt", "direct", ... or another site's domain. @example "instagram" */
+  source: string;
+  /** Visitors who landed on the site itself (home, designs, ...). */
+  site: number;
+  /** Visitors who landed on an invitation. */
+  invitation: number;
+  /** Both, in the last 7 days. */
+  week: number;
+}
+
 export class ThemeStatsDto {
   /** The theme row's id. */
   id: string;
@@ -109,6 +121,8 @@ export class StatsDto {
   revenue: RevenueStatsDto;
   visits: VisitStatsDto;
   views: ViewStatsDto;
+  /** Visitor sources in the last 30 days, biggest first (top 25). */
+  sources: SourceStatsDto[];
   /** Most used first. */
   themes: ThemeStatsDto[];
   /** Published invitations with an event in the next 30 days, soonest first. */

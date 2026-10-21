@@ -191,6 +191,11 @@ export interface Stats {
   visits: { today: number; week: number; month: number };
   /** Invitation page views, each visitor once a day per invitation. */
   views: { total: number; today: number; week: number };
+  /**
+   * Where visitors came from in the last 30 days, biggest first (top 25):
+   * landed on the site or on an invitation; week is both, last 7 days.
+   */
+  sources: { source: string; site: number; invitation: number; week: number }[];
   /** Most used first. */
   themes: { id: string; themeId: string; total: number; published: number }[];
   upcoming: {
