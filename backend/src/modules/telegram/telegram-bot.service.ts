@@ -14,6 +14,18 @@ const RETRY_DELAY_MS = 5_000;
 /** Consecutive failures before it's logged as an error (and alerted). */
 const FAILURES_BEFORE_ERROR = 5;
 
+/**
+ * Undici reports every network error as just "fetch failed" and keeps the
+ * real reason (ECONNRESET, ETIMEDOUT, ENOTFOUND...) in `cause`.
+ */
+function describe(err: unknown): string {
+  const { message, cause } = err as Error & {
+    cause?: { code?: string; message?: string };
+  };
+  const reason = cause?.code ?? cause?.message;
+  return reason ? `${message} (${reason})` : message;
+}
+
 interface BotResponse<T> {
   ok: boolean;
   result?: T;
@@ -145,7 +157,7 @@ export class TelegramBotService
       } catch (err) {
         if (this.stop.signal.aborted) break;
         failures++;
-        const message = `Telegram polling failed (${failures}x): ${(err as Error).message}`;
+        const message = `Telegram polling failed (${failures}x): ${describe(err)}`;
         if (failures === FAILURES_BEFORE_ERROR) this.logger.error(message);
         else this.logger.warn(message);
         await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
