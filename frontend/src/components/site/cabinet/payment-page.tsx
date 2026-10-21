@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
-import { type ReactNode, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { OPERATOR, TELEGRAM_URL } from "@/content/legal/operator";
 import { designName } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
 import type { Taklif } from "@/lib/api-types";
+import { copyText } from "@/lib/copy-text";
 import { coupleNames, formatSum } from "@/lib/format";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
 import { usePay } from "./use-pay";
@@ -35,6 +37,7 @@ export default function PaymentPage({
   const t = useTranslations("Pay");
   const tPay = useTranslations("Cabinet.actions");
   const locale = useLocale();
+  const router = useRouter();
   const when = useTashkentDate();
   const payment = usePay(taklif.id);
   const [method, setMethod] = useState<MethodId>(PAYMENT_METHODS[0].id);
@@ -48,34 +51,22 @@ export default function PaymentPage({
     }
   }
 
-  if (payment.published) {
-    return (
-      <div
-        role="status"
-        className="rounded-3xl bg-sage/10 p-6 ring-1 ring-sage/30"
-      >
-        <p className="font-serif text-2xl text-ink">
-          ✓ {tPay("publishedFree")}
-        </p>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <a
-            href={`/${locale}/taklif/${taklif.slug}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex h-11 items-center rounded-full bg-sage px-5 text-sm font-medium text-paper hover:bg-sage-dark"
-          >
-            {t("open")} ↗
-          </a>
-          <Link
-            href="/cabinet"
-            className="inline-flex h-11 items-center rounded-full px-5 text-sm font-medium text-ink ring-1 ring-line hover:ring-ink/30"
-          >
-            {t("toCabinet")}
-          </Link>
-        </div>
-      </div>
-    );
-  }
+  // Paid (or published free): the cabinet shows it, with its links.
+  useEffect(() => {
+    if (payment.published) {
+      router.push(`/${locale}/cabinet#paid-${taklif.slug}`);
+    }
+  }, [payment.published, router, locale, taklif.slug]);
+
+  // Back from Payme via the browser's back button, this page comes from the
+  // browser's cache; loading it again sends a paid invitation to the cabinet.
+  useEffect(() => {
+    const onShow = (e: PageTransitionEvent) => {
+      if (e.persisted) window.location.reload();
+    };
+    window.addEventListener("pageshow", onShow);
+    return () => window.removeEventListener("pageshow", onShow);
+  }, []);
 
   return (
     <>
@@ -211,10 +202,7 @@ export default function PaymentPage({
                   {t("telegram.text", { username: OPERATOR.telegram })}
                 </p>
                 <p className="mt-2 text-sm text-muted">
-                  {t("telegram.code")}{" "}
-                  <code className="rounded-md bg-paper px-1.5 py-0.5 font-mono text-ink ring-1 ring-line">
-                    {taklif.slug}
-                  </code>
+                  {t("telegram.code")} <CopyCode code={taklif.slug} />
                 </p>
               </div>
             </div>
@@ -231,6 +219,49 @@ export default function PaymentPage({
         </>
       )}
     </>
+  );
+}
+
+/** The invitation code, copied with a tap (to paste into the message). */
+function CopyCode({ code }: { code: string }) {
+  const t = useTranslations("Pay.telegram");
+  const [copied, setCopied] = useState(false);
+
+  async function copy() {
+    if (!(await copyText(code))) return;
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={() => void copy()}
+      title={t("copy")}
+      className="inline-flex items-center gap-1.5 rounded-md bg-paper px-1.5 py-0.5 align-middle font-mono text-ink ring-1 ring-line transition-colors hover:ring-ink/30"
+    >
+      {code}
+      <span className="font-sans text-xs text-muted">
+        {copied ? `✓ ${t("copied")}` : <CopyIcon />}
+      </span>
+    </button>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      aria-hidden="true"
+      className="size-3.5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.8}
+      strokeLinejoin="round"
+    >
+      <rect x="9" y="9" width="11" height="11" rx="2" />
+      <path d="M5 15V5a2 2 0 0 1 2-2h8" />
+    </svg>
   );
 }
 
