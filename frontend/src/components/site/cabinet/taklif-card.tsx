@@ -211,20 +211,31 @@ export default function TaklifCard({
             {t("actions.responses")}
           </Link>
         )}
-        {taklif.status === "draft" && (
-          // Paying publishes the draft; a free design is published at once.
-          <ActionButton
-            primary
-            disabled={busy || payment.busy}
-            onClick={() => void payment.pay()}
-          >
-            {gift
-              ? t(payment.busy ? "actions.publishing" : "actions.publishGift")
-              : taklif.theme.price === 0
-                ? t(payment.busy ? "actions.publishing" : "actions.publishFree")
-                : t(payment.busy ? "actions.paying" : "actions.pay")}
-          </ActionButton>
-        )}
+        {taklif.status === "draft" &&
+          // Paying publishes the draft, on the payment page; a free design
+          // is published at once.
+          (gift || taklif.theme.price === 0 ? (
+            <ActionButton
+              primary
+              disabled={busy || payment.busy}
+              onClick={() => void payment.pay()}
+            >
+              {t(
+                payment.busy
+                  ? "actions.publishing"
+                  : gift
+                    ? "actions.publishGift"
+                    : "actions.publishFree",
+              )}
+            </ActionButton>
+          ) : (
+            <Link
+              href={`/cabinet/pay/${taklif.slug}`}
+              className="inline-flex h-10 items-center rounded-full bg-sage px-4 text-sm font-medium text-paper transition-colors hover:bg-sage-dark"
+            >
+              {t("actions.pay")}
+            </Link>
+          ))}
         {taklif.status === "published" && (
           <>
             <ActionButton
