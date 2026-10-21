@@ -713,7 +713,8 @@
       "text": "Payme orqali toʻlay olmasangiz, {username} ga yozing — boshqa yoʻl bilan toʻlashga yordam beramiz.",
       "code": "Xabarda taklifnoma kodini yozing:",
       "copy": "Nusxalash",
-      "copied": "Nusxalandi"
+      "copied": "Nusxalandi",
+      "message": "Assalomu alaykum, {code} taklifnoma uchun toʻlov qilmoqchiman"
     },
     "amount": "{price} soʻm"
   }

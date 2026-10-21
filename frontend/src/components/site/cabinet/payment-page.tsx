@@ -43,6 +43,8 @@ export default function PaymentPage({
   const [method, setMethod] = useState<MethodId>(PAYMENT_METHODS[0].id);
   const price = gift ? 0 : taklif.theme.price;
   const photo = taklif.photos[0];
+  // Ready for the support chat, in the visitor's language.
+  const telegramMessage = t("telegram.message", { code: taklif.slug });
 
   function start() {
     switch (method) {
@@ -206,8 +208,12 @@ export default function PaymentPage({
                 </p>
               </div>
             </div>
+            {/* Telegram fills this in the chat; it's shown so it's no surprise. */}
+            <p className="mt-4 rounded-2xl rounded-br-md bg-[#effdde] px-4 py-2.5 text-sm text-ink shadow-sm ring-1 ring-black/5">
+              {telegramMessage}
+            </p>
             <a
-              href={TELEGRAM_URL}
+              href={`${TELEGRAM_URL}?text=${encodeURIComponent(telegramMessage)}`}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-2xl bg-[#2aabee] text-sm font-medium text-white transition-colors hover:bg-[#229ed9]"
