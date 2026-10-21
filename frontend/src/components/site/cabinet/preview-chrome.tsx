@@ -150,41 +150,39 @@ export default function PreviewChrome({
                 </div>
               )}
 
-              <button
-                type="button"
-                onClick={() => void payment.pay()}
-                disabled={payment.busy}
-                className={`relative flex h-14 w-full ${folded ? "" : "mt-4"} items-center justify-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-sage via-[#56664d] to-sage text-paper shadow-lg shadow-sage/30 transition-transform active:scale-[0.98] disabled:opacity-80`}
-              >
-                {/* A soft light passing across, now and then. */}
-                <span
-                  aria-hidden
-                  className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/25 to-transparent motion-safe:animate-[pay-shine_3.2s_ease-in-out_infinite]"
-                />
-                {payment.busy ? (
-                  <>
-                    <span className="size-5 animate-spin rounded-full border-2 border-paper/40 border-t-paper" />
+              {/* A paid design goes to the payment page; a free one is
+                  published right here. */}
+              {price > 0 ? (
+                <Link
+                  href={`/cabinet/pay/${slug}`}
+                  className={`relative flex h-14 w-full ${folded ? "" : "mt-4"} items-center justify-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-sage via-[#56664d] to-sage text-paper shadow-lg shadow-sage/30 transition-transform active:scale-[0.98] disabled:opacity-80`}
+                >
+                  <PayShine />
+                  <span className="font-medium">{tPay("pay")}</span>
+                  <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-sm tabular-nums">
+                    {formatSum(price)} soʻm
+                  </span>
+                </Link>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => void payment.pay()}
+                  disabled={payment.busy}
+                  className={`relative flex h-14 w-full ${folded ? "" : "mt-4"} items-center justify-center gap-3 overflow-hidden rounded-2xl bg-gradient-to-r from-sage via-[#56664d] to-sage text-paper shadow-lg shadow-sage/30 transition-transform active:scale-[0.98] disabled:opacity-80`}
+                >
+                  <PayShine />
+                  {payment.busy ? (
+                    <>
+                      <span className="size-5 animate-spin rounded-full border-2 border-paper/40 border-t-paper" />
+                      <span className="font-medium">{tPay("publishing")}</span>
+                    </>
+                  ) : (
                     <span className="font-medium">
-                      {tPay(price === 0 ? "publishing" : "paying")}
+                      {gift ? tPay("publishGift") : t("publishFree")}
                     </span>
-                  </>
-                ) : (
-                  <>
-                    <span className="font-medium">
-                      {gift
-                        ? tPay("publishGift")
-                        : price === 0
-                          ? t("publishFree")
-                          : tPay("pay")}
-                    </span>
-                    {price > 0 && (
-                      <span className="rounded-full bg-white/15 px-2.5 py-0.5 text-sm tabular-nums">
-                        {formatSum(price)} soʻm
-                      </span>
-                    )}
-                  </>
-                )}
-              </button>
+                  )}
+                </button>
+              )}
 
               {folded ? (
                 <button
@@ -239,6 +237,16 @@ export default function PreviewChrome({
         </div>
       )}
     </>
+  );
+}
+
+/** A soft light passing across the pay button, now and then. */
+function PayShine() {
+  return (
+    <span
+      aria-hidden
+      className="pointer-events-none absolute inset-y-0 -left-1/3 w-1/3 skew-x-[-20deg] bg-gradient-to-r from-transparent via-white/25 to-transparent motion-safe:animate-[pay-shine_3.2s_ease-in-out_infinite]"
+    />
   );
 }
 

@@ -690,5 +690,31 @@
     "error": "Couldn't do that. Please try again.",
     "tooMany": "An invitation can have at most 500 named guests.",
     "loadError": "Couldn't load guests. Refresh the page."
+  },
+  "Pay": {
+    "metaTitle": "Payment",
+    "title": "Payment",
+    "back": "Preview",
+    "design": "Design: {name}",
+    "total": "Total",
+    "free": "Free",
+    "afterPay": "Your invitation is published as soon as it’s paid — ready to share with your guests.",
+    "chooseMethod": "Choose how to pay",
+    "methods": {
+      "payme": {
+        "name": "Payme",
+        "text": "Uzcard or Humo card, or the Payme app"
+      }
+    },
+    "payButton": "Pay {price} UZS",
+    "secure": "Secure payment · we never see your card details",
+    "telegram": {
+      "title": "Or message us on Telegram",
+      "text": "Can’t pay with Payme? Message {username} and we’ll help you pay another way.",
+      "code": "Include your invitation code:"
+    },
+    "open": "Open the invitation",
+    "toCabinet": "To my account",
+    "amount": "{price} UZS"
   }
 }

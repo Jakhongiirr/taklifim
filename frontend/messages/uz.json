@@ -690,5 +690,31 @@
     "error": "Amalni bajarib boʻlmadi. Qayta urinib koʻring.",
     "tooMany": "Bitta taklifnomaga koʻpi bilan 500 ta mehmon qoʻshish mumkin.",
     "loadError": "Mehmonlarni yuklab boʻlmadi. Sahifani yangilang."
+  },
+  "Pay": {
+    "metaTitle": "Toʻlov",
+    "title": "Toʻlov",
+    "back": "Oldindan koʻrish",
+    "design": "Dizayn: {name}",
+    "total": "Jami",
+    "free": "Bepul",
+    "afterPay": "Toʻlovdan soʻng taklifnoma darhol eʼlon qilinadi — havolani mehmonlarga yuborishingiz mumkin.",
+    "chooseMethod": "Toʻlov usulini tanlang",
+    "methods": {
+      "payme": {
+        "name": "Payme",
+        "text": "Uzcard, Humo kartalari yoki Payme ilovasi orqali"
+      }
+    },
+    "payButton": "{price} soʻm toʻlash",
+    "secure": "Xavfsiz toʻlov · karta maʼlumotlari bizga koʻrinmaydi",
+    "telegram": {
+      "title": "Yoki Telegramdan yozing",
+      "text": "Payme orqali toʻlay olmasangiz, {username} ga yozing — boshqa yoʻl bilan toʻlashga yordam beramiz.",
+      "code": "Xabarda taklifnoma kodini yozing:"
+    },
+    "open": "Taklifnomani ochish",
+    "toCabinet": "Kabinetga",
+    "amount": "{price} soʻm"
   }
 }
