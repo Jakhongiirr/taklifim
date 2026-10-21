@@ -711,10 +711,11 @@
     "telegram": {
       "title": "Yoki Telegramdan yozing",
       "text": "Payme orqali toʻlay olmasangiz, {username} ga yozing — boshqa yoʻl bilan toʻlashga yordam beramiz.",
-      "code": "Xabarda taklifnoma kodini yozing:"
+      "code": "Xabarda taklifnoma kodini yozing:",
+      "copy": "Nusxalash",
+      "copied": "Nusxalandi",
+      "message": "Assalomu alaykum, {code} taklifnoma uchun toʻlov qilmoqchiman"
     },
-    "open": "Taklifnomani ochish",
-    "toCabinet": "Kabinetga",
     "amount": "{price} soʻm"
   }
 }

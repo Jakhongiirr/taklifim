@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
 /**
  * Paying for a draft: the order, the ways to pay, and the support
  * Telegram for those who can't pay online. Only its owner gets here; a
- * paid one goes back to the cabinet.
+ * paid one goes to the cabinet.
  */
 export default async function PayPage({
   params,
@@ -27,6 +27,8 @@ export default async function PayPage({
     getCurrentUser(),
   ]);
   if (!taklif || user?.id !== taklif.userId) notFound();
+  // Already paid (back from Payme, say): the cabinet confirms it.
+  if (taklif.paidAt) redirect(`/${locale}/cabinet#paid-${taklif.slug}`);
   if (taklif.status !== "draft") redirect(`/${locale}/cabinet`);
   // A plov draft goes out free while its owner has a gift for it.
   const gift =

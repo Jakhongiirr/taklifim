@@ -711,10 +711,11 @@
     "telegram": {
       "title": "Or message us on Telegram",
       "text": "Can’t pay with Payme? Message {username} and we’ll help you pay another way.",
-      "code": "Include your invitation code:"
+      "code": "Include your invitation code:",
+      "copy": "Copy",
+      "copied": "Copied",
+      "message": "Hello, I’d like to pay for invitation {code}"
     },
-    "open": "Open the invitation",
-    "toCabinet": "To my account",
     "amount": "{price} UZS"
   }
 }
