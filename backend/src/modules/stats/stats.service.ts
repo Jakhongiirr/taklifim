@@ -5,6 +5,7 @@ import {
   RecentResponseDto,
   RecentTaklifDto,
   ResponseStatsDto,
+  SourceStatsDto,
   StatsDto,
   TaklifStatsDto,
   ThemeStatsDto,
@@ -21,6 +22,7 @@ type VisitRow = VisitStatsDto & {
 
 const RECENT = 6;
 const UPCOMING = 8;
+const SOURCES = 25;
 
 /** Read-only numbers for the admin dashboard (plain SQL, run in parallel). */
 @Injectable()
@@ -34,6 +36,7 @@ export class StatsService {
       [responses],
       [revenue],
       [visits],
+      sources,
       themes,
       upcoming,
       recentInvitations,
@@ -73,6 +76,18 @@ export class StatsService {
           COALESCE(SUM("invitationViews") FILTER (WHERE day > (SELECT d FROM today) - 7), 0)::int AS "viewsWeek",
           COALESCE(SUM("invitationViews"), 0)::int AS views
         FROM daily_visits`),
+      this.db.query<SourceStatsDto[]>(
+        `WITH today AS (SELECT (now() AT TIME ZONE 'Asia/Tashkent')::date AS d)
+        SELECT source,
+          SUM(site)::int AS site,
+          SUM(invitation)::int AS invitation,
+          COALESCE(SUM(site + invitation) FILTER (WHERE day > (SELECT d FROM today) - 7), 0)::int AS week
+        FROM daily_sources
+        WHERE day > (SELECT d FROM today) - 30
+        GROUP BY source
+        ORDER BY SUM(site + invitation) DESC, source LIMIT $1`,
+        [SOURCES],
+      ),
       this.db.query<ThemeStatsDto[]>(`
         SELECT th.id, th."themeId",
           COUNT(t.id)::int AS total,
@@ -119,6 +134,7 @@ export class StatsService {
         today: visits.viewsToday,
         week: visits.viewsWeek,
       },
+      sources,
       themes,
       upcoming,
       recentInvitations,

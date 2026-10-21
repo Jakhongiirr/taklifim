@@ -7,6 +7,7 @@ import type { JwtPayload } from '../auth/auth.types';
 import { TaklifStatus } from '../taklif/taklif-status.enum';
 import { Role } from '../users/role.enum';
 import { RecordVisitDto } from './dto/record-visit.dto';
+import { visitSource } from './visit-source';
 
 // Seen-today markers outlive the day they're for, whatever the time zone.
 const SEEN_TTL_SECONDS = 2 * 24 * 60 * 60;
@@ -18,8 +19,9 @@ export function tashkentDay(now = new Date()) {
 
 /**
  * Counts site visitors and invitation views, once per visitor per day (the
- * "seen" marker is in Redis; the counts are in Postgres). The owner and
- * admins opening an invitation don't add views.
+ * "seen" marker is in Redis; the counts are in Postgres), and where each
+ * day's visitors came from. The owner and admins opening an invitation don't
+ * add views.
  */
 @Injectable()
 export class VisitsService {
@@ -28,10 +30,18 @@ export class VisitsService {
     @Inject(REDIS_CLIENT) private readonly redis: Redis,
   ) {}
 
-  async record(dto: RecordVisitDto, user?: JwtPayload) {
+  async record(dto: RecordVisitDto, user?: JwtPayload, userAgent?: string) {
     const day = tashkentDay();
     if (await this.firstToday(`site:${day}:${dto.visitorId}`)) {
       await this.bump(day, 'visitors');
+      const source = visitSource({ ...dto, userAgent });
+      const landing = dto.slug ? 'invitation' : 'site';
+      await this.db.query(
+        `INSERT INTO daily_sources (day, source, "${landing}") VALUES ($1, $2, 1)
+         ON CONFLICT (day, source) DO UPDATE
+         SET "${landing}" = daily_sources."${landing}" + 1`,
+        [day, source],
+      );
     }
     if (!dto.slug) return;
 

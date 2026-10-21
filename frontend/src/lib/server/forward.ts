@@ -20,6 +20,9 @@ export async function forward(
   const contentType = request.headers.get("content-type");
   if (contentType) headers.set("Content-Type", contentType);
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
+  // Visit counting tells in-app browsers (Instagram, Telegram) apart by it.
+  const userAgent = request.headers.get("user-agent");
+  if (userAgent) headers.set("User-Agent", userAgent);
   // Lets the backend rate-limit per visitor instead of per Next.js server.
   const clientIp = clientIpFrom(request.headers.get("x-forwarded-for"));
   const requestId = request.headers.get("x-request-id");

@@ -1,4 +1,11 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Headers,
+  HttpCode,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiNoContentResponse,
@@ -25,14 +32,15 @@ export class VisitsController {
   @ApiOperation({
     summary: 'Count a page load (no login)',
     description:
-      'Sent by the site on every page. Counts the visitor once a day, and with `slug` a view of that published invitation once a day per visitor (not when the owner or an admin opens it).',
+      'Sent by the site on every page. Counts the visitor once a day, under the source of that first visit (utm, in-app browser or referrer), and with `slug` a view of that published invitation once a day per visitor (not when the owner or an admin opens it).',
   })
   @ApiNoContentResponse()
   @ApiBadRequestResponse({ description: 'Invalid visitor id or slug' })
   record(
     @Body() dto: RecordVisitDto,
     @CurrentUser() user?: JwtPayload,
+    @Headers('user-agent') userAgent?: string,
   ): Promise<void> {
-    return this.visitsService.record(dto, user);
+    return this.visitsService.record(dto, user, userAgent);
   }
 }

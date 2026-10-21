@@ -1,4 +1,4 @@
-import { IsOptional, Matches } from 'class-validator';
+import { IsOptional, IsString, Matches, MaxLength } from 'class-validator';
 
 export class RecordVisitDto {
   /**
@@ -12,4 +12,19 @@ export class RecordVisitDto {
   @IsOptional()
   @Matches(/^[a-z0-9]{1,16}$/)
   slug?: string;
+
+  /**
+   * `document.referrer` when it's another site (or app).
+   * @example "https://www.google.com/"
+   */
+  @IsOptional()
+  @IsString()
+  @MaxLength(512)
+  referrer?: string;
+
+  /** The page's `utm_source` (or `ref`) query parameter. @example "instagram" */
+  @IsOptional()
+  @IsString()
+  @MaxLength(64)
+  utm?: string;
 }

@@ -13,6 +13,27 @@ const INVITATION =
 // Without storage (blocked, private mode) the id lasts until the tab closes.
 let fallbackId: string | undefined;
 
+/** Where this tab came from, as of the first page it opened. */
+let landing: { referrer?: string; utm?: string } | undefined;
+
+function landingSource() {
+  if (!landing) {
+    const params = new URLSearchParams(location.search);
+    let referrer: string | undefined = document.referrer;
+    try {
+      // Our own pages (a reload, a login redirect) say nothing of the source.
+      if (new URL(referrer).origin === location.origin) referrer = undefined;
+    } catch {
+      referrer = undefined;
+    }
+    landing = {
+      referrer: referrer?.slice(0, 512),
+      utm: (params.get("utm_source") ?? params.get("ref"))?.slice(0, 64),
+    };
+  }
+  return landing;
+}
+
 function randomId() {
   return typeof crypto.randomUUID === "function"
     ? crypto.randomUUID().replaceAll("-", "")
@@ -40,8 +61,10 @@ function visitorId() {
 
 /**
  * Counts the visit for the admin's numbers, and on an invitation a view for
- * its owner. The backend counts each visitor once a day; outside invitations
- * the browser skips the request once today is counted.
+ * its owner. The backend counts each visitor once a day, under the source the
+ * tab came from (utm_source, referrer; it reads the in-app browser from the
+ * user agent); outside invitations the browser skips the request once today
+ * is counted.
  */
 export default function VisitBeacon() {
   const pathname = usePathname();
@@ -53,10 +76,11 @@ export default function VisitBeacon() {
       timeZone: "Asia/Tashkent",
     });
     if (!slug && storage(COUNTED_DAY_KEY) === today) return;
+    const source = landingSource();
     fetch("/api/backend/visits", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ visitorId: visitorId(), slug }),
+      body: JSON.stringify({ visitorId: visitorId(), slug, ...source }),
       keepalive: true,
     })
       .then((res) => {
