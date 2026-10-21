@@ -93,6 +93,9 @@ export default async function SiteFooter() {
             <Link href="/wording" className="hover:text-ink">
               {t("footer.wording")}
             </Link>
+            <Link href="/articles" className="hover:text-ink">
+              {t("footer.articles")}
+            </Link>
             <Link href="/terms" className="hover:text-ink">
               {t("legal.terms")}
             </Link>

@@ -17,6 +17,7 @@
       "follow": "Follow us",
       "rights": "© {year} Taklifim",
       "wording": "Wording samples",
+      "articles": "Articles",
       "top": "Back to top"
     },
     "cabinet": "My account",
@@ -232,6 +233,27 @@
       "text": "Create a digital invitation with a video opening and send guests its link with this text. Drafts are free.",
       "button": "Create an invitation",
       "designs": "See the designs"
+    }
+  },
+  "Articles": {
+    "home": "Home",
+    "breadcrumbs": "Breadcrumbs",
+    "eyebrow": "Articles",
+    "minutes": "{count} min read",
+    "read": "Read",
+    "faqTitle": "Frequently asked questions",
+    "othersTitle": "More articles",
+    "index": {
+      "title": "Articles about online invitations",
+      "text": "Practical tips on creating an online wedding invitation, sending it on Telegram, collecting guest replies and inviting guests to a morning plov.",
+      "metaTitle": "Articles on Online Wedding Invitations | Taklifim",
+      "metaDescription": "What an online invitation is, how it compares with paper, how to send it on Telegram, how to know your guest count and how to invite guests to plov."
+    },
+    "cta": {
+      "title": "Create your online invitation today",
+      "text": "Pick a design, fill in the details on your phone and send your invitation with a single link. Creating it is free.",
+      "button": "Go to Taklifim.uz",
+      "designs": "See designs"
     }
   },
   "LocaleSwitcher": {

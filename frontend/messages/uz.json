@@ -17,6 +17,7 @@
       "follow": "Bizni kuzating",
       "rights": "© {year} Taklifim",
       "wording": "Matn namunalari",
+      "articles": "Maqolalar",
       "top": "Yuqoriga"
     },
     "cabinet": "Kabinet",
@@ -231,6 +232,27 @@
       "title": "Matnni chiroyli taklifnoma bilan yuboring",
       "text": "Videoli elektron taklifnoma yarating va havolasini shu matn bilan mehmonlarga yuboring. Qoralama bepul.",
       "button": "Taklifnoma yaratish",
+      "designs": "Dizaynlarni koʻrish"
+    }
+  },
+  "Articles": {
+    "home": "Bosh sahifa",
+    "breadcrumbs": "Sahifa yoʻli",
+    "eyebrow": "Maqolalar",
+    "minutes": "{count} daqiqada oʻqiladi",
+    "read": "Oʻqish",
+    "faqTitle": "Koʻp beriladigan savollar",
+    "othersTitle": "Boshqa maqolalar",
+    "index": {
+      "title": "Elektron taklifnomalar haqida maqolalar",
+      "text": "Onlayn toʻy taklifnomasini qanday yaratish, Telegram orqali yuborish, mehmonlar javobini yigʻish va nahorgi osh taklifnomasi haqida foydali maslahatlar.",
+      "metaTitle": "Elektron taklifnoma haqida maqolalar — onlayn toʻy taklifnomasi | Taklifim",
+      "metaDescription": "Elektron taklifnoma nima, qogʻoz taklifnomadan farqi, taklifnomani Telegramda yuborish, mehmonlar sonini bilish va osh taklifnomasi haqida maqolalar."
+    },
+    "cta": {
+      "title": "Elektron taklifnomangizni bugun yarating",
+      "text": "Dizayn tanlang, maʼlumotlarni telefoningizda kiriting va taklifnomani bitta havola bilan yuboring. Yaratish bepul.",
+      "button": "Taklifim.uz’ga oʻtish",
       "designs": "Dizaynlarni koʻrish"
     }
   },
