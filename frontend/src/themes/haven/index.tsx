@@ -69,7 +69,6 @@ export default async function HavenTheme({
         buttonClass={`${cormorantSc.className} border-[#fbf6ee]/70 bg-[#1c211a]/30 text-base tracking-[0.18em] text-[#fbf6ee] backdrop-blur-sm hover:bg-[#1c211a]/50`}
         musicClass="bg-[#f4efe6]/90 text-[#2f3a2c] ring-1 ring-[#2b2a28]/30"
       >
-        <Ironwork className="w-44 text-[#fbf6ee]/80" />
         <div className="relative isolate">
           <TextGlow tone="bg-[#1c211a]/40" />
           <p
@@ -105,7 +104,7 @@ export default async function HavenTheme({
           <div className="relative isolate">
             <TextGlow tone="bg-[#f4efe6]/85" className="haven-rise" />
             <p
-              className={`${cormorantSc.className} haven-rise text-sm font-semibold tracking-[0.25em] text-[#6e2f36]`}
+              className={`${cormorantSc.className} haven-rise text-sm font-semibold tracking-[0.25em] text-[#4a1c22]`}
               style={{ "--i": 0 } as CSSProperties}
             >
               {t("cover.invite")}
@@ -114,7 +113,7 @@ export default async function HavenTheme({
               className="haven-rise mt-3"
               style={{ "--i": 1 } as CSSProperties}
             >
-              {names("text-[#2f3a2c]", "text-[#a35d68]")}
+              {names("text-[#2f3a2c]", "text-[#6e2f36]")}
             </div>
             <p
               className={`${cormorantSc.className} haven-rise mt-4 text-xl text-[#2f3a2c]`}
@@ -126,7 +125,7 @@ export default async function HavenTheme({
               className="haven-rise mt-8"
               style={{ "--i": 3 } as CSSProperties}
             >
-              <ScrollHint className="text-[#8e4a52]" />
+              <ScrollHint className="text-[#5a2a30]" />
             </div>
           </div>
         </section>
@@ -321,52 +320,6 @@ function Garland() {
       sizes="448px"
       className="haven-reveal mx-auto w-full"
     />
-  );
-}
-
-/** Wrought-iron scrolls, like the gate's, around a small rose. */
-function Ironwork({ className = "" }: { className?: string }) {
-  const half = (
-    <>
-      <path
-        pathLength={1}
-        d="M96 20 C80 20 70 20 58 20 C46 20 40 12 46 7 C51 3 58 8 54 13 C51 16 47 13 49 11"
-      />
-      <path
-        pathLength={1}
-        d="M58 20 C48 20 40 28 32 28 C22 28 20 18 27 16 C32 15 34 21 30 22"
-      />
-      <path pathLength={1} d="M32 28 C24 28 14 22 4 22" />
-    </>
-  );
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 200 40"
-      className={`haven-iron h-auto ${className}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.3"
-      strokeLinecap="round"
-    >
-      <g>{half}</g>
-      <g transform="translate(200 0) scale(-1 1)">{half}</g>
-      {/* The rose. */}
-      <circle
-        cx="100"
-        cy="20"
-        r="5.5"
-        fill="#b5707a"
-        fillOpacity="0.35"
-        stroke="#b5707a"
-      />
-      <path
-        pathLength={1}
-        d="M100 16.5 C102.5 17.5 102.5 21 100 22 C98 21 98 18.5 100.5 18.5"
-        stroke="#8a4f58"
-        strokeWidth="1"
-      />
-    </svg>
   );
 }
 
