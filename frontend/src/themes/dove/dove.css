@@ -46,16 +46,6 @@
   }
 }
 
-/* The doves' wings, drawing in. */
-@keyframes dove-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .dove-opened .dove-rise {
@@ -72,17 +62,6 @@
       animation: dove-reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
-    }
-    /* Each pair of doves draws itself as it scrolls in (a named
-       timeline on the <svg>: its paths have no box of their own). */
-    .dove-pair {
-      view-timeline: --dove-pair block;
-    }
-    .dove-pair path {
-      stroke-dasharray: 1;
-      animation: dove-draw linear both;
-      animation-timeline: --dove-pair;
-      animation-range: entry 10% cover 45%;
     }
   }
 }

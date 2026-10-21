@@ -56,16 +56,6 @@
   }
 }
 
-/* The ironwork scrolls, drawing in. */
-@keyframes haven-draw {
-  from {
-    stroke-dashoffset: 1;
-  }
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .haven-opened .haven-rise {
@@ -85,17 +75,6 @@
       animation: haven-reveal linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 100%;
-    }
-    /* Each ironwork divider draws itself as it scrolls in (a named
-       timeline on the <svg>: its paths have no box of their own). */
-    .haven-iron {
-      view-timeline: --haven-iron block;
-    }
-    .haven-iron path {
-      stroke-dasharray: 1;
-      animation: haven-draw linear both;
-      animation-timeline: --haven-iron;
-      animation-range: entry 10% cover 45%;
     }
   }
 }

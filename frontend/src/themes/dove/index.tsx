@@ -78,9 +78,8 @@ export default async function DoveTheme({
       >
         <div className="relative isolate">
           <TextGlow tone="bg-[#fff7f2]/60" />
-          <DovePair className="w-36" />
           <p
-            className={`${forum.className} mt-4 text-xs tracking-[0.45em] text-[#6b3f4a] uppercase`}
+            className={`${forum.className} text-xs tracking-[0.45em] text-[#6b3f4a] uppercase`}
           >
             {t("cover.eyebrow")}
           </p>
@@ -321,45 +320,6 @@ function DoveBorder() {
       sizes="448px"
       className="dove-reveal mx-auto w-full"
     />
-  );
-}
-
-/** Two doves in line, facing each other over a small heart. */
-function DovePair({ className = "" }: { className?: string }) {
-  const dove = (
-    <>
-      {/* Body, from the tail to the head and beak. */}
-      <path
-        pathLength={1}
-        d="M8 30 L16 27 C24 31 36 32 44 27 C48 24 50 20 53 18 C55 17 57 17.5 58 19 L61 19.6 L58 20.8 C56 24 52 28 46 31 C36 35 22 34 8 30Z"
-      />
-      {/* The raised wing. */}
-      <path
-        pathLength={1}
-        d="M28 29 C25 21 26 12 33 5 C34 12 37 18 42 22 C40 15 41 9 46 4 C47 12 47 20 44 26"
-      />
-    </>
-  );
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 140 40"
-      className={`dove-pair h-auto text-[#c98b8b] ${className}`}
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="1.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <g>{dove}</g>
-      <g transform="translate(140 0) scale(-1 1)">{dove}</g>
-      <path
-        pathLength={1}
-        d="M70 24 C67 21 64 22 64 25 C64 28 70 31 70 31 C70 31 76 28 76 25 C76 22 73 21 70 24Z"
-        fill="#c98b8b"
-        fillOpacity="0.25"
-      />
-    </svg>
   );
 }
 
