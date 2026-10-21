@@ -6,10 +6,12 @@ export default function SampleCard({
   sample,
   copyLabel,
   copiedLabel,
+  nextLabel,
 }: {
   sample: WordingSample;
   copyLabel: string;
   copiedLabel: string;
+  nextLabel: string;
 }) {
   return (
     <article className="flex h-full flex-col rounded-3xl bg-white p-5 ring-1 ring-line sm:p-6">
@@ -31,6 +33,7 @@ export default function SampleCard({
         text={sample.text}
         label={copyLabel}
         copiedLabel={copiedLabel}
+        nextLabel={nextLabel}
       />
     </article>
   );

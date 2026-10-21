@@ -3,6 +3,9 @@ import { getTranslations } from "next-intl/server";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import WordingCta from "@/components/site/wording/wording-cta";
+import WordingFaq from "@/components/site/wording/wording-faq";
+import WordingWhy from "@/components/site/wording/wording-why";
+import type { WordingFaq as Faq } from "@/content/wording";
 import { WORDING, WORDING_TOPICS } from "@/content/wording";
 import { Link } from "@/i18n/navigation";
 import { routing } from "@/i18n/routing";
@@ -21,6 +24,7 @@ export async function generateMetadata({
   return {
     title,
     description,
+    keywords: t.raw("index.keywords") as string[],
     alternates: localeAlternates(locale, "/wording"),
     openGraph: {
       title,
@@ -37,6 +41,7 @@ export default async function WordingPage({
 }: PageProps<"/[locale]/wording">) {
   const { locale } = await params;
   const t = await getTranslations("Wording");
+  const faq = t.raw("index.faq") as Faq[];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -55,6 +60,14 @@ export default async function WordingPage({
             url: `${SITE_URL}/${locale}/wording/${id}`,
           })),
         },
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: faq.map(({ q, a }) => ({
+          "@type": "Question",
+          name: q,
+          acceptedAnswer: { "@type": "Answer", text: a },
+        })),
       },
       {
         "@type": "BreadcrumbList",
@@ -124,6 +137,14 @@ export default async function WordingPage({
             );
           })}
         </ul>
+
+        <WordingWhy
+          heading={t("index.about.title")}
+          paragraphs={t.raw("index.about.paragraphs") as string[]}
+          list={t.raw("index.about.list") as string[]}
+        />
+
+        <WordingFaq title={t("faqTitle")} faq={faq} />
 
         <WordingCta />
       </main>

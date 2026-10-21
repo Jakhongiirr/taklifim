@@ -2,12 +2,19 @@
 // site language rather than translated, so they read naturally. Samples are
 // for sending with the invitation link or anywhere else; the invitation's own
 // greeting is part of its design. Placeholders go in [square brackets].
+// Intro, tips and the "why" section may link to pages of the site with
+// [label](/path), like articles do.
 
 export interface WordingSample {
   /** Short label: the sample's tone or use. */
   title: string;
   /** The text itself; \n starts a new line. */
   text: string;
+}
+
+export interface WordingFaq {
+  q: string;
+  a: string;
 }
 
 export interface WordingTopic {
@@ -17,29 +24,45 @@ export interface WordingTopic {
   title: string;
   metaTitle: string;
   metaDescription: string;
+  /** The search words the page is written around. */
+  keywords: string[];
   intro: string[];
   /** What to include, how to word it. */
   tips: string[];
   samples: WordingSample[];
+  /** Why send the text with an online invitation; under the samples. */
+  why: { heading: string; paragraphs: string[]; list: string[] };
+  faq: WordingFaq[];
 }
 
 export const WORDING: Record<string, Record<string, WordingTopic>> = {
   wedding: {
     uz: {
       name: "Toʻy taklifnomasi",
-      title: "Toʻy taklifnomasi matni: namunalar",
-      metaTitle: "Toʻy taklifnomasi matni — tayyor namunalar | Taklifim",
+      title: "Toʻy taklifnomasi matni: 6 ta tayyor namuna",
+      metaTitle:
+        "Toʻy taklifnomasi matni — tayyor namunalar, onlayn taklifnoma | Taklifim",
       metaDescription:
-        "Toʻyga taklifnoma uchun tayyor matnlar: rasmiy, samimiy, qisqa va tantanavor namunalar. Nusxa oling, ismlar va sanani qoʻying.",
+        "Toʻyga taklif matni: rasmiy, samimiy, tantanavor va qisqa namunalar. Nusxa oling, ismlarni qoʻying va Taklifim.uz’da videoli onlayn toʻy taklifnomasi bilan yuboring.",
+      keywords: [
+        "toʻy taklifnomasi matni",
+        "toʻyga taklif matni",
+        "taklifnoma matni",
+        "taklifnoma namunalari",
+        "toʻy taklifnomasi",
+        "onlayn taklifnoma",
+        "elektron taklifnoma",
+        "тўй таклифномаси матни",
+      ],
       intro: [
-        "Toʻy taklifnomasi — mehmon toʻyingiz haqida birinchi bilib oladigan narsa. Shuning uchun matn hurmatli, aniq va qisqa boʻlgani maʼqul.",
-        "Quyida turli uslubdagi tayyor matnlar bor. Yoqqanidan nusxa oling va kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring.",
+        "Toʻy taklifnomasi matni — mehmon toʻyingiz haqida birinchi oʻqiydigan soʻzlar. Yaxshi taklif matni hurmatli, aniq va qisqa boʻladi: kimning toʻyi, qachon va qayerda.",
+        "Quyida turli uslubdagi tayyor toʻyga taklif matnlari bor. Yoqqanidan nusxa oling, kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring va matnni [onlayn toʻy taklifnomasi](/designs) havolasi bilan yuboring — mehmonlar sana, xarita va musiqani bir bosishda koʻradi.",
       ],
       tips: [
         "Kelin va kuyovning ismlarini, sana, vaqt va toʻyxona manzilini albatta yozing.",
-        "Mehmonga ismi bilan murojaat qiling — bu hurmat belgisi.",
-        "Matnni qisqa tuting: tafsilotlar (xarita, dastur) taklifnomaning oʻzida boʻladi.",
-        "Kelish-kelmasligini qachongacha bildirishni soʻrasangiz, sanasini yozing.",
+        "Mehmonga ismi bilan murojaat qiling — bu hurmat belgisi. Taklifim.uz’dagi ismli taklifnoma har bir mehmonni oʻz ismi bilan kutib oladi.",
+        "Matnni qisqa tuting: xarita, dastur va suratlar elektron taklifnomaning oʻzida boʻladi.",
+        "Kelish-kelmasligini qachongacha bildirishni soʻrasangiz, sanasini yozing — javoblar Telegramingizga keladi.",
       ],
       samples: [
         {
@@ -62,23 +85,65 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Javob soʻralgan",
           text: "Hurmatli [mehmon ismi]!\nSizni [sana] kuni soat [vaqt]da [toʻyxona nomi]da boʻladigan [kuyov ismi] va [kelin ismi]ning toʻyiga taklif qilamiz.\nIltimos, kelishingizni [javob sanasi]gacha taklifnomadagi «Javob berish» tugmasi orqali bildiring — joylarni tayyorlashimizga yordam beradi.",
         },
+        {
+          title: "Onlayn taklifnoma bilan",
+          text: "Assalomu alaykum, hurmatli [mehmon ismi]!\n[kuyov ismi] va [kelin ismi]ning toʻyiga sizni chin dildan taklif qilamiz. Toʻy [sana] kuni soat [vaqt]da.\nTaklifnomamizni oching — manzil, xarita va toʻygacha qolgan kunlar shu yerda: [havola]",
+        },
+      ],
+      why: {
+        heading: "Toʻy taklifnomasini onlayn yuborish nega qulay",
+        paragraphs: [
+          "Qogʻoz taklifnomani chop etish, tarqatish va mehmonlarni birma-bir aylanib chiqish koʻp vaqt oladi. Elektron toʻy taklifnomasini esa telefoningizda bir necha daqiqada yaratib, bitta havola bilan hammaga yuborasiz. Batafsil: [elektron taklifnoma yoki qogʻoz taklifnoma](/articles/online-vs-paper).",
+          "Taklifim.uz’da yuqoridagi matnni chiroyli videoli taklifnoma bilan birga yuborasiz — mehmon havolani ochganda musiqa yangraydi, toʻyxona xaritada koʻrinadi, «Javob berish» tugmasi esa kim kelishini sizga aytadi.",
+        ],
+        list: [
+          "Har bir dizayn oʻz videosi bilan ochiladi, tanlagan kuyingiz yangraydi.",
+          "Toʻyxona manzili Yandex xaritada — mehmonlar adashmaydi.",
+          "Mehmonlar javobi va tilaklari darhol Telegramingizga keladi.",
+          "Ismli havolalar: taklifnoma har bir mehmonni ismi bilan kutib oladi.",
+          "Yaratish va koʻrib chiqish bepul, toʻlov faqat eʼlon qilganda.",
+        ],
+      },
+      faq: [
+        {
+          q: "Toʻy taklifnomasiga qanday matn yozish kerak?",
+          a: "Mehmonga ism bilan murojaat, kelin-kuyovning ismlari, sana, vaqt va toʻyxona manzili — shu yetarli. Qolgan tafsilotlarni (xarita, suratlar, dastur) elektron taklifnomaga joylang, matn esa qisqa va hurmatli boʻlsin.",
+        },
+        {
+          q: "Bu matnlardan bepul foydalansa boʻladimi?",
+          a: "Ha, barcha namunalar bepul. Nusxa oling, oʻzgartiring va istalgan joyga yuboring. Taklifim.uz’da onlayn taklifnoma yaratish va uni koʻrib chiqish ham bepul.",
+        },
+        {
+          q: "Taklif matnini qanday yuboraman?",
+          a: "Matnni Taklifim.uz’da yaratilgan taklifnoma havolasi bilan Telegram, WhatsApp yoki SMS orqali yuboring. Mehmon hech narsa oʻrnatmaydi — havolani bossa, taklifnoma ochiladi.",
+        },
       ],
     },
     ru: {
       name: "Приглашение на свадьбу",
-      title: "Текст приглашения на свадьбу: примеры",
-      metaTitle: "Текст приглашения на свадьбу — готовые примеры | Taklifim",
+      title: "Текст приглашения на свадьбу: 6 готовых примеров",
+      metaTitle:
+        "Текст приглашения на свадьбу — примеры, онлайн-приглашение | Taklifim",
       metaDescription:
-        "Готовые тексты приглашений на свадьбу: официальные, тёплые, короткие и торжественные. Скопируйте и подставьте имена, дату и место.",
+        "Готовые тексты приглашений на свадьбу: официальные, тёплые, торжественные и короткие. Скопируйте, добавьте имена и отправьте с электронным приглашением с видео на Taklifim.uz.",
+      keywords: [
+        "текст приглашения на свадьбу",
+        "приглашение на свадьбу",
+        "приглашение на свадьбу текст",
+        "электронное приглашение на свадьбу",
+        "онлайн приглашение на свадьбу",
+        "пригласительные на свадьбу",
+        "toʻy taklifnomasi",
+      ],
       intro: [
-        "Приглашение — первое, что гости узнают о вашей свадьбе. Лучше, чтобы текст был уважительным, понятным и коротким.",
-        "Ниже — готовые тексты в разном стиле. Скопируйте подходящий и замените то, что в квадратных скобках, на свои данные.",
+        "Текст приглашения на свадьбу — первое, что гости узнают о вашем празднике. Хорошее приглашение уважительное, понятное и короткое: чья свадьба, когда и где.",
+        "Ниже — готовые тексты в разном стиле. Скопируйте подходящий, замените то, что в квадратных скобках, на свои данные и отправьте вместе со ссылкой на [онлайн-приглашение на свадьбу](/designs) — гости увидят дату, карту и услышат музыку в один клик.",
       ],
       tips: [
         "Обязательно укажите имена жениха и невесты, дату, время и адрес зала.",
-        "Обращайтесь к гостю по имени — это знак уважения.",
-        "Текст держите коротким: подробности (карта, программа) будут в самом приглашении.",
-        "Если просите подтвердить приход, укажите, до какой даты.",
+        "Обращайтесь к гостю по имени — это знак уважения. Именное приглашение на Taklifim.uz встречает каждого гостя по имени.",
+        "Текст держите коротким: карта, программа и фото будут в самом электронном приглашении.",
+        "Если просите подтвердить приход, укажите, до какой даты, — ответы придут вам в Telegram.",
       ],
       samples: [
         {
@@ -101,23 +166,65 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "С просьбой ответить",
           text: "Уважаемый(ая) [имя гостя]!\nПриглашаем вас на свадьбу [имя жениха] и [имя невесты], которая пройдёт [дата] в [время] в [название зала].\nПожалуйста, подтвердите участие до [дата ответа] кнопкой «Ответить» в приглашении — так нам будет проще подготовиться.",
         },
+        {
+          title: "С онлайн-приглашением",
+          text: "Здравствуйте, [имя гостя]!\nОт всего сердца приглашаем вас на свадьбу [имя жениха] и [имя невесты]. Торжество — [дата] в [время].\nОткройте наше приглашение: там адрес, карта и сколько дней осталось до свадьбы: [ссылка]",
+        },
+      ],
+      why: {
+        heading: "Почему приглашение на свадьбу удобнее отправить онлайн",
+        paragraphs: [
+          "Бумажные пригласительные нужно печатать, подписывать и развозить гостям. Электронное приглашение на свадьбу создаётся с телефона за несколько минут и отправляется всем одной ссылкой. Подробнее: [электронное или бумажное приглашение](/articles/online-vs-paper).",
+          "На Taklifim.uz вы отправляете этот текст вместе с красивым приглашением с видео: гость открывает ссылку, звучит музыка, зал видно на карте, а кнопка «Ответить» сообщает вам, кто придёт.",
+        ],
+        list: [
+          "Каждый дизайн открывается своим видео, звучит выбранная вами мелодия.",
+          "Адрес зала на Яндекс Картах — гости не заблудятся.",
+          "Ответы и пожелания гостей сразу приходят вам в Telegram.",
+          "Именные ссылки: приглашение встречает каждого гостя по имени.",
+          "Создать и посмотреть — бесплатно, оплата только при публикации.",
+        ],
+      },
+      faq: [
+        {
+          q: "Что написать в приглашении на свадьбу?",
+          a: "Обращение к гостю по имени, имена жениха и невесты, дату, время и адрес зала — этого достаточно. Карту, фото и программу разместите в электронном приглашении, а текст оставьте коротким и тёплым.",
+        },
+        {
+          q: "Можно ли пользоваться этими текстами бесплатно?",
+          a: "Да, все примеры бесплатные. Копируйте, меняйте и отправляйте куда угодно. Создать онлайн-приглашение на Taklifim.uz и посмотреть его тоже бесплатно.",
+        },
+        {
+          q: "Как отправить текст приглашения гостям?",
+          a: "Отправьте текст вместе со ссылкой на приглашение, созданное на Taklifim.uz, в Telegram, WhatsApp или по SMS. Гостю ничего не нужно устанавливать — приглашение открывается по ссылке.",
+        },
       ],
     },
     en: {
       name: "Wedding invitation",
-      title: "Wedding invitation wording: examples",
-      metaTitle: "Wedding invitation wording — ready-made examples | Taklifim",
+      title: "Wedding invitation wording: 6 ready-made examples",
+      metaTitle:
+        "Wedding Invitation Wording — Examples & Online Invitations | Taklifim",
       metaDescription:
-        "Ready-made wedding invitation wording: formal, warm, short and festive examples. Copy one and add your names, date and venue.",
+        "Ready-made wedding invitation wording: formal, warm, festive and short. Copy one, add your names and send it with an online wedding invitation with video from Taklifim.uz.",
+      keywords: [
+        "wedding invitation wording",
+        "wedding invitation text",
+        "wedding invitation message",
+        "online wedding invitation",
+        "digital wedding invitation",
+        "wedding invitation examples",
+        "wedding invitation Uzbekistan",
+      ],
       intro: [
-        "The invitation is the first thing your guests learn about your wedding, so the wording should be respectful, clear and short.",
-        "Below are ready-made texts in different tones. Copy the one you like and replace what's in square brackets with your own details.",
+        "Your wedding invitation wording is the first thing guests read about your big day. Good wording is respectful, clear and short: whose wedding, when and where.",
+        "Below are ready-made texts in different tones. Copy the one you like, replace what's in square brackets with your own details and send it with an [online wedding invitation](/designs) link — guests see the date and map and hear your music in one tap.",
       ],
       tips: [
         "Always include both names, the date, the time and the venue.",
-        "Address each guest by name — it shows respect.",
-        "Keep it short: the details (map, schedule) are in the invitation itself.",
-        "If you'd like guests to reply, say by when.",
+        "Address each guest by name — it shows respect. A named invitation on Taklifim.uz greets every guest by name.",
+        "Keep it short: the map, schedule and photos are inside the digital invitation.",
+        "If you'd like guests to reply, say by when — the replies come straight to your Telegram.",
       ],
       samples: [
         {
@@ -140,6 +247,38 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "With a reply request",
           text: "Dear [guest's name],\nWe invite you to the wedding of [groom's name] and [bride's name] on [date] at [time] at [venue name].\nPlease let us know whether you can come by [reply date] with the “Reply” button in the invitation — it helps us prepare.",
         },
+        {
+          title: "With an online invitation",
+          text: "Hello, [guest's name]!\nWe warmly invite you to the wedding of [groom's name] and [bride's name] on [date] at [time].\nOpen our invitation for the address, the map and a countdown to the big day: [link]",
+        },
+      ],
+      why: {
+        heading: "Why send your wedding invitation online",
+        paragraphs: [
+          "Paper invitations have to be printed, signed and delivered one by one. A digital wedding invitation takes a few minutes to make on your phone and reaches everyone with a single link. More on this: [online vs paper invitations](/articles/online-vs-paper).",
+          "On Taklifim.uz you send this wording together with a beautiful video invitation: guests open the link, your music plays, the venue shows on a map and the “Reply” button tells you who's coming.",
+        ],
+        list: [
+          "Every design opens with its own video and plays the song you choose.",
+          "The venue is on Yandex Maps, so nobody gets lost.",
+          "Guests' replies and wishes arrive in your Telegram right away.",
+          "Named links: the invitation greets each guest by name.",
+          "Creating and previewing is free; you only pay to publish.",
+        ],
+      },
+      faq: [
+        {
+          q: "What should a wedding invitation say?",
+          a: "The guest's name, both of your names, the date, the time and the venue are enough. Put the map, photos and schedule in the online invitation and keep the message short and warm.",
+        },
+        {
+          q: "Can I use these texts for free?",
+          a: "Yes, every example is free to copy, change and send anywhere. Creating and previewing an online invitation on Taklifim.uz is free too.",
+        },
+        {
+          q: "How do I send the wording to my guests?",
+          a: "Send it with the link to your Taklifim.uz invitation on Telegram, WhatsApp or by SMS. Guests don't need to install anything — the invitation opens from the link.",
+        },
       ],
     },
   },
@@ -148,18 +287,28 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
       name: "Ota-ona nomidan",
       title: "Ota-ona nomidan toʻy taklifnomasi matni",
       metaTitle:
-        "Ota-ona nomidan toʻy taklifnomasi matni — namunalar | Taklifim",
+        "Ota-ona nomidan toʻy taklifnomasi matni — oʻgʻil toʻyi, qiz uzatish | Taklifim",
       metaDescription:
-        "Ota-ona nomidan yoziladigan toʻy taklifnomasi matnlari: oʻgʻil toʻyi, qiz uzatish, qarindoshlarga va qisqa namunalar.",
+        "Ota-ona nomidan toʻyga taklif matnlari: oʻgʻil toʻyi, qiz uzatish, qarindoshlarga va duo bilan. Nusxa oling va Taklifim.uz’da onlayn toʻy taklifnomasi bilan yuboring.",
+      keywords: [
+        "ota-ona nomidan taklifnoma",
+        "oʻgʻil toʻyi taklifnomasi",
+        "qiz uzatish taklifnomasi",
+        "toʻy taklifnomasi matni",
+        "toʻyga taklif matni",
+        "onlayn toʻy taklifnomasi",
+        "elektron taklifnoma",
+      ],
       intro: [
-        "Oʻzbek toʻylarida mehmonlarni koʻpincha ota-ona taklif qiladi. Bunday matnda farzandlarning ismi, oilaning nomi va mehmonga hurmat bilan murojaat boʻladi.",
-        "Quyidagi namunalarda oʻgʻil toʻyi va qiz uzatish uchun matnlar bor. Kvadrat qavslardagi joylarni oʻzingiznikiga almashtiring.",
+        "Oʻzbek toʻylarida mehmonlarni koʻpincha ota-ona taklif qiladi. Ota-ona nomidan toʻy taklifnomasi matnida farzandlarning ismi, oilaning nomi va mehmonga hurmat bilan murojaat boʻladi.",
+        "Quyidagi namunalarda oʻgʻil toʻyi va qiz uzatish uchun tayyor matnlar bor. Kvadrat qavslardagi joylarni almashtiring va matnni farzandlaringiz uchun yaratilgan [elektron toʻy taklifnomasi](/designs) havolasi bilan yuboring.",
       ],
       tips: [
         "Imzoda ota-onaning ismini yoki oila nomini yozing.",
         "Oʻgʻil toʻyida «oʻgʻlimiz va kelinimiz», qiz uzatishda «qizimiz» deb yozish odatiy.",
         "Keksa qarindoshlarga «Siz» bilan, hurmat soʻzlari bilan murojaat qiling.",
         "Duo va yaxshi niyatlar bilan yakunlash oʻzbekona ohang beradi.",
+        "Mehmonlar koʻp boʻlsa, ismli onlayn taklifnoma vaqtni tejaydi: har bir qarindoshga oʻz havolasi, oʻz ismi bilan.",
       ],
       samples: [
         {
@@ -182,23 +331,64 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Qisqa",
           text: "[oila nomi] oilasi sizni oʻgʻli [kuyov ismi]ning toʻyiga taklif etadi.\n[sana], soat [vaqt], [toʻyxona nomi].\nMarhamat!",
         },
+        {
+          title: "Havola bilan",
+          text: "Assalomu alaykum, hurmatli [mehmon ismi]!\nFarzandlarimiz [kuyov ismi] va [kelin ismi]ning toʻyiga sizni taklif qilamiz. Toʻyxona manzili va xaritasi taklifnomada: [havola]\nHurmat bilan, [oila nomi] oilasi",
+        },
+      ],
+      why: {
+        heading: "Ota-onalar uchun onlayn taklifnoma",
+        paragraphs: [
+          "Yuzlab mehmonga qogʻoz taklifnoma tarqatish ota-onaga eng koʻp vaqt oladigan ishlardan biri. Onlayn toʻy taklifnomasini esa bir marta yaratasiz va qarindoshlar, qoʻshnilar, hamkasblarga bir zumda yuborasiz.",
+          "Taklifim.uz’dagi taklifnoma keksa mehmonlar uchun ham qulay: hech narsa oʻrnatish shart emas, havolani bosish kifoya. Mehmonlar oʻzbek, rus yoki ingliz tilini tanlaydi, toʻyxona esa xaritada koʻrinadi.",
+        ],
+        list: [
+          "Har bir mehmonga ismli havola — «Hurmatli Karim aka» deb kutib oladi.",
+          "Kim kelishi va necha kishi boʻlishi Telegramingizga keladi.",
+          "Vaqt yoki manzil oʻzgarsa, tahrirlaysiz — havola oʻsha-oʻsha.",
+          "Har bir sotib olingan taklifnomaga nahorgi osh taklifnomasi sovgʻa.",
+        ],
+      },
+      faq: [
+        {
+          q: "Ota-ona nomidan taklifnomaga kim imzo qoʻyadi?",
+          a: "Odatda ota va onaning ismi yoki «[oila nomi] oilasi» deb yoziladi. Taklifim.uz’da imzoni taklifnomaning oʻziga ham qoʻshishingiz mumkin.",
+        },
+        {
+          q: "Keksa qarindoshlar elektron taklifnomani ocha oladimi?",
+          a: "Ha. Taklifnoma oddiy havola: Telegram yoki SMS’dagi havolani bossa, telefonda darhol ochiladi. Hech qanday ilova yoki roʻyxatdan oʻtish kerak emas.",
+        },
+        {
+          q: "Nahorgi osh uchun ham taklifnoma boʻladimi?",
+          a: "Ha. Taklifim.uz’da har bir sotib olingan toʻy taklifnomasiga nahorgi osh taklifnomasini bepul sovgʻa qilamiz.",
+        },
       ],
     },
     ru: {
       name: "От имени родителей",
       title: "Текст приглашения на свадьбу от родителей",
-      metaTitle: "Приглашение на свадьбу от родителей — тексты | Taklifim",
+      metaTitle:
+        "Приглашение на свадьбу от родителей — тексты для свадьбы сына и дочери | Taklifim",
       metaDescription:
-        "Тексты приглашений на свадьбу от имени родителей: свадьба сына, проводы дочери, приглашение родственникам и короткие варианты.",
+        "Тексты приглашений на свадьбу от имени родителей: свадьба сына, проводы дочери, родственникам и с пожеланиями. Скопируйте и отправьте с онлайн-приглашением Taklifim.uz.",
+      keywords: [
+        "приглашение на свадьбу от родителей",
+        "текст приглашения на свадьбу сына",
+        "приглашение на свадьбу дочери",
+        "текст приглашения на свадьбу",
+        "онлайн приглашение на свадьбу",
+        "электронное приглашение",
+      ],
       intro: [
-        "На узбекской свадьбе гостей часто приглашают родители. В таком тексте называют детей, фамилию семьи и уважительно обращаются к гостю.",
-        "Ниже — тексты для свадьбы сына и проводов дочери. Замените то, что в квадратных скобках, на свои данные.",
+        "На узбекской свадьбе гостей часто приглашают родители. В тексте приглашения на свадьбу от родителей называют детей, фамилию семьи и уважительно обращаются к гостю.",
+        "Ниже — готовые тексты для свадьбы сына и проводов дочери. Замените то, что в квадратных скобках, и отправьте текст со ссылкой на [электронное приглашение на свадьбу](/designs) ваших детей.",
       ],
       tips: [
         "В подписи укажите имена родителей или фамилию семьи.",
         "Для свадьбы сына принято «наш сын и невестка», для проводов дочери — «наша дочь».",
         "К старшим родственникам обращайтесь на «Вы» и с уважением.",
         "Добрые пожелания в конце делают текст теплее.",
+        "Если гостей много, именное онлайн-приглашение экономит время: у каждого родственника своя ссылка со своим именем.",
       ],
       samples: [
         {
@@ -221,24 +411,64 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Короткий",
           text: "Семья [фамилия] приглашает вас на свадьбу сына [имя жениха].\n[дата], [время], [название зала].\nДобро пожаловать!",
         },
+        {
+          title: "Со ссылкой",
+          text: "Здравствуйте, уважаемый(ая) [имя гостя]!\nПриглашаем вас на свадьбу наших детей [имя жениха] и [имя невесты]. Адрес зала и карта — в приглашении: [ссылка]\nС уважением, семья [фамилия]",
+        },
+      ],
+      why: {
+        heading: "Онлайн-приглашение для родителей",
+        paragraphs: [
+          "Раздать бумажные пригласительные сотням гостей — одна из самых долгих забот родителей. Онлайн-приглашение на свадьбу создаётся один раз и за минуту уходит родственникам, соседям и коллегам.",
+          "Приглашение на Taklifim.uz удобно и старшим гостям: ничего не нужно устанавливать, достаточно нажать на ссылку. Гости выбирают узбекский, русский или английский язык, а зал видно на карте.",
+        ],
+        list: [
+          "Именная ссылка для каждого гостя — приглашение обращается к нему по имени.",
+          "Кто придёт и сколько будет человек — приходит вам в Telegram.",
+          "Изменилось время или адрес — поправите, ссылка останется прежней.",
+          "К каждому купленному приглашению — приглашение на утренний плов в подарок.",
+        ],
+      },
+      faq: [
+        {
+          q: "Кто подписывает приглашение от родителей?",
+          a: "Обычно пишут имена отца и матери или «семья [фамилия]». На Taklifim.uz подпись можно добавить и в само приглашение.",
+        },
+        {
+          q: "Смогут ли пожилые родственники открыть электронное приглашение?",
+          a: "Да. Приглашение — это обычная ссылка: нажали в Telegram или SMS, и оно сразу открывается на телефоне. Приложения и регистрация не нужны.",
+        },
+        {
+          q: "Есть ли приглашение на утренний плов?",
+          a: "Да. К каждому купленному свадебному приглашению на Taklifim.uz мы дарим приглашение на утренний плов (нахорги ош).",
+        },
       ],
     },
     en: {
       name: "From the parents",
       title: "Wedding invitation wording from the parents",
       metaTitle:
-        "Wedding invitation wording from parents — examples | Taklifim",
+        "Wedding Invitation Wording from Parents — Son's & Daughter's Wedding | Taklifim",
       metaDescription:
-        "Wedding invitation wording from the parents: a son's wedding, a daughter's wedding, an invitation to relatives and short versions.",
+        "Wedding invitation wording from the parents: a son's wedding, a daughter's wedding, for relatives and with blessings. Copy it and send it with an online invitation from Taklifim.uz.",
+      keywords: [
+        "wedding invitation wording from parents",
+        "son's wedding invitation wording",
+        "daughter's wedding invitation wording",
+        "wedding invitation wording",
+        "online wedding invitation",
+        "Uzbek wedding invitation",
+      ],
       intro: [
-        "At Uzbek weddings guests are often invited by the parents. Such wording names the children and the family and addresses the guest with respect.",
-        "Below are texts for a son's and a daughter's wedding. Replace what's in square brackets with your own details.",
+        "At Uzbek weddings guests are often invited by the parents. Wedding invitation wording from the parents names the children and the family and addresses the guest with respect.",
+        "Below are ready-made texts for a son's and a daughter's wedding. Replace what's in square brackets and send the text with a link to your children's [digital wedding invitation](/designs).",
       ],
       tips: [
         "Sign with the parents' names or the family name.",
         "For a son's wedding, “our son and daughter-in-law” is customary; for a daughter's, “our daughter”.",
         "Address older relatives formally and respectfully.",
         "Closing with good wishes makes it warmer.",
+        "With a long guest list, a named online invitation saves time: every relative gets their own link with their own name.",
       ],
       samples: [
         {
@@ -261,6 +491,37 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Short",
           text: "The [family name] family invites you to the wedding of their son [groom's name].\n[date], [time], [venue name].\nYou're most welcome!",
         },
+        {
+          title: "With a link",
+          text: "Hello, dear [guest's name],\nWe invite you to the wedding of our children [groom's name] and [bride's name]. The venue address and map are in the invitation: [link]\nWith respect, the [family name] family",
+        },
+      ],
+      why: {
+        heading: "Online invitations for parents",
+        paragraphs: [
+          "Handing out paper invitations to hundreds of guests is one of the biggest jobs for the parents. An online wedding invitation is made once and reaches relatives, neighbours and colleagues in a minute.",
+          "A Taklifim.uz invitation is easy for older guests too: there's nothing to install, they just tap the link. Guests choose Uzbek, Russian or English, and the venue is on a map.",
+        ],
+        list: [
+          "A named link for each guest — the invitation greets them by name.",
+          "Who's coming and how many people arrives in your Telegram.",
+          "If the time or address changes, edit it — the link stays the same.",
+          "Every invitation you buy comes with a free morning plov invitation.",
+        ],
+      },
+      faq: [
+        {
+          q: "Who signs an invitation from the parents?",
+          a: "Usually the father's and mother's names, or “the [family name] family”. On Taklifim.uz you can add the signature to the invitation itself too.",
+        },
+        {
+          q: "Can older relatives open a digital invitation?",
+          a: "Yes. The invitation is a normal link: tap it in Telegram or an SMS and it opens on the phone right away. No app or sign-up needed.",
+        },
+        {
+          q: "Is there an invitation for the morning plov?",
+          a: "Yes. Every wedding invitation you buy on Taklifim.uz comes with a free morning plov (nahorgi osh) invitation.",
+        },
       ],
     },
   },
@@ -268,17 +529,28 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
     uz: {
       name: "Fotiha va unashtiruv",
       title: "Fotiha toʻyi va unashtiruvga taklif matni",
-      metaTitle: "Fotiha toʻyi taklifnomasi matni — namunalar | Taklifim",
+      metaTitle:
+        "Fotiha toʻyi taklifnomasi matni — unashtiruvga taklif namunalari | Taklifim",
       metaDescription:
-        "Fotiha toʻyi va unashtiruv marosimiga taklif matnlari: rasmiy, oilaviy va qisqa namunalar.",
+        "Fotiha toʻyi, unashtiruv va non sindirishga taklif matnlari: rasmiy, oilaviy, duo bilan va qisqa. Fotiha toʻyi taklifnomasini Taklifim.uz’da onlayn yarating.",
+      keywords: [
+        "fotiha toʻyi taklifnomasi",
+        "fotiha toʻyiga taklif matni",
+        "unashtiruv taklifnomasi",
+        "non sindirish taklifnoma",
+        "fotiha taklifnoma",
+        "onlayn taklifnoma",
+        "фотиха тўй таклифномаси",
+      ],
       intro: [
-        "Fotiha toʻyi — ikki oila rozilik berib, yoshlarni unashtiradigan marosim. Unga odatda eng yaqin qarindosh va doʻstlar taklif qilinadi.",
-        "Quyidagi namunalarni nusxalab, ismlar, sana va manzilni oʻzingiznikiga almashtiring.",
+        "Fotiha toʻyi — ikki oila rozilik berib, yoshlarni unashtiradigan marosim. Unga odatda eng yaqin qarindosh va doʻstlar taklif qilinadi, shuning uchun fotiha toʻyi taklifnomasi matni iliq va samimiy boʻladi.",
+        "Quyidagi namunalarni nusxalab, ismlar, sana va manzilni oʻzingiznikiga almashtiring. Fotiha uchun ham [chiroyli onlayn taklifnoma](/designs) yaratib, havolasini shu matn bilan yuborishingiz mumkin.",
       ],
       tips: [
         "Marosim nomini aniq yozing: fotiha toʻyi, unashtiruv yoki non sindirish.",
         "Yigit va qizning ismlarini, sana, vaqt va manzilni koʻrsating.",
         "Marosim kichikroq boʻlsa, «yaqinlarimiz davrasida» degan iborani qoʻshing.",
+        "Fotiha uyda boʻlsa, xaritadagi manzil mehmonlarga ayniqsa kerak — onlayn taklifnomaga qoʻshing.",
       ],
       samples: [
         {
@@ -297,22 +569,59 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Qisqa",
           text: "[kuyov ismi] va [kelin ismi]ning fotiha toʻyiga marhamat!\n[sana], soat [vaqt], [manzil].",
         },
+        {
+          title: "Havola bilan",
+          text: "Assalomu alaykum, [mehmon ismi]!\n[sana] kuni [kuyov ismi] va [kelin ismi]ning fotiha toʻyi. Sizni yaqinlarimiz davrasida kutamiz — manzil va xarita taklifnomada: [havola]",
+        },
+      ],
+      why: {
+        heading: "Fotiha toʻyi uchun onlayn taklifnoma",
+        paragraphs: [
+          "Fotiha toʻyiga mehmonlar kam boʻlsa ham, ularning har biri siz uchun aziz. Onlayn taklifnoma bu kunga tantanavorlik qoʻshadi: mehmon havolani ochganda video bilan ochilish, musiqa va suratlaringizni koʻradi.",
+          "Taklifim.uz’da fotiha, unashtiruv yoki non sindirish uchun taklifnomani telefoningizda bir necha daqiqada yaratasiz, keyinroq esa xuddi shu usulda asosiy toʻy taklifnomasini ham tayyorlaysiz.",
+        ],
+        list: [
+          "Videoli ochilish va tanlagan kuyingiz — oddiy xabardan ancha chiroyli.",
+          "Uy yoki restoran manzili xaritada.",
+          "Fotihagacha qolgan kun va soatlar jonli sanaladi.",
+          "Mehmonlar javobini Telegramda olasiz.",
+        ],
+      },
+      faq: [
+        {
+          q: "Fotiha toʻyiga taklifnoma kerakmi?",
+          a: "Fotiha odatda kichikroq marosim, lekin taklifnoma mehmonlarga sana va manzilni aniq yetkazadi va kunni tantanavor qiladi. Onlayn taklifnomani yuborish esa juda oson.",
+        },
+        {
+          q: "Fotiha uchun qaysi dizayn mos?",
+          a: "Taklifim.uz’dagi istalgan dizaynni fotiha toʻyi uchun ishlatishingiz mumkin — sarlavha, matn va suratlarni oʻzingiz yozasiz. Dizaynlarni oldindan jonli koʻrib chiqing.",
+        },
       ],
     },
     ru: {
       name: "Фотиха и помолвка",
       title: "Текст приглашения на фотиху и помолвку",
-      metaTitle: "Приглашение на фотиха-той и помолвку — тексты | Taklifim",
+      metaTitle:
+        "Приглашение на фотиха-той и помолвку — тексты и онлайн-приглашение | Taklifim",
       metaDescription:
-        "Тексты приглашений на фотиха-той и помолвку: официальные, семейные и короткие примеры.",
+        "Тексты приглашений на фотиха-той, помолвку и нон синдириш: официальные, семейные, с благословением и короткие. Создайте онлайн-приглашение на помолвку на Taklifim.uz.",
+      keywords: [
+        "приглашение на фотиха той",
+        "приглашение на помолвку",
+        "текст приглашения на помолвку",
+        "фотиха той",
+        "онлайн приглашение на помолвку",
+        "электронное приглашение",
+      ],
       intro: [
-        "Фотиха-той — обряд, на котором две семьи дают согласие и обручают молодых. Обычно на него зовут самых близких родственников и друзей.",
-        "Скопируйте подходящий текст и замените имена, дату и адрес на свои.",
+        "Фотиха-той — обряд, на котором две семьи дают согласие и обручают молодых. Обычно на него зовут самых близких родственников и друзей, поэтому текст приглашения на помолвку тёплый и душевный.",
+        "Скопируйте подходящий текст и замените имена, дату и адрес на свои. Для фотихи тоже можно создать [красивое онлайн-приглашение](/designs) и отправить его ссылку с этим текстом.",
       ],
       tips: [
         "Назовите обряд точно: фотиха-той, помолвка или нон синдириш.",
         "Укажите имена молодых, дату, время и адрес.",
         "Если праздник камерный, добавьте «в кругу близких».",
+        "Если фотиха проходит дома, гостям особенно нужен адрес на карте — добавьте его в онлайн-приглашение.",
       ],
       samples: [
         {
@@ -331,22 +640,58 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Короткий",
           text: "Приглашаем на фотиха-той [имя жениха] и [имя невесты]!\n[дата], [время], [адрес].",
         },
+        {
+          title: "Со ссылкой",
+          text: "Здравствуйте, [имя гостя]!\n[дата] фотиха-той [имя жениха] и [имя невесты]. Ждём вас в кругу близких — адрес и карта в приглашении: [ссылка]",
+        },
+      ],
+      why: {
+        heading: "Онлайн-приглашение на фотиха-той",
+        paragraphs: [
+          "Даже если гостей на фотихе немного, каждый из них вам дорог. Онлайн-приглашение делает этот день торжественнее: гость открывает ссылку и видит видео-открытие, слышит музыку и смотрит ваши фото.",
+          "На Taklifim.uz приглашение на фотиху, помолвку или нон синдириш создаётся с телефона за несколько минут, а потом так же легко — приглашение на саму свадьбу.",
+        ],
+        list: [
+          "Открытие с видео и ваша мелодия — гораздо красивее обычного сообщения.",
+          "Адрес дома или ресторана на карте.",
+          "Живой отсчёт дней и часов до фотихи.",
+          "Ответы гостей приходят вам в Telegram.",
+        ],
+      },
+      faq: [
+        {
+          q: "Нужно ли приглашение на фотиха-той?",
+          a: "Фотиха обычно камерный праздник, но приглашение точно сообщает гостям дату и адрес и делает день торжественным. А отправить онлайн-приглашение очень просто.",
+        },
+        {
+          q: "Какой дизайн подойдёт для помолвки?",
+          a: "Любой дизайн Taklifim.uz можно использовать для фотихи — заголовок, текст и фото вы пишете сами. Посмотрите дизайны вживую заранее.",
+        },
       ],
     },
     en: {
       name: "Fotiha and engagement",
       title: "Fotiha and engagement invitation wording",
-      metaTitle: "Fotiha and engagement invitation wording | Taklifim",
+      metaTitle: "Engagement & Fotiha Invitation Wording — Examples | Taklifim",
       metaDescription:
-        "Invitation wording for a fotiha (Uzbek engagement) or an engagement party: formal, family and short examples.",
+        "Invitation wording for a fotiha (Uzbek engagement), an engagement party or non sindirish: formal, family, with blessings and short. Create an online engagement invitation on Taklifim.uz.",
+      keywords: [
+        "engagement invitation wording",
+        "fotiha invitation",
+        "engagement party invitation",
+        "Uzbek engagement ceremony",
+        "online engagement invitation",
+        "digital invitation",
+      ],
       intro: [
-        "The fotiha is the Uzbek engagement ceremony, where two families give their blessing to the couple. Usually only the closest relatives and friends are invited.",
-        "Copy the text you like and replace the names, date and address with your own.",
+        "The fotiha is the Uzbek engagement ceremony, where two families give their blessing to the couple. Usually only the closest relatives and friends are invited, so engagement invitation wording is warm and personal.",
+        "Copy the text you like and replace the names, date and address with your own. You can make a [beautiful online invitation](/designs) for the fotiha too and send its link with this text.",
       ],
       tips: [
         "Name the occasion clearly: fotiha, engagement or non sindirish.",
         "Give both names, the date, the time and the address.",
         "For a small gathering, add “among our closest family and friends”.",
+        "If the fotiha is at home, guests especially need the address on a map — add it to your online invitation.",
       ],
       samples: [
         {
@@ -365,6 +710,33 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Short",
           text: "Join us for the fotiha of [groom's name] and [bride's name]!\n[date], [time], [address].",
         },
+        {
+          title: "With a link",
+          text: "Hello, [guest's name]!\nThe fotiha of [groom's name] and [bride's name] is on [date]. We'd love to see you among our closest family — the address and map are in the invitation: [link]",
+        },
+      ],
+      why: {
+        heading: "An online invitation for your fotiha",
+        paragraphs: [
+          "Even if the fotiha is small, every guest matters to you. An online invitation makes the day feel special: guests open the link to a video opening, your music and your photos.",
+          "On Taklifim.uz you can make an invitation for a fotiha, engagement or non sindirish on your phone in minutes — and later the wedding invitation in exactly the same way.",
+        ],
+        list: [
+          "A video opening and your song — far nicer than a plain message.",
+          "The home or restaurant address on a map.",
+          "A live countdown of days and hours to the fotiha.",
+          "Guests' replies come to your Telegram.",
+        ],
+      },
+      faq: [
+        {
+          q: "Do you need invitations for a fotiha?",
+          a: "A fotiha is usually small, but an invitation gives guests the exact date and address and makes the day feel festive. Sending an online invitation is very easy.",
+        },
+        {
+          q: "Which design suits an engagement?",
+          a: "Any Taklifim.uz design works for a fotiha — you write the heading, text and photos yourself. Preview the designs live first.",
+        },
       ],
     },
   },
@@ -373,18 +745,28 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
       name: "Telegram uchun qisqa matnlar",
       title: "Taklifnoma havolasi bilan yuboriladigan qisqa matnlar",
       metaTitle:
-        "Telegram orqali toʻyga taklif matni — qisqa namunalar | Taklifim",
+        "Telegram orqali toʻyga taklif matni — elektron taklifnoma uchun qisqa namunalar | Taklifim",
       metaDescription:
-        "Elektron taklifnoma havolasini Telegram, WhatsApp yoki SMS orqali yuborish uchun qisqa matnlar: rasmiy, samimiy, guruh uchun va eslatma.",
+        "Elektron taklifnoma havolasini Telegram, WhatsApp yoki SMS orqali yuborish uchun qisqa toʻyga taklif matnlari: rasmiy, samimiy, guruh uchun va eslatma.",
+      keywords: [
+        "telegram taklifnoma",
+        "telegram orqali taklif matni",
+        "toʻyga taklif matni qisqa",
+        "elektron taklifnoma havolasi",
+        "onlayn taklifnoma yuborish",
+        "whatsapp taklifnoma",
+        "taklifnoma matni",
+      ],
       intro: [
-        "Elektron taklifnomani yuborishda havolaning oldiga bir-ikki jumla qoʻshsangiz, mehmon uni albatta ochadi. Matn qisqa boʻlsin — barcha tafsilotlar taklifnomaning ichida.",
-        "Quyidagi matnlarni nusxalab, [havola] oʻrniga taklifnomangiz havolasini qoʻying.",
+        "Elektron taklifnomani yuborishda havolaning oldiga bir-ikki jumla qoʻshsangiz, mehmon uni albatta ochadi. Telegram uchun taklif matni qisqa boʻlsin — sana, xarita va musiqa taklifnomaning ichida.",
+        "Quyidagi matnlarni nusxalab, [havola] oʻrniga taklifnomangiz havolasini qoʻying. Havola hali yoʻqmi? [Taklifim.uz’da onlayn taklifnoma yarating](/cabinet/new) — bir necha daqiqa kifoya. Yuborish boʻyicha maslahatlar: [taklifnomani Telegram orqali yuborish](/articles/send-invitation-telegram).",
       ],
       tips: [
         "Avval salom va ism bilan murojaat qiling, keyin havolani qoʻying.",
         "Sana va kimning toʻyi ekanini bir jumlada ayting — tafsilotlar taklifnomada.",
         "Guruhga yuborsangiz, umumiy murojaatdan foydalaning.",
         "Toʻydan bir-ikki kun oldin qisqa eslatma yuborish foydali.",
+        "Telegram havolani chiroyli koʻrinishda (rasm va sarlavha bilan) koʻrsatadi — Taklifim.uz taklifnomalari buni avtomatik qiladi.",
       ],
       samples: [
         {
@@ -407,24 +789,64 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Eslatma",
           text: "Assalomu alaykum, [mehmon ismi]! Eslatib qoʻyamiz: toʻyimiz ertaga, soat [vaqt]da. Manzil va xarita shu yerda: [havola]\nSizni kutamiz!",
         },
+        {
+          title: "Telegram kanal yoki status",
+          text: "Biz turmush quryapmiz! 💍\n[kuyov ismi] va [kelin ismi] — [sana].\nTaklifnomamiz: [havola]",
+        },
+      ],
+      why: {
+        heading: "Telegram’da yuborish uchun eng yaxshi taklifnoma",
+        paragraphs: [
+          "Oʻzbekistonda toʻy taklifnomalari asosan Telegram orqali yuboriladi. Oddiy rasm yoki uzun xabar oʻrniga Taklifim.uz havolasini yuboring: chatda chiroyli koʻrinadi, bosilganda esa video bilan ochiladigan toʻliq taklifnoma chiqadi.",
+          "Havola bitta, lekin imkoniyati koʻp: mehmon toʻyxonani xaritada topadi, kelishini bir bosishda bildiradi, siz esa har bir javobni Telegram’da darhol olasiz.",
+        ],
+        list: [
+          "Telegram, WhatsApp, Instagram va SMS — havola hamma joyda ishlaydi.",
+          "Har bir mehmonga ismli havola yuborish mumkin.",
+          "Taklifnomani PNG rasm yoki QR kod qilib ham yuklab olasiz.",
+          "Sana yoki manzil oʻzgarsa ham, yuborilgan havola oʻzgarmaydi.",
+        ],
+      },
+      faq: [
+        {
+          q: "Taklifnomani Telegram’da qanday yuboraman?",
+          a: "Taklifim.uz’da taklifnomani yarating va eʼlon qiling, keyin havolasini nusxalab, shu sahifadagi qisqa matnlardan biri bilan mehmon yoki guruhga yuboring.",
+        },
+        {
+          q: "Har bir mehmonga alohida havola yuborsa boʻladimi?",
+          a: "Ha. Ismli taklifnomalar boʻlimida har bir mehmon uchun shaxsiy havola yaratasiz — taklifnoma uni ismi bilan kutib oladi.",
+        },
+        {
+          q: "Mehmon havolani ochmasa nima qilaman?",
+          a: "Toʻydan bir-ikki kun oldin «Eslatma» namunasini yuboring. Taklifnoma qancha marta ochilganini kabinetingizda koʻrasiz.",
+        },
       ],
     },
     ru: {
       name: "Короткие тексты для Telegram",
       title: "Короткие тексты к ссылке на приглашение",
       metaTitle:
-        "Приглашение на свадьбу в Telegram — короткие тексты | Taklifim",
+        "Приглашение на свадьбу в Telegram — короткие тексты к электронному приглашению | Taklifim",
       metaDescription:
-        "Короткие тексты, чтобы отправить ссылку на электронное приглашение в Telegram, WhatsApp или SMS: официальные, тёплые, для группы и напоминание.",
+        "Короткие тексты, чтобы отправить ссылку на электронное приглашение на свадьбу в Telegram, WhatsApp или SMS: официальные, тёплые, для группы и напоминание.",
+      keywords: [
+        "приглашение на свадьбу в телеграм",
+        "текст приглашения в телеграм",
+        "короткий текст приглашения на свадьбу",
+        "электронное приглашение ссылка",
+        "отправить приглашение онлайн",
+        "приглашение в whatsapp",
+      ],
       intro: [
-        "Отправляя электронное приглашение, добавьте к ссылке пару слов — так гость точно его откроет. Текст должен быть коротким: все подробности внутри приглашения.",
-        "Скопируйте текст и вставьте вместо [ссылка] ссылку на ваше приглашение.",
+        "Отправляя электронное приглашение на свадьбу, добавьте к ссылке пару слов — так гость точно его откроет. Текст для Telegram должен быть коротким: дата, карта и музыка — внутри приглашения.",
+        "Скопируйте текст и вставьте вместо [ссылка] ссылку на ваше приглашение. Ссылки ещё нет? [Создайте онлайн-приглашение на Taklifim.uz](/cabinet/new) — это займёт несколько минут. Советы по отправке: [как отправить приглашение в Telegram](/articles/send-invitation-telegram).",
       ],
       tips: [
         "Начните с приветствия и имени, потом — ссылка.",
         "Одной фразой скажите, чья свадьба и когда, остальное — в приглашении.",
         "Для группового чата используйте общее обращение.",
         "За день-два до свадьбы полезно отправить короткое напоминание.",
+        "Telegram показывает ссылку красивым превью с картинкой и заголовком — приглашения Taklifim.uz делают это автоматически.",
       ],
       samples: [
         {
@@ -447,24 +869,64 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Напоминание",
           text: "Здравствуйте, [имя гостя]! Напоминаем: наша свадьба завтра в [время]. Адрес и карта здесь: [ссылка]\nЖдём вас!",
         },
+        {
+          title: "Для канала или статуса",
+          text: "Мы женимся! 💍\n[имя жениха] и [имя невесты] — [дата].\nНаше приглашение: [ссылка]",
+        },
+      ],
+      why: {
+        heading: "Лучшее приглашение для отправки в Telegram",
+        paragraphs: [
+          "В Узбекистане свадебные приглашения чаще всего отправляют в Telegram. Вместо картинки или длинного сообщения отправьте ссылку Taklifim.uz: в чате она выглядит красиво, а по нажатию открывается полноценное приглашение с видео.",
+          "Одна ссылка — много возможностей: гость находит зал на карте, отвечает одним нажатием, а вы сразу получаете каждый ответ в Telegram.",
+        ],
+        list: [
+          "Telegram, WhatsApp, Instagram и SMS — ссылка работает везде.",
+          "Каждому гостю можно отправить именную ссылку.",
+          "Приглашение можно скачать картинкой PNG или QR-кодом.",
+          "Даже если дата или адрес изменятся, отправленная ссылка останется прежней.",
+        ],
+      },
+      faq: [
+        {
+          q: "Как отправить приглашение на свадьбу в Telegram?",
+          a: "Создайте и опубликуйте приглашение на Taklifim.uz, скопируйте ссылку и отправьте её гостю или в группу вместе с одним из коротких текстов на этой странице.",
+        },
+        {
+          q: "Можно ли отправить каждому гостю свою ссылку?",
+          a: "Да. В разделе именных приглашений вы создаёте личную ссылку для каждого гостя — приглашение встречает его по имени.",
+        },
+        {
+          q: "Что делать, если гость не открыл ссылку?",
+          a: "За день-два до свадьбы отправьте текст «Напоминание». Сколько раз открывали приглашение, видно в вашем кабинете.",
+        },
       ],
     },
     en: {
       name: "Short texts for messengers",
       title: "Short texts to send with your invitation link",
       metaTitle:
-        "Short wedding invitation messages for Telegram & WhatsApp | Taklifim",
+        "Short Wedding Invitation Messages for Telegram & WhatsApp | Taklifim",
       metaDescription:
-        "Short messages to send a digital wedding invitation link on Telegram, WhatsApp or SMS: formal, warm, for group chats and a reminder.",
+        "Short messages to send your online wedding invitation link on Telegram, WhatsApp or SMS: formal, warm, for group chats, a reminder and a channel post.",
+      keywords: [
+        "wedding invitation message",
+        "short wedding invitation text",
+        "wedding invitation for WhatsApp",
+        "Telegram wedding invitation",
+        "send invitation link",
+        "online wedding invitation",
+      ],
       intro: [
-        "When you send a digital invitation, a line or two before the link makes sure guests open it. Keep it short — all the details are inside the invitation.",
-        "Copy a message and put your invitation's link in place of [link].",
+        "When you send a digital wedding invitation, a line or two before the link makes sure guests open it. Keep the message short — the date, map and music are inside the invitation.",
+        "Copy a message and put your invitation's link in place of [link]. No link yet? [Create an online invitation on Taklifim.uz](/cabinet/new) — it takes a few minutes. Tips on sending: [how to send an invitation on Telegram](/articles/send-invitation-telegram).",
       ],
       tips: [
         "Start with a greeting and the guest's name, then the link.",
         "Say whose wedding it is and when in one sentence; the rest is in the invitation.",
         "For a group chat, use a general greeting.",
         "A short reminder a day or two before the wedding helps.",
+        "Telegram shows links as a preview with a picture and title — Taklifim.uz invitations do this automatically.",
       ],
       samples: [
         {
@@ -487,6 +949,37 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Reminder",
           text: "Hello, [guest's name]! Just a reminder: our wedding is tomorrow at [time]. The address and map are here: [link]\nSee you there!",
         },
+        {
+          title: "For a channel or status",
+          text: "We're getting married! 💍\n[groom's name] and [bride's name] — [date].\nOur invitation: [link]",
+        },
+      ],
+      why: {
+        heading: "The best invitation to send on Telegram",
+        paragraphs: [
+          "In Uzbekistan wedding invitations are mostly sent on Telegram. Instead of a picture or a long message, send a Taklifim.uz link: it looks great in the chat and opens a full invitation with a video opening.",
+          "One link does a lot: guests find the venue on a map and reply in one tap, and you get every reply in Telegram straight away.",
+        ],
+        list: [
+          "Telegram, WhatsApp, Instagram and SMS — the link works everywhere.",
+          "You can send each guest a named link.",
+          "Download the invitation as a PNG picture or a QR code too.",
+          "Even if the date or address changes, the link you sent stays the same.",
+        ],
+      },
+      faq: [
+        {
+          q: "How do I send a wedding invitation on Telegram?",
+          a: "Create and publish your invitation on Taklifim.uz, copy its link and send it to a guest or a group with one of the short messages on this page.",
+        },
+        {
+          q: "Can each guest get their own link?",
+          a: "Yes. In the named invitations section you create a personal link for each guest, and the invitation greets them by name.",
+        },
+        {
+          q: "What if a guest doesn't open the link?",
+          a: "Send the “Reminder” message a day or two before the wedding. You can see how many times your invitation was opened in your account.",
+        },
       ],
     },
   },
@@ -495,17 +988,26 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
       name: "Doʻstlar va hamkasblar uchun",
       title: "Doʻstlar va hamkasblarni toʻyga taklif qilish matni",
       metaTitle:
-        "Doʻstlar va hamkasblar uchun toʻy taklifnomasi matni | Taklifim",
+        "Doʻstlar va hamkasblar uchun toʻyga taklif matni — namunalar | Taklifim",
       metaDescription:
-        "Doʻstlar, sinfdoshlar va hamkasblarni toʻyga taklif qilish uchun matnlar: samimiy, hazilomuz, ish jamoasi uchun namunalar.",
+        "Doʻstlar, dugonalar, sinfdoshlar va hamkasblarni toʻyga taklif qilish matnlari: samimiy, hazilomuz va ish jamoasi uchun. Onlayn taklifnoma bilan yuboring.",
+      keywords: [
+        "doʻstlarga toʻyga taklif matni",
+        "hamkasblarga taklifnoma",
+        "toʻyga taklif matni",
+        "dugonaga taklif",
+        "sinfdoshlarga taklifnoma",
+        "onlayn taklifnoma",
+      ],
       intro: [
-        "Doʻstlar va tengdoshlarga matn erkinroq, samimiyroq boʻlishi mumkin, hamkasblarga esa odobli va qisqa.",
-        "Quyidagi namunalardan nusxa oling va ismlar, sana, manzilni almashtiring.",
+        "Doʻstlar va tengdoshlarga toʻyga taklif matni erkinroq, samimiyroq boʻlishi mumkin, hamkasblarga esa odobli va qisqa.",
+        "Quyidagi namunalardan nusxa oling, ismlar, sana va manzilni almashtiring va matnni [videoli onlayn taklifnoma](/designs) havolasi bilan yuboring — doʻstlaringiz albatta ochib koʻradi.",
       ],
       tips: [
         "Doʻstlarga «sen» bilan, hamkasblarga «siz» bilan murojaat qiling.",
         "Ish jamoasiga yuborishda butun jamoani bitta matnda taklif qilish mumkin.",
         "Hazil qoʻshsangiz ham, sana va manzil aniq boʻlsin.",
+        "Doʻstlar guruhiga bitta havola yuborsangiz, kim kelishini taklifnomadagi javoblardan bilasiz.",
       ],
       samples: [
         {
@@ -524,6 +1026,33 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Sinfdoshlarga",
           text: "Aziz sinfdoshlar!\nYana bir sababga koʻra yigʻilamiz: [sana] kuni toʻyim! Hammangizni kutaman.\nSoat [vaqt], [toʻyxona nomi].",
         },
+        {
+          title: "Doʻstlar guruhiga",
+          text: "Doʻstlar, katta yangilik! 🎉\n[sana] kuni toʻyim. Hammangizni kutaman — taklifnomani ochib, kelishingizni bildiring: [havola]",
+        },
+      ],
+      why: {
+        heading: "Doʻstlarni zamonaviy usulda taklif qiling",
+        paragraphs: [
+          "Doʻstlar va hamkasblar kunini telefonda oʻtkazadi — taklifnoma ham oʻsha yerda boʻlsin. Taklifim.uz’dagi onlayn taklifnoma video bilan ochiladi, sevimli qoʻshigʻingiz yangraydi va suratlaringizni koʻrsatadi.",
+          "Bir havola bilan butun jamoani yoki doʻstlar guruhini taklif qilasiz, kim kelishini esa Telegram’da koʻrib turasiz.",
+        ],
+        list: [
+          "Oʻz musiqangizni yuklang yoki tayyor kuylardan tanlang.",
+          "6 tagacha suratingiz chiroyli ramkalarda.",
+          "Toʻygacha jonli sanoq — doʻstlaringiz kunni unutmaydi.",
+          "Mehmonlar tilaklarini faqat sizga yozadi.",
+        ],
+      },
+      faq: [
+        {
+          q: "Hamkasblarni toʻyga qanday taklif qilish kerak?",
+          a: "Hurmatli va qisqa matn yozing: sana, vaqt va toʻyxona. Butun jamoani bitta xabar va onlayn taklifnoma havolasi bilan taklif qilish qulay.",
+        },
+        {
+          q: "Taklifnomaga oʻz musiqamni qoʻysam boʻladimi?",
+          a: "Ha. Taklifim.uz’da tayyor kuylardan tanlashingiz yoki oʻz qoʻshigʻingizni yuklashingiz mumkin — u taklifnoma ochilganda yangraydi.",
+        },
       ],
     },
     ru: {
@@ -532,15 +1061,23 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
       metaTitle:
         "Приглашение на свадьбу друзьям и коллегам — тексты | Taklifim",
       metaDescription:
-        "Тексты приглашений на свадьбу для друзей, одноклассников и коллег: тёплые, шутливые и для рабочего коллектива.",
+        "Тексты приглашений на свадьбу для друзей, подруг, одноклассников и коллег: тёплые, шутливые и для рабочего коллектива. Отправьте с онлайн-приглашением.",
+      keywords: [
+        "приглашение на свадьбу друзьям",
+        "приглашение на свадьбу коллегам",
+        "текст приглашения на свадьбу",
+        "приглашение подруге на свадьбу",
+        "онлайн приглашение",
+      ],
       intro: [
-        "Для друзей текст может быть свободнее и теплее, для коллег — вежливым и коротким.",
-        "Скопируйте пример и замените имена, дату и место.",
+        "Для друзей текст приглашения на свадьбу может быть свободнее и теплее, для коллег — вежливым и коротким.",
+        "Скопируйте пример, замените имена, дату и место и отправьте текст со ссылкой на [онлайн-приглашение с видео](/designs) — друзья точно его откроют.",
       ],
       tips: [
         "Друзьям пишите на «ты», коллегам — на «вы».",
         "Рабочий коллектив можно пригласить одним сообщением.",
         "Даже в шутливом тексте дата и адрес должны быть точными.",
+        "Отправьте одну ссылку в чат друзей — кто придёт, узнаете из ответов в приглашении.",
       ],
       samples: [
         {
@@ -559,23 +1096,58 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "Одноклассникам",
           text: "Дорогие одноклассники!\nУ нас снова повод собраться: [дата] моя свадьба! Жду всех.\n[время], [название зала].",
         },
+        {
+          title: "В чат друзей",
+          text: "Друзья, большая новость! 🎉\n[дата] моя свадьба. Жду всех — откройте приглашение и ответьте, придёте ли: [ссылка]",
+        },
+      ],
+      why: {
+        heading: "Пригласите друзей по-современному",
+        paragraphs: [
+          "Друзья и коллеги весь день в телефоне — пусть и приглашение будет там. Онлайн-приглашение Taklifim.uz открывается с видео, играет ваша любимая песня и показывает ваши фото.",
+          "Одной ссылкой вы приглашаете всю команду или чат друзей, а кто придёт — видите в Telegram.",
+        ],
+        list: [
+          "Загрузите свою музыку или выберите готовую мелодию.",
+          "До 6 ваших фото в красивых рамках.",
+          "Живой отсчёт до свадьбы — друзья не забудут дату.",
+          "Пожелания гости пишут только вам.",
+        ],
+      },
+      faq: [
+        {
+          q: "Как пригласить коллег на свадьбу?",
+          a: "Напишите вежливый и короткий текст: дата, время и зал. Всю команду удобно пригласить одним сообщением со ссылкой на онлайн-приглашение.",
+        },
+        {
+          q: "Можно ли поставить в приглашение свою музыку?",
+          a: "Да. На Taklifim.uz можно выбрать готовую мелодию или загрузить свою песню — она зазвучит, когда гость откроет приглашение.",
+        },
       ],
     },
     en: {
       name: "For friends and colleagues",
       title: "Wedding invitation wording for friends and colleagues",
       metaTitle:
-        "Wedding invitation wording for friends & colleagues | Taklifim",
+        "Wedding Invitation Wording for Friends & Colleagues | Taklifim",
       metaDescription:
-        "Wedding invitation wording for friends, classmates and colleagues: warm, playful and work-team examples.",
+        "Wedding invitation wording for friends, classmates and colleagues: warm, playful and work-team examples. Send it with an online wedding invitation from Taklifim.uz.",
+      keywords: [
+        "wedding invitation wording for friends",
+        "wedding invitation for colleagues",
+        "casual wedding invitation wording",
+        "wedding invitation message",
+        "online wedding invitation",
+      ],
       intro: [
-        "For friends the wording can be relaxed and warm; for colleagues, polite and short.",
-        "Copy an example and replace the names, date and venue.",
+        "For friends, wedding invitation wording can be relaxed and warm; for colleagues, polite and short.",
+        "Copy an example, replace the names, date and venue and send it with a link to an [online invitation with video](/designs) — your friends will definitely open it.",
       ],
       tips: [
         "Write to friends casually and to colleagues more formally.",
         "You can invite a whole work team in one message.",
         "Even in a playful text, keep the date and address exact.",
+        "Send one link to your friends' group chat and see who's coming from the replies in the invitation.",
       ],
       samples: [
         {
@@ -594,6 +1166,33 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           title: "To classmates",
           text: "Dear classmates,\nWe have another reason to get together: I'm getting married on [date]! I hope to see you all there.\n[time], [venue name].",
         },
+        {
+          title: "To a group chat",
+          text: "Big news, everyone! 🎉\nI'm getting married on [date]. I'd love to see you all — open the invitation and let me know if you're coming: [link]",
+        },
+      ],
+      why: {
+        heading: "Invite your friends the modern way",
+        paragraphs: [
+          "Your friends and colleagues live on their phones, so that's where your invitation should be. A Taklifim.uz online invitation opens with a video, plays your favourite song and shows your photos.",
+          "One link invites the whole team or group chat, and you see who's coming in Telegram.",
+        ],
+        list: [
+          "Upload your own music or pick a ready-made tune.",
+          "Up to 6 of your photos in beautiful frames.",
+          "A live countdown, so nobody forgets the date.",
+          "Guests write their wishes to you alone.",
+        ],
+      },
+      faq: [
+        {
+          q: "How do I invite colleagues to my wedding?",
+          a: "Write a polite, short message with the date, time and venue. It's easiest to invite the whole team in one message with a link to your online invitation.",
+        },
+        {
+          q: "Can I add my own music to the invitation?",
+          a: "Yes. On Taklifim.uz you can pick a ready-made tune or upload your own song — it plays when a guest opens the invitation.",
+        },
       ],
     },
   },
@@ -601,17 +1200,27 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
     uz: {
       name: "Toʻydan keyin rahmat",
       title: "Toʻydan keyin mehmonlarga rahmat matni",
-      metaTitle: "Toʻydan keyin mehmonlarga minnatdorchilik matni | Taklifim",
+      metaTitle:
+        "Toʻydan keyin mehmonlarga minnatdorchilik matni — namunalar | Taklifim",
       metaDescription:
-        "Toʻydan keyin mehmonlarga yuboriladigan rahmat matnlari: kelin-kuyov va ota-ona nomidan, sovgʻa uchun minnatdorchilik.",
+        "Toʻydan keyin mehmonlarga rahmat matnlari: kelin-kuyov va ota-ona nomidan, sovgʻa uchun va hammaga. Toʻy suratlarini taklifnoma havolasi orqali ulashing.",
+      keywords: [
+        "toʻydan keyin rahmat matni",
+        "mehmonlarga minnatdorchilik",
+        "toʻy uchun rahmat xabari",
+        "sovgʻa uchun rahmat",
+        "toʻy suratlari ulashish",
+        "onlayn taklifnoma",
+      ],
       intro: [
-        "Toʻydan keyin mehmonlarga rahmat aytish — chiroyli odat. Qisqa xabar ham ularning tashrifi siz uchun qanchalik qadrli boʻlganini bildiradi.",
-        "Toʻy oʻtgandan keyin ham taklifnoma ochiq qoladi, shuning uchun rahmat xabariga uning havolasini qoʻshib, toʻy suratlarini ham ulashishingiz mumkin.",
+        "Toʻydan keyin mehmonlarga rahmat aytish — chiroyli odat. Qisqa minnatdorchilik xabari ham ularning tashrifi siz uchun qanchalik qadrli boʻlganini bildiradi.",
+        "Taklifim.uz’dagi onlayn taklifnoma toʻydan keyin ham ochiq qoladi, shuning uchun rahmat xabariga uning havolasini qoʻshib, toʻy suratlarini ham ulashishingiz mumkin.",
       ],
       tips: [
         "Rahmatni toʻydan keyingi bir-ikki hafta ichida yuboring.",
         "Sovgʻa yoki toʻyona uchun alohida minnatdorchilik bildiring.",
         "Yaqin kishilarga ism bilan, shaxsiy xabar yozing.",
+        "Toʻy suratlarini taklifnomaga qoʻshib, havolasini rahmat xabari bilan yuboring.",
       ],
       samples: [
         {
@@ -631,21 +1240,52 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           text: "Aziz qarindoshlar va doʻstlar!\nToʻyimizda biz bilan boʻlganingiz uchun barchangizga rahmat. Toʻydan suratlar taklifnomamizda: [havola]",
         },
       ],
+      why: {
+        heading: "Taklifnoma toʻydan keyin ham ishlaydi",
+        paragraphs: [
+          "Qogʻoz taklifnoma toʻydan keyin unutiladi, onlayn taklifnoma esa xotiraga aylanadi. Taklifim.uz’da toʻydan keyin ham taklifnomangizni tahrirlab, eng yaxshi suratlarni qoʻshishingiz va havolasini rahmat xabari bilan yuborishingiz mumkin.",
+          "Mehmonlar yozgan tilaklar ham kabinetingizda saqlanadi — eng yoqqanlarini belgilab, yillar oʻtib qayta oʻqiysiz.",
+        ],
+        list: [
+          "Taklifnoma tadbirdan keyin ham ochiq qoladi.",
+          "Suratlar va matnni istalgan payt yangilaysiz, havola oʻzgarmaydi.",
+          "Mehmonlarning barcha tilaklari bir joyda.",
+        ],
+      },
+      faq: [
+        {
+          q: "Toʻydan keyin qachon rahmat aytish kerak?",
+          a: "Toʻydan keyingi bir-ikki hafta ichida. Yaqinlarga shaxsiy, qolganlarga umumiy xabar yuborish mumkin.",
+        },
+        {
+          q: "Taklifnoma toʻydan keyin qancha vaqt ochiq turadi?",
+          a: "Taklifnoma tadbirdan keyin ham ochiq qoladi. Tadbir kunidan bir yil oʻtgach uning suratlari oʻchiriladi, matni esa saqlanadi.",
+        },
+      ],
     },
     ru: {
       name: "Благодарность после свадьбы",
       title: "Текст благодарности гостям после свадьбы",
-      metaTitle: "Благодарность гостям после свадьбы — тексты | Taklifim",
+      metaTitle:
+        "Благодарность гостям после свадьбы — тексты и примеры | Taklifim",
       metaDescription:
-        "Тексты благодарности гостям после свадьбы: от молодожёнов и от родителей, за подарок и для всех гостей.",
+        "Тексты благодарности гостям после свадьбы: от молодожёнов и от родителей, за подарок и для всех гостей. Поделитесь свадебными фото по ссылке на приглашение.",
+      keywords: [
+        "благодарность гостям после свадьбы",
+        "текст благодарности за свадьбу",
+        "спасибо гостям за свадьбу",
+        "благодарность за подарок на свадьбу",
+        "онлайн приглашение",
+      ],
       intro: [
-        "Поблагодарить гостей после свадьбы — красивая традиция. Даже короткое сообщение покажет, как вам было дорого их присутствие.",
-        "Приглашение остаётся доступным и после свадьбы, поэтому к благодарности можно приложить его ссылку и поделиться свадебными фото.",
+        "Поблагодарить гостей после свадьбы — красивая традиция. Даже короткое сообщение с благодарностью покажет, как вам было дорого их присутствие.",
+        "Онлайн-приглашение на Taklifim.uz остаётся доступным и после свадьбы, поэтому к благодарности можно приложить его ссылку и поделиться свадебными фото.",
       ],
       tips: [
         "Отправьте благодарность в течение одной-двух недель после свадьбы.",
         "Отдельно поблагодарите за подарок.",
         "Близким напишите лично, по имени.",
+        "Добавьте свадебные фото в приглашение и отправьте ссылку вместе с благодарностью.",
       ],
       samples: [
         {
@@ -665,21 +1305,51 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
           text: "Дорогие родные и друзья!\nСпасибо всем, кто был с нами на свадьбе. Фото с праздника — в нашем приглашении: [ссылка]",
         },
       ],
+      why: {
+        heading: "Приглашение работает и после свадьбы",
+        paragraphs: [
+          "Бумажное приглашение после свадьбы забывается, а онлайн-приглашение становится памятью. На Taklifim.uz его можно отредактировать и после праздника, добавить лучшие фото и отправить ссылку вместе с благодарностью.",
+          "Пожелания гостей тоже хранятся в вашем кабинете — отметьте самые любимые и перечитывайте их спустя годы.",
+        ],
+        list: [
+          "Приглашение остаётся открытым и после торжества.",
+          "Фото и текст можно обновить в любой момент, ссылка не меняется.",
+          "Все пожелания гостей в одном месте.",
+        ],
+      },
+      faq: [
+        {
+          q: "Когда благодарить гостей после свадьбы?",
+          a: "В течение одной-двух недель после свадьбы. Близким — лично, остальным можно отправить общее сообщение.",
+        },
+        {
+          q: "Сколько приглашение остаётся открытым после свадьбы?",
+          a: "Приглашение остаётся доступным и после торжества. Через год после даты праздника фото удаляются, а текст сохраняется.",
+        },
+      ],
     },
     en: {
       name: "Thank-you after the wedding",
       title: "Thank-you messages for wedding guests",
-      metaTitle: "Thank-you messages for wedding guests — examples | Taklifim",
+      metaTitle: "Wedding Thank-You Messages for Guests — Examples | Taklifim",
       metaDescription:
-        "Thank-you messages for your wedding guests: from the couple and from the parents, for a gift and for everyone.",
+        "Thank-you messages for your wedding guests: from the couple and from the parents, for a gift and for everyone. Share your wedding photos through your invitation link.",
+      keywords: [
+        "wedding thank you message",
+        "thank you message for wedding guests",
+        "wedding thank you wording",
+        "thank you for wedding gift",
+        "online wedding invitation",
+      ],
       intro: [
-        "Thanking your guests after the wedding is a lovely tradition. Even a short message shows how much their presence meant to you.",
-        "Your invitation stays online after the wedding, so you can add its link to your thank-you and share your wedding photos.",
+        "Thanking your guests after the wedding is a lovely tradition. Even a short thank-you message shows how much their presence meant to you.",
+        "Your Taklifim.uz online invitation stays up after the wedding, so you can add its link to your thank-you and share your wedding photos.",
       ],
       tips: [
         "Send your thanks within a week or two of the wedding.",
         "Thank guests for their gifts separately.",
         "Write to those closest to you personally, by name.",
+        "Add your wedding photos to the invitation and send its link with your thanks.",
       ],
       samples: [
         {
@@ -697,6 +1367,28 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
         {
           title: "To everyone",
           text: "Dear family and friends,\nThank you all for being with us at our wedding. The photos are in our invitation: [link]",
+        },
+      ],
+      why: {
+        heading: "Your invitation keeps working after the wedding",
+        paragraphs: [
+          "A paper invitation is forgotten after the wedding; an online invitation becomes a keepsake. On Taklifim.uz you can still edit it afterwards, add your best photos and send the link with your thanks.",
+          "Your guests' wishes stay in your account too — mark your favourites and read them again years later.",
+        ],
+        list: [
+          "The invitation stays online after the event.",
+          "Update the photos and text any time; the link doesn't change.",
+          "All your guests' wishes in one place.",
+        ],
+      },
+      faq: [
+        {
+          q: "When should you thank wedding guests?",
+          a: "Within a week or two of the wedding. Write personally to those closest to you; a general message works for everyone else.",
+        },
+        {
+          q: "How long does the invitation stay online after the wedding?",
+          a: "The invitation stays open after the event. A year after the event date its photos are deleted and the text is kept.",
         },
       ],
     },
