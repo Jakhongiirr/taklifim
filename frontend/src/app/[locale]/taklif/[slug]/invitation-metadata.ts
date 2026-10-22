@@ -2,12 +2,13 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import type { PublicTaklif } from "@/lib/api-types";
 import { coupleNames } from "@/lib/format";
-import { OG_IMAGES } from "@/lib/seo";
+import { INVITATION_OG_IMAGES } from "@/lib/seo";
 import { tashkentParts } from "@/lib/tashkent-date";
 
 /**
  * Title and description for link previews in Telegram and other messengers
- * (the image is the site's shared og.jpg). Not indexed: invitations are private.
+ * (the image is the shared og-invitation.jpg, not the site's og.jpg). Not
+ * indexed: invitations are private.
  */
 export async function invitationMetadata(
   taklif: PublicTaklif,
@@ -31,8 +32,8 @@ export async function invitationMetadata(
       description,
       type: "website",
       siteName: "taklifim.uz",
-      images: OG_IMAGES,
+      images: INVITATION_OG_IMAGES,
     },
-    twitter: { card: "summary_large_image", images: OG_IMAGES },
+    twitter: { card: "summary_large_image", images: INVITATION_OG_IMAGES },
   };
 }
