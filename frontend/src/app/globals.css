@@ -75,16 +75,16 @@ html[data-fonts="wait"] [data-font-reveal] {
   }
 }
 
-/* The hero phone's designs taking turns (six, 4s each; see
+/* The hero phone's designs taking turns (eight, 4s each; see
    phone-mockup.tsx, and change these with the number of designs): each is
-   shown for a sixth of the cycle, fading at the ends. */
+   shown for an eighth of the cycle, fading at the ends. */
 @keyframes mock-turn {
   0%,
-  14% {
+  11% {
     opacity: 1;
   }
-  18%,
-  96% {
+  14%,
+  97% {
     opacity: 0;
   }
   100% {
@@ -98,11 +98,11 @@ html[data-fonts="wait"] [data-font-reveal] {
   0% {
     transform: scale(1.02);
   }
-  18% {
-    transform: scale(1.1);
+  14% {
+    transform: scale(1.08);
   }
-  21%,
-  96% {
+  16%,
+  97% {
     transform: scale(1);
   }
   100% {
