@@ -127,12 +127,12 @@ export default async function ArcadeTheme({
           </div>
         </section>
 
-        {/* The words, written straight onto a watercolour letter with rose
-            garlands at its head and foot. Its blush paper is the page's
-            paper, and its foot fades into it. Sizes follow the section's
-            width so the words always stay between the garlands and above the
-            butterfly. */}
-        <section className="@container relative aspect-[675/1200]">
+        {/* The words, written straight onto a watercolour letter with roses
+            in its corners and a gold stem down its right side. Its blush
+            paper is the page's paper, and its foot fades into it. Sizes
+            follow the section's width so the words always stay clear of the
+            flowers. */}
+        <section className="@container relative aspect-[736/1104]">
           <Image
             src={`${ASSETS}/frame.jpg`}
             alt=""
@@ -141,7 +141,7 @@ export default async function ArcadeTheme({
             sizes="448px"
             className="object-cover [mask-image:linear-gradient(to_bottom,black_90%,transparent)]"
           />
-          <div className="absolute inset-x-[14%] top-[22%] bottom-[37%] flex flex-col items-center justify-center">
+          <div className="absolute inset-x-[16%] top-[18%] bottom-[30%] flex flex-col items-center justify-center">
             <div className="arcade-reveal">
               <h2
                 className={`${yeseva.className} text-[6.2cqw] leading-tight text-[#4d3a52]`}
