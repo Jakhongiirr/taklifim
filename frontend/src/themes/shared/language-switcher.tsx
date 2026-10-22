@@ -10,9 +10,14 @@ import { routing } from "@/i18n/routing";
  * top corner over every theme and its cover, so a guest can switch before
  * opening it. Switching opens the same link, personal ones too, under the
  * picked locale; the choice is remembered (locale cookie), so the short link
- * opens in it next time (see proxy.ts).
+ * opens in it next time (see proxy.ts). Coloured like the theme's music
+ * button, with the picked language like its chosen RSVP answer.
  */
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({
+  colors,
+}: {
+  colors: SwitcherColors;
+}) {
   const t = useTranslations("LocaleSwitcher");
   const locale = useLocale();
   // Without the locale prefix: "/taklif/<slug>" or "/taklif/<slug>/<token>".
@@ -20,7 +25,7 @@ export default function LanguageSwitcher() {
   return (
     <nav
       aria-label={t("label")}
-      className="fixed top-3 right-3 z-50 flex rounded-full bg-black/35 p-0.5 text-[11px] font-semibold tracking-wider text-white uppercase shadow-lg ring-1 ring-white/25 backdrop-blur-md"
+      className={`fixed top-3 right-3 z-50 flex rounded-full p-0.5 text-[11px] font-semibold tracking-wider uppercase shadow-lg backdrop-blur ${colors.pill}`}
     >
       {routing.locales.map((l) => (
         <Link
@@ -32,11 +37,17 @@ export default function LanguageSwitcher() {
           replace
           scroll={false}
           aria-current={l === locale ? "true" : undefined}
-          className={`flex h-8 min-w-9 items-center justify-center rounded-full px-2 transition-colors ${l === locale ? "bg-white text-black" : "hover:bg-white/15"}`}
+          className={`flex h-8 min-w-9 items-center justify-center rounded-full px-2 transition-colors ${l === locale ? colors.on : "hover:bg-current/10"}`}
         >
           {l}
         </Link>
       ))}
     </nav>
   );
+}
+
+/** Tailwind classes: the pill (background, text, ring) and the picked one. */
+export interface SwitcherColors {
+  pill: string;
+  on: string;
 }
