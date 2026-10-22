@@ -65,6 +65,14 @@ export const envValidationSchema = Joi.object({
     then: Joi.string().required(),
     otherwise: Joi.string().allow('').optional(),
   }),
+  // With it, Telegram sends the bot's messages to SITE_URL/api/telegram
+  // (a webhook) with this secret, instead of the API polling for them.
+  // Needs SITE_URL to be public HTTPS, so development leaves it empty.
+  TELEGRAM_WEBHOOK_SECRET: Joi.string()
+    .pattern(/^[A-Za-z0-9_-]{32,256}$/)
+    .allow('')
+    .optional(),
+
   // Login codes through Telegram Gateway (paid, deposit needed); unused by
   // the site, which logs in through the bot.
   TELEGRAM_GATEWAY_TOKEN: Joi.string().allow('').optional(),

@@ -1,4 +1,6 @@
+import { createHash, timingSafeEqual } from 'crypto';
 import {
+  Inject,
   Injectable,
   Logger,
   OnApplicationBootstrap,
@@ -6,6 +8,8 @@ import {
   ServiceUnavailableException,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import Redis from 'ioredis';
+import { REDIS_CLIENT } from '../../redis/redis.constants';
 
 const API_URL = 'https://api.telegram.org';
 /** Seconds Telegram holds a getUpdates call open waiting for messages. */
@@ -13,6 +17,12 @@ const POLL_TIMEOUT = 25;
 const RETRY_DELAY_MS = 5_000;
 /** Consecutive failures before it's logged as an error (and alerted). */
 const FAILURES_BEFORE_ERROR = 5;
+/** Where Telegram sends updates in webhook mode (the site passes them on). */
+const WEBHOOK_PATH = '/api/telegram';
+/** Telegram retries an update for about a day; seen IDs are kept that long. */
+const SEEN_UPDATE_TTL_SECONDS = 24 * 60 * 60;
+
+const digest = (value: string) => createHash('sha256').update(value).digest();
 
 /**
  * Undici reports every network error as just "fetch failed" and keeps the
@@ -52,9 +62,13 @@ export type ReplyMarkup =
   | { remove_keyboard: true };
 
 /**
- * The site's Telegram bot (TELEGRAM_BOT_TOKEN), through the Bot API. Fetches
- * new messages by long polling, so it needs no public address; only one API
- * instance may poll a bot at a time (Telegram refuses a second one).
+ * The site's Telegram bot (TELEGRAM_BOT_TOKEN), through the Bot API.
+ *
+ * With TELEGRAM_WEBHOOK_SECRET (production), Telegram posts each new message
+ * to SITE_URL/api/telegram, which the site passes to `receive`; any number of
+ * API instances can serve them. Without it (development), it fetches them by
+ * long polling, which needs no public address but works on only one instance
+ * per bot (Telegram refuses a second one).
  */
 @Injectable()
 export class TelegramBotService
@@ -62,12 +76,22 @@ export class TelegramBotService
 {
   private readonly logger = new Logger(TelegramBotService.name);
   private readonly token?: string;
+  private readonly webhookSecret?: string;
+  private readonly webhookUrl: string;
   private readonly stop = new AbortController();
   private handler?: (update: TelegramUpdate) => Promise<void>;
   private username?: string;
 
-  constructor(config: ConfigService) {
+  constructor(
+    config: ConfigService,
+    @Inject(REDIS_CLIENT) private readonly redis: Redis,
+  ) {
     this.token = config.get<string>('telegram.botToken');
+    this.webhookSecret = config.get<string>('telegram.webhookSecret');
+    this.webhookUrl = new URL(
+      WEBHOOK_PATH,
+      config.getOrThrow<string>('siteUrl'),
+    ).toString();
   }
 
   get enabled() {
@@ -121,12 +145,75 @@ export class TelegramBotService
     }
   }
 
+  /**
+   * An update Telegram posted to the webhook, with the secret it was given
+   * (X-Telegram-Bot-Api-Secret-Token). False if the secret is wrong. Handled
+   * in the background: Telegram resends an update it doesn't get an answer
+   * to quickly, and one it already sent is skipped.
+   */
+  async receive(update: TelegramUpdate, secret?: string) {
+    if (!this.token || !this.webhookSecret || typeof secret !== 'string') {
+      return false;
+    }
+    // Fixed-length digests, so the comparison can't leak the secret's length.
+    if (!timingSafeEqual(digest(secret), digest(this.webhookSecret))) {
+      return false;
+    }
+    if (!Number.isSafeInteger(update?.update_id)) return true;
+
+    const first = await this.redis.set(
+      `telegram:update:${update.update_id}`,
+      '1',
+      'EX',
+      SEEN_UPDATE_TTL_SECONDS,
+      'NX',
+    );
+    if (first) void this.handle(update);
+    return true;
+  }
+
   onApplicationBootstrap() {
-    if (this.token) void this.poll();
+    if (!this.token) return;
+    if (this.webhookSecret) void this.setWebhook();
+    else void this.poll();
   }
 
   onApplicationShutdown() {
     this.stop.abort();
+  }
+
+  private async handle(update: TelegramUpdate) {
+    await this.handler?.(update).catch((err: Error) =>
+      this.logger.error(`Handling an update failed`, err.stack),
+    );
+  }
+
+  /** Points Telegram at the webhook, retrying until it's done. */
+  private async setWebhook() {
+    let failures = 0;
+    while (!this.stop.signal.aborted) {
+      try {
+        this.username ??= (
+          await this.call<{ username: string }>('getMe')
+        ).username;
+        // Every instance sets the same webhook, so it doesn't matter which
+        // starts first; updates sent while none was running still arrive.
+        await this.call('setWebhook', {
+          url: this.webhookUrl,
+          secret_token: this.webhookSecret,
+          allowed_updates: ['message'],
+        });
+        this.logger.log(`Webhook for @${this.username}: ${this.webhookUrl}`);
+        return;
+      } catch (err) {
+        if (this.stop.signal.aborted) return;
+        failures++;
+        const message = `Setting the Telegram webhook failed (${failures}x): ${describe(err)}`;
+        if (failures === FAILURES_BEFORE_ERROR) this.logger.error(message);
+        else this.logger.warn(message);
+        await new Promise((resolve) => setTimeout(resolve, RETRY_DELAY_MS));
+      }
+    }
   }
 
   private async poll() {
@@ -150,9 +237,7 @@ export class TelegramBotService
         failures = 0;
         for (const update of updates) {
           offset = update.update_id + 1;
-          await this.handler?.(update).catch((err: Error) =>
-            this.logger.error(`Handling an update failed`, err.stack),
-          );
+          await this.handle(update);
         }
       } catch (err) {
         if (this.stop.signal.aborted) break;
