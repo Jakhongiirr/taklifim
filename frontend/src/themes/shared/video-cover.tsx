@@ -1,16 +1,27 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { type ReactNode, useEffect, useRef, useState } from "react";
+import {
+  type ReactNode,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+} from "react";
 import AutoScroll from "./auto-scroll";
 import SmoothScroll from "./smooth-scroll";
 
 const REVEAL_MS = 900;
 const REDUCED_REVEAL_MS = 300;
+/** How long a tap waits for the video to download before opening without it. */
+const MAX_WAIT_MS = 6000;
+/** A video streamed from the network that stalls this long is skipped. */
+const MAX_STALL_MS = 1200;
 
 /**
  * A theme's opening video, bundled with the theme in public/themes/<id>/:
- * opening.mp4 (H.264, no audio track, a few MB) and its first frame as
+ * opening.mp4 (H.264, no audio track, about 1 Mbit/s so slow phone
+ * connections keep up, under 2 MB) and its first frame as
  * opening-start.jpg. The theme's hero uses the last frame (opening-end.jpg)
  * as its background, so the end of the video turns into the page.
  */
@@ -24,12 +35,15 @@ export interface OpeningVideo {
  * The opening every theme shares. The cover shows the video's first frame
  * under the theme's content (names, date...). Tapping it plays the video
  * once (the walk through the gates) and starts the music (browsers only
- * play audio after a user gesture); both preload while the cover shows, so
- * the tap starts them without waiting. When the video ends, <html> gets `openedClass`
+ * play audio after a user gesture). The whole video downloads into memory
+ * while the cover shows (phones, iPhones above all, otherwise buffer only a
+ * little and the walk freezes mid-way on a slow connection); a tap before
+ * it's there waits up to MAX_WAIT_MS, then opens the page without it. When
+ * the video ends, <html> gets `openedClass`
  * for the hero's entrance and the cover fades into the page, whose hero
  * shows the same last frame. Reduced motion and data saver skip the video.
- * Themes can restyle the steps through `data-state` (closed, playing,
- * revealing).
+ * Themes can restyle the steps through `data-state` (closed, loading,
+ * playing, revealing).
  */
 export default function VideoCover({
   video,
@@ -62,10 +76,54 @@ export default function VideoCover({
   const videoRef = useRef<HTMLVideoElement>(null);
   const audio = useRef<HTMLAudioElement>(null);
   const [state, setState] = useState<
-    "closed" | "playing" | "revealing" | "open"
+    "closed" | "loading" | "playing" | "revealing" | "open"
   >("closed");
   const [playing, setPlaying] = useState(false);
+  /** Enough of the video is here to play to the end without stalling. */
+  const ready = useRef(false);
+  /** A tap that came before the video: opens without it at the deadline. */
+  const wait = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const stall = useRef<ReturnType<typeof setTimeout>>(undefined);
   const isOpen = state === "open";
+
+  const loaded = useEffectEvent((src: string, whole: boolean) => {
+    const el = videoRef.current;
+    if (!el) return;
+    el.src = src;
+    if (whole) markReady();
+    // The video has the connection to itself first; then the music buffers
+    // too, so a tap starts both at once.
+    if (audio.current) audio.current.preload = "auto";
+  });
+
+  // Download the whole video while the guest reads the cover. If that
+  // fails, the element streams it as before.
+  useEffect(() => {
+    if (skipVideo()) return;
+    const ctrl = new AbortController();
+    let url: string | undefined;
+    fetch(video.src, { signal: ctrl.signal })
+      .then((res) => (res.ok ? res.blob() : Promise.reject(res.status)))
+      .then((blob) => {
+        url = URL.createObjectURL(blob);
+        loaded(url, true);
+      })
+      .catch(() => {
+        if (!ctrl.signal.aborted) loaded(video.src, false);
+      });
+    return () => {
+      ctrl.abort();
+      if (url) URL.revokeObjectURL(url);
+    };
+  }, [video.src]);
+
+  useEffect(
+    () => () => {
+      clearTimeout(wait.current);
+      clearTimeout(stall.current);
+    },
+    [],
+  );
 
   // No scrolling behind the cover.
   useEffect(() => {
@@ -86,20 +144,31 @@ export default function VideoCover({
   function open() {
     if (state !== "closed") return;
     audio.current?.play().catch(() => undefined);
-    const reduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const saveData = (
-      navigator as Navigator & { connection?: { saveData?: boolean } }
-    ).connection?.saveData;
-    const el = videoRef.current;
-    if (reduced || saveData || !el) return reveal();
+    if (skipVideo() || !videoRef.current) return reveal();
+    if (ready.current) return play();
+    setState("loading");
+    wait.current = setTimeout(reveal, MAX_WAIT_MS);
+  }
+
+  function markReady() {
+    if (ready.current) return;
+    ready.current = true;
+    if (wait.current !== undefined) play();
+  }
+
+  function play() {
+    clearTimeout(wait.current);
+    wait.current = undefined;
     setState("playing");
-    // A video that can't play (format, network) doesn't block the page.
-    el.play().catch(reveal);
+    // A video that can't play (format, network, iOS low power mode) doesn't
+    // block the page.
+    videoRef.current?.play().catch(reveal);
   }
 
   function reveal() {
+    clearTimeout(wait.current);
+    wait.current = undefined;
+    clearTimeout(stall.current);
     setState((s) => (s === "revealing" || s === "open" ? s : "revealing"));
     document.documentElement.classList.add(openedClass);
     const reduced = window.matchMedia(
@@ -119,11 +188,13 @@ export default function VideoCover({
   return (
     <>
       {musicUrl && (
+        // Preloaded only once the video is in (see `loaded`), so the two
+        // don't split a slow connection.
         <audio
           ref={audio}
           src={musicUrl}
           loop
-          preload="auto"
+          preload="none"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         />
@@ -151,31 +222,40 @@ export default function VideoCover({
           <div className="relative mx-auto h-full max-w-md">
             <video
               ref={videoRef}
-              src={video.src}
               poster={video.poster}
               muted
               playsInline
               preload="auto"
               aria-hidden
+              onCanPlayThrough={markReady}
+              onWaiting={() => {
+                clearTimeout(stall.current);
+                if (state === "playing")
+                  stall.current = setTimeout(reveal, MAX_STALL_MS);
+              }}
+              onPlaying={() => clearTimeout(stall.current)}
               onEnded={reveal}
-              onError={() => state === "playing" && reveal()}
+              onError={() => state !== "closed" && reveal()}
               className="absolute inset-0 size-full object-cover"
             />
             <div
               aria-hidden
-              className={`absolute inset-0 transition-opacity duration-700 group-data-[state=closed]:opacity-100 ${overlayClass} opacity-0`}
+              className={`absolute inset-0 transition-opacity duration-700 group-data-[state=closed]:opacity-100 group-data-[state=loading]:opacity-100 ${overlayClass} opacity-0`}
             />
 
+            {/* Hidden (not only transparent) while the video plays, so the
+                text glow and the button's backdrop blur aren't redrawn over
+                every video frame. */}
             <div
               data-font-reveal
-              className={`relative flex h-full flex-col items-center px-6 text-center opacity-0 transition-opacity duration-500 group-data-[state=closed]:opacity-100 ${contentClass}`}
+              className={`relative flex h-full flex-col items-center px-6 text-center opacity-0 transition-[opacity,visibility] duration-500 group-data-[state=closed]:opacity-100 group-data-[state=loading]:opacity-100 group-data-[state=playing]:invisible group-data-[state=revealing]:invisible ${contentClass}`}
             >
               {children}
               {/* Its click bubbles to the cover; it's here for keyboards and screen readers. */}
               <button
                 type="button"
                 tabIndex={state === "closed" ? 0 : -1}
-                className={`mt-10 inline-flex h-12 items-center rounded-full border px-7 text-sm font-medium tracking-wide transition-colors ${buttonClass}`}
+                className={`mt-10 inline-flex h-12 items-center rounded-full border px-7 text-sm font-medium tracking-wide transition-colors group-data-[state=loading]:animate-pulse ${buttonClass}`}
               >
                 {t("cover.open")}
               </button>
@@ -229,5 +309,14 @@ export default function VideoCover({
         </button>
       )}
     </>
+  );
+}
+
+/** Reduced motion and data saver open the page without the video. */
+function skipVideo() {
+  return (
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches ||
+    !!(navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection?.saveData
   );
 }
