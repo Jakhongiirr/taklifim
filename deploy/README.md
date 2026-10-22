@@ -18,8 +18,9 @@ Internet ──:80/:443──► caddy (edge) ─┬─ taklifim.uz ────
                                      └─ other sites (see the caddy repository)
 ```
 
-- The API isn't public: browsers reach it through Next's `/api/backend`, and
-  Payme through `/api/payme`.
+- The API isn't public: browsers reach it through Next's `/api/backend`,
+  Payme through `/api/payme` and the login bot's webhook through
+  `/api/telegram`.
 - Files are served from `https://files.<domain>/<bucket>/...`; uploads and
   MinIO's admin API stay on the private network.
 - The API runs pending database migrations when it starts.
@@ -72,8 +73,13 @@ First create the login bot: in Telegram, message
 "Taklifim") and a username ending in `bot`, and put the token it gives you in
 `.env` as `TELEGRAM_BOT_TOKEN`. Optionally, with `/setuserpic` and
 `/setdescription`, give it the logo and a line like "Log in to taklifim.uz".
-Use a separate bot for development: only one server can receive a bot's
-messages at a time, so the same token in two places makes logins flaky.
+Also set `TELEGRAM_WEBHOOK_SECRET` (`openssl rand -hex 32`): on start the
+API then tells Telegram to post the bot's messages to
+`https://taklifim.uz/api/telegram` with that secret, so any number of API
+containers can answer them. Without it the API polls Telegram instead, which
+works on one container only. Use a separate bot for development (polling,
+no secret): the bot sends its messages to one place only, so the same token
+in two places makes logins flaky.
 
 ```sh
 git clone <repo> /opt/taklifim

@@ -53,6 +53,7 @@ export default () => ({
   telegram: {
     gatewayToken: process.env.TELEGRAM_GATEWAY_TOKEN || undefined,
     botToken: process.env.TELEGRAM_BOT_TOKEN || undefined,
+    webhookSecret: process.env.TELEGRAM_WEBHOOK_SECRET || undefined,
   },
   siteUrl: process.env.SITE_URL ?? 'http://localhost:3001',
   payme: {
