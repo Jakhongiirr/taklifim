@@ -43,9 +43,22 @@ export function localeAlternates(
 }
 
 /**
- * The one link preview image every page shares (public/og.jpg), with no text
- * on it. Bump ?v= when the file changes so messengers fetch the new one.
+ * The link preview image every site page shares (public/og.jpg). Bump ?v=
+ * when the file changes so messengers fetch the new one.
  */
 export const OG_IMAGES = [
-  { url: "/og.jpg?v=3", width: 1200, height: 630, alt: "taklifim.uz" },
+  { url: "/og.jpg?v=4", width: 1200, height: 630, alt: "taklifim.uz" },
+];
+
+/**
+ * The preview image of every invitation link (public/og-invitation.jpg), with
+ * no text on it; the site's og.jpg is for the site's own pages only.
+ */
+export const INVITATION_OG_IMAGES = [
+  {
+    url: "/og-invitation.jpg?v=1",
+    width: 1200,
+    height: 630,
+    alt: "taklifim.uz",
+  },
 ];
