@@ -47,5 +47,5 @@ export function localeAlternates(
  * on it. Bump ?v= when the file changes so messengers fetch the new one.
  */
 export const OG_IMAGES = [
-  { url: "/og.jpg?v=3", width: 1200, height: 630, alt: "taklifim.uz" },
+  { url: "/og.jpg?v=4", width: 1200, height: 630, alt: "taklifim.uz" },
 ];
