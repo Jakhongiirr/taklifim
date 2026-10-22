@@ -9,7 +9,7 @@ import { tashkentParts } from "@/lib/tashkent-date";
 
 // The invitation's QR code as a PNG the owner can print or put on a screen:
 // the names and date on the shared card background (lib/og/card) around a
-// code that opens the invitation in the page's language. Published only (the
+// code that opens the invitation (guests pick its language there). Published only (the
 // only ones the link opens), owner or admin, like the card (../../download).
 
 /** Dark on white, so every phone camera reads it. */
@@ -28,7 +28,8 @@ export async function GET(
     return new Response("Not published", { status: 403 });
   }
 
-  const url = `${SITE_URL}/${locale}/taklif/${taklif.slug}`;
+  // The short link: guests pick the language on the invitation.
+  const url = `${SITE_URL}/taklif/${taklif.slug}`;
   const [tDates, assets, qr] = await Promise.all([
     getTranslations({ locale, namespace: "Dates" }),
     cardAssets(),

@@ -1,9 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { type FormEvent, useState } from "react";
-import { routing } from "@/i18n/routing";
 import { ApiError, api } from "@/lib/api-client";
 import type { TaklifGuest } from "@/lib/api-types";
 import { copyText } from "@/lib/copy-text";
@@ -14,7 +13,7 @@ const BATCH = 100;
 
 /**
  * The owner adds guests by name (one per line) and copies or shares each
- * one's personal link, in the language the guest should read it in.
+ * one's personal link. Guests pick the invitation's language on it.
  */
 export default function GuestsList({
   taklifId,
@@ -29,15 +28,13 @@ export default function GuestsList({
 }) {
   const t = useTranslations("Guests");
   const router = useRouter();
-  const locale = useLocale();
   const { confirm, dialog } = useConfirm();
-  const [lang, setLang] = useState(locale);
   const [names, setNames] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
   const [notice, setNotice] = useState<{ text: string; error?: boolean }>();
 
   const link = (token: string) =>
-    `${window.location.origin}/${lang}/taklif/${slug}/${token}`;
+    `${window.location.origin}/taklif/${slug}/${token}`;
 
   async function add(e: FormEvent) {
     e.preventDefault();
@@ -152,27 +149,9 @@ export default function GuestsList({
 
       {guests.length ? (
         <>
-          <div className="mt-6 flex flex-wrap items-center justify-between gap-2">
-            <p className="text-sm text-muted">
-              {t("total", { count: guests.length })}
-            </p>
-            {/* Guests read the invitation in the language of their link. */}
-            <div className="flex items-center gap-1.5">
-              <span className="text-sm text-muted">{t("linkLang")}</span>
-              {routing.locales.map((l) => (
-                <button
-                  key={l}
-                  type="button"
-                  lang={l}
-                  aria-pressed={lang === l}
-                  onClick={() => setLang(l)}
-                  className={`inline-flex h-8 items-center rounded-full px-3 text-xs font-medium uppercase transition-colors ${lang === l ? "bg-sage text-paper" : "text-ink ring-1 ring-line hover:ring-ink/30"}`}
-                >
-                  {l}
-                </button>
-              ))}
-            </div>
-          </div>
+          <p className="mt-6 text-sm text-muted">
+            {t("total", { count: guests.length })}
+          </p>
           <ul className="mt-3 flex flex-col gap-3">
             {guests.map((guest) => (
               <li

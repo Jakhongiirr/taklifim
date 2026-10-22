@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import { type ReactNode, useState } from "react";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { api } from "@/lib/api-client";
 import { copyText } from "@/lib/copy-text";
 import { coupleNames, formatSum } from "@/lib/format";
@@ -19,9 +18,12 @@ import StatusBadge from "./status-badge";
 import { usePay } from "./use-pay";
 import { useTashkentDate } from "@/lib/use-tashkent-date";
 
-/** The invitation's link for guests, in the given language. */
-function invitationUrl(slug: string, locale: string) {
-  return `${window.location.origin}/${locale}/taklif/${slug}`;
+/**
+ * The invitation's link for guests. One for every language: guests pick
+ * theirs on the invitation (it opens in Uzbek, or the one they picked last).
+ */
+function invitationUrl(slug: string) {
+  return `${window.location.origin}/taklif/${slug}`;
 }
 
 export default function TaklifCard({
@@ -58,11 +60,11 @@ export default function TaklifCard({
     }
   }
 
-  async function copyLink(locale: string) {
-    if (!(await copyText(invitationUrl(taklif.slug, locale)))) {
+  async function copyLink() {
+    if (!(await copyText(invitationUrl(taklif.slug)))) {
       return setNotice({ text: t("actions.error"), error: true });
     }
-    setNotice({ text: t("actions.copied", { lang: locale.toUpperCase() }) });
+    setNotice({ text: t("actions.copied") });
   }
 
   /**
@@ -145,21 +147,13 @@ export default function TaklifCard({
       )}
 
       {taklif.status === "published" && (
-        <div className="mt-4 flex flex-wrap items-center gap-2">
-          <span className="text-sm text-muted">{t("actions.copyLink")}</span>
-          {/* Guests see the invitation in the language of the link. */}
-          {routing.locales.map((locale) => (
-            <button
-              key={locale}
-              type="button"
-              lang={locale}
-              onClick={() => void copyLink(locale)}
-              className="inline-flex h-10 items-center rounded-full bg-sage px-4 text-sm font-medium text-paper uppercase transition-colors hover:bg-sage-dark"
-            >
-              {locale}
-            </button>
-          ))}
-        </div>
+        <button
+          type="button"
+          onClick={() => void copyLink()}
+          className="mt-4 inline-flex h-10 items-center rounded-full bg-sage px-4 text-sm font-medium text-paper transition-colors hover:bg-sage-dark"
+        >
+          {t("actions.copyLink")}
+        </button>
       )}
 
       <div className="mt-4 flex flex-wrap gap-2">
