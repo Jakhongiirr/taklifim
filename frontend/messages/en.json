@@ -34,7 +34,8 @@
       "priceFrom": "from {price} UZS",
       "primary": "Create an invitation",
       "secondary": "See designs",
-      "note": "Create and preview for free — you only pay when you publish."
+      "note": "Create and preview for free — you only pay when you publish.",
+      "ask": "Questions? <link>Write to us on Telegram</link>"
     },
     "mock": {
       "eyebrow": "Invitation",

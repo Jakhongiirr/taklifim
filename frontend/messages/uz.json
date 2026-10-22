@@ -34,7 +34,8 @@
       "priceFrom": "{price} soʻmdan",
       "primary": "Taklifnoma yaratish",
       "secondary": "Dizaynlarni koʻrish",
-      "note": "Bepul yarating va koʻrib chiqing — toʻlov faqat eʼlon qilishda."
+      "note": "Bepul yarating va koʻrib chiqing — toʻlov faqat eʼlon qilishda.",
+      "ask": "Savolingiz boʻlsa, <link>Telegramda yozing</link>"
     },
     "mock": {
       "eyebrow": "Taklifnoma",

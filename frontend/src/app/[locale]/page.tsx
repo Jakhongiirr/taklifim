@@ -119,6 +119,23 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 </a>
               </div>
               <p className="mt-4 text-sm text-muted">{t("hero.note")}</p>
+              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted">
+                <TelegramIcon className="size-3.5 shrink-0 text-gold" />
+                <span>
+                  {t.rich("hero.ask", {
+                    link: (chunks) => (
+                      <a
+                        href={TELEGRAM_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sage underline decoration-sage/30 underline-offset-4 transition-colors hover:decoration-sage"
+                      >
+                        {chunks}
+                      </a>
+                    ),
+                  })}
+                </span>
+              </p>
             </div>
             <PhoneMockup />
           </section>
@@ -355,11 +372,11 @@ function FeatureIcon({ name }: { name: (typeof FEATURES)[number] }) {
 }
 
 /** Telegram's paper plane, in the current colour. */
-function TelegramIcon() {
+function TelegramIcon({ className = "size-6 -translate-x-px" }) {
   return (
     <svg
       viewBox="0 0 24 24"
-      className="size-6 -translate-x-px"
+      className={className}
       fill="currentColor"
     >
       <path d="M21.4 4.3 18.3 19c-.2 1-.9 1.3-1.7.8l-4.8-3.5-2.3 2.2c-.3.3-.5.5-1 .5l.3-4.9 8.9-8c.4-.3-.1-.5-.6-.2L6.1 12.8 1.4 11.3c-1-.3-1-1 .2-1.5L20 2.7c.9-.3 1.6.2 1.4 1.6Z" />
