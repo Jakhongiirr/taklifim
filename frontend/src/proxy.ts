@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { hasLocale } from "next-intl";
 import createMiddleware from "next-intl/middleware";
 import { routing } from "./i18n/routing";
 import {
@@ -15,6 +16,8 @@ import {
 // language isn't used: the site is for Uzbekistan, where many browsers are
 // set to Russian or English.
 const intl = createMiddleware(routing);
+/** next-intl's cookie for the language a visitor picked. */
+const LOCALE_COOKIE = "NEXT_LOCALE";
 const intlIgnoringBrowserLanguage = (request: NextRequest) => {
   const headers = new Headers(request.headers);
   headers.delete("accept-language");
@@ -38,14 +41,19 @@ export default async function proxy(request: NextRequest) {
       keepNext: pathname !== "/admin",
     });
   }
-  // Short invitation links (/taklif/<slug>, personal ones too) show the
-  // Uzbek invitation at the same address, whatever the guest's browser
-  // language. A rewrite, not a redirect: link preview bots (Telegram) read
-  // the page's own tags only if it answers 200. The owner's preview still
-  // redirects, so it goes through the session check below.
+  // Short invitation links (/taklif/<slug>, personal ones too), the ones
+  // owners share, show the invitation at the same address in the language
+  // the guest picked on it last time (locale cookie), else Uzbek, whatever
+  // the browser's language. A rewrite, not a redirect: link preview bots
+  // (Telegram) read the page's own tags only if it answers 200. The owner's
+  // preview still redirects, so it goes through the session check below.
   if (pathname.startsWith("/taklif/")) {
+    const picked = request.cookies.get(LOCALE_COOKIE)?.value;
+    const locale = hasLocale(routing.locales, picked)
+      ? picked
+      : routing.defaultLocale;
     const url = request.nextUrl.clone();
-    url.pathname = `/${routing.defaultLocale}${pathname}`;
+    url.pathname = `/${locale}${pathname}`;
     return SITE_SESSION_PATH.test(url.pathname)
       ? NextResponse.redirect(url)
       : NextResponse.rewrite(url);

@@ -9,6 +9,7 @@ import ParisTheme from "./paris";
 import PlovTheme from "./plov";
 import PlainInvitation from "./plain";
 import FontReveal from "./shared/font-reveal";
+import LanguageSwitcher from "./shared/language-switcher";
 import type { Theme, ThemeProps } from "./types";
 
 /**
@@ -38,13 +39,15 @@ const THEMES: Record<string, Theme> = {
 
 /**
  * Renders the invitation in its theme's design. Unknown ids fall back to the
- * plain layout, so an invitation always renders.
+ * plain layout, so an invitation always renders. Guests switch the language
+ * of its fixed wording themselves.
  */
 export function ThemedInvitation({ taklif, preview, guest }: ThemeProps) {
   const Theme = THEMES[taklif.theme.themeId] ?? PlainInvitation;
   return (
     <>
       <FontReveal />
+      <LanguageSwitcher />
       <Theme taklif={taklif} preview={preview} guest={guest} />
     </>
   );
