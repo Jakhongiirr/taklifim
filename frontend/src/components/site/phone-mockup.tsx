@@ -8,46 +8,22 @@ import { marck } from "@/themes/violet/fonts";
 import { playfair } from "@/themes/paris/fonts";
 import { doveScript } from "@/themes/dove/fonts";
 import { prata } from "@/themes/haven/fonts";
-import { cormorant } from "@/themes/classic/fonts";
-import { lavelScript } from "@/themes/lavel/fonts";
 
 /** Seconds each design stays on the phone. */
 const TURN = 4;
 
 /**
  * The real designs, as their demo shot (designPreview), the name under
- * the phone in the theme's typeface. Shots wider than the screen are shown
- * whole on their own paper colour instead of being cropped (their words
- * then sit above and below the middle, where the music card floats).
+ * the phone in the theme's typeface.
  */
 const DESIGNS = [
   { id: "haven", name: "Haven", font: prata.className },
   { id: "aurora", name: "Aurora", font: greatVibes.className },
   { id: "arcade", name: "Arcade", font: yeseva.className },
   { id: "dove", name: "Dove", font: doveScript },
-  {
-    id: "lavel",
-    name: "Lavel",
-    font: lavelScript,
-    paper: "#f4f1fa",
-    ratio: "720/1000",
-  },
-  {
-    id: "classic",
-    name: "Classic",
-    font: `${cormorant.className} italic`,
-    paper: "#f9f6ef",
-    ratio: "720/1019",
-  },
   { id: "violet", name: "Violet", font: marck.className },
   { id: "paris", name: "Paris", font: `${playfair.className} italic` },
-] as const satisfies readonly {
-  id: string;
-  name: string;
-  font: string;
-  paper?: string;
-  ratio?: string;
-}[];
+] as const;
 
 /** Design `i`'s turn in the cycle (negative delays: all start at once). */
 const turn = (i: number, animation: string): CSSProperties => ({
@@ -89,35 +65,16 @@ export default async function PhoneMockup() {
           >
             <div
               className="absolute inset-0 motion-reduce:!animate-none"
-              style={{
-                ...turn(i, "mock-zoom"),
-                backgroundColor: "paper" in d ? d.paper : undefined,
-              }}
+              style={turn(i, "mock-zoom")}
             >
-              {"paper" in d ? (
-                // Its own box, so the shot's top and bottom fade into the paper.
-                <div
-                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 [mask-image:linear-gradient(transparent,black_12%,black_88%,transparent)]"
-                  style={{ aspectRatio: d.ratio }}
-                >
-                  <Image
-                    src={designPreview(d.id)}
-                    alt=""
-                    fill
-                    sizes="260px"
-                    className="object-cover"
-                  />
-                </div>
-              ) : (
-                <Image
-                  src={designPreview(d.id)}
-                  alt=""
-                  fill
-                  sizes="260px"
-                  priority={i === 0}
-                  className="object-cover"
-                />
-              )}
+              <Image
+                src={designPreview(d.id)}
+                alt=""
+                fill
+                sizes="260px"
+                priority={i === 0}
+                className="object-cover"
+              />
             </div>
           </div>
         ))}
@@ -169,7 +126,10 @@ export default async function PhoneMockup() {
           </span>
         </div>
       </FloatingCard>
-      <FloatingCard className="top-[45%] -left-10 sm:-left-20" delay="1.5s">
+      <FloatingCard
+        className="top-[29%] -left-10 sm:top-[36%] sm:-left-20"
+        delay="1.5s"
+      >
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-paper">
             <span aria-hidden className="flex h-3.5 items-end gap-[3px]">
