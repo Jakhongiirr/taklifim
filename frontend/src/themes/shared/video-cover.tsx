@@ -185,11 +185,13 @@ export default function VideoCover({
   return (
     <>
       {musicUrl && (
+        // Not preloaded: it would share a slow connection with the video,
+        // and the tap's play() starts streaming it within a second anyway.
         <audio
           ref={audio}
           src={musicUrl}
           loop
-          preload="auto"
+          preload="none"
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         />
