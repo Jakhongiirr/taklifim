@@ -91,6 +91,9 @@ export default function VideoCover({
     if (!el) return;
     el.src = src;
     if (whole) markReady();
+    // The video has the connection to itself first; then the music buffers
+    // too, so a tap starts both at once.
+    if (audio.current) audio.current.preload = "auto";
   });
 
   // Download the whole video while the guest reads the cover. If that
@@ -185,8 +188,8 @@ export default function VideoCover({
   return (
     <>
       {musicUrl && (
-        // Not preloaded: it would share a slow connection with the video,
-        // and the tap's play() starts streaming it within a second anyway.
+        // Preloaded only once the video is in (see `loaded`), so the two
+        // don't split a slow connection.
         <audio
           ref={audio}
           src={musicUrl}
