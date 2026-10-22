@@ -421,3 +421,18 @@ export const DESIGN_IDS = Object.keys(DESIGN_COPY).filter(
 
 /** A design's display name: its id, capitalised ("aurora" → "Aurora"). */
 export const designName = (id: string) => id[0].toUpperCase() + id.slice(1);
+
+// Designs with a demo shot of the invitation (public/themes/<id>/demo.jpg);
+// the rest are shown by the last frame of their opening video.
+const DEMO_SHOTS = new Set([
+  "arcade",
+  "aurora",
+  "dove",
+  "haven",
+  "paris",
+  "violet",
+]);
+
+/** A design's picture in the catalog. */
+export const designPreview = (id: string) =>
+  `/themes/${id}/${DEMO_SHOTS.has(id) ? "demo" : "opening-end"}.jpg`;

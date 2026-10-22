@@ -25,8 +25,6 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
     <article className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] bg-white shadow-[0_10px_30px_-18px_rgba(42,39,35,0.45)] ring-1 ring-line transition-shadow duration-300 hover:shadow-[0_22px_45px_-20px_rgba(42,39,35,0.5)] sm:rounded-[1.5rem]">
       <a
         href={demoUrl}
-        target="_blank"
-        rel="noopener noreferrer"
         className="relative block aspect-[9/14] overflow-hidden bg-cream"
         tabIndex={-1}
         aria-hidden
@@ -61,8 +59,6 @@ export default async function TemplateCard({ demo }: { demo: Demo }) {
           </Link>
           <a
             href={demoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
             className="inline-flex h-9 flex-1 items-center justify-center rounded-full border border-sage text-[13px] font-medium text-sage transition-colors hover:bg-sage hover:text-paper sm:h-10 sm:text-sm"
           >
             {t("view")}
