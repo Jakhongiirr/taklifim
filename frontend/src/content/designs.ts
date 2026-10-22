@@ -427,8 +427,10 @@ export const designName = (id: string) => id[0].toUpperCase() + id.slice(1);
 const DEMO_SHOTS = new Set([
   "arcade",
   "aurora",
+  "classic",
   "dove",
   "haven",
+  "lavel",
   "paris",
   "violet",
 ]);
