@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Taklifim — elektron taklifnomalar",
-    "description": "Toʻy va oilaviy marosimlar uchun goʻzal elektron taklifnomalar. Dizayn tanlang, telefoningizda yarating va bitta havola bilan ulashing."
+    "title": "Toʻy taklifnomasi onlayn — elektron taklifnoma yaratish | Taklifim",
+    "description": "Toʻy, nikoh va osh uchun onlayn taklifnoma yarating: videoli dizaynlar, musiqa, xarita va mehmonlar javoblari. Telegram orqali bitta havola bilan yuboring."
   },
   "Site": {
     "nav": {
@@ -158,6 +158,22 @@
       "q5": {
         "q": "Tugallanmagan qoralama nima boʻladi?",
         "a": "Oxirgi tahrirdan 7 kundan keyin qoralamaning suratlari avtomatik oʻchiriladi, qoralamaning oʻzi saqlanadi. Bir vaqtda 30 tagacha qoralama saqlash mumkin."
+      },
+      "q6": {
+        "q": "Elektron taklifnoma qogʻoz taklifnomadan nimasi bilan yaxshi?",
+        "a": "Elektron taklifnoma chop etish va tarqatishsiz bir zumda yetib boradi: mehmon havolani bosadi va videoli ochilish, musiqa, toʻy vaqti va xaritani koʻradi. Maʼlumot oʻzgarsa, uni tahrirlaysiz — qayta chop etish shart emas."
+      },
+      "q7": {
+        "q": "Mehmonlar kelish-kelmasligini qanday bilaman?",
+        "a": "Taklifnomada javob shakli bor: mehmon kelishini va necha kishi boʻlishini belgilaydi, tilak yozishi mumkin. Har bir javob Telegramingizga keladi, hammasi kabinetingizda bitta roʻyxatda turadi."
+      },
+      "q8": {
+        "q": "Taklifnomaga musiqa va suratlar qoʻshsa boʻladimi?",
+        "a": "Ha. 6 tagacha surat qoʻshing va roʻyxatdan kuy tanlang yoki oʻz musiqangizni yuklang — taklifnoma ochilganda u yangraydi."
+      },
+      "q9": {
+        "q": "Taklifnomani rasm yoki QR kod qilib yuklab olsa boʻladimi?",
+        "a": "Ha. Eʼlon qilingan taklifnomani PNG rasm sifatida yuklab, chop etishingiz yoki yuborishingiz mumkin. QR kodni esa taklifnoma ochiladigan qilib yuklab olasiz."
       }
     },
     "contact": {

@@ -12,15 +12,24 @@ export default async function SiteHeader() {
         <Link href="/" className="shrink-0">
           <Logo compact />
         </Link>
-        <nav className="ml-8 hidden gap-7 text-sm text-muted md:flex">
+        {/* Shown only where it fits on one line next to the buttons; the
+            footer has every link for smaller screens. */}
+        <nav className="ml-8 hidden gap-7 text-sm whitespace-nowrap text-muted lg:flex">
           <Link href="/#features" className="hover:text-ink">
             {t("nav.features")}
           </Link>
-          <Link href="/#templates" className="hover:text-ink">
+          <Link href="/designs" className="hover:text-ink">
             {t("nav.templates")}
           </Link>
-          <Link href="/#how" className="hover:text-ink">
+          {/* Makes room for the wording and articles links on wide screens. */}
+          <Link href="/#how" className="hover:text-ink xl:hidden">
             {t("nav.how")}
+          </Link>
+          <Link href="/wording" className="hidden hover:text-ink xl:inline">
+            {t("footer.wording")}
+          </Link>
+          <Link href="/articles" className="hidden hover:text-ink xl:inline">
+            {t("footer.articles")}
           </Link>
           <Link href="/#faq" className="hover:text-ink">
             {t("nav.faq")}

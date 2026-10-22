@@ -38,7 +38,17 @@ function evenColumns(count: number, options: number[], preferred: number) {
   }, preferred);
 }
 const STEPS = ["s1", "s2", "s3"] as const;
-const QUESTIONS = ["q1", "q2", "q3", "q4", "q5"] as const;
+const QUESTIONS = [
+  "q1",
+  "q2",
+  "q3",
+  "q4",
+  "q5",
+  "q6",
+  "q7",
+  "q8",
+  "q9",
+] as const;
 
 export async function generateMetadata({
   params,
@@ -76,6 +86,17 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
         description: tMeta("description"),
         inLanguage: locale,
         publisher: { "@id": `${SITE_URL}/#organization` },
+      },
+      // The FAQ below, so search results can show its questions.
+      {
+        "@type": "FAQPage",
+        "@id": `${SITE_URL}/${locale}#faq`,
+        inLanguage: locale,
+        mainEntity: QUESTIONS.map((key) => ({
+          "@type": "Question",
+          name: t(`faq.${key}.q`),
+          acceptedAnswer: { "@type": "Answer", text: t(`faq.${key}.a`) },
+        })),
       },
     ],
   };
