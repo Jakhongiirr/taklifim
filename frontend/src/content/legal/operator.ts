@@ -6,7 +6,7 @@ export const OPERATOR = {
   /** Taxpayer identification number (STIR / ИНН). */
   tin: "52607025380013",
   email: "jakhongir_ravshanov@icloud.com",
-  telegram: "@taklifim_admin",
+  telegram: "@taklifim_uz_admin",
   site: "taklifim.uz",
 };
 
