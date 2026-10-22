@@ -1,7 +1,7 @@
 {
   "Metadata": {
-    "title": "Taklifim — digital invitations",
-    "description": "Beautiful digital invitations for weddings and family celebrations. Pick a design, fill it in on your phone and share it with one link."
+    "title": "Online wedding invitations — create a digital invitation | Taklifim",
+    "description": "Create an online invitation for a wedding, nikah or osh: video designs, music, a map and guest RSVPs. Send it with one link on Telegram."
   },
   "Site": {
     "nav": {
@@ -158,6 +158,22 @@
       "q5": {
         "q": "What happens to an unfinished draft?",
         "a": "Drafts not edited for 7 days automatically lose their photos; the draft itself is kept. You can keep up to 30 drafts at a time."
+      },
+      "q6": {
+        "q": "Why choose a digital invitation over a paper one?",
+        "a": "A digital invitation arrives instantly, with no printing or delivery: guests open the link and see the video opening, music, time and map. If something changes, you just edit it, with nothing to reprint."
+      },
+      "q7": {
+        "q": "How do I know which guests are coming?",
+        "a": "The invitation has an RSVP form: guests say whether they're coming and how many people, and can leave a wish. Every reply reaches you on Telegram, and they're all listed in your account."
+      },
+      "q8": {
+        "q": "Can I add music and photos?",
+        "a": "Yes. Add up to 6 photos and pick a song from the list or upload your own; it plays when a guest opens the invitation."
+      },
+      "q9": {
+        "q": "Can I download the invitation as an image or QR code?",
+        "a": "Yes. A published invitation can be downloaded as a PNG image to print or forward, and as a QR code that opens the invitation."
       }
     },
     "contact": {
