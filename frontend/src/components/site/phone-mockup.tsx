@@ -21,16 +21,10 @@ const TURN = 4;
  * then sit above and below the middle, where the music card floats).
  */
 const DESIGNS = [
-  { id: "aurora", name: "Aurora", font: greatVibes.className },
-  {
-    id: "classic",
-    name: "Classic",
-    font: `${cormorant.className} italic`,
-    paper: "#f9f6ef",
-    ratio: "720/1019",
-  },
-  { id: "dove", name: "Dove", font: doveScript },
   { id: "haven", name: "Haven", font: prata.className },
+  { id: "aurora", name: "Aurora", font: greatVibes.className },
+  { id: "arcade", name: "Arcade", font: yeseva.className },
+  { id: "dove", name: "Dove", font: doveScript },
   {
     id: "lavel",
     name: "Lavel",
@@ -38,7 +32,13 @@ const DESIGNS = [
     paper: "#f4f1fa",
     ratio: "720/1000",
   },
-  { id: "arcade", name: "Arcade", font: yeseva.className },
+  {
+    id: "classic",
+    name: "Classic",
+    font: `${cormorant.className} italic`,
+    paper: "#f9f6ef",
+    ratio: "720/1019",
+  },
   { id: "violet", name: "Violet", font: marck.className },
   { id: "paris", name: "Paris", font: `${playfair.className} italic` },
 ] as const satisfies readonly {
