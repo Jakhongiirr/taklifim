@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { getTranslations } from "next-intl/server";
-import { designName } from "@/content/designs";
+import { designName, designPreview } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
 import { formatSum } from "@/lib/format";
 import { DESIGN_NAME_FONT } from "./design-fonts";
@@ -25,7 +25,7 @@ export default async function DesignCard({
     >
       <span className="relative block aspect-[4/5] overflow-hidden bg-cream">
         <Image
-          src={`/themes/${id}/opening-end.jpg`}
+          src={designPreview(id)}
           alt=""
           fill
           sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"

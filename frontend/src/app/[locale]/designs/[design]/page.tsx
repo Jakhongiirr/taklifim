@@ -186,12 +186,10 @@ export default async function DesignPage({
               {demo && (
                 <a
                   href={demoUrlFor(demo.demoUrl, locale)}
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className="inline-flex h-12 items-center justify-center gap-2 rounded-full border border-line px-7 font-medium text-ink transition-colors hover:border-ink/40"
                 >
                   {t("demo")}
-                  <span aria-hidden>↗</span>
+                  <span aria-hidden>→</span>
                 </a>
               )}
             </div>
