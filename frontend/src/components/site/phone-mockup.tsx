@@ -1,89 +1,53 @@
 import Image from "next/image";
 import type { CSSProperties, ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
+import { designPreview } from "@/content/designs";
 import { yeseva } from "@/themes/arcade/fonts";
 import { greatVibes } from "@/themes/aurora/fonts";
 import { marck } from "@/themes/violet/fonts";
 import { playfair } from "@/themes/paris/fonts";
 import { doveScript } from "@/themes/dove/fonts";
 import { prata } from "@/themes/haven/fonts";
+import { cormorant } from "@/themes/classic/fonts";
+import { lavelScript } from "@/themes/lavel/fonts";
 
 /** Seconds each design stays on the phone. */
 const TURN = 4;
 
 /**
- * The real designs, as their opened invitation's hero: the last frame of
- * the opening video, the names in the theme's typeface and colours.
+ * The real designs, as their demo shot (designPreview), the name under
+ * the phone in the theme's typeface. Shots wider than the screen are shown
+ * whole on their own paper colour instead of being cropped (their words
+ * then sit above and below the middle, where the music card floats).
  */
 const DESIGNS = [
+  { id: "haven", name: "Haven", font: prata.className },
+  { id: "aurora", name: "Aurora", font: greatVibes.className },
+  { id: "arcade", name: "Arcade", font: yeseva.className },
+  { id: "dove", name: "Dove", font: doveScript },
   {
-    name: "Aurora",
-    art: "/themes/aurora/opening-end.jpg",
-    bg: "#fbf6ec",
-    font: greatVibes.className,
-    names: "text-[2.4rem] leading-[1.05] text-[#7a5a2c]",
-    amp: "text-[#b08a4e]",
-    text: "text-[#5c4325]",
-    accent: "text-[#8a6a3a]",
-    line: "border-[#b08a4e]/50",
+    id: "lavel",
+    name: "Lavel",
+    font: lavelScript,
+    paper: "#f4f1fa",
+    ratio: "720/1000",
   },
   {
-    name: "Dove",
-    art: "/themes/dove/opening-end.jpg",
-    bg: "#fbf3ee",
-    font: doveScript,
-    names: "text-[2.3rem] leading-[1.05] text-[#6b3f4a]",
-    amp: "text-[#6f8597]",
-    text: "text-[#5a3e45]",
-    accent: "text-[#6b3f4a]",
-    line: "border-[#c98b8b]/60",
+    id: "classic",
+    name: "Classic",
+    font: `${cormorant.className} italic`,
+    paper: "#f9f6ef",
+    ratio: "720/1019",
   },
-  {
-    name: "Haven",
-    art: "/themes/haven/opening-end.jpg",
-    bg: "#f4efe6",
-    font: prata.className,
-    names: "text-[1.65rem] leading-[1.15] text-[#2f3a2c]",
-    amp: "text-[#b5707a]",
-    text: "text-[#2f3a2c]",
-    accent: "text-[#8a4f58]",
-    line: "border-[#2b2a28]/35",
-  },
-  {
-    name: "Arcade",
-    art: "/themes/arcade/opening-end.jpg",
-    bg: "#fdf8f4",
-    font: yeseva.className,
-    names: "text-[1.8rem] leading-[1.1] text-[#4d3a52]",
-    amp: "text-[#d27f93]",
-    text: "text-[#4d3a52]",
-    accent: "text-[#8a5a74]",
-    line: "border-[#d27f93]/50",
-  },
-  {
-    name: "Violet",
-    art: "/themes/violet/opening-end.jpg",
-    bg: "#1b1430",
-    font: marck.className,
-    names:
-      "text-[2.3rem] leading-[1.05] text-[#f7f2ff] [text-shadow:0_0_14px_rgba(185,156,232,0.9)]",
-    amp: "text-[#f5c27a]",
-    text: "text-[#f1ecfa]",
-    accent: "text-[#e6dcfa]",
-    line: "border-[#b79ce8]/50",
-  },
-  {
-    name: "Paris",
-    art: "/themes/paris/opening-end.jpg",
-    bg: "#fbf7f2",
-    font: `${playfair.className} italic`,
-    names: "text-[1.8rem] leading-[1.1] text-[#2c3550]",
-    amp: "text-[#b8925a]",
-    text: "text-[#2c3550]",
-    accent: "text-[#8a6d3f]",
-    line: "border-[#b8925a]/50",
-  },
-] as const;
+  { id: "violet", name: "Violet", font: marck.className },
+  { id: "paris", name: "Paris", font: `${playfair.className} italic` },
+] as const satisfies readonly {
+  id: string;
+  name: string;
+  font: string;
+  paper?: string;
+  ratio?: string;
+}[];
 
 /** Design `i`'s turn in the cycle (negative delays: all start at once). */
 const turn = (i: number, animation: string): CSSProperties => ({
@@ -93,7 +57,7 @@ const turn = (i: number, animation: string): CSSProperties => ({
 
 /**
  * The hero's sample: a phone showing the real designs in turn (each as
- * its opened invitation), a gold arch behind and two floating feature
+ * its demo shot), a gold arch behind and two floating feature
  * cards. With reduced motion the first design stays.
  */
 export default async function PhoneMockup() {
@@ -125,65 +89,41 @@ export default async function PhoneMockup() {
           >
             <div
               className="absolute inset-0 motion-reduce:!animate-none"
-              style={turn(i, "mock-zoom")}
-            >
-              <Image
-                src={d.art}
-                alt=""
-                fill
-                sizes="260px"
-                priority={i === 0}
-                className="object-cover"
-              />
-            </div>
-            <div
-              className="absolute inset-0"
               style={{
-                background: `linear-gradient(to bottom, transparent 28%, ${d.bg}d9 55%, ${d.bg} 68%)`,
+                ...turn(i, "mock-zoom"),
+                backgroundColor: "paper" in d ? d.paper : undefined,
               }}
-            />
-            <div className="absolute inset-x-0 bottom-0 flex flex-col items-center px-4 pb-7 text-center">
-              <p
-                className={`text-[8px] tracking-[0.3em] uppercase ${d.accent}`}
-              >
-                {t("invite")}
-              </p>
-              <p className={`mt-2 ${d.font} ${d.names}`}>
-                {t("groom")}
-                <span
-                  className={`my-0.5 block font-serif text-lg italic ${d.amp}`}
+            >
+              {"paper" in d ? (
+                // Its own box, so the shot's top and bottom fade into the paper.
+                <div
+                  className="absolute inset-x-0 top-1/2 -translate-y-1/2 [mask-image:linear-gradient(transparent,black_12%,black_88%,transparent)]"
+                  style={{ aspectRatio: d.ratio }}
                 >
-                  &amp;
-                </span>
-                {t("bride")}
-              </p>
-              <div
-                className={`mt-3 flex w-full items-center justify-center gap-2 ${d.text}`}
-              >
-                <span
-                  className={`flex h-7 flex-1 items-center justify-center border-y text-[7px] tracking-[0.15em] uppercase ${d.line}`}
-                >
-                  {t("weekday")}
-                </span>
-                <span className="font-serif text-[2rem] leading-none">
-                  {t("day")}
-                </span>
-                <span
-                  className={`flex h-7 flex-1 flex-col items-center justify-center border-y text-[7px] leading-tight tracking-[0.15em] uppercase ${d.line}`}
-                >
-                  {t("month")}
-                  <span>{t("year")}</span>
-                </span>
-              </div>
-              <p className={`mt-1.5 font-serif text-xs ${d.text}`}>
-                {t("time")}
-              </p>
+                  <Image
+                    src={designPreview(d.id)}
+                    alt=""
+                    fill
+                    sizes="260px"
+                    className="object-cover"
+                  />
+                </div>
+              ) : (
+                <Image
+                  src={designPreview(d.id)}
+                  alt=""
+                  fill
+                  sizes="260px"
+                  priority={i === 0}
+                  className="object-cover"
+                />
+              )}
             </div>
           </div>
         ))}
       </Phone>
 
-      {/* Which design is on: its name over three dots. */}
+      {/* Which design is on: its name over a dot each. */}
       <div aria-hidden className="mt-5 flex flex-col items-center gap-2">
         <span className="relative h-5 w-24">
           {DESIGNS.map((d, i) => (
@@ -229,10 +169,7 @@ export default async function PhoneMockup() {
           </span>
         </div>
       </FloatingCard>
-      <FloatingCard
-        className="top-[29%] -left-10 sm:top-[36%] sm:-left-20"
-        delay="1.5s"
-      >
+      <FloatingCard className="top-[45%] -left-10 sm:-left-20" delay="1.5s">
         <div className="flex items-center gap-2.5">
           <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-sage text-paper">
             <span aria-hidden className="flex h-3.5 items-end gap-[3px]">
