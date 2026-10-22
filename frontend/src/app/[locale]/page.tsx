@@ -119,10 +119,8 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                 </a>
               </div>
               <p className="mt-4 text-sm text-muted">{t("hero.note")}</p>
-              <p className="mt-2 flex items-center gap-1.5 text-sm text-muted">
-                <span className="flex size-5 shrink-0 items-center justify-center rounded-full bg-[#2aabee] text-white">
-                  <TelegramIcon className="size-3 -translate-x-px" />
-                </span>
+              <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted">
+                <TelegramIcon className="size-3.5 shrink-0 text-gold" />
                 <span>
                   {t.rich("hero.ask", {
                     link: (chunks) => (
@@ -130,7 +128,7 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
                         href={TELEGRAM_URL}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-medium text-ink underline decoration-line underline-offset-4 transition-colors hover:text-sage hover:decoration-sage"
+                        className="text-sage underline decoration-sage/30 underline-offset-4 transition-colors hover:decoration-sage"
                       >
                         {chunks}
                       </a>
