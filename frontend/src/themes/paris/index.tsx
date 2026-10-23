@@ -145,8 +145,8 @@ export default async function ParisTheme({
                 className={`${playfair.className} text-[6.4cqw] leading-tight text-[#2c3550] italic`}
               >
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-[3.5cqw] font-serif text-[4.4cqw] leading-relaxed">
                 {tw("text", {

@@ -50,7 +50,9 @@ export default async function PlainInvitation({
       )}
 
       <Section
-        title={guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+        title={
+          guest ? tw("greetingNamed", { name: guest.name }) : tw("greeting")
+        }
       >
         <p>
           {tw("text", { groom: taklif.groomName, bride: taklif.brideName })}
