@@ -669,6 +669,18 @@
       "postpone": "Sana allaqachon 5 marta oʻzgartirilgan, uni boshqa oʻzgartirib boʻlmaydi.",
       "eventRange": "Bugundan {date} gacha boʻlgan sanani tanlang."
     },
+    "draft": {
+      "restored": "Oxirgi marta kiritgan maʼlumotlaringiz qayta toʻldirildi.",
+      "discard": "Boshidan boshlash",
+      "restoredEdit": "Saqlanmagan oʻzgarishlaringiz qayta toʻldirildi.",
+      "discardEdit": "Oʻzgarishlarni bekor qilish",
+      "discardTitle": "Boshidan boshlaysizmi?",
+      "discardText": "Kiritgan maʼlumotlaringiz, suratlar va musiqa oʻchiriladi.",
+      "discardEditTitle": "Oʻzgarishlar bekor qilinsinmi?",
+      "discardEditText": "Taklifnoma oxirgi saqlangan holiga qaytadi.",
+      "discardConfirm": "Ha",
+      "discardCancel": "Yoʻq"
+    },
     "leave": {
       "title": "Oʻzgarishlar saqlanmagan",
       "text": "Kiritgan maʼlumotlaringiz saqlanmaydi. Baribir chiqasizmi?",

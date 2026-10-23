@@ -666,6 +666,18 @@
       "postpone": "The date has already been changed 5 times and can't be changed again.",
       "eventRange": "Choose a date from now up to {date}."
     },
+    "draft": {
+      "restored": "We filled in what you entered last time.",
+      "discard": "Start over",
+      "restoredEdit": "We brought back your unsaved changes.",
+      "discardEdit": "Discard changes",
+      "discardTitle": "Start over?",
+      "discardText": "What you entered, photos and music included, will be cleared.",
+      "discardEditTitle": "Discard your changes?",
+      "discardEditText": "The invitation goes back to its last saved version.",
+      "discardConfirm": "Yes",
+      "discardCancel": "No"
+    },
     "leave": {
       "title": "Unsaved changes",
       "text": "What you've entered won't be saved. Leave anyway?",
