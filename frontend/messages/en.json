@@ -517,6 +517,7 @@
     },
     "preview": {
       "back": "My account",
+      "backAdmin": "Admin",
       "edit": "Edit",
       "label": "Preview",
       "readyTitle": "Your invitation is ready!",

@@ -90,6 +90,17 @@ export async function api<T>(
   );
 }
 
+/**
+ * A GET like `api`, for pages anyone can open: a visitor who isn't signed in
+ * (or may not see it) gets null instead of being sent to the login page.
+ */
+export async function apiIfAllowed<T>(path: string): Promise<T | null> {
+  const send = () => fetch(`/api/backend${path}`);
+  let res = await send();
+  if (res.status === 401 && (await refreshSession())) res = await send();
+  return res.ok ? parse<T>(res) : null;
+}
+
 /** Calls a Next.js auth route (/api/auth/...). */
 export async function authApi<T>(path: string, json?: unknown): Promise<T> {
   const res = await fetch(`/api/auth${path}`, {
