@@ -449,7 +449,7 @@
     "wedding": {
       "metaTitle": "{names} — wedding invitation",
       "invite": "We invite you to our wedding",
-      "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
+      "text": "The happiest and most long-awaited day is approaching for our two families — the wedding of {groom} and {bride}.\n\nIt would be our greatest pleasure to celebrate this special day with you, surrounded by our beloved family and dear friends, as two hearts begin their life together.",
       "dateTitle": "Wedding date",
       "countdownTitle": "Time until the wedding",
       "countdownPassed": "The wedding has taken place. Thank you for being with us!",
@@ -457,9 +457,9 @@
       "lavelCeremony": "Wedding celebration",
       "plovOccasion": "In honour of the wedding",
       "plovText": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
-      "greeting": "Dear guest!",
-      "greetingNamed": "Dear {name}!",
-      "signature": "With respect, {host}"
+      "greeting": "Dear Valued Guest,",
+      "greetingNamed": "Dear {name},",
+      "signature": "With warm regards, {host}"
     },
     "fotiha": {
       "metaTitle": "{names} — fotiha invitation",

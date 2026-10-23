@@ -452,7 +452,7 @@
     "wedding": {
       "metaTitle": "{names} — toʻyga taklifnoma",
       "invite": "Sizni toʻyimizga taklif qilamiz",
-      "text": "Hayotimizning eng quvonchli kunida yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning nikoh toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
+      "text": "Hayotimizdagi eng quvonchli va unutilmas kun — {groom} va {bride}ning nikoh toʻyi yaqinlashmoqda.\n\nUshbu qutlugʻ kunda quvonchimizga sherik boʻlib, yangi oila qurilishi shodiyonasini qadrli yaqinlarimiz davrasida, Siz bilan birga nishonlashdan mamnun boʻlamiz.",
       "dateTitle": "Toʻy sanasi",
       "countdownTitle": "Toʻygacha qoldi",
       "countdownPassed": "Toʻy boʻlib oʻtdi. Tashrifingiz uchun rahmat!",
@@ -460,9 +460,9 @@
       "lavelCeremony": "Nikoh toʻyi tantanasi",
       "plovOccasion": "Nikoh toʻyi munosabati bilan",
       "plovText": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
-      "greeting": "Hurmatli mehmon!",
-      "greetingNamed": "Hurmatli {name}!",
-      "signature": "Hurmat bilan, {host}"
+      "greeting": "Qadrli va aziz mehmonimiz!",
+      "greetingNamed": "Qadrli va aziz {name}!",
+      "signature": "Hurmat va ehtirom ila, {host}"
     },
     "fotiha": {
       "metaTitle": "{names} — fotiha toʻyiga taklifnoma",
