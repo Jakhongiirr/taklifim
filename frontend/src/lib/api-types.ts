@@ -66,7 +66,7 @@ export type DemoStatus = "active" | "archived" | "all";
 export type TaklifStatus = "draft" | "published" | "unpublished";
 
 /** What the invitation is for: picks its wording, not its design. */
-export type Occasion = "wedding" | "fotiha";
+export type Occasion = "wedding" | "fotiha" | "plov";
 
 /** An invitation. */
 export interface Taklif {

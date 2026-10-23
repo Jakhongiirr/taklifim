@@ -600,7 +600,8 @@
     },
     "occasions": {
       "wedding": "Wedding",
-      "fotiha": "Fotiha (engagement)"
+      "fotiha": "Fotiha (engagement)",
+      "plov": "Morning plov"
     },
     "letterModes": {
       "default": "Ready-made",
@@ -704,7 +705,8 @@
         "hostHint": "For example: the Karimov family — the invitation comes from them",
         "eventAt": "Plov date and time",
         "eventHint": "Tashkent time. A morning plov is usually served early, e.g. at 06:00",
-        "venueName": "Plov venue"
+        "venueName": "Plov venue",
+        "occasionHint": "The plov design is only for a plov, so this can't change"
       }
     },
     "fotiha": {

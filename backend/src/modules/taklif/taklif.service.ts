@@ -49,6 +49,7 @@ import { generateSlug } from './slug';
 import { TaklifPhoto } from './taklif-photo.entity';
 import { TaklifResponse } from './taklif-response.entity';
 import { TaklifStatus } from './taklif-status.enum';
+import { resolveOccasion } from './occasion';
 import { Taklif } from './taklif.entity';
 
 const RELATIONS = {
@@ -108,7 +109,8 @@ export class TaklifService {
     if (fields.musicId && customMusicId) throw bothMusic();
     if (fields.musicId) await this.assertMusic(fields.musicId);
     if (customMusicId) await this.assertCustomMusic(customMusicId, user);
-    await this.assertTheme(fields.themeId);
+    const theme = await this.assertTheme(fields.themeId);
+    const occasion = resolveOccasion(theme.themeId, fields.occasion);
     await this.assertPhotos(photoIds, user);
 
     for (let attempt = 1; ; attempt++) {
@@ -119,6 +121,7 @@ export class TaklifService {
             const { id } = await manager.save(
               manager.create(Taklif, {
                 ...fields,
+                occasion,
                 eventAt: new Date(eventAt),
                 musicId: fields.musicId ?? null,
                 customMusicFileId: customMusicId ?? null,
@@ -208,8 +211,18 @@ export class TaklifService {
       if (taklif.paidAt && !isAdmin(user)) {
         throw new ConflictException("A paid invitation's design can't change");
       }
-      await this.assertTheme(changes.themeId);
     }
+    // The plov design is always a plov; leaving it makes a wedding.
+    const theme = changes.themeId
+      ? await this.assertTheme(changes.themeId)
+      : taklif.theme;
+    const occasion = resolveOccasion(
+      theme.themeId,
+      rest.occasion,
+      taklif.occasion,
+    );
+    if (occasion !== taklif.occasion) changes.occasion = occasion;
+    else delete changes.occasion;
 
     const currentIds = taklif.photos.map((photo) => photo.fileId);
     const photosChanged =
@@ -600,11 +613,12 @@ export class TaklifService {
     }
   }
 
-  private async assertTheme(id: string) {
+  private async assertTheme(id: string): Promise<Theme> {
     const theme = await this.themes.findOneBy({ id });
     if (!theme || theme.archivedAt) {
       throw new BadRequestException('themeId must be an active theme');
     }
+    return theme;
   }
 
   /** Images only; users can only attach files they uploaded. */

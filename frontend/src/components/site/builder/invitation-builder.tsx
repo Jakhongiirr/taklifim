@@ -163,6 +163,12 @@ function Builder({
   // The plov design is an osh, not a wedding party: its own wording.
   const osh =
     designs.find((design) => design.id === fields.themeId)?.key === "plov";
+  // The plov design is always a plov, and only it is (the backend agrees).
+  const occasion: Occasion = osh
+    ? "plov"
+    : fields.occasion === "plov"
+      ? "wedding"
+      : fields.occasion;
   // The event's time of day, kept while no date is picked yet: weddings
   // usually start in the evening, so a new invitation starts at 18:00 (an
   // osh at 06:00).
@@ -232,7 +238,7 @@ function Builder({
         ) {
           next.themeId = current.themeId;
         }
-        if (!OCCASIONS.includes(next.occasion))
+        if (![...OCCASIONS, "plov"].includes(next.occasion))
           next.occasion = current.occasion;
         if (!LETTER_MODES.includes(next.letterMode))
           next.letterMode = current.letterMode;
@@ -401,7 +407,7 @@ function Builder({
       bride: fields.brideName.trim() || "…",
     };
     return tInvitation(
-      `${fields.occasion}.${osh ? "plovText" : "text"}`,
+      `${occasion === "fotiha" ? "fotiha" : "wedding"}.${osh ? "plovText" : "text"}`,
       names,
     );
   }
@@ -561,7 +567,7 @@ function Builder({
         brideName: fields.brideName.trim(),
         groomName: fields.groomName.trim(),
         hostName: fields.hostName.trim(),
-        occasion: fields.occasion,
+        occasion,
         letterText: ownLetter,
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
@@ -692,7 +698,7 @@ function Builder({
           title={t(
             osh
               ? "osh.sections.event"
-              : fields.occasion === "fotiha"
+              : occasion === "fotiha"
                 ? "fotiha.sections.event"
                 : "sections.event",
           )}
@@ -707,21 +713,22 @@ function Builder({
               aria-labelledby="occasion-label"
               className="grid grid-cols-2 gap-2"
             >
-              {OCCASIONS.map((occasion) => (
+              {(osh ? (["plov"] as const) : OCCASIONS).map((option) => (
                 <button
-                  key={occasion}
+                  key={option}
                   type="button"
                   role="radio"
-                  aria-checked={fields.occasion === occasion}
-                  onClick={() => set("occasion", occasion)}
-                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${fields.occasion === occasion ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"}`}
+                  aria-checked={occasion === option}
+                  aria-disabled={osh}
+                  onClick={() => !osh && set("occasion", option)}
+                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${occasion === option ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"} ${osh ? "col-span-2 cursor-default" : ""}`}
                 >
-                  {t(`occasions.${occasion}`)}
+                  {t(`occasions.${option}`)}
                 </button>
               ))}
             </div>
             <span className="text-sm text-muted">
-              {t("fields.occasionHint")}
+              {t(osh ? "osh.fields.occasionHint" : "fields.occasionHint")}
             </span>
           </div>
           <div className="flex flex-col gap-2">

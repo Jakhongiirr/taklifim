@@ -603,7 +603,8 @@
     },
     "occasions": {
       "wedding": "Nikoh toʻyi",
-      "fotiha": "Fotiha toʻyi"
+      "fotiha": "Fotiha toʻyi",
+      "plov": "Nahorgi osh"
     },
     "letterModes": {
       "default": "Tayyor matn",
@@ -707,7 +708,8 @@
         "hostHint": "Masalan: Karimovlar oilasi — taklif shu nomdan boʻladi",
         "eventAt": "Osh sanasi va vaqti",
         "eventHint": "Toshkent vaqti bilan. Nahorgi osh odatda erta tongda, masalan 06:00 da",
-        "venueName": "Osh beriladigan joy"
+        "venueName": "Osh beriladigan joy",
+        "occasionHint": "Osh dizayni faqat osh uchun: marosimni oʻzgartirib boʻlmaydi"
       }
     },
     "fotiha": {
