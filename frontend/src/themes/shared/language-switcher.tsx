@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
+import { LOCALE_LABELS, LOCALE_NAMES, routing } from "@/i18n/routing";
 
 /**
  * Lets guests pick the language of the invitation's fixed wording (cover,
@@ -33,13 +33,13 @@ export default function LanguageSwitcher({
           href={pathname}
           locale={l}
           lang={l}
-          title={t("locale", { locale: l })}
+          title={LOCALE_NAMES[l]}
           replace
           scroll={false}
           aria-current={l === locale ? "true" : undefined}
           className={`flex h-8 min-w-9 items-center justify-center rounded-full px-2 transition-colors ${l === locale ? colors.on : "hover:bg-current/10"}`}
         >
-          {l}
+          {LOCALE_LABELS[l]}
         </Link>
       ))}
     </nav>

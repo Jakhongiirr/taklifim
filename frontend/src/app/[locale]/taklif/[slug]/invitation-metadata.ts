@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { PublicTaklif } from "@/lib/api-types";
 import { coupleNames } from "@/lib/format";
 import { INVITATION_OG_IMAGES } from "@/lib/seo";
 import { tashkentParts } from "@/lib/tashkent-date";
+import { cyrillicOwnerText } from "@/lib/uz-cyrillic";
 import { occasionMessages } from "@/themes/shared/occasion";
 
 /**
@@ -14,10 +15,12 @@ import { occasionMessages } from "@/themes/shared/occasion";
 export async function invitationMetadata(
   taklif: PublicTaklif,
 ): Promise<Metadata> {
-  const [t, tDates] = await Promise.all([
+  const [t, tDates, locale] = await Promise.all([
     getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
+    getLocale(),
   ]);
+  if (locale === "uz-Cyrl") taklif = cyrillicOwnerText(taklif);
   const months = tDates.raw("months") as string[];
   const { year, month, day, time } = tashkentParts(taklif.eventAt);
   const title = t("metaTitle", {

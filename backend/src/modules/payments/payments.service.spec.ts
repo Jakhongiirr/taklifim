@@ -97,6 +97,19 @@ describe('PaymentsService.checkout', () => {
     expect(manager.update).not.toHaveBeenCalled();
   });
 
+  it('opens Payme in Uzbek for the Cyrillic site, back to the Cyrillic cabinet', async () => {
+    const { service } = setup(150_000);
+    const { url } = await service.checkout(
+      'taklif-1',
+      { lang: 'uz-Cyrl' },
+      user,
+    );
+    const params = Buffer.from(url!.split('/').pop()!, 'base64').toString();
+    expect(params).toContain('l=uz');
+    expect(params).not.toContain('l=uz-Cyrl');
+    expect(params).toContain('c=https://taklifim.uz/uz-Cyrl/cabinet#paid-a-b');
+  });
+
   it('publishes a plov draft with a gift instead of paying', async () => {
     const { service, manager, orders, giftsService } = setup(150_000, {
       themeId: 'plov',

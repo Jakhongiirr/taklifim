@@ -10,8 +10,8 @@ import WordingNudge from "@/components/site/wording/wording-nudge";
 import WordingWhy from "@/components/site/wording/wording-why";
 import { WORDING, WORDING_TOPICS } from "@/content/wording";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
+import { inLocale } from "@/lib/uz-cyrillic";
 
 // Only the topics in content/wording.ts have a page.
 export const dynamicParams = false;
@@ -20,8 +20,7 @@ export function generateStaticParams() {
   return WORDING_TOPICS.map((topic) => ({ topic }));
 }
 
-const topicFor = (id: string, locale: string) =>
-  WORDING[id][locale] ?? WORDING[id][routing.defaultLocale];
+const topicFor = (id: string, locale: string) => inLocale(WORDING[id], locale);
 
 export async function generateMetadata({
   params,

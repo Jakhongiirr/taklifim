@@ -1,3 +1,5 @@
+import { getLocale } from "next-intl/server";
+import { cyrillicOwnerText, toCyrillic } from "@/lib/uz-cyrillic";
 import ArcadeTheme from "./arcade";
 import AuroraTheme from "./aurora";
 import ClassicTheme from "./classic";
@@ -88,7 +90,17 @@ const SWITCHER: Record<string, SwitcherColors> = {
  * plain layout, so an invitation always renders. Guests switch the language
  * of its fixed wording themselves.
  */
-export function ThemedInvitation({ taklif, preview, guest }: ThemeProps) {
+export async function ThemedInvitation({
+  taklif,
+  preview,
+  guest,
+}: ThemeProps) {
+  // In Uzbek Cyrillic, what the owner wrote in Latin Uzbek shows in Cyrillic
+  // too, so "{groom} ва {bride}нинг" reads in one script.
+  if ((await getLocale()) === "uz-Cyrl") {
+    taklif = cyrillicOwnerText(taklif);
+    if (guest) guest = { ...guest, name: toCyrillic(guest.name) };
+  }
   const Theme = THEMES[taklif.theme.themeId] ?? PlainInvitation;
   return (
     <>

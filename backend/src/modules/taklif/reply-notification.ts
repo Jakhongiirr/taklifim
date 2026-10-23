@@ -25,6 +25,12 @@ const TEXT: Record<
     notComing: '❌ Kela olmaydi',
     all: 'Barcha javoblar',
   },
+  'uz-Cyrl': {
+    title: '💌 Таклифномангизга янги жавоб',
+    coming: (guests) => `✅ Келади, ${guests} киши`,
+    notComing: '❌ Кела олмайди',
+    all: 'Барча жавоблар',
+  },
   ru: {
     title: '💌 Новый ответ на ваше приглашение',
     coming: (guests) => `✅ Придёт, человек: ${guests}`,

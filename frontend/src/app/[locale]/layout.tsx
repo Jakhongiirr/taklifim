@@ -31,6 +31,7 @@ const cormorant = Cormorant_Garamond({
 
 const OG_LOCALES: Record<string, string> = {
   uz: "uz_UZ",
+  "uz-Cyrl": "uz_UZ",
   ru: "ru_RU",
   en: "en_US",
 };

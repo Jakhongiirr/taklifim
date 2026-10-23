@@ -103,7 +103,7 @@
       },
       "languages": {
         "title": "Three languages",
-        "text": "Guests choose Uzbek, Russian or English."
+        "text": "Guests choose Uzbek (Latin or Cyrillic), Russian or English."
       },
       "edit": {
         "title": "Edit any time",
@@ -311,8 +311,7 @@
     }
   },
   "LocaleSwitcher": {
-    "label": "Language",
-    "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Unknown}}"
+    "label": "Language"
   },
   "NotFound": {
     "title": "Page not found",

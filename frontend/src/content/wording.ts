@@ -340,7 +340,7 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
         heading: "Ota-onalar uchun onlayn taklifnoma",
         paragraphs: [
           "Yuzlab mehmonga qogʻoz taklifnoma tarqatish ota-onaga eng koʻp vaqt oladigan ishlardan biri. Onlayn toʻy taklifnomasini esa bir marta yaratasiz va qarindoshlar, qoʻshnilar, hamkasblarga bir zumda yuborasiz.",
-          "Taklifim.uz’dagi taklifnoma keksa mehmonlar uchun ham qulay: hech narsa oʻrnatish shart emas, havolani bosish kifoya. Mehmonlar oʻzbek, rus yoki ingliz tilini tanlaydi, toʻyxona esa xaritada koʻrinadi.",
+          "Taklifim.uz’dagi taklifnoma keksa mehmonlar uchun ham qulay: hech narsa oʻrnatish shart emas, havolani bosish kifoya. Mehmonlar oʻzbek (lotin yoki kirill), rus yoki ingliz tilini tanlaydi, toʻyxona esa xaritada koʻrinadi.",
         ],
         list: [
           "Har bir mehmonga ismli havola — «Hurmatli Karim aka» deb kutib oladi.",
@@ -420,7 +420,7 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
         heading: "Онлайн-приглашение для родителей",
         paragraphs: [
           "Раздать бумажные пригласительные сотням гостей — одна из самых долгих забот родителей. Онлайн-приглашение на свадьбу создаётся один раз и за минуту уходит родственникам, соседям и коллегам.",
-          "Приглашение на Taklifim.uz удобно и старшим гостям: ничего не нужно устанавливать, достаточно нажать на ссылку. Гости выбирают узбекский, русский или английский язык, а зал видно на карте.",
+          "Приглашение на Taklifim.uz удобно и старшим гостям: ничего не нужно устанавливать, достаточно нажать на ссылку. Гости выбирают узбекский (латиница или кириллица), русский или английский язык, а зал видно на карте.",
         ],
         list: [
           "Именная ссылка для каждого гостя — приглашение обращается к нему по имени.",
@@ -500,7 +500,7 @@ export const WORDING: Record<string, Record<string, WordingTopic>> = {
         heading: "Online invitations for parents",
         paragraphs: [
           "Handing out paper invitations to hundreds of guests is one of the biggest jobs for the parents. An online wedding invitation is made once and reaches relatives, neighbours and colleagues in a minute.",
-          "A Taklifim.uz invitation is easy for older guests too: there's nothing to install, they just tap the link. Guests choose Uzbek, Russian or English, and the venue is on a map.",
+          "A Taklifim.uz invitation is easy for older guests too: there's nothing to install, they just tap the link. Guests choose Uzbek (Latin or Cyrillic), Russian or English, and the venue is on a map.",
         ],
         list: [
           "A named link for each guest — the invitation greets them by name.",
