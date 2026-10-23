@@ -14,6 +14,8 @@ const SUBSETS = [
   { file: "latin", name: "Cormorant" },
   { file: "latin-ext", name: "CormorantExt" },
   { file: "cyrillic", name: "CormorantCyr" },
+  // ғ, қ, ҳ of Uzbek in Cyrillic.
+  { file: "cyrillic-ext", name: "CormorantCyrExt" },
 ] as const;
 
 /** `fontFamily` for preview images: all Cormorant subsets in order. */
@@ -64,7 +66,10 @@ const EXTRA_FONTS = {
     name: "GreatVibes",
     subsets: ["latin", "latin-ext", "cyrillic"],
   },
-  forum: { name: "Forum", subsets: ["latin", "latin-ext", "cyrillic"] },
+  forum: {
+    name: "Forum",
+    subsets: ["latin", "latin-ext", "cyrillic", "cyrillic-ext"],
+  },
 } as const;
 
 type ExtraFont = keyof typeof EXTRA_FONTS;

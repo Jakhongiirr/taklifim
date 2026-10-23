@@ -1,6 +1,6 @@
 import { IsIn } from 'class-validator';
 
-export const CHECKOUT_LANGS = ['uz', 'ru', 'en'] as const;
+export const CHECKOUT_LANGS = ['uz', 'uz-Cyrl', 'ru', 'en'] as const;
 
 export class CheckoutDto {
   /** The language of Payme's checkout page and of the page it returns to. */

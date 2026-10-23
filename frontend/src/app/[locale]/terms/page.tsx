@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import LegalPage from "@/components/site/legal-page";
 import { TERMS } from "@/content/legal/terms";
-import { routing } from "@/i18n/routing";
 import { localeAlternates } from "@/lib/seo";
+import { inLocale } from "@/lib/uz-cyrillic";
 
-const docFor = (locale: string) =>
-  TERMS[locale] ?? TERMS[routing.defaultLocale];
+const docFor = (locale: string) => inLocale(TERMS, locale);
 
 export async function generateMetadata({
   params,

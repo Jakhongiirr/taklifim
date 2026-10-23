@@ -1,6 +1,7 @@
-export type BotLocale = 'uz' | 'ru' | 'en';
+/** The site's locales; uz-Cyrl is Uzbek in Cyrillic. */
+export type BotLocale = 'uz' | 'uz-Cyrl' | 'ru' | 'en';
 
-export const BOT_LOCALES: readonly BotLocale[] = ['uz', 'ru', 'en'];
+export const BOT_LOCALES: readonly BotLocale[] = ['uz', 'uz-Cyrl', 'ru', 'en'];
 
 /** What the login bot says. `{site}` is the site's address. */
 export const BOT_MESSAGES: Record<
@@ -27,6 +28,19 @@ export const BOT_MESSAGES: Record<
       'Bu havola boshqa Telegram akkauntidan ochilgan. Saytda qaytadan boshlang.',
     welcome:
       'Bu bot orqali {site} saytiga kirasiz. Saytdagi kirish sahifasini oching va «Telegram orqali kirish» tugmasini bosing.',
+  },
+  'uz-Cyrl': {
+    askContact:
+      'Сиз {site} сайтига киряпсиз. Телефон рақамингизни юбориш учун қуйидаги тугмани босинг.\n\nАгар бу ҳаволани {site} сайтида ўзингиз очмаган бўлсангиз, рақамингизни юборманг.',
+    shareButton: '📱 Рақамни юбориш',
+    done: '✅ Тайёр! Сайтга қайтинг — сиз тизимга кирдингиз.',
+    expired:
+      'Бу кириш ҳаволасининг муддати тугаган. Сайтга қайтиб, «Телеграм орқали кириш» тугмасини қайта босинг.',
+    notOwn: 'Илтимос, қуйидаги тугма орқали ўз рақамингизни юборинг.',
+    otherAccount:
+      'Бу ҳавола бошқа Телеграм аккаунтидан очилган. Сайтда қайтадан бошланг.',
+    welcome:
+      'Бу бот орқали {site} сайтига кирасиз. Сайтдаги кириш саҳифасини очинг ва «Телеграм орқали кириш» тугмасини босинг.',
   },
   ru: {
     askContact:

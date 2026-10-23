@@ -103,7 +103,7 @@
       },
       "languages": {
         "title": "Uch tilda",
-        "text": "Mehmonlar oʻzbek, rus yoki ingliz tilini tanlaydi."
+        "text": "Mehmonlar oʻzbek (lotin yoki kirill), rus yoki ingliz tilini tanlaydi."
       },
       "edit": {
         "title": "Istalgan payt tahrirlash",
@@ -314,8 +314,7 @@
     }
   },
   "LocaleSwitcher": {
-    "label": "Til",
-    "locale": "{locale, select, uz {Oʻzbekcha} ru {Русский} en {English} other {Nomaʼlum}}"
+    "label": "Til"
   },
   "NotFound": {
     "title": "Sahifa topilmadi",

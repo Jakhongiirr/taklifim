@@ -1,4 +1,5 @@
 import { Forum, Great_Vibes, Parisienne } from "next/font/google";
+import { scriptExt } from "../shared/cyrillic-ext-fonts";
 
 /** A romantic, flowing script for the names (Latin only). */
 const parisienne = Parisienne({
@@ -20,10 +21,16 @@ const greatVibesCyrillic = Great_Vibes({
   display: "swap",
   preload: false,
   variable: "--font-dove-script-cyr",
+  // Nor in this one, so the ғ, қ, ҳ of Uzbek reach Bad Script.
+  adjustFontFallback: false,
+  fallback: [],
 });
 
-/** Classes for the names' script: Parisienne, Great Vibes for Cyrillic. */
-export const doveScript = `${parisienne.variable} ${greatVibesCyrillic.variable} [font-family:var(--font-dove-script),var(--font-dove-script-cyr),cursive]`;
+/**
+ * Classes for the names' script: Parisienne, Great Vibes for Cyrillic, Bad
+ * Script for the ғ, қ, ҳ of Uzbek.
+ */
+export const doveScript = `${parisienne.variable} ${greatVibesCyrillic.variable} ${scriptExt.variable} [font-family:var(--font-dove-script),var(--font-dove-script-cyr),var(--font-cyr-ext-script),cursive]`;
 
 /** Classical capitals, like the arches' inscriptions, for headings. */
 export const forum = Forum({

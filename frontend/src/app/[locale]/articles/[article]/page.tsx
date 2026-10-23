@@ -6,8 +6,8 @@ import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { ARTICLE_IDS, ARTICLES, readingMinutes } from "@/content/articles";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
+import { inLocale } from "@/lib/uz-cyrillic";
 
 // Only the articles in content/articles.ts have a page.
 export const dynamicParams = false;
@@ -17,7 +17,7 @@ export function generateStaticParams() {
 }
 
 const articleFor = (id: string, locale: string) =>
-  ARTICLES[id].text[locale] ?? ARTICLES[id].text[routing.defaultLocale];
+  inLocale(ARTICLES[id].text, locale);
 
 export async function generateMetadata({
   params,

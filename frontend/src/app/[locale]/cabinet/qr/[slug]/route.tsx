@@ -6,6 +6,7 @@ import { cardAssets, QR_CARD_SIZE, QrCard } from "@/lib/og/card";
 import { SITE_URL } from "@/lib/seo";
 import { getTaklifPreview } from "@/lib/server/taklif";
 import { tashkentParts } from "@/lib/tashkent-date";
+import { cyrillicOwnerText } from "@/lib/uz-cyrillic";
 
 // The invitation's QR code as a PNG the owner can print or put on a screen:
 // the names and date on the shared card background (lib/og/card) around a
@@ -21,8 +22,10 @@ export async function GET(
 ) {
   const { locale: raw, slug } = await ctx.params;
   const locale = ogLocale(raw);
-  const taklif = await getTaklifPreview(slug);
-  if (!taklif) return new Response("Not found", { status: 404 });
+  const found = await getTaklifPreview(slug);
+  if (!found) return new Response("Not found", { status: 404 });
+  // Names and venue in the card's script, like its wording.
+  const taklif = locale === "uz-Cyrl" ? cyrillicOwnerText(found) : found;
   // Paying publishes: no image of an unpaid draft or a withdrawn invitation.
   if (taklif.status !== "published") {
     return new Response("Not published", { status: 403 });

@@ -6,12 +6,12 @@ import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { DESIGN_COPY, DESIGN_IDS, designName } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
+import { inLocale } from "@/lib/uz-cyrillic";
 
 const copyFor = (id: string, locale: string) =>
-  DESIGN_COPY[id][locale] ?? DESIGN_COPY[id][routing.defaultLocale];
+  inLocale(DESIGN_COPY[id], locale);
 
 export async function generateMetadata({
   params,

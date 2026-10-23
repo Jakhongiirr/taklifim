@@ -108,7 +108,8 @@ export class PaymentsService {
       `ac.order_id=${order.id}`,
       `a=${amount * 100}`,
       `c=${returnUrl}`,
-      `l=${lang}`,
+      // Payme's page has Uzbek in Latin only.
+      `l=${lang === 'uz-Cyrl' ? 'uz' : lang}`,
     ].join(';');
     const base = this.config.get<string>('payme.checkoutUrl');
     return {

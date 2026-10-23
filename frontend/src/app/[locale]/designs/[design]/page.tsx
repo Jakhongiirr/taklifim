@@ -10,11 +10,11 @@ import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { DESIGN_COPY, DESIGN_IDS, designName } from "@/content/designs";
 import { Link } from "@/i18n/navigation";
-import { routing } from "@/i18n/routing";
 import { demoUrlFor } from "@/lib/demo-url";
 import { formatSum } from "@/lib/format";
 import { localeAlternates, OG_IMAGES, SITE_URL } from "@/lib/seo";
 import { getDesignOffers } from "@/lib/server/designs";
+import { inLocale } from "@/lib/uz-cyrillic";
 
 /** What every design comes with (the home page's feature names). */
 const INCLUDED = [
@@ -34,7 +34,7 @@ const INCLUDED = [
 const hasPage = (id: string) => DESIGN_IDS.includes(id);
 
 const copyFor = (id: string, locale: string) =>
-  DESIGN_COPY[id][locale] ?? DESIGN_COPY[id][routing.defaultLocale];
+  inLocale(DESIGN_COPY[id], locale);
 
 export async function generateMetadata({
   params,

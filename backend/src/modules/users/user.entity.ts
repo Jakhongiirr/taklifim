@@ -28,7 +28,7 @@ export class User {
   telegramId: string | null;
 
   /** The language they logged in to the site in; the bot writes in it. */
-  @Column({ type: 'varchar', length: 2, nullable: true })
+  @Column({ type: 'varchar', length: 8, nullable: true })
   locale: string | null;
 
   @Column({ type: 'enum', enum: Role, default: Role.User })
