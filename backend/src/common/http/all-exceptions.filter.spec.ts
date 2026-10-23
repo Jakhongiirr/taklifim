@@ -9,7 +9,7 @@ import {
 import { AllExceptionsFilter } from './all-exceptions.filter';
 import type { ApiError } from './api-response';
 
-function run(exception: unknown) {
+function run(exception: unknown, request: object = {}) {
   const response = {
     headersSent: false,
     status: jest.fn().mockReturnThis(),
@@ -17,7 +17,7 @@ function run(exception: unknown) {
   };
   const host = {
     switchToHttp: () => ({
-      getRequest: () => ({ method: 'GET', originalUrl: '/x' }),
+      getRequest: () => ({ method: 'GET', originalUrl: '/x', ...request }),
       getResponse: () => response,
     }),
   } as unknown as ArgumentsHost;
@@ -28,7 +28,12 @@ function run(exception: unknown) {
 }
 
 describe('AllExceptionsFilter', () => {
-  beforeAll(() => jest.spyOn(Logger.prototype, 'error').mockImplementation());
+  let error: jest.SpyInstance;
+  let warn: jest.SpyInstance;
+  beforeAll(() => {
+    error = jest.spyOn(Logger.prototype, 'error').mockImplementation();
+    warn = jest.spyOn(Logger.prototype, 'warn').mockImplementation();
+  });
 
   it('maps HttpException', () => {
     const { status, body } = run(new NotFoundException('Music not found'));
@@ -83,5 +88,36 @@ describe('AllExceptionsFilter', () => {
     const { status, body } = run(err);
     expect(status).toBe(400);
     expect(body.error.message).toBe('Unexpected token');
+  });
+
+  it('logs a client that hung up as a 499 warning, not a 500', () => {
+    error.mockClear();
+    const response = {
+      headersSent: false,
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    const host = {
+      switchToHttp: () => ({
+        getRequest: () => ({
+          method: 'POST',
+          originalUrl: '/files',
+          readableAborted: true,
+        }),
+        getResponse: () => response,
+      }),
+    } as unknown as ArgumentsHost;
+    new AllExceptionsFilter().catch(new Error('Request aborted'), host);
+    expect(response.status).toHaveBeenCalledWith(499);
+    expect(response.json).not.toHaveBeenCalled();
+    expect(error).not.toHaveBeenCalled();
+    expect(warn).toHaveBeenCalledWith(
+      'POST /files -> 499 client closed request: Request aborted',
+    );
+  });
+
+  it('still maps HttpExceptions after the client left', () => {
+    const { status } = run(new NotFoundException(), { readableAborted: true });
+    expect(status).toBe(404);
   });
 });
