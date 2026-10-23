@@ -30,6 +30,9 @@ export class TaklifDto {
   /** Picks the wording: wedding or fotiha. */
   occasion: TaklifOccasion;
 
+  /** The owner's own letter wording; null means the occasion's default. */
+  letterText: string | null;
+
   /** When the wedding starts (UTC). */
   eventAt: Date;
 
@@ -168,6 +171,9 @@ export class PublicTaklifDto {
 
   /** Picks the wording: wedding or fotiha. */
   occasion: TaklifOccasion;
+
+  /** The owner's own letter wording; null means the occasion's default. */
+  letterText: string | null;
 
   /** When the wedding starts (UTC). */
   eventAt: Date;

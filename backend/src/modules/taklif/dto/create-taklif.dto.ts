@@ -4,6 +4,7 @@ import {
   CardNumber,
   EventAt,
   Latitude,
+  LetterText,
   LocationUrl,
   Longitude,
   OptionalPhone,
@@ -28,6 +29,14 @@ export class CreateTaklifDto {
   @IsOptional()
   @IsEnum(TaklifOccasion)
   occasion?: TaklifOccasion;
+
+  /**
+   * Optional: the owner's own words for the letter after the cover, instead
+   * of the occasion's default wording. Shown as written in every language.
+   */
+  @IsOptional()
+  @LetterText()
+  letterText?: string | null;
 
   /**
    * When the wedding starts, with a time zone.

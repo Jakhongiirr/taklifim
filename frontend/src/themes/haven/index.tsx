@@ -14,6 +14,7 @@ import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
 import "./haven.css";
@@ -133,8 +134,10 @@ export default async function HavenTheme({
         </section>
 
         {/* The words, written straight onto an old letter among roses,
-            stamps and a pocket watch. Its parchment is the page's paper. */}
-        <section className="relative aspect-[736/1104]">
+            stamps and a pocket watch. Its parchment is the page's paper.
+            Sizes follow the section's width so the words always stay on
+            the parchment, narrow phones included. */}
+        <section className="@container relative aspect-[736/1104]">
           <Image
             src={`${ASSETS}/frame.jpg`}
             alt=""
@@ -146,19 +149,23 @@ export default async function HavenTheme({
           <div className="absolute inset-x-[19%] top-[19%] bottom-[15%] flex flex-col items-center justify-center">
             <div className="haven-reveal">
               <h2
-                className={`${cormorantSc.className} text-2xl tracking-[0.1em] text-[#6e2f36]`}
+                className={`${cormorantSc.className} text-[5.8cqw] tracking-[0.1em] text-[#6e2f36]`}
               >
                 {guest
                   ? tw("greetingNamed", { name: guest.name })
                   : tw("greeting")}
               </h2>
-              <p className="mt-4 font-serif text-lg leading-relaxed sm:text-xl">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+              <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
+                <LetterWords
+                  taklif={taklif}
+                  fallback={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                  fit
+                />
               </p>
-              <p className="mt-5 font-serif text-lg text-[#56402c] italic">
+              <p className="mt-[5cqw] font-serif text-[4.6cqw] text-[#56402c] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
             </div>

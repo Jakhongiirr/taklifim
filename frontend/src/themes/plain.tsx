@@ -11,6 +11,7 @@ import Rsvp from "./shared/rsvp";
 import VenueMap from "./shared/venue-map";
 import { occasionMessages } from "./shared/occasion";
 import type { ThemeProps } from "./types";
+import LetterWords from "./shared/letter-words";
 
 /**
  * The undecorated fallback: every part of the invitation in the site's own
@@ -55,7 +56,13 @@ export default async function PlainInvitation({
         }
       >
         <p>
-          {tw("text", { groom: taklif.groomName, bride: taklif.brideName })}
+          <LetterWords
+            taklif={taklif}
+            fallback={tw("text", {
+              groom: taklif.groomName,
+              bride: taklif.brideName,
+            })}
+          />
         </p>
         <p className="mt-3 text-muted">
           {t("signature", { host: taklif.hostName })}

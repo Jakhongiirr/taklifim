@@ -276,11 +276,12 @@ interface OwnerText {
   hostName: string;
   venueName: string;
   venueAddress: string;
+  letterText?: string | null;
 }
 
 /**
- * An invitation with what its owner wrote in Uzbek Cyrillic: names, host
- * and venue. Text already in Cyrillic (Russian, say) stays as it is.
+ * An invitation with what its owner wrote in Uzbek Cyrillic: names, host,
+ * venue and own letter wording. Text already in Cyrillic (Russian, say) stays as it is.
  */
 export function cyrillicOwnerText<T extends OwnerText>(taklif: T): T {
   return {
@@ -290,5 +291,6 @@ export function cyrillicOwnerText<T extends OwnerText>(taklif: T): T {
     hostName: toCyrillic(taklif.hostName),
     venueName: toCyrillic(taklif.venueName),
     venueAddress: toCyrillic(taklif.venueAddress),
+    ...(taklif.letterText && { letterText: toCyrillic(taklif.letterText) }),
   };
 }

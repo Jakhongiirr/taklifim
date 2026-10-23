@@ -584,6 +584,8 @@
       "hostHint": "For example: the Karimov family",
       "occasion": "Occasion",
       "occasionHint": "Sets the invitation's wording; the design stays the same",
+      "letter": "Invitation text",
+      "letterHint": "Guests see it as you wrote it, whatever language they switch to.",
       "eventAt": "Date and time",
       "eventTime": "Time",
       "eventHint": "Tashkent time",
@@ -598,6 +600,10 @@
     "occasions": {
       "wedding": "Wedding",
       "fotiha": "Fotiha (engagement)"
+    },
+    "letterModes": {
+      "default": "Ready-made",
+      "own": "My own words"
     },
     "map": {
       "label": "Place on the map",

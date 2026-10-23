@@ -12,6 +12,7 @@ import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./plov.css";
 import { lora, oldStandard } from "./fonts";
@@ -139,7 +140,7 @@ export default async function PlovTheme({
                 : tw("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              {tw("plovText", names)}
+              <LetterWords taklif={taklif} fallback={tw("plovText", names)} />
             </p>
           </div>
         </section>
