@@ -4,6 +4,7 @@ import type { PublicTaklif } from "@/lib/api-types";
 import { coupleNames } from "@/lib/format";
 import { INVITATION_OG_IMAGES } from "@/lib/seo";
 import { tashkentParts } from "@/lib/tashkent-date";
+import { occasionMessages } from "@/themes/shared/occasion";
 
 /**
  * Title and description for link previews in Telegram and other messengers
@@ -14,7 +15,7 @@ export async function invitationMetadata(
   taklif: PublicTaklif,
 ): Promise<Metadata> {
   const [t, tDates] = await Promise.all([
-    getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
   ]);
   const months = tDates.raw("months") as string[];

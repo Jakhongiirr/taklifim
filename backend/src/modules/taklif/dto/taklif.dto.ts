@@ -1,6 +1,7 @@
 import { FileDto } from '../../files/dto/file.dto';
 import { MusicDto } from '../../music/dto/music.dto';
 import { ThemeDto } from '../../themes/dto/theme.dto';
+import { TaklifOccasion } from '../taklif-occasion.enum';
 import { TaklifStatus } from '../taklif-status.enum';
 
 export class TaklifDto {
@@ -25,6 +26,9 @@ export class TaklifDto {
 
   /** @example "Karimovlar oilasi" */
   hostName: string;
+
+  /** Picks the wording: wedding or fotiha. */
+  occasion: TaklifOccasion;
 
   /** When the wedding starts (UTC). */
   eventAt: Date;
@@ -161,6 +165,9 @@ export class PublicTaklifDto {
 
   /** @example "Karimovlar oilasi" */
   hostName: string;
+
+  /** Picks the wording: wedding or fotiha. */
+  occasion: TaklifOccasion;
 
   /** When the wedding starts (UTC). */
   eventAt: Date;

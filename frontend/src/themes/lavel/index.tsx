@@ -10,6 +10,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
 import { garamond, lavelScript } from "./fonts";
@@ -39,8 +40,9 @@ export default async function LavelTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -93,7 +95,7 @@ export default async function LavelTheme({
             className={`lavel-rise mt-4 max-w-xs text-xl leading-snug italic ${MUTED}`}
             style={{ "--i": 2 } as CSSProperties}
           >
-            {t("lavel.invite")}
+            {tw("lavelInvite")}
           </p>
           <div
             className="lavel-rise mt-8"
@@ -118,7 +120,7 @@ export default async function LavelTheme({
         {/* The couple, under an arch. */}
         <section className="px-6 pt-12">
           <div className="lavel-reveal">
-            <p className={LABEL}>{t("lavel.ceremony")}</p>
+            <p className={LABEL}>{tw("lavelCeremony")}</p>
             <Divider className="mt-3" />
           </div>
           <div className="lavel-reveal relative mx-auto mt-8 max-w-[19rem] rounded-t-full border border-[#a690d4]/55 p-2">
@@ -163,7 +165,7 @@ export default async function LavelTheme({
               {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              {t("text", {
+              {tw("text", {
                 groom: taklif.groomName,
                 bride: taklif.brideName,
               })}
@@ -181,7 +183,7 @@ export default async function LavelTheme({
           </Section>
         )}
 
-        <Section title={t("date.title")}>
+        <Section title={tw("dateTitle")}>
           <div className="lavel-reveal">
             <p className="text-2xl font-medium">
               {t("lavel.dayMonth", {
@@ -204,9 +206,10 @@ export default async function LavelTheme({
             </p>
           </div>
           <div className="lavel-reveal mt-14">
-            <p className={`mb-5 ${LABEL}`}>{t("countdown.title")}</p>
+            <p className={`mb-5 ${LABEL}`}>{tw("countdownTitle")}</p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="rounded-2xl bg-[#fdfbff]/80 py-3 ring-1 ring-[#a690d4]/40"
             />
             <p className={`mt-6 text-lg italic ${MUTED}`}>

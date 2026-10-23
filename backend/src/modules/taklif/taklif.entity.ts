@@ -14,6 +14,7 @@ import { Music } from '../music/music.entity';
 import { Theme } from '../themes/theme.entity';
 import { User } from '../users/user.entity';
 import { TaklifPhoto } from './taklif-photo.entity';
+import { TaklifOccasion } from './taklif-occasion.enum';
 import { TaklifStatus } from './taklif-status.enum';
 
 /** A wedding invitation. */
@@ -47,6 +48,10 @@ export class Taklif {
 
   @Column({ length: 100 })
   hostName: string;
+
+  /** Wedding or fotiha: changes the invitation's wording, not its design. */
+  @Column({ length: 16, default: TaklifOccasion.Wedding })
+  occasion: TaklifOccasion;
 
   /** When the wedding starts. */
   @Column({ type: 'timestamptz' })

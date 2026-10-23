@@ -447,28 +447,46 @@
     ]
   },
   "Invitation": {
-    "metaTitle": "{names} — wedding invitation",
+    "wedding": {
+      "metaTitle": "{names} — wedding invitation",
+      "invite": "We invite you to our wedding",
+      "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
+      "dateTitle": "Wedding date",
+      "countdownTitle": "Time until the wedding",
+      "countdownPassed": "The wedding has taken place. Thank you for being with us!",
+      "lavelInvite": "We would love you to join us on our wedding day",
+      "lavelCeremony": "Wedding celebration",
+      "plovOccasion": "In honour of the wedding",
+      "plovText": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company."
+    },
+    "fotiha": {
+      "metaTitle": "{names} — fotiha invitation",
+      "invite": "We invite you to our fotiha",
+      "text": "We would love to have you with us on this blessed day. You are invited to celebrate the fotiha (engagement) of {groom} and {bride}.",
+      "dateTitle": "Fotiha date",
+      "countdownTitle": "Time until the fotiha",
+      "countdownPassed": "The fotiha has taken place. Thank you for being with us!",
+      "lavelInvite": "We would love you to join us on our fotiha day",
+      "lavelCeremony": "Fotiha celebration",
+      "plovOccasion": "In honour of the fotiha",
+      "plovText": "We warmly invite you to our morning plov in honour of the fotiha (engagement) of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company."
+    },
     "cover": {
       "eyebrow": "Invitation",
-      "invite": "We invite you to our wedding",
       "open": "Open the invitation",
       "skip": "Skip"
     },
     "greeting": "Dear guest!",
     "greetingNamed": "Dear {name}!",
-    "text": "We would love to have you with us on the happiest day of our lives. You are invited to celebrate the wedding of {groom} and {bride}.",
     "signature": "With respect, {host}",
     "date": {
-      "title": "Wedding date",
       "time": "At {time}"
     },
     "countdown": {
-      "title": "Time until the wedding",
       "days": "days",
       "hours": "hours",
       "minutes": "min",
-      "seconds": "sec",
-      "passed": "The wedding has taken place. Thank you for being with us!"
+      "seconds": "sec"
     },
     "venue": {
       "title": "Venue",
@@ -493,8 +511,6 @@
       "forYou": "This invitation is just for you",
       "sealHint": "Tap the seal to open",
       "hello": "Hello",
-      "invite": "We would love you to join us on our wedding day",
-      "ceremony": "Wedding celebration",
       "tagline": "The day two hearts bloom as one — the loveliest spring of our lives",
       "dayMonth": "{weekday}, {month} {day}",
       "startTime": "Celebration begins",
@@ -535,9 +551,7 @@
     },
     "plov": {
       "eyebrow": "Morning plov",
-      "occasion": "In honour of the wedding",
       "lidHint": "Tap the lid to open",
-      "text": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
       "dateTitle": "Plov time",
       "served": "Plov is served",
       "countdown": "Until the plov",
@@ -566,6 +580,8 @@
       "groomName": "Groom's name",
       "hostName": "Hosted by",
       "hostHint": "For example: the Karimov family",
+      "occasion": "Occasion",
+      "occasionHint": "Sets the invitation's wording; the design stays the same",
       "eventAt": "Date and time",
       "eventTime": "Time",
       "eventHint": "Tashkent time",
@@ -576,6 +592,10 @@
       "phone": "Contact phone",
       "phoneHint": "Optional. Guests can call with questions.",
       "eventChangesHint": "{count, plural, =0 {This invitation's date can't be changed any more} one {A published invitation's date can be changed # more time} other {A published invitation's date can be changed # more times}}."
+    },
+    "occasions": {
+      "wedding": "Wedding",
+      "fotiha": "Fotiha (engagement)"
     },
     "map": {
       "label": "Place on the map",
@@ -664,6 +684,11 @@
         "eventAt": "Plov date and time",
         "eventHint": "Tashkent time. A morning plov is usually served early, e.g. at 06:00",
         "venueName": "Plov venue"
+      }
+    },
+    "fotiha": {
+      "sections": {
+        "event": "Fotiha details"
       }
     }
   },

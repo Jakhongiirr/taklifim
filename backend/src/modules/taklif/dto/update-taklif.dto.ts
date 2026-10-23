@@ -1,4 +1,5 @@
-import { IsOptional, IsUUID, ValidateIf } from 'class-validator';
+import { IsEnum, IsOptional, IsUUID, ValidateIf } from 'class-validator';
+import { TaklifOccasion } from '../taklif-occasion.enum';
 import {
   CardNumber,
   EventAt,
@@ -30,6 +31,10 @@ export class UpdateTaklifDto {
   @ValidateIf(sent)
   @Text(100)
   hostName?: string;
+
+  @ValidateIf(sent)
+  @IsEnum(TaklifOccasion)
+  occasion?: TaklifOccasion;
 
   @ValidateIf(sent)
   @EventAt()

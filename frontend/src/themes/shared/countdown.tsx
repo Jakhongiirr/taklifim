@@ -2,6 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { useSyncExternalStore } from "react";
+import type { Occasion } from "@/lib/api-types";
+import { occasionMessages } from "./occasion";
 
 const UNITS = ["days", "hours", "minutes", "seconds"] as const;
 
@@ -27,20 +29,26 @@ const noClock = () => null;
 /** Live countdown to the event; placeholders until it runs in the browser. */
 export default function Countdown({
   eventAt,
+  occasion,
   boxClassName = "rounded-2xl py-3",
   digitClassName,
 }: {
   eventAt: string;
+  /** Words the "it has taken place" line. */
+  occasion?: Occasion;
   boxClassName?: string;
   /** Replayed each time a number changes (e.g. a flip animation). */
   digitClassName?: string;
 }) {
   const t = useTranslations("Invitation.countdown");
+  const tw = useTranslations(occasionMessages({ occasion }));
   const target = new Date(eventAt).getTime();
   const now = useSyncExternalStore(subscribe, nowInSeconds, noClock);
 
   if (now !== null && now >= target) {
-    return <p className="text-center text-sm text-muted">{t("passed")}</p>;
+    return (
+      <p className="text-center text-sm text-muted">{tw("countdownPassed")}</p>
+    );
   }
   const left = now === null ? null : remaining(target, now);
 

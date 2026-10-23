@@ -10,6 +10,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./classic.css";
 import { cormorant } from "./fonts";
@@ -38,8 +39,9 @@ export default async function ClassicTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -90,7 +92,7 @@ export default async function ClassicTheme({
               className={`classic-rise ${LABEL}`}
               style={{ "--i": 0 } as CSSProperties}
             >
-              {t("cover.invite")}
+              {tw("invite")}
             </p>
             <h1
               className="classic-rise mt-8 text-[3.4rem] leading-[1.05] font-medium italic"
@@ -131,7 +133,7 @@ export default async function ClassicTheme({
               {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
             </h2>
             <p className="mt-5 text-xl leading-relaxed">
-              {t("text", {
+              {tw("text", {
                 groom: taklif.groomName,
                 bride: taklif.brideName,
               })}
@@ -149,7 +151,7 @@ export default async function ClassicTheme({
           </Section>
         )}
 
-        <Section title={t("date.title")}>
+        <Section title={tw("dateTitle")}>
           <div className="classic-reveal">
             <p className="text-3xl font-medium">
               {t("classic.dayMonth", {
@@ -174,9 +176,10 @@ export default async function ClassicTheme({
             </p>
           </div>
           <div className="classic-reveal mt-14">
-            <p className={`mb-5 ${LABEL}`}>{t("countdown.title")}</p>
+            <p className={`mb-5 ${LABEL}`}>{tw("countdownTitle")}</p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="border-y border-[#a8894f]/45 py-3"
             />
           </div>

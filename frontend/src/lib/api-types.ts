@@ -65,6 +65,9 @@ export type DemoStatus = "active" | "archived" | "all";
 
 export type TaklifStatus = "draft" | "published" | "unpublished";
 
+/** What the invitation is for: picks its wording, not its design. */
+export type Occasion = "wedding" | "fotiha";
+
 /** An invitation. */
 export interface Taklif {
   id: string;
@@ -74,6 +77,7 @@ export interface Taklif {
   brideName: string;
   groomName: string;
   hostName: string;
+  occasion: Occasion;
   /** ISO 8601, UTC. */
   eventAt: string;
   /**
@@ -117,6 +121,7 @@ export interface PublicTaklif {
   brideName: string;
   groomName: string;
   hostName: string;
+  occasion: Occasion;
   /** ISO 8601, UTC. */
   eventAt: string;
   venueName: string;
