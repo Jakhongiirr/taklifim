@@ -130,7 +130,9 @@ export default async function ClassicTheme({
           <div className="classic-reveal">
             <Monogram initials={initials} />
             <h2 className={`mt-6 text-3xl font-medium italic ${WINE}`}>
-              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+              {guest
+                ? tw("greetingNamed", { name: guest.name })
+                : tw("greeting")}
             </h2>
             <p className="mt-5 text-xl leading-relaxed">
               {tw("text", {

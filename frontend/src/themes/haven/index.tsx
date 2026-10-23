@@ -149,8 +149,8 @@ export default async function HavenTheme({
                 className={`${cormorantSc.className} text-2xl tracking-[0.1em] text-[#6e2f36]`}
               >
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-4 font-serif text-lg leading-relaxed sm:text-xl">
                 {tw("text", {

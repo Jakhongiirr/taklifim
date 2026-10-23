@@ -149,8 +149,8 @@ export default async function ArcadeTheme({
                 className={`${yeseva.className} text-[6.2cqw] leading-tight text-[#4d3a52]`}
               >
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.3cqw] leading-relaxed">
                 {tw("text", {

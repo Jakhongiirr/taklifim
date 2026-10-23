@@ -143,8 +143,8 @@ export default async function AuroraTheme({
             <div className="aurora-reveal">
               <h2 className="font-serif text-[6.2cqw] leading-tight text-[#7a5a2c]">
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-[3cqw] font-serif text-[4cqw] leading-relaxed">
                 {tw("text", {

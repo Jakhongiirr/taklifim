@@ -154,8 +154,8 @@ export default async function VioletTheme({
                 className={`${tenor.className} text-[4.2cqw] leading-snug tracking-[0.16em] text-[#c9d2f4] uppercase`}
               >
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.4cqw] leading-relaxed text-[#eef0fa]">
                 {tw("text", {

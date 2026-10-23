@@ -162,7 +162,9 @@ export default async function LavelTheme({
         <section className="px-6 pt-20">
           <div className="lavel-reveal">
             <h2 className={`text-5xl ${SCRIPT} ${PLUM}`}>
-              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+              {guest
+                ? tw("greetingNamed", { name: guest.name })
+                : tw("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
               {tw("text", {

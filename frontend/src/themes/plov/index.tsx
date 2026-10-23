@@ -134,7 +134,9 @@ export default async function PlovTheme({
           <div className="plov-reveal">
             <StarRule />
             <h2 className={`mt-6 text-3xl ${NAMES} ${SAFFRON}`}>
-              {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
+              {guest
+                ? tw("greetingNamed", { name: guest.name })
+                : tw("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
               {tw("plovText", names)}

@@ -154,8 +154,8 @@ export default async function DoveTheme({
                 className={`${forum.className} text-[5.6cqw] tracking-[0.12em] text-[#6b3f4a] uppercase`}
               >
                 {guest
-                  ? t("greetingNamed", { name: guest.name })
-                  : t("greeting")}
+                  ? tw("greetingNamed", { name: guest.name })
+                  : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
                 {tw("text", {
