@@ -28,9 +28,11 @@ function run(exception: unknown, request: object = {}) {
 }
 
 describe('AllExceptionsFilter', () => {
+  let error: jest.SpyInstance;
+  let warn: jest.SpyInstance;
   beforeAll(() => {
-    jest.spyOn(Logger.prototype, 'error').mockImplementation();
-    jest.spyOn(Logger.prototype, 'warn').mockImplementation();
+    error = jest.spyOn(Logger.prototype, 'error').mockImplementation();
+    warn = jest.spyOn(Logger.prototype, 'warn').mockImplementation();
   });
 
   it('maps HttpException', () => {
@@ -89,7 +91,6 @@ describe('AllExceptionsFilter', () => {
   });
 
   it('logs a client that hung up as a 499 warning, not a 500', () => {
-    const error = jest.mocked(Logger.prototype.error);
     error.mockClear();
     const response = {
       headersSent: false,
@@ -110,7 +111,7 @@ describe('AllExceptionsFilter', () => {
     expect(response.status).toHaveBeenCalledWith(499);
     expect(response.json).not.toHaveBeenCalled();
     expect(error).not.toHaveBeenCalled();
-    expect(Logger.prototype.warn).toHaveBeenCalledWith(
+    expect(warn).toHaveBeenCalledWith(
       'POST /files -> 499 client closed request: Request aborted',
     );
   });
