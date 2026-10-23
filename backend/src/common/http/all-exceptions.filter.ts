@@ -11,6 +11,9 @@ import type { ApiError } from './api-response';
 
 type ErrorBody = Pick<ApiError['error'], 'code' | 'message' | 'details'>;
 
+/** nginx's code for "the client hung up before we answered". */
+const CLIENT_CLOSED_REQUEST = 499;
+
 /** Turns every thrown error into the standard `ApiError` body. */
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -20,6 +23,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const request = ctx.getRequest<Request & { id?: string }>();
     const response = ctx.getResponse<Response>();
+
+    // The browser went away mid-request (tab closed, phone locked, network
+    // lost), e.g. multer's "Request aborted" during an upload. Not our bug,
+    // so no error alert, and nobody is left to send a body to.
+    if (!(exception instanceof HttpException) && request.readableAborted) {
+      this.logger.warn(
+        `${request.method} ${request.originalUrl} -> ${CLIENT_CLOSED_REQUEST} client closed request: ${
+          exception instanceof Error ? exception.message : String(exception)
+        }`,
+      );
+      if (!response.headersSent) response.status(CLIENT_CLOSED_REQUEST);
+      return;
+    }
 
     const statusCode = statusOf(exception);
     const body =
