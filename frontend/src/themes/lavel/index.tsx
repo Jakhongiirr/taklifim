@@ -10,8 +10,8 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
-import LetterText from "../shared/letter-text";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
 import { garamond, lavelScript } from "./fonts";
@@ -168,8 +168,9 @@ export default async function LavelTheme({
                 : tw("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              <LetterText
-                text={tw("text", {
+              <LetterWords
+                taklif={taklif}
+                fallback={tw("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}

@@ -72,7 +72,9 @@ type Writable = Omit<
   | 'cardNumber'
   | 'phone'
   | 'eventAt'
+  | 'letterText'
 > & {
+  letterText?: string | null;
   locationUrl?: string | null;
   latitude?: number | null;
   longitude?: number | null;
@@ -125,6 +127,7 @@ export class TaklifService {
                 longitude: fields.longitude ?? null,
                 cardNumber: fields.cardNumber ?? null,
                 phone: fields.phone ?? null,
+                letterText: fields.letterText ?? null,
                 slug: generateSlug(),
                 userId: user.sub,
               }),
@@ -682,6 +685,7 @@ export class TaklifService {
       groomName: taklif.groomName,
       hostName: taklif.hostName,
       occasion: taklif.occasion,
+      letterText: taklif.letterText,
       eventAt: taklif.eventAt,
       eventAtChangesLeft: eventAtChangesLeft(taklif),
       paidAt: taklif.paidAt,
@@ -713,6 +717,7 @@ export class TaklifService {
       groomName: taklif.groomName,
       hostName: taklif.hostName,
       occasion: taklif.occasion,
+      letterText: taklif.letterText,
       eventAt: taklif.eventAt,
       venueName: taklif.venueName,
       venueAddress: taklif.venueAddress,

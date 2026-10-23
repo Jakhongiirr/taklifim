@@ -4,6 +4,7 @@ import {
   CardNumber,
   EventAt,
   Latitude,
+  LetterText,
   LocationUrl,
   Longitude,
   OptionalPhone,
@@ -35,6 +36,11 @@ export class UpdateTaklifDto {
   @ValidateIf(sent)
   @IsEnum(TaklifOccasion)
   occasion?: TaklifOccasion;
+
+  /** null or "" goes back to the default wording. */
+  @IsOptional()
+  @LetterText()
+  letterText?: string | null;
 
   @ValidateIf(sent)
   @EventAt()

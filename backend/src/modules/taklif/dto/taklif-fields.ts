@@ -32,6 +32,29 @@ export const Text = (maxLength: number) =>
     MaxLength(maxLength),
   );
 
+/** Longest owner-written letter: it still fits every theme's letter frame. */
+export const MAX_LETTER_TEXT = 600;
+
+/**
+ * The owner's own letter wording. Trimmed, with runs of blank lines folded
+ * to one; empty becomes null: the occasion's default wording. Pair with
+ * IsOptional so null passes.
+ */
+export const LetterText = () =>
+  applyDecorators(
+    Transform(({ value }: { value: unknown }) => {
+      if (typeof value !== 'string') return value;
+      const text = value
+        .replace(/\r\n?/g, '\n')
+        .replace(/[ \t]+$/gm, '')
+        .replace(/\n{3,}/g, '\n\n')
+        .trim();
+      return text || null;
+    }),
+    IsString(),
+    MaxLength(MAX_LETTER_TEXT),
+  );
+
 /**
  * ISO 8601 with a time zone, so the moment is unambiguous:
  * "2026-10-20T18:00:00+05:00" or "2026-10-20T13:00:00Z".
