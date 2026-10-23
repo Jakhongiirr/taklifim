@@ -59,6 +59,10 @@ export class AuthService {
     const user = await this.users.findById(payload.sub).catch(() => {
       throw new UnauthorizedException();
     });
+    // Without their Telegram account the bot can't send them guests'
+    // replies; it's saved at Telegram login, so they log in again (users
+    // logged in before it was saved, or with a code).
+    if (!user.telegramId) throw new UnauthorizedException();
     return this.issueTokens(user);
   }
 

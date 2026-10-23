@@ -127,7 +127,8 @@ export class TelegramLoginService implements OnModuleInit {
   async devConfirm(token: string, phone: string) {
     if (!this.devMode) throw new NotFoundException();
     if (!(await this.find(token))) throw new NotFoundException('No such login');
-    await this.redis.hset(loginKey(token), { phone });
+    // A stand-in Telegram account: sessions without one aren't renewed.
+    await this.redis.hset(loginKey(token), { phone, telegramUserId: '1' });
   }
 
   private async handleUpdate(update: TelegramUpdate) {
