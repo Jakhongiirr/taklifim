@@ -14,6 +14,7 @@ import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./arcade.css";
 import { yeseva } from "./fonts";
@@ -153,10 +154,14 @@ export default async function ArcadeTheme({
                   : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.3cqw] leading-relaxed">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+                <LetterWords
+                  taklif={taklif}
+                  fallback={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                  fit
+                />
               </p>
               <p className="mt-[4.5cqw] font-serif text-[4cqw] text-[#7d5f74] italic">
                 {t("signature", { host: taklif.hostName })}

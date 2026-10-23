@@ -11,6 +11,7 @@ import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./classic.css";
 import { cormorant } from "./fonts";
@@ -135,10 +136,13 @@ export default async function ClassicTheme({
                 : tw("greeting")}
             </h2>
             <p className="mt-5 text-xl leading-relaxed">
-              {tw("text", {
-                groom: taklif.groomName,
-                bride: taklif.brideName,
-              })}
+              <LetterWords
+                taklif={taklif}
+                fallback={tw("text", {
+                  groom: taklif.groomName,
+                  bride: taklif.brideName,
+                })}
+              />
             </p>
           </div>
         </section>

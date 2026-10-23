@@ -53,6 +53,10 @@ export class Taklif {
   @Column({ length: 16, default: TaklifOccasion.Wedding })
   occasion: TaklifOccasion;
 
+  /** The owner's own letter wording; null shows the occasion's default. */
+  @Column({ type: 'text', nullable: true })
+  letterText: string | null;
+
   /** When the wedding starts. */
   @Column({ type: 'timestamptz' })
   eventAt: Date;

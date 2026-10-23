@@ -14,6 +14,7 @@ import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./aurora.css";
 import { greatVibes } from "./fonts";
@@ -147,10 +148,14 @@ export default async function AuroraTheme({
                   : tw("greeting")}
               </h2>
               <p className="mt-[3cqw] font-serif text-[4cqw] leading-relaxed">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+                <LetterWords
+                  taklif={taklif}
+                  fallback={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                  fit
+                />
               </p>
               <p className="mt-[3.5cqw] font-serif text-[3.9cqw] text-[#6e5638] italic">
                 {t("signature", { host: taklif.hostName })}

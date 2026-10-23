@@ -14,6 +14,7 @@ import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import "./violet.css";
 import { marck, tenor } from "./fonts";
@@ -158,10 +159,14 @@ export default async function VioletTheme({
                   : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.4cqw] leading-relaxed text-[#eef0fa]">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+                <LetterWords
+                  taklif={taklif}
+                  fallback={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                  fit
+                />
               </p>
               <p className="mt-[4cqw] font-serif text-[4.2cqw] text-[#b4bde0] italic">
                 {t("signature", { host: taklif.hostName })}

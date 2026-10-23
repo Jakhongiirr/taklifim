@@ -37,6 +37,8 @@ type Fields = {
   groomName: string;
   hostName: string;
   occasion: Occasion;
+  letterMode: LetterMode;
+  letterText: string;
   eventAt: string;
   venueName: string;
   venueAddress: string;
@@ -61,6 +63,10 @@ const DRAFT_DELAY_MS = 400;
 /** What the invitation is for: only its wording changes. */
 const OCCASIONS: Occasion[] = ["wedding", "fotiha"];
 
+/** The letter after the cover: the occasion's wording, or the owner's own. */
+type LetterMode = "default" | "own";
+const LETTER_MODES: LetterMode[] = ["default", "own"];
+
 // Mirrors the backend's column limits (taklif-fields.ts / taklif.entity.ts).
 const MAX_LENGTH: Partial<Record<FieldKey, number>> = {
   brideName: 100,
@@ -68,6 +74,7 @@ const MAX_LENGTH: Partial<Record<FieldKey, number>> = {
   hostName: 100,
   venueName: 200,
   venueAddress: 300,
+  letterText: 400, // MAX_LETTER_TEXT
 };
 const REQUIRED: FieldKey[] = [
   "themeId",
@@ -133,6 +140,7 @@ function Builder({
   onDiscard,
 }: Props & { onDiscard: () => void }) {
   const t = useTranslations("Builder");
+  const tInvitation = useTranslations("Invitation");
   const router = useRouter();
   // For hrefs that already carry the locale (from links on the page).
   const appRouter = useAppRouter();
@@ -143,6 +151,8 @@ function Builder({
     groomName: taklif?.groomName ?? "",
     hostName: taklif?.hostName ?? "",
     occasion: taklif?.occasion ?? "wedding",
+    letterMode: taklif?.letterText ? "own" : "default",
+    letterText: taklif?.letterText ?? "",
     eventAt: taklif ? toTashkentInput(taklif.eventAt) : "",
     venueName: taklif?.venueName ?? "",
     venueAddress: taklif?.venueAddress ?? "",
@@ -224,6 +234,8 @@ function Builder({
         }
         if (!OCCASIONS.includes(next.occasion))
           next.occasion = current.occasion;
+        if (!LETTER_MODES.includes(next.letterMode))
+          next.letterMode = current.letterMode;
         const musicKnown =
           next.musicId === "" ||
           (next.musicId === OWN_MUSIC
@@ -382,6 +394,26 @@ function Builder({
     name: key,
   });
 
+  /** The wording guests get without own words, with the names filled in. */
+  function defaultLetter() {
+    const names = {
+      groom: fields.groomName.trim() || "…",
+      bride: fields.brideName.trim() || "…",
+    };
+    return tInvitation(
+      `${fields.occasion}.${osh ? "plovText" : "text"}`,
+      names,
+    );
+  }
+  // Own words start from the default wording, to change rather than write
+  // from nothing.
+  function chooseLetter(mode: LetterMode) {
+    set("letterMode", mode);
+    if (mode === "own" && !fields.letterText.trim()) {
+      set("letterText", defaultLetter());
+    }
+  }
+
   function validate(): Errors {
     const found: Errors = {};
     for (const key of REQUIRED) {
@@ -390,10 +422,15 @@ function Builder({
           key === "themeId" ? t("errors.design") : t("errors.required");
       }
     }
+    const ownLetter = fields.letterMode === "own";
+    if (ownLetter && !fields.letterText.trim()) {
+      found.letterText = t("errors.required");
+    }
     for (const [key, max] of Object.entries(MAX_LENGTH) as [
       FieldKey,
       number,
     ][]) {
+      if (key === "letterText" && !ownLetter) continue;
       if (!found[key] && fields[key].trim().length > max) {
         found[key] = t("errors.tooLong");
       }
@@ -432,7 +469,9 @@ function Builder({
       first === "themeId" ? "#section-design" : `[name="${first}"]`,
     );
     el?.scrollIntoView({ behavior: "smooth", block: "center" });
-    if (el instanceof HTMLInputElement) el.focus({ preventScroll: true });
+    if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      el.focus({ preventScroll: true });
+    }
   }
 
   /** Maps a backend rejection to field errors where we can tell the field. */
@@ -514,12 +553,16 @@ function Builder({
       setProgress(t("save.saving"));
       const card = fields.cardNumber.replace(/[\s-]/g, "");
       const phone = fields.phone.trim();
+      // null: the occasion's own wording.
+      const ownLetter =
+        fields.letterMode === "own" ? fields.letterText.trim() || null : null;
       const body = {
         themeId: fields.themeId,
         brideName: fields.brideName.trim(),
         groomName: fields.groomName.trim(),
         hostName: fields.hostName.trim(),
         occasion: fields.occasion,
+        letterText: ownLetter,
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
         venueAddress: fields.venueAddress.trim(),
@@ -680,6 +723,55 @@ function Builder({
             <span className="text-sm text-muted">
               {t("fields.occasionHint")}
             </span>
+          </div>
+          <div className="flex flex-col gap-2">
+            <span id="letter-label" className="text-sm font-medium text-ink">
+              {t("fields.letter")}
+            </span>
+            <div
+              role="radiogroup"
+              aria-labelledby="letter-label"
+              className="grid grid-cols-2 gap-2"
+            >
+              {LETTER_MODES.map((mode) => (
+                <button
+                  key={mode}
+                  type="button"
+                  role="radio"
+                  aria-checked={fields.letterMode === mode}
+                  onClick={() => chooseLetter(mode)}
+                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${fields.letterMode === mode ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"}`}
+                >
+                  {t(`letterModes.${mode}`)}
+                </button>
+              ))}
+            </div>
+            {fields.letterMode === "own" ? (
+              <>
+                <textarea
+                  rows={5}
+                  aria-label={t("fields.letter")}
+                  className={`${inputClass} h-auto resize-y py-3 leading-relaxed`}
+                  {...input("letterText")}
+                />
+                <div className="flex justify-between gap-4 text-sm">
+                  {errors.letterText ? (
+                    <span className="text-red-700">{errors.letterText}</span>
+                  ) : (
+                    <span className="text-muted">{t("fields.letterHint")}</span>
+                  )}
+                  <span
+                    className={`shrink-0 tabular-nums ${fields.letterText.trim().length > (MAX_LENGTH.letterText ?? 0) ? "text-red-700" : "text-muted"}`}
+                  >
+                    {fields.letterText.trim().length} / {MAX_LENGTH.letterText}
+                  </span>
+                </div>
+              </>
+            ) : (
+              <p className="rounded-2xl bg-cream px-4 py-3 text-sm leading-relaxed text-muted ring-1 ring-line">
+                {defaultLetter()}
+              </p>
+            )}
           </div>
           <Field
             label={t(osh ? "osh.fields.eventAt" : "fields.eventAt")}

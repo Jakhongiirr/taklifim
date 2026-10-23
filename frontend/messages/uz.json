@@ -587,6 +587,8 @@
       "hostHint": "Masalan: Karimovlar oilasi",
       "occasion": "Marosim",
       "occasionHint": "Taklifnoma matni shunga qarab yoziladi, dizayn oʻzgarmaydi",
+      "letter": "Taklif matni",
+      "letterHint": "Mehmon tilni almashtirsa ham, matn siz yozgandek qoladi.",
       "eventAt": "Sana va vaqt",
       "eventTime": "Vaqt",
       "eventHint": "Toshkent vaqti bilan",
@@ -601,6 +603,10 @@
     "occasions": {
       "wedding": "Nikoh toʻyi",
       "fotiha": "Fotiha toʻyi"
+    },
+    "letterModes": {
+      "default": "Tayyor matn",
+      "own": "Oʻz matnim"
     },
     "map": {
       "label": "Xaritadagi joy",

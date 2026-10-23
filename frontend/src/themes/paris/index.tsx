@@ -14,6 +14,7 @@ import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import { occasionMessages } from "../shared/occasion";
+import LetterWords from "../shared/letter-words";
 import type { ThemeProps } from "../types";
 import { playfair, poiret } from "./fonts";
 import "./paris.css";
@@ -149,10 +150,14 @@ export default async function ParisTheme({
                   : tw("greeting")}
               </h2>
               <p className="mt-[3.5cqw] font-serif text-[4.4cqw] leading-relaxed">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+                <LetterWords
+                  taklif={taklif}
+                  fallback={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                  fit
+                />
               </p>
               <p
                 className={`${playfair.className} mt-[4cqw] text-[4.2cqw] text-[#5d6280] italic`}

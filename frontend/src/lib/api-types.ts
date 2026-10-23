@@ -78,6 +78,8 @@ export interface Taklif {
   groomName: string;
   hostName: string;
   occasion: Occasion;
+  /** The owner's own letter wording; null shows the occasion's default. */
+  letterText: string | null;
   /** ISO 8601, UTC. */
   eventAt: string;
   /**
@@ -122,6 +124,8 @@ export interface PublicTaklif {
   groomName: string;
   hostName: string;
   occasion: Occasion;
+  /** The owner's own letter wording; null shows the occasion's default. */
+  letterText: string | null;
   /** ISO 8601, UTC. */
   eventAt: string;
   venueName: string;
