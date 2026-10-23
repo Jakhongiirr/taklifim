@@ -585,6 +585,7 @@
       "hostHint": "For example: the Karimov family",
       "occasion": "Occasion",
       "occasionHint": "Sets the invitation's wording; the design stays the same",
+      "occasionLocked": "The occasion can't change after payment.",
       "letter": "Invitation text",
       "letterHint": "Guests see it as you wrote it, whatever language they switch to.",
       "eventAt": "Date and time",

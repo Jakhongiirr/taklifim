@@ -163,12 +163,16 @@ function Builder({
   // The plov design is an osh, not a wedding party: its own wording.
   const osh =
     designs.find((design) => design.id === fields.themeId)?.key === "plov";
+  // Paid for as this occasion: it stays (the backend agrees).
+  const occasionLocked = osh || !!taklif?.paidAt;
   // The plov design is always a plov, and only it is (the backend agrees).
+  // A paid one keeps what it was paid as, whatever a restored draft says.
+  const chosen = taklif?.paidAt ? taklif.occasion : fields.occasion;
   const occasion: Occasion = osh
     ? "plov"
-    : fields.occasion === "plov"
+    : chosen === "plov"
       ? "wedding"
-      : fields.occasion;
+      : chosen;
   // The event's time of day, kept while no date is picked yet: weddings
   // usually start in the evening, so a new invitation starts at 18:00 (an
   // osh at 06:00).
@@ -713,22 +717,28 @@ function Builder({
               aria-labelledby="occasion-label"
               className="grid grid-cols-2 gap-2"
             >
-              {(osh ? (["plov"] as const) : OCCASIONS).map((option) => (
+              {(occasionLocked ? [occasion] : OCCASIONS).map((option) => (
                 <button
                   key={option}
                   type="button"
                   role="radio"
                   aria-checked={occasion === option}
-                  aria-disabled={osh}
-                  onClick={() => !osh && set("occasion", option)}
-                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${occasion === option ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"} ${osh ? "col-span-2 cursor-default" : ""}`}
+                  aria-disabled={occasionLocked}
+                  onClick={() => !occasionLocked && set("occasion", option)}
+                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${occasion === option ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"} ${occasionLocked ? "col-span-2 cursor-default" : ""}`}
                 >
                   {t(`occasions.${option}`)}
                 </button>
               ))}
             </div>
             <span className="text-sm text-muted">
-              {t(osh ? "osh.fields.occasionHint" : "fields.occasionHint")}
+              {t(
+                osh
+                  ? "osh.fields.occasionHint"
+                  : occasionLocked
+                    ? "fields.occasionLocked"
+                    : "fields.occasionHint",
+              )}
             </span>
           </div>
           <div className="flex flex-col gap-2">
