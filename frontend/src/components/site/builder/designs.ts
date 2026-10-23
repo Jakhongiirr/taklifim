@@ -5,6 +5,20 @@ import { GIFT_THEME_ID } from "@/lib/server/gifts";
 import { getDemos } from "@/lib/server/demos";
 import type { Design } from "./types";
 
+// The picker's order, by theme id. Designs not listed (plov when it's a
+// gift, an archived current theme) come first, newest first as before.
+const ORDER = [
+  "haven",
+  "aurora",
+  "arcade",
+  "dove",
+  "lavel",
+  "classic",
+  "violet",
+  "paris",
+];
+const rank = (theme: Theme) => ORDER.indexOf(theme.themeId);
+
 /**
  * Active themes as pickable designs, named and pictured by their demo when
  * there is one. The plov design is only a gift, so it's left out unless
@@ -23,6 +37,7 @@ export async function getDesigns(
   if (current && !themes.some((theme) => theme.id === current.id)) {
     themes.unshift(current);
   }
+  themes.sort((a, b) => rank(a) - rank(b));
   return themes.map((theme) => {
     const demo = demos.find((d) => d.theme.id === theme.id);
     return {
