@@ -3,4 +3,6 @@ export enum TaklifOccasion {
   Wedding = 'wedding',
   /** Fotiha toʻyi: the engagement blessing before the wedding. */
   Fotiha = 'fotiha',
+  /** Only, and always, the plov design: a morning plov (nahorgi osh). */
+  Plov = 'plov',
 }
