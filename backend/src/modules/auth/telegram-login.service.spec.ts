@@ -30,11 +30,6 @@ function fakeRedis() {
     },
     get: (key: string) => Promise.resolve((data.get(key) as string) ?? null),
     del: (key: string) => Promise.resolve(data.delete(key) ? 1 : 0),
-    getdel: (key: string) => {
-      const value = (data.get(key) as string) ?? null;
-      data.delete(key);
-      return Promise.resolve(value);
-    },
   };
   const multi = () => {
     const queued: (() => Promise<unknown>)[] = [];
@@ -72,7 +67,6 @@ describe('TelegramLoginService', () => {
   let handle: (update: TelegramUpdate) => Promise<void>;
   let sent: { chat: number; text: string; markup?: unknown }[];
   let loginWithPhone: jest.Mock;
-  let connectTelegram: jest.Mock;
 
   beforeEach(() => {
     sent = [];
@@ -88,7 +82,6 @@ describe('TelegramLoginService', () => {
     loginWithPhone = jest.fn((phone: string) =>
       Promise.resolve({ user: { phone }, accessToken: 'a', refreshToken: 'r' }),
     );
-    connectTelegram = jest.fn(() => Promise.resolve());
     const values: Record<string, string> = {
       siteUrl: 'https://taklifim.uz',
       nodeEnv: 'production',
@@ -99,7 +92,7 @@ describe('TelegramLoginService', () => {
     } as unknown as ConfigService;
     service = new TelegramLoginService(
       bot,
-      { loginWithPhone, connectTelegram } as unknown as AuthService,
+      { loginWithPhone } as unknown as AuthService,
       fakeRedis(),
       config,
     );
@@ -200,31 +193,5 @@ describe('TelegramLoginService', () => {
       from: { id: ALICE, language_code: 'ru' },
     });
     expect(sent.at(-1)?.text).toContain('Через этого бота');
-  });
-
-  it('connects a logged-in user’s Telegram when they press Start', async () => {
-    const { url } = await service.startConnect('user-1', 'ru');
-    const parameter = /start=(\S+)$/.exec(url)![1];
-    expect(parameter).toMatch(/^connect_[\w-]+$/);
-
-    await message(ALICE, { text: `/start ${parameter}` });
-    expect(connectTelegram).toHaveBeenCalledWith('user-1', {
-      id: '111',
-      locale: 'ru',
-    });
-    expect(sent.at(-1)?.text).toContain('Telegram подключён');
-
-    // Used up: a second press (or someone else) connects nothing.
-    await message(MALLORY, { text: `/start ${parameter}` });
-    expect(connectTelegram).toHaveBeenCalledTimes(1);
-    expect(sent.at(-1)?.text).toContain('muddati tugagan');
-  });
-
-  it('does not treat a connect link as a login', async () => {
-    const { url } = await service.startConnect('user-1', 'en');
-    const parameter = /start=(\S+)$/.exec(url)![1];
-    await message(ALICE, { text: `/start ${parameter}` });
-    expect(sent.at(-1)?.markup).toBeUndefined();
-    expect(loginWithPhone).not.toHaveBeenCalled();
   });
 });

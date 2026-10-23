@@ -49,11 +49,6 @@ export class AuthService {
     return { user, ...(await this.issueTokens(user)) };
   }
 
-  /** Connects a Telegram account to a user who is already logged in. */
-  connectTelegram(userId: string, telegram: TelegramAccount) {
-    return this.users.setTelegram(userId, telegram);
-  }
-
   /** Rotates the refresh token: the old one is revoked, a new pair is issued. */
   async refresh(refreshToken: string) {
     const payload = await this.verifyRefreshToken(refreshToken);
@@ -64,6 +59,10 @@ export class AuthService {
     const user = await this.users.findById(payload.sub).catch(() => {
       throw new UnauthorizedException();
     });
+    // Without their Telegram account the bot can't send them guests'
+    // replies; it's saved at Telegram login, so they log in again (users
+    // logged in before it was saved, or with a code).
+    if (!user.telegramId) throw new UnauthorizedException();
     return this.issueTokens(user);
   }
 

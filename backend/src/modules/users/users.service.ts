@@ -83,18 +83,6 @@ export class UsersService {
     return this.users.save(user);
   }
 
-  /**
-   * Remembers a logged-in user's Telegram account, for users who logged in
-   * before it was saved at login (or with a code).
-   */
-  async setTelegram(id: string, telegram: TelegramAccount) {
-    const { affected } = await this.users.update(
-      { id },
-      { telegramId: telegram.id, locale: telegram.locale },
-    );
-    if (!affected) throw new NotFoundException('User not found');
-  }
-
   private withCounts(query: SelectQueryBuilder<User>) {
     return query
       .addSelect(

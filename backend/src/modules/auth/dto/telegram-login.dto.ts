@@ -63,17 +63,3 @@ export class DevConfirmTelegramLoginDto {
   @IsNotEmpty()
   phone: string;
 }
-
-export class TelegramConnectStartedDto {
-  /**
-   * The bot link to open; pressing Start there connects the account.
-   * @example "https://t.me/TaklifimBot?start=connect_Xy3..."
-   */
-  url: string;
-
-  /**
-   * Seconds the link stays usable.
-   * @example 3600
-   */
-  expiresIn: number;
-}

@@ -405,12 +405,6 @@
       "title": "Osh taklifnomasi — bepul",
       "text": "Sizda {count} ta bepul osh taklifnomasi bor. Har bir sotib olingan taklifnoma uchun bittadan sovgʻa qilamiz.",
       "button": "Osh taklifnomasini yaratish"
-    },
-    "telegram": {
-      "title": "Telegramni ulang",
-      "text": "Mehmonlaringiz javoblari va tilaklari Telegramga keladi. Buning uchun botni bir marta oching va «Start» tugmasini bosing.",
-      "button": "Telegramni ulash",
-      "error": "Havolani olib boʻlmadi. Sahifani yangilang."
     }
   },
   "Dates": {
