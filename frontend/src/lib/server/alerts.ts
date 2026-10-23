@@ -39,8 +39,28 @@ function shouldSend(key: string) {
  */
 export async function sendAlert(key: string, lines: (string | undefined)[]) {
   if (!ENABLED || !shouldSend(key)) return;
+  await post("🔴", "web · ERROR", lines);
+}
+
+/** Posts a message as is, with no repeat limit. Failing to send is ignored. */
+export async function sendNotice(
+  icon: string,
+  title: string,
+  lines: (string | undefined)[],
+) {
+  if (!ENABLED) return;
+  await post(icon, title, lines);
+}
+
+export const alertsEnabled = ENABLED;
+
+async function post(
+  icon: string,
+  title: string,
+  lines: (string | undefined)[],
+) {
   const host = process.env.SITE_URL ? new URL(process.env.SITE_URL).host : "";
-  const text = [`🔴 ${host} web · ERROR`, ...lines]
+  const text = [`${icon} ${host} ${title}`, ...lines]
     .filter(Boolean)
     .join("\n\n");
   try {

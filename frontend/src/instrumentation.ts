@@ -1,6 +1,13 @@
 import type { Instrumentation } from "next";
 import { sendAlert } from "@/lib/server/alerts";
 
+/** Server start: watch the API's health and alert in Telegram. */
+export async function register() {
+  if (process.env.NEXT_RUNTIME !== "nodejs") return;
+  const { startHealthWatch } = await import("@/lib/server/health-watch");
+  startHealthWatch();
+}
+
 /**
  * A server error while rendering a page or running a route: one JSON line
  * (like the backend's, under the same request ID) and a Telegram alert.

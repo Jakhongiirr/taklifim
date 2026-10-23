@@ -202,7 +202,10 @@ cd /home/jony/caddy && docker compose logs -f --tail 100 caddy
 ```
 
 For monitoring, an external uptime check on `https://taklifim.uz/api/health`
-is enough to start with.
+is enough to start with. That route only says the web server is up; the web
+server itself polls the API's `/health` (database, Redis, MinIO) every minute
+and posts to the alert chat (`ALERT_TELEGRAM_*`) after two failed checks in a
+row, hourly while it stays down, and once more when it recovers.
 
 ## Logs and alerts
 
