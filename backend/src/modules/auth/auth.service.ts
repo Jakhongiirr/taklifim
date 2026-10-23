@@ -49,6 +49,11 @@ export class AuthService {
     return { user, ...(await this.issueTokens(user)) };
   }
 
+  /** Connects a Telegram account to a user who is already logged in. */
+  connectTelegram(userId: string, telegram: TelegramAccount) {
+    return this.users.setTelegram(userId, telegram);
+  }
+
   /** Rotates the refresh token: the old one is revoked, a new pair is issued. */
   async refresh(refreshToken: string) {
     const payload = await this.verifyRefreshToken(refreshToken);

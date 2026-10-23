@@ -14,6 +14,8 @@ export const BOT_MESSAGES: Record<
     notOwn: string;
     otherAccount: string;
     welcome: string;
+    connected: string;
+    connectExpired: string;
   }
 > = {
   uz: {
@@ -28,6 +30,10 @@ export const BOT_MESSAGES: Record<
       'Bu havola boshqa Telegram akkauntidan ochilgan. Saytda qaytadan boshlang.',
     welcome:
       'Bu bot orqali {site} saytiga kirasiz. Saytdagi kirish sahifasini oching va «Telegram orqali kirish» tugmasini bosing.',
+    connected:
+      '✅ Telegram ulandi! Endi mehmonlaringiz javoblarini shu yerda olasiz.',
+    connectExpired:
+      'Bu havolaning muddati tugagan. Saytdagi kabinetingizdan «Telegramni ulash» tugmasini qayta bosing.',
   },
   'uz-Cyrl': {
     askContact:
@@ -41,6 +47,10 @@ export const BOT_MESSAGES: Record<
       'Бу ҳавола бошқа Телеграм аккаунтидан очилган. Сайтда қайтадан бошланг.',
     welcome:
       'Бу бот орқали {site} сайтига кирасиз. Сайтдаги кириш саҳифасини очинг ва «Телеграм орқали кириш» тугмасини босинг.',
+    connected:
+      '✅ Телеграм уланди! Энди меҳмонларингиз жавобларини шу ерда оласиз.',
+    connectExpired:
+      'Бу ҳаволанинг муддати тугаган. Сайтдаги кабинетингиздан «Телеграмни улаш» тугмасини қайта босинг.',
   },
   ru: {
     askContact:
@@ -54,6 +64,10 @@ export const BOT_MESSAGES: Record<
       'Эта ссылка уже открыта в другом аккаунте Telegram. Начните заново на сайте.',
     welcome:
       'Через этого бота выполняется вход на {site}. Откройте страницу входа на сайте и нажмите «Войти через Telegram».',
+    connected:
+      '✅ Telegram подключён! Теперь ответы ваших гостей будут приходить сюда.',
+    connectExpired:
+      'Срок действия ссылки истёк. Снова нажмите «Подключить Telegram» в личном кабинете на сайте.',
   },
   en: {
     askContact:
@@ -67,5 +81,9 @@ export const BOT_MESSAGES: Record<
       'This link was opened from another Telegram account. Start again on the site.',
     welcome:
       'This bot logs you in to {site}. Open the login page there and tap “Log in with Telegram”.',
+    connected:
+      "✅ Telegram connected! Your guests' replies will now arrive here.",
+    connectExpired:
+      'This link has expired. Tap “Connect Telegram” in your account on the site again.',
   },
 };

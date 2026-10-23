@@ -402,6 +402,12 @@
       "title": "A plov invitation — free",
       "text": "{count, plural, one {You have # free plov invitation.} other {You have # free plov invitations.}} We give one for every invitation you buy.",
       "button": "Create a plov invitation"
+    },
+    "telegram": {
+      "title": "Connect Telegram",
+      "text": "Get your guests' replies and wishes in Telegram. Just open the bot once and tap “Start”.",
+      "button": "Connect Telegram",
+      "error": "Couldn't get the link. Refresh the page."
     }
   },
   "Dates": {

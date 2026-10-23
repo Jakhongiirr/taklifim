@@ -22,7 +22,14 @@ import { BOT_LOCALES, BOT_MESSAGES, type BotLocale } from './bot-messages';
 /** Seconds a login link stays usable. */
 const LOGIN_TTL = 300;
 
+/** Seconds a "connect Telegram" link stays usable. */
+const CONNECT_TTL = 3600;
+/** Starts the /start parameter of a connect link (login tokens are bare). */
+const CONNECT_PREFIX = 'connect_';
+
 const loginKey = (token: string) => `auth:tg:${token}`;
+/** A connect link: the user who asked for it and the site's language. */
+const connectKey = (token: string) => `auth:tg:connect:${token}`;
 /** Which login a Telegram user is in the middle of (between /start and contact). */
 const userKey = (telegramUserId: number) => `auth:tg:user:${telegramUserId}`;
 const hash = (value: string) => createHash('sha256').update(value).digest();
@@ -98,6 +105,33 @@ export class TelegramLoginService implements OnModuleInit {
   }
 
   /**
+   * A bot link that connects the logged-in user's Telegram account, so the
+   * bot can write to them (guests' replies, gifts). The account is saved at
+   * Telegram login, so this is for users who logged in before it was, or
+   * with a code: pressing Start in the bot is enough, no number needed.
+   */
+  async startConnect(userId: string, locale: BotLocale) {
+    const token = randomBytes(24).toString('base64url');
+    await this.redis.set(
+      connectKey(token),
+      JSON.stringify({ userId, locale }),
+      'EX',
+      CONNECT_TTL,
+    );
+    const parameter = CONNECT_PREFIX + token;
+    let url: string;
+    if (this.devMode) {
+      this.logger.warn(
+        `[dev] TELEGRAM_BOT_TOKEN not set. Connect link: /start ${parameter}`,
+      );
+      url = `https://t.me/dev_bot?start=${parameter}`;
+    } else {
+      url = this.bot.startLink(parameter);
+    }
+    return { url, expiresIn: CONNECT_TTL };
+  }
+
+  /**
    * "pending" until the number is shared, then logs in once: the login is
    * used up, so a second check finds it gone ("expired").
    */
@@ -144,6 +178,14 @@ export class TelegramLoginService implements OnModuleInit {
 
     const token = /^\/start(?:\s+([\w-]+))?/.exec(message.text ?? '')?.[1];
     if (!token) return this.reply(chat, language, 'welcome');
+    if (token.startsWith(CONNECT_PREFIX)) {
+      return this.onConnect(
+        chat,
+        from,
+        token.slice(CONNECT_PREFIX.length),
+        language,
+      );
+    }
     const login = await this.find(token);
     if (!login) return this.reply(chat, language, 'expired');
     if (login.telegramUserId && login.telegramUserId !== String(from)) {
@@ -162,6 +204,24 @@ export class TelegramLoginService implements OnModuleInit {
       resize_keyboard: true,
       one_time_keyboard: true,
     });
+  }
+
+  /** A connect link opened: this Telegram account is the user's. */
+  private async onConnect(
+    chat: number,
+    from: number,
+    token: string,
+    language: BotLocale,
+  ) {
+    const stored = await this.redis.getdel(connectKey(token));
+    if (!stored) return this.reply(chat, language, 'connectExpired');
+    const { userId, locale } = JSON.parse(stored) as {
+      userId: string;
+      locale: BotLocale;
+    };
+    await this.auth.connectTelegram(userId, { id: String(from), locale });
+    this.logger.log(`Telegram connected for user ${userId}`);
+    await this.reply(chat, locale, 'connected');
   }
 
   private async onContact(

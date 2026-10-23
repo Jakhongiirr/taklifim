@@ -5,6 +5,8 @@ export type Role = "user" | "admin";
 export interface User {
   id: string;
   phone: string;
+  /** Null until they log in with Telegram or connect it in the cabinet. */
+  telegramId: string | null;
   role: Role;
   lastLoginAt: string | null;
   createdAt: string;

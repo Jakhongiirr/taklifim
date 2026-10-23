@@ -21,8 +21,8 @@ export class User {
 
   /**
    * Their Telegram account (also their private chat with the bot), saved at
-   * Telegram login; guests' replies are sent there. Null until they log in
-   * with Telegram.
+   * Telegram login or with the cabinet's "Connect Telegram"; guests' replies
+   * are sent there. Null until then.
    */
   @Column({ type: 'bigint', nullable: true })
   telegramId: string | null;

@@ -5,6 +5,7 @@ import LogoutButton from "@/components/site/cabinet/logout-button";
 import GiftBanner from "@/components/site/cabinet/gift-banner";
 import PaymentReturn from "@/components/site/cabinet/payment-return";
 import TaklifCard from "@/components/site/cabinet/taklif-card";
+import TelegramConnect from "@/components/site/cabinet/telegram-connect";
 import SiteFooter from "@/components/site/site-footer";
 import SiteHeader from "@/components/site/site-header";
 import { Link } from "@/i18n/navigation";
@@ -71,6 +72,9 @@ export default async function CabinetPage({
 
         {/* Back from Payme: confirms the payment. */}
         <PaymentReturn />
+
+        {/* Without it the bot can't send them guests' replies. */}
+        {!user.telegramId && <TelegramConnect />}
 
         {giftsLeft > 0 && gifts?.themeId && (
           <GiftBanner count={giftsLeft} themeId={gifts.themeId} />
