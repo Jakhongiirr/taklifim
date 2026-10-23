@@ -58,8 +58,8 @@ const SWITCHER: Record<string, SwitcherColors> = {
     on: "bg-[#c04c68] text-white",
   },
   violet: {
-    pill: "bg-[#2a1f48]/85 text-[#f5c27a] ring-1 ring-[#b79ce8]/40",
-    on: "bg-[#b79ce8] text-[#1b1430]",
+    pill: "bg-[#141c3e]/85 text-[#c9d2f4] ring-1 ring-[#9fb0f0]/40",
+    on: "bg-[#c9d2f4] text-[#0f1631]",
   },
   paris: {
     pill: "bg-[#fbf7f2]/90 text-[#2c3550] ring-1 ring-[#b8925a]/50",
