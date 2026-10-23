@@ -588,6 +588,7 @@
       "hostHint": "Masalan: Karimovlar oilasi",
       "occasion": "Marosim",
       "occasionHint": "Taklifnoma matni shunga qarab yoziladi, dizayn oʻzgarmaydi",
+      "occasionLocked": "Toʻlovdan soʻng marosimni oʻzgartirib boʻlmaydi.",
       "letter": "Taklif matni",
       "letterHint": "Mehmon tilni almashtirsa ham, matn siz yozgandek qoladi.",
       "eventAt": "Sana va vaqt",

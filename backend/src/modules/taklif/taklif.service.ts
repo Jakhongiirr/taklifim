@@ -221,8 +221,16 @@ export class TaklifService {
       rest.occasion,
       taklif.occasion,
     );
-    if (occasion !== taklif.occasion) changes.occasion = occasion;
-    else delete changes.occasion;
+    if (occasion !== taklif.occasion) {
+      // Paid for as this occasion: a fotiha can't be reused for the wedding
+      // (admins may still switch it).
+      if (taklif.paidAt && !isAdmin(user)) {
+        throw new ConflictException(
+          "A paid invitation's occasion can't change",
+        );
+      }
+      changes.occasion = occasion;
+    } else delete changes.occasion;
 
     const currentIds = taklif.photos.map((photo) => photo.fileId);
     const photosChanged =
