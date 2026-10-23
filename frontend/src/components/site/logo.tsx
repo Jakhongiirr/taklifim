@@ -1,16 +1,13 @@
 import Image from "next/image";
 
-// Traced from the brand artwork (public/brand/). Sizes are the viewBoxes.
-const HORIZONTAL = {
-  src: "/brand/logo-horizontal.svg",
-  width: 2425,
-  height: 545,
-};
-const MARK = { src: "/brand/logo-mark.svg", width: 852, height: 843 };
+// The gold monogram (cut out of the brand artwork) and the traced wordmark,
+// both in public/brand/. Sizes are the files' own.
+const MARK = { src: "/brand/logo-mark.webp", width: 320, height: 240 };
+const WORDMARK = { src: "/brand/logo-wordmark.svg", width: 1771, height: 325 };
 
 /**
- * The taklifim.uz logo. `compact` shows just the emblem on phones, where the
- * header has no room for the wordmark; from `sm` the full logo shows.
+ * The taklifim.uz logo. `compact` shows just the monogram on phones, where
+ * the header has no room for the wordmark; from `sm` the full logo shows.
  */
 export default function Logo({
   compact = false,
@@ -20,26 +17,22 @@ export default function Logo({
   /** Sets the height (the width follows). */
   className?: string;
 }) {
-  const full = (
-    <Image
-      {...HORIZONTAL}
-      alt="taklifim.uz"
-      unoptimized
-      priority
-      className={`w-auto ${className} ${compact ? "hidden sm:block" : ""}`}
-    />
-  );
-  if (!compact) return full;
   return (
-    <>
+    <span className={`inline-flex items-center gap-2 ${className}`}>
       <Image
         {...MARK}
         alt="taklifim.uz"
         unoptimized
         priority
-        className={`w-auto sm:hidden ${className}`}
+        className="h-full w-auto"
       />
-      {full}
-    </>
+      <Image
+        {...WORDMARK}
+        alt=""
+        unoptimized
+        priority
+        className={`h-[58%] w-auto ${compact ? "hidden sm:block" : ""}`}
+      />
+    </span>
   );
 }

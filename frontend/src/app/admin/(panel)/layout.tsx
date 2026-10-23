@@ -24,10 +24,10 @@ export default async function PanelLayout({ children }: LayoutProps<"/admin">) {
   const brand = (
     <Link href="/admin" className="flex items-center gap-2.5 font-semibold">
       <Image
-        src="/brand/logo-mark.svg"
+        src="/brand/logo-mark.webp"
         alt=""
-        width={852}
-        height={843}
+        width={320}
+        height={240}
         unoptimized
         className="h-7 w-auto"
       />

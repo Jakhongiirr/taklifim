@@ -30,26 +30,22 @@ function ogBackground() {
   return background;
 }
 
-/** The credit's logo mark, its two tones (ink, accent) in `color`. */
+/** The credit's logo mark, the monogram stencil in `color`. */
 function creditMark(color: string) {
-  return Promise.all(
-    ["ink", "accent"].map((tone) =>
-      readFile(
-        join(process.cwd(), `public/brand/logo-mark-${tone}.svg`),
-        "utf8",
-      ).then(
-        (svg) =>
-          `data:image/svg+xml;base64,${Buffer.from(
-            svg.replace(/fill="[^"]*"/g, `fill="${color}"`),
-          ).toString("base64")}`,
-      ),
-    ),
+  return readFile(
+    join(process.cwd(), "public/brand/logo-mark-mono.svg"),
+    "utf8",
+  ).then(
+    (svg) =>
+      `data:image/svg+xml;base64,${Buffer.from(
+        svg.replace(/fill="[^"]*"/g, `fill="${color}"`),
+      ).toString("base64")}`,
   );
 }
 
 const CREDIT_FONT = "GeistSans";
 
-let credit: Promise<{ fonts: OgFont[]; mark: string[] }> | undefined;
+let credit: Promise<{ fonts: OgFont[]; mark: string }> | undefined;
 
 /** The credit's plain sans (Geist, as on the site) and its logo mark. */
 function creditAssets() {
@@ -282,31 +278,8 @@ function Credit({ assets }: { assets: Assets }) {
           textShadow: "none",
         }}
       >
-        <div
-          style={{
-            display: "flex",
-            position: "relative",
-            width: 40,
-            height: 40,
-          }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-          <img
-            src={assets.mark[1]}
-            alt=""
-            width={40}
-            height={40}
-            style={{ position: "absolute", opacity: 0.45 }}
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
-          <img
-            src={assets.mark[0]}
-            alt=""
-            width={40}
-            height={40}
-            style={{ position: "absolute" }}
-          />
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element -- rendered by next/og, not the browser */}
+        <img src={assets.mark} alt="" width={53} height={40} />
         <div style={{ display: "flex" }}>
           <span style={{ fontWeight: 600 }}>Taklifim.uz</span>
           <span>&nbsp;orqali yaratildi</span>
