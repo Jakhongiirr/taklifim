@@ -9,6 +9,7 @@ import MadeWith from "./shared/made-with";
 import MapLink from "./shared/map-link";
 import Rsvp from "./shared/rsvp";
 import VenueMap from "./shared/venue-map";
+import LetterText from "./shared/letter-text";
 import { occasionMessages } from "./shared/occasion";
 import type { ThemeProps } from "./types";
 
@@ -55,10 +56,15 @@ export default async function PlainInvitation({
         }
       >
         <p>
-          {tw("text", { groom: taklif.groomName, bride: taklif.brideName })}
+          <LetterText
+            text={tw("text", {
+              groom: taklif.groomName,
+              bride: taklif.brideName,
+            })}
+          />
         </p>
         <p className="mt-3 text-muted">
-          {t("signature", { host: taklif.hostName })}
+          {tw("signature", { host: taklif.hostName })}
         </p>
       </Section>
 

@@ -10,6 +10,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import LetterText from "../shared/letter-text";
 import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./classic.css";
@@ -135,10 +136,12 @@ export default async function ClassicTheme({
                 : tw("greeting")}
             </h2>
             <p className="mt-5 text-xl leading-relaxed">
-              {tw("text", {
-                groom: taklif.groomName,
-                bride: taklif.brideName,
-              })}
+              <LetterText
+                text={tw("text", {
+                  groom: taklif.groomName,
+                  bride: taklif.brideName,
+                })}
+              />
             </p>
           </div>
         </section>
@@ -267,7 +270,7 @@ export default async function ClassicTheme({
             <Flourish />
             <p className={`mt-8 text-4xl italic ${WINE}`}>{t("closing")}</p>
             <p className="mt-6 text-xl text-[#5a4c3e] italic">
-              {t("signature", { host: taklif.hostName })}
+              {tw("signature", { host: taklif.hostName })}
             </p>
           </div>
           <p

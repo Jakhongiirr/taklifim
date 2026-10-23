@@ -10,6 +10,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import LetterText from "../shared/letter-text";
 import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./lavel.css";
@@ -167,10 +168,12 @@ export default async function LavelTheme({
                 : tw("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              {tw("text", {
-                groom: taklif.groomName,
-                bride: taklif.brideName,
-              })}
+              <LetterText
+                text={tw("text", {
+                  groom: taklif.groomName,
+                  bride: taklif.brideName,
+                })}
+              />
             </p>
           </div>
         </section>
@@ -293,7 +296,7 @@ export default async function LavelTheme({
             <p className="mt-8 text-lg leading-relaxed">{t("lavel.wish")}</p>
             <p className={`mt-8 text-5xl ${SCRIPT} ${PLUM}`}>{t("closing")}</p>
             <p className={`mt-6 text-lg italic ${MUTED}`}>
-              {t("signature", { host: taklif.hostName })}
+              {tw("signature", { host: taklif.hostName })}
             </p>
           </div>
           <Bouquet className="lavel-reveal mx-auto mt-10 h-36 w-28" />

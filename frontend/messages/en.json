@@ -458,12 +458,13 @@
       "plovOccasion": "In honour of the wedding",
       "plovText": "We warmly invite you to our morning plov in honour of the wedding of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
       "greeting": "Dear guest!",
-      "greetingNamed": "Dear {name}!"
+      "greetingNamed": "Dear {name}!",
+      "signature": "With respect, {host}"
     },
     "fotiha": {
       "metaTitle": "{names} — fotiha invitation",
       "invite": "We invite you to our fotiha",
-      "text": "A joyful day is coming for our two families — the engagement of {groom} and {bride}. We would love to spend it among those dear to us, together with you.",
+      "text": "A joyful and unforgettable day is approaching for our two families — the Fotiha celebration of {groom} and {bride}.\n\nIt would be our greatest pleasure to share this special occasion with you, surrounded by our beloved family and dear friends, as we celebrate the beginning of a beautiful new chapter in their lives.",
       "dateTitle": "Fotiha date",
       "countdownTitle": "Time until the fotiha",
       "countdownPassed": "The fotiha has taken place. Thank you for being with us!",
@@ -471,15 +472,15 @@
       "lavelCeremony": "Fotiha celebration",
       "plovOccasion": "In honour of the fotiha",
       "plovText": "We warmly invite you to our morning plov in honour of the fotiha (engagement) of our children, {groom} and {bride}. Our dastarkhan will be all the richer for your company.",
-      "greeting": "Dear guest!",
-      "greetingNamed": "Dear {name}!"
+      "greeting": "Dear Valued Guest,",
+      "greetingNamed": "Dear {name},",
+      "signature": "With warm regards, {host}"
     },
     "cover": {
       "eyebrow": "Invitation",
       "open": "Open the invitation",
       "skip": "Skip"
     },
-    "signature": "With respect, {host}",
     "date": {
       "time": "At {time}"
     },

@@ -5,6 +5,7 @@ import { cardAssets, STORY_SIZE, StoryCard } from "@/lib/og/card";
 import { getTaklifPreview } from "@/lib/server/taklif";
 import { tashkentParts } from "@/lib/tashkent-date";
 import { cyrillicOwnerText } from "@/lib/uz-cyrillic";
+import { occasionMessages } from "@/themes/shared/occasion";
 
 // The invitation as a PNG the owner can save and send anywhere (a story or
 // phone-screen size): names, date, venue and host on the shared card
@@ -27,7 +28,7 @@ export async function GET(
   }
 
   const [t, tDates, assets] = await Promise.all([
-    getTranslations({ locale, namespace: "Invitation" }),
+    getTranslations({ locale, namespace: occasionMessages(taklif) }),
     getTranslations({ locale, namespace: "Dates" }),
     cardAssets(),
   ]);

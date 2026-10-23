@@ -461,12 +461,13 @@
       "plovOccasion": "Nikoh toʻyi munosabati bilan",
       "plovText": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
       "greeting": "Hurmatli mehmon!",
-      "greetingNamed": "Hurmatli {name}!"
+      "greetingNamed": "Hurmatli {name}!",
+      "signature": "Hurmat bilan, {host}"
     },
     "fotiha": {
       "metaTitle": "{names} — fotiha toʻyiga taklifnoma",
       "invite": "Sizni fotiha toʻyimizga taklif qilamiz",
-      "text": "Ikki oilamiz uchun quvonchli kun yaqinlashmoqda — {groom} va {bride}ning fotiha toʻyi. Bu kunni yaqinlarimiz davrasida, siz bilan birga oʻtkazishni istaymiz.",
+      "text": "Ikki oilamiz uchun quvonchli va unutilmas kun — {groom} va {bride}ning fotiha toʻyi yaqinlashmoqda.\n\nUshbu qutlugʻ kunda quvonchimizga sherik boʻlib, shodiyonamizni qadrli yaqinlarimiz davrasida, Siz bilan birga nishonlashdan mamnun boʻlamiz.",
       "dateTitle": "Fotiha toʻyi sanasi",
       "countdownTitle": "Fotiha toʻyigacha qoldi",
       "countdownPassed": "Fotiha toʻyi boʻlib oʻtdi. Tashrifingiz uchun rahmat!",
@@ -474,15 +475,15 @@
       "lavelCeremony": "Fotiha toʻyi tantanasi",
       "plovOccasion": "Fotiha toʻyi munosabati bilan",
       "plovText": "Farzandlarimiz {groom} va {bride}ning fotiha toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
-      "greeting": "Qadrli mehmon!",
-      "greetingNamed": "Qadrli {name}!"
+      "greeting": "Qadrli va aziz mehmonimiz!",
+      "greetingNamed": "Qadrli va aziz {name}!",
+      "signature": "Hurmat va ehtirom ila, {host}"
     },
     "cover": {
       "eyebrow": "Taklifnoma",
       "open": "Taklifnomani ochish",
       "skip": "Oʻtkazib yuborish"
     },
-    "signature": "Hurmat bilan, {host}",
     "date": {
       "time": "Soat {time}"
     },

@@ -13,6 +13,7 @@ import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import LetterText from "../shared/letter-text";
 import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./dove.css";
@@ -158,13 +159,15 @@ export default async function DoveTheme({
                   : tw("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
-                {tw("text", {
-                  groom: taklif.groomName,
-                  bride: taklif.brideName,
-                })}
+                <LetterText
+                  text={tw("text", {
+                    groom: taklif.groomName,
+                    bride: taklif.brideName,
+                  })}
+                />
               </p>
               <p className="mt-[4.5cqw] font-serif text-[4.2cqw] text-[#796165] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>
