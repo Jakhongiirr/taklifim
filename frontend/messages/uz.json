@@ -537,6 +537,7 @@
     },
     "preview": {
       "back": "Kabinet",
+      "backAdmin": "Admin",
       "edit": "Tahrirlash",
       "label": "Oldindan koʻrish",
       "readyTitle": "Taklifnomangiz tayyor!",

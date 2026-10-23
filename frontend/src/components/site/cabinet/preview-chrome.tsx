@@ -65,22 +65,19 @@ export default function PreviewChrome({
     <>
       <div className="sticky top-0 z-50 border-b border-white/10 bg-ink/85 text-paper backdrop-blur-md">
         <div className="mx-auto flex h-12 max-w-3xl items-center justify-between gap-2 px-3">
-          <Link
-            href="/cabinet"
-            className="flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm text-paper/80 transition-colors hover:bg-white/10 hover:text-paper"
-          >
-            <svg aria-hidden viewBox="0 0 24 24" className="size-4">
-              <path
-                d="M15 6l-6 6 6 6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            {t("back")}
-          </Link>
+          {owner ? (
+            <Link href="/cabinet" className={backClass}>
+              <BackArrow />
+              {t("back")}
+            </Link>
+          ) : (
+            // An admin looking at someone else's goes back to the panel's
+            // list (English only, no locale prefix), found by the slug.
+            <a href={`/admin/invitations?q=${slug}`} className={backClass}>
+              <BackArrow />
+              {t("backAdmin")}
+            </a>
+          )}
 
           <StatusChip status={payment.published ? "published" : status} />
 
@@ -237,6 +234,24 @@ export default function PreviewChrome({
         </div>
       )}
     </>
+  );
+}
+
+const backClass =
+  "flex items-center gap-1.5 rounded-full px-2.5 py-1.5 text-sm whitespace-nowrap text-paper/80 transition-colors hover:bg-white/10 hover:text-paper";
+
+function BackArrow() {
+  return (
+    <svg aria-hidden viewBox="0 0 24 24" className="size-4">
+      <path
+        d="M15 6l-6 6 6 6"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }
 
