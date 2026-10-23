@@ -158,7 +158,7 @@ export default async function AuroraTheme({
                 />
               </p>
               <p className="mt-[3.5cqw] font-serif text-[3.9cqw] text-[#6e5638] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

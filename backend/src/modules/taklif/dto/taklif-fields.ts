@@ -33,7 +33,7 @@ export const Text = (maxLength: number) =>
   );
 
 /** Longest owner-written letter: it still fits every theme's letter frame. */
-export const MAX_LETTER_TEXT = 400;
+export const MAX_LETTER_TEXT = 600;
 
 /**
  * The owner's own letter wording. Trimmed, with runs of blank lines folded

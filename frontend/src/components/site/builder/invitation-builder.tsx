@@ -74,7 +74,7 @@ const MAX_LENGTH: Partial<Record<FieldKey, number>> = {
   hostName: 100,
   venueName: 200,
   venueAddress: 300,
-  letterText: 400, // MAX_LETTER_TEXT
+  letterText: 600, // MAX_LETTER_TEXT
 };
 const REQUIRED: FieldKey[] = [
   "themeId",

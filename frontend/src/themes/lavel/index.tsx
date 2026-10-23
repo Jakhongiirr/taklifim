@@ -297,7 +297,7 @@ export default async function LavelTheme({
             <p className="mt-8 text-lg leading-relaxed">{t("lavel.wish")}</p>
             <p className={`mt-8 text-5xl ${SCRIPT} ${PLUM}`}>{t("closing")}</p>
             <p className={`mt-6 text-lg italic ${MUTED}`}>
-              {t("signature", { host: taklif.hostName })}
+              {tw("signature", { host: taklif.hostName })}
             </p>
           </div>
           <Bouquet className="lavel-reveal mx-auto mt-10 h-36 w-28" />

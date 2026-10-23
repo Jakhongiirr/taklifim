@@ -271,7 +271,7 @@ export default async function ClassicTheme({
             <Flourish />
             <p className={`mt-8 text-4xl italic ${WINE}`}>{t("closing")}</p>
             <p className="mt-6 text-xl text-[#5a4c3e] italic">
-              {t("signature", { host: taklif.hostName })}
+              {tw("signature", { host: taklif.hostName })}
             </p>
           </div>
           <p

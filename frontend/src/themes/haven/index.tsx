@@ -162,11 +162,11 @@ export default async function HavenTheme({
                     groom: taklif.groomName,
                     bride: taklif.brideName,
                   })}
-                  fit
+                  fit="tight"
                 />
               </p>
               <p className="mt-[5cqw] font-serif text-[4.6cqw] text-[#56402c] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

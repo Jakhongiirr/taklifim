@@ -164,7 +164,7 @@ export default async function ArcadeTheme({
                 />
               </p>
               <p className="mt-[4.5cqw] font-serif text-[4cqw] text-[#7d5f74] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

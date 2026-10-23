@@ -284,7 +284,7 @@ export default async function PlovTheme({
               {t("plov.closing")}
             </p>
             <p className={`mt-6 text-xl italic ${SOFT}`}>
-              {t("signature", { host: taklif.hostName })}
+              {tw("signature", { host: taklif.hostName })}
             </p>
           </div>
           <StarRule className="mt-12" />

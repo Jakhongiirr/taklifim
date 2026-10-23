@@ -169,7 +169,7 @@ export default async function DoveTheme({
                 />
               </p>
               <p className="mt-[4.5cqw] font-serif text-[4.2cqw] text-[#796165] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

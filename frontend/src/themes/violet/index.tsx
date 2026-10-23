@@ -169,7 +169,7 @@ export default async function VioletTheme({
                 />
               </p>
               <p className="mt-[4cqw] font-serif text-[4.2cqw] text-[#b4bde0] italic">
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

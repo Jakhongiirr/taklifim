@@ -162,7 +162,7 @@ export default async function ParisTheme({
               <p
                 className={`${playfair.className} mt-[4cqw] text-[4.2cqw] text-[#5d6280] italic`}
               >
-                {t("signature", { host: taklif.hostName })}
+                {tw("signature", { host: taklif.hostName })}
               </p>
             </div>
           </div>

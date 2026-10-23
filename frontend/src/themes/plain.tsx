@@ -65,7 +65,7 @@ export default async function PlainInvitation({
           />
         </p>
         <p className="mt-3 text-muted">
-          {t("signature", { host: taklif.hostName })}
+          {tw("signature", { host: taklif.hostName })}
         </p>
       </Section>
 
