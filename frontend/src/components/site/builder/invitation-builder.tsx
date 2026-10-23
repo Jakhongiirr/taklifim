@@ -12,7 +12,7 @@ import {
 import { useRouter as useAppRouter } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { api, ApiError, uploadFile } from "@/lib/api-client";
-import type { FileDto, Music, Taklif } from "@/lib/api-types";
+import type { FileDto, Music, Occasion, Taklif } from "@/lib/api-types";
 import {
   formatCardNumber,
   fromTashkentInput,
@@ -34,6 +34,7 @@ type Fields = {
   brideName: string;
   groomName: string;
   hostName: string;
+  occasion: Occasion;
   eventAt: string;
   venueName: string;
   venueAddress: string;
@@ -43,6 +44,9 @@ type Fields = {
 };
 type FieldKey = keyof Fields;
 type Errors = Partial<Record<FieldKey, string>>;
+
+/** What the invitation is for: only its wording changes. */
+const OCCASIONS: Occasion[] = ["wedding", "fotiha"];
 
 // Mirrors the backend's column limits (taklif-fields.ts / taklif.entity.ts).
 const MAX_LENGTH: Partial<Record<FieldKey, number>> = {
@@ -110,6 +114,7 @@ export default function InvitationBuilder({
     brideName: taklif?.brideName ?? "",
     groomName: taklif?.groomName ?? "",
     hostName: taklif?.hostName ?? "",
+    occasion: taklif?.occasion ?? "wedding",
     eventAt: taklif ? toTashkentInput(taklif.eventAt) : "",
     venueName: taklif?.venueName ?? "",
     venueAddress: taklif?.venueAddress ?? "",
@@ -360,6 +365,7 @@ export default function InvitationBuilder({
         brideName: fields.brideName.trim(),
         groomName: fields.groomName.trim(),
         hostName: fields.hostName.trim(),
+        occasion: fields.occasion,
         eventAt: fromTashkentInput(fields.eventAt),
         venueName: fields.venueName.trim(),
         venueAddress: fields.venueAddress.trim(),
@@ -467,7 +473,43 @@ export default function InvitationBuilder({
           </Field>
         </Section>
 
-        <Section n={3} title={t(osh ? "osh.sections.event" : "sections.event")}>
+        <Section
+          n={3}
+          title={t(
+            osh
+              ? "osh.sections.event"
+              : fields.occasion === "fotiha"
+                ? "fotiha.sections.event"
+                : "sections.event",
+          )}
+        >
+          {/* Not a Field: a <label> would pass its clicks to the first button. */}
+          <div className="flex flex-col gap-2">
+            <span id="occasion-label" className="text-sm font-medium text-ink">
+              {t("fields.occasion")}
+            </span>
+            <div
+              role="radiogroup"
+              aria-labelledby="occasion-label"
+              className="grid grid-cols-2 gap-2"
+            >
+              {OCCASIONS.map((occasion) => (
+                <button
+                  key={occasion}
+                  type="button"
+                  role="radio"
+                  aria-checked={fields.occasion === occasion}
+                  onClick={() => set("occasion", occasion)}
+                  className={`h-12 rounded-2xl border px-3 text-sm font-medium transition-colors ${fields.occasion === occasion ? "border-sage bg-sage/10 text-ink ring-2 ring-sage/20" : "border-line bg-white text-muted hover:text-ink"}`}
+                >
+                  {t(`occasions.${occasion}`)}
+                </button>
+              ))}
+            </div>
+            <span className="text-sm text-muted">
+              {t("fields.occasionHint")}
+            </span>
+          </div>
           <Field
             label={t(osh ? "osh.fields.eventAt" : "fields.eventAt")}
             hint={

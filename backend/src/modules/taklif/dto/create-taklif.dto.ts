@@ -1,4 +1,5 @@
-import { IsOptional, IsUUID } from 'class-validator';
+import { IsEnum, IsOptional, IsUUID } from 'class-validator';
+import { TaklifOccasion } from '../taklif-occasion.enum';
 import {
   CardNumber,
   EventAt,
@@ -22,6 +23,11 @@ export class CreateTaklifDto {
   /** @example "Karimovlar oilasi" */
   @Text(100)
   hostName: string;
+
+  /** Optional; "wedding" by default. Changes the wording, not the design. */
+  @IsOptional()
+  @IsEnum(TaklifOccasion)
+  occasion?: TaklifOccasion;
 
   /**
    * When the wedding starts, with a time zone.

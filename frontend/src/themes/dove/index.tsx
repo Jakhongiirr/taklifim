@@ -13,6 +13,7 @@ import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./dove.css";
 import { doveScript, forum } from "./fonts";
@@ -33,8 +34,9 @@ export default async function DoveTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -110,7 +112,7 @@ export default async function DoveTheme({
               className={`${forum.className} dove-rise text-xs tracking-[0.4em] text-[#6b3f4a] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
             >
-              {t("cover.invite")}
+              {tw("invite")}
             </p>
             <div
               className="dove-rise mt-3"
@@ -156,7 +158,7 @@ export default async function DoveTheme({
                   : t("greeting")}
               </h2>
               <p className="mt-[4cqw] font-serif text-[4.6cqw] leading-relaxed">
-                {t("text", {
+                {tw("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
@@ -168,7 +170,7 @@ export default async function DoveTheme({
           </div>
         </section>
 
-        <Section title={t("date.title")}>
+        <Section title={tw("dateTitle")}>
           <div className="dove-reveal">
             {/* The day under an arch, like the ones in the video. */}
             <div className="relative mx-auto flex h-60 w-44 flex-col items-center justify-center rounded-t-full bg-gradient-to-b from-[#efe5d3] to-[#f9ecdb] ring-1 ring-[#b8955a]/50">
@@ -193,10 +195,11 @@ export default async function DoveTheme({
             <p
               className={`${forum.className} mb-4 text-xs tracking-[0.3em] text-[#576a79] uppercase`}
             >
-              {t("countdown.title")}
+              {tw("countdownTitle")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="rounded-t-full rounded-b-xl bg-[#efe5d3]/70 pt-5 pb-3 ring-1 ring-[#b8955a]/30"
             />
           </div>

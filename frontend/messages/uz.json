@@ -450,28 +450,46 @@
     ]
   },
   "Invitation": {
-    "metaTitle": "{names} — toʻyga taklifnoma",
+    "wedding": {
+      "metaTitle": "{names} — toʻyga taklifnoma",
+      "invite": "Sizni toʻyimizga taklif qilamiz",
+      "text": "Hayotimizning eng quvonchli kunida yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning nikoh toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
+      "dateTitle": "Toʻy sanasi",
+      "countdownTitle": "Toʻygacha qoldi",
+      "countdownPassed": "Toʻy boʻlib oʻtdi. Tashrifingiz uchun rahmat!",
+      "lavelInvite": "Toʻyimizga tashrif buyurishingizni soʻraymiz",
+      "lavelCeremony": "Nikoh toʻyi tantanasi",
+      "plovOccasion": "Nikoh toʻyi munosabati bilan",
+      "plovText": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz."
+    },
+    "fotiha": {
+      "metaTitle": "{names} — fotiha toʻyiga taklifnoma",
+      "invite": "Sizni fotiha toʻyimizga taklif qilamiz",
+      "text": "Hayotimizdagi muborak kunda yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning fotiha toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
+      "dateTitle": "Fotiha toʻyi sanasi",
+      "countdownTitle": "Fotiha toʻyigacha qoldi",
+      "countdownPassed": "Fotiha toʻyi boʻlib oʻtdi. Tashrifingiz uchun rahmat!",
+      "lavelInvite": "Fotiha toʻyimizga tashrif buyurishingizni soʻraymiz",
+      "lavelCeremony": "Fotiha toʻyi tantanasi",
+      "plovOccasion": "Fotiha toʻyi munosabati bilan",
+      "plovText": "Farzandlarimiz {groom} va {bride}ning fotiha toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz."
+    },
     "cover": {
       "eyebrow": "Taklifnoma",
-      "invite": "Sizni toʻyimizga taklif qilamiz",
       "open": "Taklifnomani ochish",
       "skip": "Oʻtkazib yuborish"
     },
     "greeting": "Hurmatli mehmon!",
     "greetingNamed": "Hurmatli {name}!",
-    "text": "Hayotimizning eng quvonchli kunida yonimizda boʻlishingizni istaymiz. Sizni {groom} va {bride}ning nikoh toʻyiga bagʻishlangan tantanamizga taklif qilamiz.",
     "signature": "Hurmat bilan, {host}",
     "date": {
-      "title": "Toʻy sanasi",
       "time": "Soat {time}"
     },
     "countdown": {
-      "title": "Toʻygacha qoldi",
       "days": "kun",
       "hours": "soat",
       "minutes": "daqiqa",
-      "seconds": "soniya",
-      "passed": "Toʻy boʻlib oʻtdi. Tashrifingiz uchun rahmat!"
+      "seconds": "soniya"
     },
     "venue": {
       "title": "Manzil",
@@ -496,8 +514,6 @@
       "forYou": "Bu taklifnoma siz uchun maxsus",
       "sealHint": "Ochish uchun muhrni bosing",
       "hello": "Assalomu alaykum",
-      "invite": "Toʻyimizga tashrif buyurishingizni soʻraymiz",
-      "ceremony": "Nikoh toʻyi tantanasi",
       "tagline": "Ikki qalb bir boʻlib gullagan kun — hayotimizning eng goʻzal bahori",
       "dayMonth": "{day}-{month}, {weekday}",
       "startTime": "Boshlanish vaqti",
@@ -538,9 +554,7 @@
     },
     "plov": {
       "eyebrow": "Nahorgi osh",
-      "occasion": "Nikoh toʻyi munosabati bilan",
       "lidHint": "Ochish uchun qopqoqni bosing",
-      "text": "Farzandlarimiz {groom} va {bride}ning nikoh toʻyi munosabati bilan beriladigan nahorgi oshimizga sizni lutfan taklif etamiz. Dasturxonimiz fayzli, davramiz toʻkis boʻlishi uchun tashrifingizni kutib qolamiz.",
       "dateTitle": "Osh vaqti",
       "served": "Osh tortiladi",
       "countdown": "Oshgacha qoldi",
@@ -569,6 +583,8 @@
       "groomName": "Kuyovning ismi",
       "hostName": "Taklif qiluvchi",
       "hostHint": "Masalan: Karimovlar oilasi",
+      "occasion": "Marosim",
+      "occasionHint": "Taklifnoma matni shunga qarab yoziladi, dizayn oʻzgarmaydi",
       "eventAt": "Sana va vaqt",
       "eventTime": "Vaqt",
       "eventHint": "Toshkent vaqti bilan",
@@ -579,6 +595,10 @@
       "phone": "Aloqa uchun telefon",
       "phoneHint": "Ixtiyoriy. Savollari boʻlsa, mehmonlar qoʻngʻiroq qiladi.",
       "eventChangesHint": "Eʼlon qilingan taklifnoma sanasini {count, plural, =0 {endi oʻzgartirib boʻlmaydi} other {yana # marta oʻzgartirish mumkin}}."
+    },
+    "occasions": {
+      "wedding": "Nikoh toʻyi",
+      "fotiha": "Fotiha toʻyi"
     },
     "map": {
       "label": "Xaritadagi joy",
@@ -667,6 +687,11 @@
         "eventAt": "Osh sanasi va vaqti",
         "eventHint": "Toshkent vaqti bilan. Nahorgi osh odatda erta tongda, masalan 06:00 da",
         "venueName": "Osh beriladigan joy"
+      }
+    },
+    "fotiha": {
+      "sections": {
+        "event": "Fotiha toʻyi tafsilotlari"
       }
     }
   },

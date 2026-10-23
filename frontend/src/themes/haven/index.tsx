@@ -13,6 +13,7 @@ import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import { cormorantSc, prata } from "./fonts";
 import "./haven.css";
@@ -32,8 +33,9 @@ export default async function HavenTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -107,7 +109,7 @@ export default async function HavenTheme({
               className={`${cormorantSc.className} haven-rise text-sm font-semibold tracking-[0.25em] text-[#4a1c22]`}
               style={{ "--i": 0 } as CSSProperties}
             >
-              {t("cover.invite")}
+              {tw("invite")}
             </p>
             <div
               className="haven-rise mt-3"
@@ -151,7 +153,7 @@ export default async function HavenTheme({
                   : t("greeting")}
               </h2>
               <p className="mt-4 font-serif text-lg leading-relaxed sm:text-xl">
-                {t("text", {
+                {tw("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
@@ -163,7 +165,7 @@ export default async function HavenTheme({
           </div>
         </section>
 
-        <Section title={t("date.title")}>
+        <Section title={tw("dateTitle")}>
           <div className="haven-reveal">
             <p
               className={`${cormorantSc.className} text-sm tracking-[0.35em] text-[#6f5640]`}
@@ -192,10 +194,11 @@ export default async function HavenTheme({
             <p
               className={`${cormorantSc.className} mb-4 text-sm tracking-[0.3em] text-[#6f5640]`}
             >
-              {t("countdown.title")}
+              {tw("countdownTitle")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="border border-[#3d2b1f]/30 bg-[#dec5a0]/70 py-3 outline outline-1 -outline-offset-4 outline-[#3d2b1f]/10"
             />
           </div>

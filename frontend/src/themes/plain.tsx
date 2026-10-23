@@ -9,6 +9,7 @@ import MadeWith from "./shared/made-with";
 import MapLink from "./shared/map-link";
 import Rsvp from "./shared/rsvp";
 import VenueMap from "./shared/venue-map";
+import { occasionMessages } from "./shared/occasion";
 import type { ThemeProps } from "./types";
 
 /**
@@ -20,8 +21,9 @@ export default async function PlainInvitation({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -50,21 +52,24 @@ export default async function PlainInvitation({
       <Section
         title={guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
       >
-        <p>{t("text", { groom: taklif.groomName, bride: taklif.brideName })}</p>
+        <p>
+          {tw("text", { groom: taklif.groomName, bride: taklif.brideName })}
+        </p>
         <p className="mt-3 text-muted">
           {t("signature", { host: taklif.hostName })}
         </p>
       </Section>
 
-      <Section title={t("date.title")}>
+      <Section title={tw("dateTitle")}>
         <p className="font-serif text-2xl">
           {tDates("dateTime", { day, month: months[month], year, time })}
         </p>
       </Section>
 
-      <Section title={t("countdown.title")}>
+      <Section title={tw("countdownTitle")}>
         <Countdown
           eventAt={taklif.eventAt}
+          occasion={taklif.occasion}
           boxClassName="rounded-2xl bg-cream py-3"
         />
       </Section>

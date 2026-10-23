@@ -11,6 +11,7 @@ import MadeWith from "../shared/made-with";
 import Rsvp from "../shared/rsvp";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import "./plov.css";
 import { lora, oldStandard } from "./fonts";
@@ -39,8 +40,9 @@ export default async function PlovTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -86,7 +88,7 @@ export default async function PlovTheme({
                 className={`plov-rise mt-5 text-lg italic ${SOFT}`}
                 style={{ "--i": 2 } as CSSProperties}
               >
-                {t("plov.occasion")}
+                {tw("plovOccasion")}
               </p>
 
               {/* The plov on its lagan. */}
@@ -135,7 +137,7 @@ export default async function PlovTheme({
               {guest ? t("greetingNamed", { name: guest.name }) : t("greeting")}
             </h2>
             <p className="mt-5 text-lg leading-relaxed">
-              {t("plov.text", names)}
+              {tw("plovText", names)}
             </p>
           </div>
         </section>
@@ -200,6 +202,7 @@ export default async function PlovTheme({
             <p className={`mb-5 ${LABEL}`}>{t("plov.countdown")}</p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="rounded-2xl bg-[#fffaf0] py-3 ring-1 ring-[#b08a45]/35"
             />
           </div>

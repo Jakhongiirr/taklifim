@@ -13,6 +13,7 @@ import TextGlow from "../shared/text-glow";
 import VideoCover from "../shared/video-cover";
 import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
+import { occasionMessages } from "../shared/occasion";
 import type { ThemeProps } from "../types";
 import { playfair, poiret } from "./fonts";
 import "./paris.css";
@@ -33,8 +34,9 @@ export default async function ParisTheme({
   preview,
   guest,
 }: ThemeProps) {
-  const [t, tDates, tRsvp] = await Promise.all([
+  const [t, tw, tDates, tRsvp] = await Promise.all([
     getTranslations("Invitation"),
+    getTranslations(occasionMessages(taklif)),
     getTranslations("Dates"),
     getTranslations("Rsvp"),
   ]);
@@ -103,7 +105,7 @@ export default async function ParisTheme({
               className={`${poiret.className} paris-rise text-[13px] font-semibold tracking-[0.3em] text-[#2c3550] uppercase`}
               style={{ "--i": 0 } as CSSProperties}
             >
-              {t("cover.invite")}
+              {tw("invite")}
             </p>
             <div
               className="paris-rise mt-3"
@@ -147,7 +149,7 @@ export default async function ParisTheme({
                   : t("greeting")}
               </h2>
               <p className="mt-[3.5cqw] font-serif text-[4.4cqw] leading-relaxed">
-                {t("text", {
+                {tw("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
@@ -161,7 +163,7 @@ export default async function ParisTheme({
           </div>
         </section>
 
-        <Section title={t("date.title")}>
+        <Section title={tw("dateTitle")}>
           <div className="paris-reveal">
             <p
               className={`${poiret.className} text-xs font-semibold tracking-[0.3em] text-[#5d6280] uppercase`}
@@ -188,10 +190,11 @@ export default async function ParisTheme({
             <p
               className={`${poiret.className} mb-4 text-xs font-semibold tracking-[0.3em] text-[#5d6280] uppercase`}
             >
-              {t("countdown.title")}
+              {tw("countdownTitle")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
+              occasion={taklif.occasion}
               boxClassName="rounded-lg bg-[#fdf6ec] py-3 text-[#23407a] ring-1 ring-[#2c3550]/20"
             />
           </div>
