@@ -17,15 +17,17 @@ import type { ThemeProps } from "../types";
 import "./violet.css";
 import { marck, tenor } from "./fonts";
 
-// A moonlit fairy tale: night violet, moonlight text, lilac glow and the
-// sky lanterns' gold, like the castle in the video. The only dark theme.
+// A moonlit fairy tale: the cover keeps the castle's night violet and
+// lantern gold; the page below takes the letter's midnight navy, moonlight
+// silver and the periwinkle of its flowers. The only dark theme.
 const ASSETS = "/themes/violet";
 
 /**
  * Violet: a violet castle under a full moon, sky lanterns rising, down to a
  * flowered valley and its bridge (the opening video). The valley's last
- * frame is the hero; further down the invitation's words sit on a
- * lantern-lit terrace looking out over the city at night.
+ * frame is the hero; further down the invitation's words are written onto
+ * a night sky framed by the moon, crystals and flowers by the sea, and a
+ * garland of blue and white flowers leads to the closing line.
  */
 export default async function VioletTheme({
   taklif,
@@ -73,13 +75,12 @@ export default async function VioletTheme({
         openedClass="violet-opened"
         overlayClass="bg-gradient-to-b from-[#1b1430]/10 via-[#1b1430]/55 to-[#1b1430]/30"
         buttonClass={`${tenor.className} border-[#f5c27a]/70 bg-[#1b1430]/40 text-xs tracking-[0.25em] text-[#f7f2ff] uppercase backdrop-blur-sm hover:bg-[#1b1430]/60`}
-        musicClass="bg-[#2a1f48]/85 text-[#f5c27a] ring-1 ring-[#b79ce8]/40"
+        musicClass="bg-[#141c3e]/85 text-[#c9d2f4] ring-1 ring-[#9fb0f0]/40"
       >
-        <Crescent className="w-10" />
         <div className="relative isolate">
           <TextGlow tone="bg-[#1b1430]/45" />
           <p
-            className={`${tenor.className} mt-4 text-[11px] tracking-[0.45em] text-[#f7f2ff] uppercase [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
+            className={`${tenor.className} text-[11px] tracking-[0.45em] text-[#f7f2ff] uppercase [text-shadow:0_0_10px_rgba(27,20,48,0.9)]`}
           >
             {t("cover.eyebrow")}
           </p>
@@ -92,9 +93,7 @@ export default async function VioletTheme({
         </div>
       </VideoCover>
 
-      <article className="relative mx-auto max-w-md overflow-clip bg-gradient-to-b from-[#1b1430] via-[#241a40] to-[#1b1430] text-center text-[#f1ecfa] md:shadow-2xl md:shadow-black/40">
-        <Stars />
-
+      <article className="mx-auto max-w-md overflow-clip bg-[#0f1631] text-center text-[#eef0fa] md:shadow-2xl md:shadow-black/40">
         {/* Hero: the video's last frame, so its end becomes the page. */}
         <section className="relative flex h-dvh flex-col items-center justify-end overflow-clip px-6 pb-16">
           <Image
@@ -107,7 +106,6 @@ export default async function VioletTheme({
             className="object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-transparent from-35% via-[#1b1430]/35 via-65% to-[#1b1430]/70" />
-          <Lanterns />
           <div className="relative isolate">
             <TextGlow tone="bg-[#1b1430]/55" className="violet-rise" />
             <p
@@ -137,36 +135,33 @@ export default async function VioletTheme({
           </div>
         </section>
 
-        {/* The words, on the moonlit terrace. */}
-        <section className="relative">
-          <div className="absolute inset-0">
-            <Image
-              src={`${ASSETS}/backdrop.jpg`}
-              alt=""
-              fill
-              unoptimized
-              sizes="448px"
-              className="object-cover"
-            />
-          </div>
-          <div className="relative px-7 py-28">
-            {/* Night glass over the light. */}
-            <div className="violet-reveal rounded-[2rem] bg-[#1b1430]/60 px-6 py-10 shadow-[0_0_60px_-10px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40 backdrop-blur-md">
-              <Crescent className="mx-auto w-9" />
+        {/* The letter: the words are written onto the night sky, between
+            the moon, the crystals and the flowers by the sea. */}
+        <section className="@container relative aspect-[736/1308]">
+          <Image
+            src={`${ASSETS}/frame.jpg`}
+            alt=""
+            fill
+            unoptimized
+            sizes="448px"
+            className="object-cover [mask-image:linear-gradient(to_bottom,transparent,black_4%,black_94%,transparent)]"
+          />
+          <div className="absolute inset-x-[22%] top-[21%] bottom-[33%] flex flex-col items-center justify-center">
+            <div className="violet-reveal">
               <h2
-                className={`${tenor.className} mt-4 text-lg tracking-[0.2em] text-[#f5c27a] uppercase`}
+                className={`${tenor.className} text-[4.2cqw] leading-snug tracking-[0.16em] text-[#c9d2f4] uppercase`}
               >
                 {guest
                   ? t("greetingNamed", { name: guest.name })
                   : t("greeting")}
               </h2>
-              <p className="mt-5 font-serif text-xl leading-relaxed text-[#f7f2ff]">
+              <p className="mt-[4cqw] font-serif text-[4.4cqw] leading-relaxed text-[#eef0fa]">
                 {t("text", {
                   groom: taklif.groomName,
                   bride: taklif.brideName,
                 })}
               </p>
-              <p className="mt-6 font-serif text-lg text-[#d9cdf2] italic">
+              <p className="mt-[4cqw] font-serif text-[4.2cqw] text-[#b4bde0] italic">
                 {t("signature", { host: taklif.hostName })}
               </p>
             </div>
@@ -176,40 +171,33 @@ export default async function VioletTheme({
         <Section title={t("date.title")}>
           <div className="violet-reveal">
             <p
-              className={`${tenor.className} text-xs tracking-[0.35em] text-[#b9aed3] uppercase`}
+              className={`${tenor.className} text-xs tracking-[0.35em] text-[#b4bde0] uppercase`}
             >
               {weekdays[date.weekday]}
             </p>
-            {/* The day on a full moon. */}
-            <div className="violet-moon relative mx-auto mt-5 flex size-40 items-center justify-center rounded-full bg-[radial-gradient(circle_at_40%_35%,#fbf8ff,#e4daf7_55%,#c9b7ee)] shadow-[0_0_50px_12px_rgba(185,156,232,0.4)]">
-              {/* Faint craters. */}
-              <span className="absolute top-[22%] left-[60%] size-5 rounded-full bg-[#c9b7ee]/40" />
-              <span className="absolute top-[62%] left-[24%] size-7 rounded-full bg-[#c9b7ee]/30" />
-              <span className="absolute top-[70%] left-[66%] size-3 rounded-full bg-[#c9b7ee]/40" />
-              <span
-                className={`${marck.className} relative text-6xl text-[#2a1f48]`}
-              >
-                {date.day}
-              </span>
-            </div>
             <p
-              className={`${tenor.className} mt-6 text-base tracking-[0.15em] capitalize`}
+              className={`${marck.className} mt-2 text-7xl leading-none text-[#eef0fa]`}
+            >
+              {date.day}
+            </p>
+            <p
+              className={`${tenor.className} mt-4 text-base tracking-[0.15em] capitalize`}
             >
               {monthsStandalone[date.month]} {date.year}
             </p>
-            <p className="mt-1 font-serif text-lg text-[#d9cdf2] italic">
+            <p className="mt-1 font-serif text-lg text-[#b4bde0] italic">
               {t("date.time", { time: date.time })}
             </p>
           </div>
           <div className="violet-reveal mt-10">
             <p
-              className={`${tenor.className} mb-4 text-[11px] tracking-[0.3em] text-[#b9aed3] uppercase`}
+              className={`${tenor.className} mb-4 text-[11px] tracking-[0.3em] text-[#b4bde0] uppercase`}
             >
               {t("countdown.title")}
             </p>
             <Countdown
               eventAt={taklif.eventAt}
-              boxClassName="rounded-2xl bg-white/5 py-3 text-[#f7f2ff] ring-1 ring-[#b79ce8]/30 backdrop-blur-sm"
+              boxClassName="rounded-2xl bg-[#18214a] py-3 text-[#eef0fa] ring-1 ring-[#9fb0f0]/30"
             />
           </div>
         </Section>
@@ -219,29 +207,33 @@ export default async function VioletTheme({
             <Moments
               photos={taklif.photos}
               alt={coupleNames(taklif)}
-              frameClass="violet-reveal bg-[#2a1f48] p-1.5 shadow-[0_0_30px_-8px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40"
+              frameClass="violet-reveal bg-[#18214a] p-1.5 shadow-lg shadow-black/40 ring-1 ring-[#c5cbe0]/35"
             />
           </Section>
         )}
 
         <Section title={t("venue.title")}>
           <div className="violet-reveal">
-            <p className={`${marck.className} text-4xl text-[#f7f2ff]`}>
+            <p className={`${marck.className} text-4xl text-[#eef0fa]`}>
               {taklif.venueName}
             </p>
-            <p className="mt-2 text-sm text-[#b9aed3]">{taklif.venueAddress}</p>
+            <p className="mt-2 text-sm text-[#b4bde0]">{taklif.venueAddress}</p>
             <VenueMap
               taklif={taklif}
-              className="mt-6 rounded-2xl shadow-[0_0_30px_-8px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/40"
+              className="mt-6 rounded-2xl shadow-lg shadow-black/40 ring-1 ring-[#c5cbe0]/35"
             />
             <MapLink
               taklif={taklif}
-              className={`${tenor.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#f5c27a] px-6 text-xs tracking-[0.2em] text-[#1b1430] uppercase shadow-[0_0_24px_-4px_rgba(245,194,122,0.7)] hover:bg-[#f8d29a]`}
+              className={`${tenor.className} mt-6 inline-flex h-11 items-center rounded-full bg-[#c9d2f4] px-6 text-xs tracking-[0.2em] text-[#0f1631] uppercase hover:bg-[#dce2f8]`}
             >
               {t("venue.map")}
             </MapLink>
           </div>
         </Section>
+
+        <div className="pt-16">
+          <Garland />
+        </div>
 
         <Section title={tRsvp("title")}>
           <div className="violet-reveal">
@@ -251,12 +243,13 @@ export default async function VioletTheme({
               preview={preview}
               palette={{
                 input:
-                  "bg-white/5 text-[#f7f2ff] ring-1 ring-[#b79ce8]/30 placeholder:text-[#b9aed3]/60 focus:ring-[#b79ce8]",
-                optionOn: "bg-[#b79ce8] text-[#1b1430]",
-                optionOff: "bg-white/5 text-[#f1ecfa] ring-1 ring-[#b79ce8]/30",
-                button: "bg-[#b79ce8] text-[#1b1430] hover:bg-[#c9b7ee]",
-                muted: "text-[#b9aed3]",
-                accent: "text-[#f5c27a]",
+                  "bg-[#18214a] text-[#eef0fa] ring-1 ring-[#9fb0f0]/30 placeholder:text-[#b4bde0]/70 focus:ring-[#9fb0f0]",
+                optionOn: "bg-[#c9d2f4] text-[#0f1631]",
+                optionOff:
+                  "bg-[#18214a] text-[#eef0fa] ring-1 ring-[#9fb0f0]/30",
+                button: "bg-[#c9d2f4] text-[#0f1631] hover:bg-[#dce2f8]",
+                muted: "text-[#b4bde0]",
+                accent: "text-[#c9d2f4]",
                 error: "text-[#ffb4c2]",
               }}
             />
@@ -265,14 +258,14 @@ export default async function VioletTheme({
 
         {taklif.cardNumber && (
           <Section title={t("gift.title")}>
-            <div className="violet-reveal rounded-3xl bg-gradient-to-br from-[#3a2a63] to-[#1f1738] px-6 py-8 shadow-[0_0_40px_-12px_rgba(185,156,232,0.6)] ring-1 ring-[#b79ce8]/35">
-              <p className="text-sm text-[#b9aed3]">{t("gift.text")}</p>
-              <p className="mt-4 font-mono text-xl tracking-wider text-[#f7f2ff]">
+            <div className="violet-reveal rounded-3xl bg-gradient-to-br from-[#26336b] to-[#141c3e] px-6 py-8 ring-1 ring-[#c5cbe0]/30">
+              <p className="text-sm text-[#b4bde0]">{t("gift.text")}</p>
+              <p className="mt-4 font-mono text-xl tracking-wider text-[#eef0fa]">
                 {formatCardNumber(taklif.cardNumber)}
               </p>
               <CopyButton
                 value={taklif.cardNumber}
-                className="mt-4 rounded-full px-5 py-2 text-sm text-[#f5c27a] ring-1 ring-[#f5c27a]/60 hover:bg-white/5"
+                className="mt-4 rounded-full px-5 py-2 text-sm text-[#eef0fa] ring-1 ring-[#c9d2f4]/60 hover:bg-white/5"
               />
             </div>
           </Section>
@@ -282,21 +275,21 @@ export default async function VioletTheme({
           <Section title={t("contact.title")}>
             <a
               href={`tel:${taklif.phone}`}
-              className="violet-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#b79ce8]/50 hover:bg-white/5"
+              className="violet-reveal inline-flex h-11 items-center rounded-full px-6 text-sm ring-1 ring-[#9fb0f0]/50 hover:bg-white/5"
             >
               {t("contact.call")} · {formatPhone(taklif.phone)}
             </a>
           </Section>
         )}
 
-        <footer className="relative px-6 pt-20 pb-14">
-          <Crescent className="mx-auto w-10" />
+        <footer className="pt-16 pb-14">
+          <Garland />
           <p
-            className={`${marck.className} violet-reveal mt-5 text-5xl leading-tight text-[#f7f2ff] [text-shadow:0_0_20px_rgba(185,156,232,0.8)]`}
+            className={`${marck.className} violet-reveal mt-6 px-6 text-5xl leading-tight text-[#eef0fa]`}
           >
             {t("closing")}
           </p>
-          <MadeWith className="mt-12 text-[#b9aed3]" />
+          <MadeWith className="mt-12 text-[#b4bde0]" />
         </footer>
       </article>
     </>
@@ -305,11 +298,11 @@ export default async function VioletTheme({
 
 function Section({ title, children }: { title: string; children: ReactNode }) {
   return (
-    <section className="relative px-6 pt-20">
+    <section className="px-6 pt-20">
       <div className="violet-reveal mb-8">
-        <Sparkle />
+        <Divider />
         <h2
-          className={`${tenor.className} mt-3 text-xl tracking-[0.25em] text-[#f7f2ff] uppercase`}
+          className={`${tenor.className} mt-3 text-xl tracking-[0.25em] text-[#eef0fa] uppercase`}
         >
           {title}
         </h2>
@@ -319,108 +312,28 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
   );
 }
 
-/** A crescent moon with a small star, in lantern gold. */
-function Crescent({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      aria-hidden
-      viewBox="0 0 40 40"
-      className={`h-auto drop-shadow-[0_0_8px_rgba(245,194,122,0.7)] ${className}`}
-    >
-      <path d="M24 6 A15 15 0 1 0 34 30 A12 12 0 1 1 24 6Z" fill="#f5c27a" />
-      <path
-        d="M33 6 L34.2 9.3 L37.5 10.5 L34.2 11.7 L33 15 L31.8 11.7 L28.5 10.5 L31.8 9.3Z"
-        fill="#fbe7c6"
-      />
-    </svg>
-  );
-}
-
-/** A four-point sparkle between two faint lines. */
-function Sparkle() {
+/** Two thin silver rules around a small periwinkle dot. */
+function Divider() {
   return (
     <div aria-hidden className="flex items-center justify-center gap-3">
-      <span className="h-px w-14 bg-gradient-to-r from-transparent to-[#b79ce8]/70" />
-      <svg viewBox="0 0 20 20" className="size-4 text-[#f5c27a]">
-        <path
-          d="M10 0 L12 8 L20 10 L12 12 L10 20 L8 12 L0 10 L8 8Z"
-          fill="currentColor"
-        />
-      </svg>
-      <span className="h-px w-14 bg-gradient-to-l from-transparent to-[#b79ce8]/70" />
+      <span className="h-px w-14 bg-gradient-to-r from-transparent to-[#c5cbe0]/70" />
+      <span className="size-1.5 rounded-full bg-[#9fb0f0]" />
+      <span className="h-px w-14 bg-gradient-to-l from-transparent to-[#c5cbe0]/70" />
     </div>
   );
 }
 
-/** Sky lanterns rising from the valley. */
-function Lanterns() {
-  const lanterns: [number, number, string, string, string][] = [
-    // left %, size px, delay, duration, sway
-    [12, 16, "0s", "17s", "18px"],
-    [74, 12, "3s", "20s", "-14px"],
-    [40, 10, "6s", "22s", "10px"],
-    [88, 14, "9s", "18s", "-20px"],
-    [26, 12, "12s", "21s", "16px"],
-    [58, 9, "15s", "23s", "-10px"],
-  ];
+/** A garland of blue and white flowers across the page. */
+function Garland() {
   return (
-    <div aria-hidden className="pointer-events-none absolute inset-0">
-      {lanterns.map(([x, size, delay, dur, sway]) => (
-        <span
-          key={x}
-          className="violet-lantern absolute bottom-[8%] opacity-0 motion-reduce:hidden"
-          style={
-            {
-              left: `${x}%`,
-              "--d": delay,
-              "--dur": dur,
-              "--sway": sway,
-            } as CSSProperties
-          }
-        >
-          <span
-            className="violet-flame block rounded-[40%_40%_30%_30%] bg-gradient-to-b from-[#ffd9a0] to-[#f09a4a] shadow-[0_0_14px_5px_rgba(245,170,90,0.6)]"
-            style={{ width: size, height: size * 1.25 }}
-          />
-        </span>
-      ))}
-    </div>
-  );
-}
-
-/** Faint stars twinkling over the whole page (fixed positions). */
-function Stars() {
-  // A small deterministic spread, so server and browser agree.
-  const stars = Array.from({ length: 46 }, (_, i) => {
-    const x = (i * 37.7) % 100;
-    const y = (i * 61.3 + (i % 7) * 13) % 100;
-    return {
-      x,
-      y,
-      size: 1 + (i % 3),
-      d: `${(i % 9) * 0.45}s`,
-      dur: `${2.5 + (i % 5) * 0.6}s`,
-    };
-  });
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0">
-      {stars.map((s, i) => (
-        <span
-          key={i}
-          className="violet-star absolute rounded-full bg-white"
-          style={
-            {
-              left: `${s.x}%`,
-              top: `${s.y}%`,
-              width: s.size,
-              height: s.size,
-              opacity: 0.6,
-              "--d": s.d,
-              "--dur": s.dur,
-            } as CSSProperties
-          }
-        />
-      ))}
-    </div>
+    <Image
+      src={`${ASSETS}/border.webp`}
+      alt=""
+      width={1024}
+      height={298}
+      unoptimized
+      sizes="448px"
+      className="violet-reveal mx-auto w-full [mask-image:linear-gradient(to_bottom,black_78%,transparent)]"
+    />
   );
 }

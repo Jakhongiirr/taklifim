@@ -27,68 +27,6 @@
   }
 }
 
-/* A sky lantern rising and swaying, fading out high up. */
-@keyframes violet-lantern {
-  0% {
-    transform: translate3d(0, 0, 0);
-    opacity: 0;
-  }
-  10% {
-    opacity: 1;
-  }
-  50% {
-    transform: translate3d(var(--sway, 14px), -45vh, 0);
-  }
-  85% {
-    opacity: 0.9;
-  }
-  100% {
-    transform: translate3d(0, -95vh, 0);
-    opacity: 0;
-  }
-}
-
-/* The lantern's flame flickering. */
-@keyframes violet-flicker {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  45% {
-    opacity: 0.75;
-  }
-  60% {
-    opacity: 0.95;
-  }
-}
-
-@keyframes violet-twinkle {
-  0%,
-  100% {
-    opacity: 0.2;
-    transform: scale(0.7);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-/* The moon behind the date, breathing light. */
-@keyframes violet-moon {
-  0%,
-  100% {
-    box-shadow:
-      0 0 40px 10px rgba(185, 156, 232, 0.35),
-      0 0 90px 30px rgba(185, 156, 232, 0.15);
-  }
-  50% {
-    box-shadow:
-      0 0 55px 16px rgba(185, 156, 232, 0.5),
-      0 0 120px 40px rgba(185, 156, 232, 0.2);
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
   /* The hero comes in as the cover fades (VideoCover adds the class). */
   .violet-opened .violet-rise {
@@ -96,20 +34,6 @@
     animation-delay: calc(var(--i, 0) * 200ms + 250ms);
   }
 
-  .violet-lantern {
-    animation: violet-lantern var(--dur, 18s) linear infinite;
-    animation-delay: var(--d, 0s);
-  }
-  .violet-flame {
-    animation: violet-flicker 1.8s ease-in-out infinite;
-  }
-  .violet-star {
-    animation: violet-twinkle var(--dur, 3s) ease-in-out infinite;
-    animation-delay: var(--d, 0s);
-  }
-  .violet-moon {
-    animation: violet-moon 5s ease-in-out infinite;
-  }
   @supports (animation-timeline: view()) {
     .violet-reveal {
       animation: violet-reveal linear both;
