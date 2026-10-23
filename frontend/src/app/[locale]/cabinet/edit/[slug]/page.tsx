@@ -27,5 +27,12 @@ export default async function EditInvitationPage({
       ? [taklif.music, ...active]
       : active;
 
-  return <BuilderPage designs={designs} tracks={tracks} taklif={taklif} />;
+  return (
+    <BuilderPage
+      designs={designs}
+      tracks={tracks}
+      taklif={taklif}
+      draftKey={`edit:${taklif.id}`}
+    />
+  );
 }

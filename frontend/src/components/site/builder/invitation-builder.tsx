@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import {
   type FormEvent,
   type ReactNode,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -13,6 +14,7 @@ import { useRouter as useAppRouter } from "next/navigation";
 import { useRouter } from "@/i18n/navigation";
 import { api, ApiError, uploadFile } from "@/lib/api-client";
 import type { FileDto, Music, Occasion, Taklif } from "@/lib/api-types";
+import { clearDraft, loadDraft, saveDraft } from "@/lib/builder-draft";
 import {
   formatCardNumber,
   fromTashkentInput,
@@ -26,7 +28,7 @@ import DesignPicker from "./design-picker";
 import Field, { inputClass, pickerClass } from "./field";
 import MapPicker, { type MapKeys } from "./map-picker";
 import MusicPicker from "./music-picker";
-import PhotoPicker from "./photo-picker";
+import PhotoPicker, { MAX_PHOTOS } from "./photo-picker";
 import { type Design, OWN_MUSIC, type OwnMusic, type Photo } from "./types";
 
 type Fields = {
@@ -44,6 +46,17 @@ type Fields = {
 };
 type FieldKey = keyof Fields;
 type Errors = Partial<Record<FieldKey, string>>;
+
+/** What's kept of the form while it's unsaved (picked files included). */
+type Draft = {
+  fields: Fields;
+  eventTime: string;
+  pin: Pin | null;
+  photos: ({ key: string; existing: FileDto } | { key: string; file: File })[];
+  ownMusic: { existing: FileDto } | { file: File } | null;
+};
+/** How long typing pauses before the draft is written. */
+const DRAFT_DELAY_MS = 400;
 
 /** What the invitation is for: only its wording changes. */
 const OCCASIONS: Occasion[] = ["wedding", "fotiha"];
@@ -85,25 +98,40 @@ const noToday = () => null;
 const deleteFile = (id: string) =>
   api(`/files/${id}`, { method: "DELETE" }).catch(() => undefined);
 
-/**
- * Creates an invitation (no `taklif`) or edits one. New photos and own music
- * are uploaded on save and deleted again if saving fails; photos and own music
- * removed from an existing invitation are deleted by the backend. Ends on the invitation's preview.
- * Without Yandex `mapKeys` there is no map picker (and no venue pin).
- */
-export default function InvitationBuilder({
-  designs,
-  tracks,
-  taklif,
-  initialThemeId,
-  mapKeys,
-}: {
+type Props = {
   designs: Design[];
   tracks: Music[];
   taklif?: Taklif;
   initialThemeId?: string;
   mapKeys?: MapKeys;
-}) {
+  /** Where this browser keeps the unsaved form (per user, or per invitation). */
+  draftKey: string;
+};
+
+/**
+ * Creates an invitation (no `taklif`) or edits one. New photos and own music
+ * are uploaded on save and deleted again if saving fails; photos and own music
+ * removed from an existing invitation are deleted by the backend. Ends on the invitation's preview.
+ * Without Yandex `mapKeys` there is no map picker (and no venue pin).
+ * Until it's saved, the form is kept in this browser and filled in again on
+ * return; discarding that draft starts the form over.
+ */
+export default function InvitationBuilder(props: Props) {
+  const [round, setRound] = useState(0);
+  return (
+    <Builder key={round} {...props} onDiscard={() => setRound((n) => n + 1)} />
+  );
+}
+
+function Builder({
+  designs,
+  tracks,
+  taklif,
+  initialThemeId,
+  mapKeys,
+  draftKey,
+  onDiscard,
+}: Props & { onDiscard: () => void }) {
   const t = useTranslations("Builder");
   const router = useRouter();
   // For hrefs that already carry the locale (from links on the page).
@@ -151,6 +179,9 @@ export default function InvitationBuilder({
   const [formError, setFormError] = useState("");
   const [progress, setProgress] = useState<string | null>(null);
   const [dirty, setDirty] = useState(false);
+  // Whether this browser keeps the draft: then leaving loses nothing.
+  const [draftKept, setDraftKept] = useState(false);
+  const [restored, setRestored] = useState(false);
   const form = useRef<HTMLFormElement>(null);
   const when = useTashkentDate();
   // A published invitation's date can change 5 times in all (backend rule).
@@ -160,11 +191,134 @@ export default function InvitationBuilder({
   const rangeError = () =>
     t("errors.eventRange", { date: when(latestEventAt()) });
 
-  // Warn before leaving with unsaved changes. Reloading, closing the tab and
+  // Fill the form in again from this browser's draft, unless the user has
+  // started typing already. Drafts of an edited invitation's older version
+  // are dropped (it was saved since, maybe on another device).
+  const base = taklif?.updatedAt ?? null;
+  const draftLoaded = useRef(false);
+  const dirtyRef = useRef(dirty);
+  useEffect(() => {
+    dirtyRef.current = dirty;
+  }, [dirty]);
+  useEffect(() => {
+    let cancelled = false;
+    loadDraft<Draft>(draftKey, base).then((draft) => {
+      if (cancelled) return;
+      draftLoaded.current = true;
+      if (!draft || dirtyRef.current) return;
+      setFields((current) => {
+        const next = { ...current };
+        for (const key of Object.keys(current) as FieldKey[]) {
+          const value = draft.fields?.[key];
+          if (typeof value === "string")
+            (next as Record<string, string>)[key] = value;
+        }
+        // A design picked by link (or a paid one) stays; one that's no
+        // longer offered isn't brought back.
+        if (
+          initialThemeId ||
+          taklif?.paidAt ||
+          !designs.some((design) => design.id === next.themeId)
+        ) {
+          next.themeId = current.themeId;
+        }
+        if (!OCCASIONS.includes(next.occasion))
+          next.occasion = current.occasion;
+        const musicKnown =
+          next.musicId === "" ||
+          (next.musicId === OWN_MUSIC
+            ? !!draft.ownMusic
+            : tracks.some((track) => track.id === next.musicId));
+        if (!musicKnown) next.musicId = "";
+        return next;
+      });
+      if (typeof draft.eventTime === "string") setEventTime(draft.eventTime);
+      setPin(draft.pin ?? null);
+      setPhotos(
+        (draft.photos ?? [])
+          .slice(0, MAX_PHOTOS)
+          .map((photo) =>
+            "file" in photo
+              ? { ...photo, preview: URL.createObjectURL(photo.file) }
+              : photo,
+          ),
+      );
+      setOwnMusic(
+        draft.ownMusic && "file" in draft.ownMusic
+          ? {
+              file: draft.ownMusic.file,
+              preview: URL.createObjectURL(draft.ownMusic.file),
+            }
+          : (draft.ownMusic ?? null),
+      );
+      setRestored(true);
+      setDirty(true);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // Only on arrival: later prop changes don't refill the form.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [draftKey, base]);
+
+  // Keep the draft as the form changes: shortly after typing pauses, and at
+  // once when the page is hidden or left (a pending write isn't lost).
+  const pendingDraft = useRef<Draft | null>(null);
+  // Set once the invitation is saved or the draft discarded.
+  const draftDone = useRef(false);
+  const flushDraft = useCallback(() => {
+    const draft = pendingDraft.current;
+    if (!draft || draftDone.current) return;
+    pendingDraft.current = null;
+    void saveDraft(draftKey, base, draft).then(setDraftKept);
+  }, [draftKey, base]);
+  useEffect(() => {
+    if (!dirty || !draftLoaded.current) return;
+    pendingDraft.current = {
+      fields,
+      eventTime,
+      pin,
+      photos: photos.map((photo) =>
+        "file" in photo ? { key: photo.key, file: photo.file } : photo,
+      ),
+      ownMusic:
+        ownMusic && "file" in ownMusic ? { file: ownMusic.file } : ownMusic,
+    };
+    const timer = setTimeout(flushDraft, DRAFT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [dirty, fields, eventTime, pin, photos, ownMusic, flushDraft]);
+  useEffect(() => {
+    const flush = flushDraft;
+    const onVisibility = () => {
+      if (document.visibilityState === "hidden") flush();
+    };
+    window.addEventListener("pagehide", flush);
+    document.addEventListener("visibilitychange", onVisibility);
+    return () => {
+      window.removeEventListener("pagehide", flush);
+      document.removeEventListener("visibilitychange", onVisibility);
+      flush();
+    };
+  }, [flushDraft]);
+
+  async function discardDraft() {
+    const ok = await confirm({
+      title: t(taklif ? "draft.discardEditTitle" : "draft.discardTitle"),
+      message: t(taklif ? "draft.discardEditText" : "draft.discardText"),
+      confirmLabel: t("draft.discardConfirm"),
+      cancelLabel: t("draft.discardCancel"),
+    });
+    if (!ok) return;
+    draftDone.current = true;
+    await clearDraft(draftKey);
+    onDiscard();
+  }
+
+  // Warn before leaving with unsaved changes this browser couldn't keep. Reloading, closing the tab and
   // going to another site only allow the browser's own prompt; links within
   // the site navigate without unloading, so those ask with our dialog.
   useEffect(() => {
-    if (!dirty) return;
+    if (!dirty || draftKept) return;
     const warn = (e: BeforeUnloadEvent) => e.preventDefault();
     const onClick = async (e: MouseEvent) => {
       if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) {
@@ -195,7 +349,7 @@ export default function InvitationBuilder({
       window.removeEventListener("beforeunload", warn);
       document.removeEventListener("click", onClick, true);
     };
-  }, [dirty, confirm, appRouter, t]);
+  }, [dirty, draftKept, confirm, appRouter, t]);
 
   // Preview URLs of picked photos are released on unmount.
   const photosRef = useRef(photos);
@@ -406,6 +560,8 @@ export default function InvitationBuilder({
         });
       }
       setDirty(false);
+      draftDone.current = true;
+      await clearDraft(draftKey);
       router.push(`/taklif/${saved.slug}/preview`);
     } catch (err) {
       await Promise.all(uploaded.map((file) => deleteFile(file.id)));
@@ -428,6 +584,21 @@ export default function InvitationBuilder({
       {/* min-w-0: a fieldset is as wide as its content by default, so the
           design picker's scrolling row would widen the whole page. */}
       <fieldset disabled={busy} className="flex min-w-0 flex-col gap-4">
+        {restored && (
+          <div
+            role="status"
+            className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 rounded-2xl bg-cream px-4 py-3 text-sm text-ink ring-1 ring-line"
+          >
+            <span>{t(taklif ? "draft.restoredEdit" : "draft.restored")}</span>
+            <button
+              type="button"
+              onClick={discardDraft}
+              className="font-medium text-sage underline-offset-4 hover:underline"
+            >
+              {t(taklif ? "draft.discardEdit" : "draft.discard")}
+            </button>
+          </div>
+        )}
         <Section n={1} title={t("sections.design")} id="section-design">
           <DesignPicker
             designs={designs}

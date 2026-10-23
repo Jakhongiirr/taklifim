@@ -11,11 +11,13 @@ export default async function BuilderPage({
   tracks,
   taklif,
   initialThemeId,
+  draftKey,
 }: {
   designs: Design[];
   tracks: Music[];
   taklif?: Taklif;
   initialThemeId?: string;
+  draftKey: string;
 }) {
   const t = await getTranslations("Builder");
   // Read per request (not baked in at build), so a key set in .env works
@@ -53,6 +55,7 @@ export default async function BuilderPage({
           taklif={taklif}
           initialThemeId={initialThemeId}
           mapKeys={mapKeys}
+          draftKey={draftKey}
         />
       </main>
     </>

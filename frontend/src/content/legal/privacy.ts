@@ -88,6 +88,7 @@ const uz: LegalDoc = {
           ],
         },
         "Bundan tashqari, mehmon javob yuborganda bu brauzer xotirasida (localStorage) eslab qolinadi, javob qayta-qayta yuborilmasligi uchun. U faqat mehmonning qurilmasida qoladi.",
+        "Taklifnoma yaratayotganda saqlanmagan maʼlumotlar (tanlangan suratlar va musiqa bilan) ham shu brauzerda saqlab turiladi, sahifadan chiqib qaytganda yoʻqolmasligi uchun. Ular taklifnoma saqlanganda oʻchiriladi va serverga yuborilmaydi.",
       ],
     },
     {
@@ -212,6 +213,7 @@ const ru: LegalDoc = {
           ],
         },
         "Кроме того, когда гость отправляет ответ, это запоминается в памяти браузера (localStorage), чтобы ответ не отправлялся повторно. Эти данные остаются только на устройстве гостя.",
+        "Пока приглашение не сохранено, заполненные данные (вместе с выбранными фото и музыкой) тоже хранятся в этом браузере, чтобы не потеряться, если уйти со страницы. Они удаляются после сохранения приглашения и на сервер не отправляются.",
       ],
     },
     {
@@ -336,6 +338,7 @@ const en: LegalDoc = {
           ],
         },
         "Also, when a guest sends a reply, their browser remembers it (localStorage) so it isn't sent twice. This stays only on the guest's device.",
+        "While an invitation isn't saved yet, what you entered (picked photos and music included) is also kept in this browser, so it isn't lost if you leave the page. It's cleared once the invitation is saved and isn't sent to the server.",
       ],
     },
     {
