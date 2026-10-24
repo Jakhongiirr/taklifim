@@ -44,7 +44,7 @@ const KEEP = [
   ...["Great Vibes", "Cormorant Garamond", "Cormorant SC", "EB Garamond"],
   ...["Alex Brush", "Marck Script", "Tenor Sans", "Playfair Display"],
   ...["Poiret One", "Parisienne", "Prata", "Lora", "Yeseva One", "Forum"],
-  ...["Old Standard TT"],
+  ...["Old Standard TT", "Viaoda Libre", "Spectral"],
 ];
 
 // Links, e-mail addresses, rich-text tags, the targets of [label](/path)

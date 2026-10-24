@@ -365,6 +365,50 @@ export const DESIGN_COPY: Record<string, Record<string, DesignCopy>> = {
       ],
     },
   },
+  anor: {
+    uz: {
+      tagline:
+        "Anor donalari, gullagan anor shoxchasi va toʻq anorrang oqshom — sharqona, iliq va oʻziga xos toʻy taklifnomasi.",
+      about: [
+        "Anor — sharqona fayz va toʻkinlikni yaxshi koʻradiganlar uchun. Anor qadimdan baraka, mehr va mustahkam oila ramzi. Taklifnoma toʻq anorrang fondagi mumli muhrdan boshlanadi: mehmon uni bosadi, muhr ikkiga ochiladi, yoqut anor donalari sochiladi va sahifa ochiladi.",
+        "Oltin ravoq ostidagi gullagan anor shoxchasi, Viaoda Libre shriftidagi ismlar, krem rangli qogʻozdagi tabrik kartasi va toʻy kuni anorrang halqa bilan belgilangan oy taqvimi unga iliq, bayramona koʻrinish beradi. Xotima yana toʻq anorrang oqshomga qaytadi.",
+      ],
+      highlights: [
+        "Ochilish: mumli muhr ochilib, anor donalari sochiladi",
+        "Toʻq anorrang, yoqut, yashil barg va oltin ranglar",
+        "Ismlar Viaoda Libre shriftida, matn Spectral shriftida",
+        "Oltin ravoq, gullagan anor shoxchasi va oy taqvimi",
+      ],
+    },
+    ru: {
+      tagline:
+        "Гранатовые зёрна, цветущая ветвь граната и тёмно-гранатовый вечер — тёплое восточное свадебное приглашение.",
+      about: [
+        "Anor — для тех, кто любит восточную щедрость и уют. Гранат издавна символ достатка, любви и крепкой семьи. Приглашение начинается с восковой печати на тёмно-гранатовом фоне: гость нажимает на неё, печать раскрывается надвое, рассыпаются рубиновые гранатовые зёрна, и открывается страница.",
+        "Цветущая гранатовая ветвь под золотой аркой, имена шрифтом Viaoda Libre, письмо на кремовой бумаге и календарь месяца, где день свадьбы обведён гранатовым кругом, делают его тёплым и праздничным. Финал снова возвращается в гранатовый вечер.",
+      ],
+      highlights: [
+        "Открытие: восковая печать раскрывается, и рассыпаются зёрна граната",
+        "Тёмно-гранатовый, рубиновый, зелень листьев и золото",
+        "Имена шрифтом Viaoda Libre, текст — Spectral",
+        "Золотая арка, цветущая гранатовая ветвь и календарь месяца",
+      ],
+    },
+    en: {
+      tagline:
+        "Pomegranate seeds, a blossoming pomegranate bough and a deep garnet evening — a warm wedding invitation with an Eastern soul.",
+      about: [
+        "Anor, Uzbek for pomegranate, is for couples who love Eastern warmth and abundance. The pomegranate has long stood for plenty, love and a strong family. The invitation begins with a wax seal glowing on deep garnet: your guests tap it, it breaks in two, ruby pomegranate seeds scatter and the page opens.",
+        "A blossoming pomegranate bough under a golden arch, your names in Viaoda Libre, a letter on cream paper and a month calendar with your day ringed in garnet make it warm and festive. The closing returns to the garnet evening.",
+      ],
+      highlights: [
+        "Opening: a wax seal breaks open and scatters pomegranate seeds",
+        "Deep garnet, ruby, leaf green and gold",
+        "Names in Viaoda Libre, text in Spectral",
+        "A golden arch, a blossoming pomegranate bough and a month calendar",
+      ],
+    },
+  },
   plov: {
     uz: {
       tagline:
@@ -425,6 +469,7 @@ export const designName = (id: string) => id[0].toUpperCase() + id.slice(1);
 // Designs with a demo shot of the invitation (public/themes/<id>/demo.jpg);
 // the rest are shown by the last frame of their opening video.
 const DEMO_SHOTS = new Set([
+  "anor",
   "arcade",
   "aurora",
   "classic",

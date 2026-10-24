@@ -1,5 +1,6 @@
 import { getLocale } from "next-intl/server";
 import { cyrillicOwnerText, toCyrillic } from "@/lib/uz-cyrillic";
+import AnorTheme from "./anor";
 import ArcadeTheme from "./arcade";
 import AuroraTheme from "./aurora";
 import ClassicTheme from "./classic";
@@ -21,6 +22,7 @@ import type { Theme, ThemeProps } from "./types";
  * theme here and create a theme with the same `themeId` in the admin.
  * Themes open with their own background video (shared/video-cover.tsx, with
  * the files in public/themes/<themeId>/); "classic" opens a sealed envelope,
+ * "anor" a pomegranate that splits open,
  * "lavel" a folded card and "plov" a lidded platter, drawn in CSS and SVG
  * instead.
  *
@@ -37,6 +39,7 @@ const THEMES: Record<string, Theme> = {
   violet: VioletTheme,
   paris: ParisTheme,
   classic: ClassicTheme,
+  anor: AnorTheme,
   lavel: LavelTheme,
   plov: PlovTheme,
 };
@@ -71,6 +74,10 @@ const SWITCHER: Record<string, SwitcherColors> = {
     pill: "bg-[#fffdf8]/90 text-[#7a1f2b] ring-1 ring-[#a8894f]/50",
     on: "bg-[#2b2420] text-[#faf6ee]",
   },
+  anor: {
+    pill: "bg-[#fffaf3]/90 text-[#8c1c2c] ring-1 ring-[#b08a45]/50",
+    on: "bg-[#8c1c2c] text-[#fbefe6]",
+  },
   lavel: {
     pill: "bg-[#fbf8fe]/90 text-[#6f58a8] ring-1 ring-[#a690d4]/50",
     on: "bg-[#6f58a8] text-[#fbf8fe]",
@@ -90,11 +97,7 @@ const SWITCHER: Record<string, SwitcherColors> = {
  * plain layout, so an invitation always renders. Guests switch the language
  * of its fixed wording themselves.
  */
-export async function ThemedInvitation({
-  taklif,
-  preview,
-  guest,
-}: ThemeProps) {
+export async function ThemedInvitation({ taklif, preview, guest }: ThemeProps) {
   // In Uzbek Cyrillic, what the owner wrote in Latin Uzbek shows in Cyrillic
   // too, so "{groom} ва {bride}нинг" reads in one script.
   if ((await getLocale()) === "uz-Cyrl") {

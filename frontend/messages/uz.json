@@ -529,6 +529,12 @@
       "dayMonth": "{day}-{month}, {weekday}",
       "startTime": "Boshlanish vaqti"
     },
+    "anor": {
+      "tagline": "Anor donalaridek bir-biriga jips, bir umrga birga",
+      "sealHint": "Ochish uchun muhrni bosing",
+      "dayMonth": "{day}-{month}, {weekday}",
+      "startTime": "Boshlanish vaqti"
+    },
     "music": {
       "play": "Musiqani yoqish",
       "pause": "Musiqani toʻxtatish"

@@ -1,3 +1,4 @@
+import { viaoda } from "@/themes/anor/fonts";
 import { yeseva } from "@/themes/arcade/fonts";
 import { greatVibes } from "@/themes/aurora/fonts";
 import { cormorant } from "@/themes/classic/fonts";
@@ -17,6 +18,7 @@ export const DESIGN_NAME_FONT: Record<string, string> = {
   violet: marck.className,
   paris: `${playfair.className} italic`,
   classic: `${cormorant.className} italic`,
+  anor: viaoda.className,
   lavel: lavelScript,
   plov: `${oldStandard.className} italic`,
 };

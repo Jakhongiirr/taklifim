@@ -526,6 +526,12 @@
       "dayMonth": "{weekday}, {month} {day}",
       "startTime": "Ceremony begins"
     },
+    "anor": {
+      "tagline": "Close as pomegranate seeds, together for a lifetime",
+      "sealHint": "Tap the seal to open",
+      "dayMonth": "{weekday}, {month} {day}",
+      "startTime": "Begins at"
+    },
     "music": {
       "play": "Play music",
       "pause": "Pause music"
