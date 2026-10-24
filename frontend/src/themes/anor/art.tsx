@@ -1,9 +1,9 @@
 import type { CSSProperties } from "react";
 
-// The anor theme's drawings: a ripe pomegranate, its seeds, leaves and
-// blossoms, drawn once as SVG symbols (AnorDefs) and placed with <use>, so
-// the theme has no art files to load. Colours: garnet fruit, ruby seeds,
-// sage leaves, a flame-red blossom and thin antique-gold lines.
+// The anor theme's drawings: pomegranate seeds, leaves and blossoms (never
+// the fruit itself), drawn once as SVG symbols (AnorDefs) and placed with
+// <use>, so the theme has no art files to load. Colours: ruby seeds, sage
+// leaves, a flame-red blossom, a garnet wax seal and thin antique gold.
 
 /** Golden lines and small marks. */
 export const GOLD = "#b08a45";
@@ -17,28 +17,15 @@ export function AnorDefs() {
   return (
     <svg aria-hidden width="0" height="0" className="absolute">
       <defs>
-        <radialGradient id="anor-skin" cx="36%" cy="38%" r="70%">
-          <stop offset="0" stopColor="#f2747a" />
-          <stop offset="0.35" stopColor="#cf3a4a" />
-          <stop offset="0.75" stopColor="#951f30" />
+        <radialGradient id="anor-wax" cx="38%" cy="32%" r="75%">
+          <stop offset="0" stopColor="#c8404f" />
+          <stop offset="0.55" stopColor="#951f30" />
           <stop offset="1" stopColor="#5e111d" />
-        </radialGradient>
-        <linearGradient id="anor-crown" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#c23a48" />
-          <stop offset="1" stopColor="#7a1626" />
-        </linearGradient>
-        <radialGradient id="anor-shine" cx="50%" cy="50%" r="50%">
-          <stop offset="0" stopColor="#fff" stopOpacity="0.55" />
-          <stop offset="1" stopColor="#fff" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="anor-aril" cx="38%" cy="32%" r="75%">
           <stop offset="0" stopColor="#ff7a86" />
           <stop offset="0.45" stopColor="#d22a43" />
           <stop offset="1" stopColor="#7d0c22" />
-        </radialGradient>
-        <radialGradient id="anor-pith" cx="50%" cy="45%" r="60%">
-          <stop offset="0" stopColor="#fbe9d6" />
-          <stop offset="1" stopColor="#efcfae" />
         </radialGradient>
         <linearGradient id="anor-leaf-fill" x1="0" y1="0" x2="1" y2="0">
           <stop offset="0" stopColor="#3f5a37" />
@@ -48,58 +35,6 @@ export function AnorDefs() {
           <stop offset="0" stopColor="#b8321f" />
           <stop offset="1" stopColor="#f0703f" />
         </linearGradient>
-
-        {/* A whole pomegranate with its crown, 100 × 110. */}
-        <symbol id="anor-fruit" viewBox="0 0 100 110">
-          {/* Two leaves from behind the crown. */}
-          <use
-            href="#anor-leaf"
-            x="50"
-            y="16"
-            width="34"
-            height="14"
-            transform="rotate(-24 50 23)"
-          />
-          <use
-            href="#anor-leaf"
-            x="50"
-            y="16"
-            width="34"
-            height="14"
-            transform="rotate(-150 50 23)"
-          />
-          <path
-            d="M40 31 L37.5 19 L31 10.5 L41.5 14.5 L44.5 5.5 L50 13 L55.5 5.5 L58.5 14.5 L69 10.5 L62.5 19 L60 31Z"
-            fill="url(#anor-crown)"
-          />
-          <ellipse cx="50" cy="15.5" rx="7" ry="2.2" fill="#3b0a13" />
-          <path
-            d="M50 27 C25 27 8 45 8 66 C8 90 27 106 50 106 C73 106 92 90 92 66 C92 45 75 27 50 27Z"
-            fill="url(#anor-skin)"
-          />
-          <path
-            d="M50 30 C42 48 40 80 46 104 M50 30 C60 50 62 80 56 104 M50 30 C30 44 22 74 30 98 M50 30 C70 44 78 74 70 98"
-            fill="none"
-            stroke="#3b0a13"
-            strokeOpacity="0.12"
-            strokeWidth="1"
-          />
-          <ellipse
-            cx="33"
-            cy="54"
-            rx="11"
-            ry="17"
-            transform="rotate(-28 33 54)"
-            fill="url(#anor-shine)"
-          />
-          <path
-            d="M40 31 C44 33 56 33 60 31"
-            fill="none"
-            stroke="#3b0a13"
-            strokeOpacity="0.35"
-            strokeWidth="1.2"
-          />
-        </symbol>
 
         {/* One aril (seed), 10 × 12. */}
         <symbol id="anor-seed" viewBox="0 0 10 12">
@@ -155,18 +90,9 @@ export function AnorDefs() {
   );
 }
 
-/** A whole pomegranate (100 × 110 units); size it with `className`. */
-export function Fruit({ className = "" }: { className?: string }) {
-  return (
-    <svg aria-hidden viewBox="0 0 100 110" className={className}>
-      <use href="#anor-fruit" width="100" height="110" />
-    </svg>
-  );
-}
-
 /**
- * A pomegranate bough: a curved twig with leaves, two blossoms and a ripe
- * fruit hanging in the middle. Mirrored left and right.
+ * A pomegranate bough: a curved twig with leaves and blossoms, the largest
+ * blossom hanging in the middle. Mirrored left and right.
  */
 export function Bough({
   className = "",
@@ -238,7 +164,14 @@ export function Bough({
         strokeWidth="1.6"
         fill="none"
       />
-      <use href="#anor-fruit" x="128" y="54" width="60" height="66" />
+      <use
+        href="#anor-blossom"
+        x="149"
+        y="57"
+        width="22"
+        height="26"
+        transform="rotate(180 160 70)"
+      />
     </svg>
   );
 }
@@ -297,32 +230,83 @@ export const BURST = Array.from({ length: 22 }, (_, i) => {
   };
 });
 
-/** The open fruit's heart: ruby seeds packed in creamy pith (100 × 110). */
-export function FruitHeart({ className = "" }: { className?: string }) {
-  const seeds: { x: number; y: number; r: number }[] = [];
-  for (let row = 0; row < 8; row++) {
-    for (let col = 0; col < 8; col++) {
-      const x = 18 + col * 9 + (row % 2) * 4.5;
-      const y = 36 + row * 8.6;
-      // Keep to the pith's ellipse.
-      if (((x - 50) / 36) ** 2 + ((y - 67) / 34) ** 2 > 1) continue;
-      seeds.push({ x, y, r: ((row * 7 + col * 13) % 40) - 20 });
-    }
-  }
+/** A pomegranate blossom (24 × 28 units); size it with `className`. */
+export function Blossom({ className = "" }: { className?: string }) {
   return (
-    <svg aria-hidden viewBox="0 0 100 110" className={className}>
-      <ellipse cx="50" cy="67" rx="40" ry="38" fill="url(#anor-pith)" />
-      {seeds.map(({ x, y, r }) => (
+    <svg aria-hidden viewBox="0 0 24 28" className={className}>
+      <use href="#anor-blossom" width="24" height="28" />
+    </svg>
+  );
+}
+
+/**
+ * A garnet wax seal with a scalloped rim, a gold ring, a wreath of seeds
+ * and the couple's initials (100 × 100 units).
+ */
+export function WaxSeal({
+  initials,
+  className = "",
+}: {
+  initials: string;
+  className?: string;
+}) {
+  // A rim of 16 soft bumps around the disc.
+  const rim = Array.from({ length: 32 }, (_, i) => {
+    const a = (i / 32) * Math.PI * 2;
+    const r = i % 2 ? 46 : 49;
+    return `${(50 + r * Math.cos(a)).toFixed(2)},${(50 + r * Math.sin(a)).toFixed(2)}`;
+  }).join(" ");
+  const seeds = Array.from({ length: 12 }, (_, i) => (i / 12) * 360);
+  return (
+    <svg aria-hidden viewBox="0 0 100 100" className={className}>
+      <polygon
+        points={rim}
+        fill="url(#anor-wax)"
+        stroke="#e0bd78"
+        strokeOpacity="0.55"
+        strokeWidth="0.8"
+        strokeLinejoin="round"
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="36"
+        fill="none"
+        stroke="#e0bd78"
+        strokeOpacity="0.8"
+        strokeWidth="1"
+      />
+      <circle
+        cx="50"
+        cy="50"
+        r="22"
+        fill="none"
+        stroke="#e0bd78"
+        strokeOpacity="0.45"
+        strokeWidth="0.6"
+      />
+      {seeds.map((turn) => (
         <use
-          key={`${x}-${y}`}
+          key={turn}
           href="#anor-seed"
-          x={x - 4}
-          y={y - 5}
-          width="8"
-          height="10"
-          transform={`rotate(${r} ${x} ${y})`}
+          x="47.5"
+          y="17"
+          width="5"
+          height="6"
+          transform={`rotate(${turn} 50 50)`}
         />
       ))}
+      <text
+        x="50"
+        y="51"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        fill="#f6e4d3"
+        fontSize="17"
+        fontFamily="inherit"
+      >
+        {initials}
+      </text>
     </svg>
   );
 }

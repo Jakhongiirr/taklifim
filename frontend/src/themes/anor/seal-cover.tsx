@@ -10,28 +10,31 @@ import {
 } from "react";
 import AutoScroll from "../shared/auto-scroll";
 import SmoothScroll from "../shared/smooth-scroll";
-import { BURST, FruitHeart } from "./art";
+import { BURST, WaxSeal } from "./art";
 
-/** The fruit splits open and its seeds scatter. */
+/** The seal breaks in two and pomegranate seeds scatter. */
 const OPENING_MS = 1400;
 /** Then the cover fades into the page. */
 const REVEAL_MS = 900;
 const REDUCED_REVEAL_MS = 300;
 
 /**
- * The anor theme's opening: a ripe pomegranate glowing on deep garnet,
+ * The anor theme's opening: a garnet wax seal glowing on deep garnet,
  * drawn in SVG rather than a video. Tapping it (or anywhere on the cover)
- * starts the music, splits the fruit in two, scatters its seeds and fades
- * into the page; <html> gets `anor-opened` for the hero's entrance.
+ * starts the music, breaks the seal in two, scatters pomegranate seeds
+ * from it and fades into the page; <html> gets `anor-opened` for the hero's entrance.
  * Reduced motion skips straight to the page. Like the other covers, it
  * locks scrolling while shown and is hidden without JavaScript.
  */
-export default function FruitCover({
+export default function SealCover({
   musicUrl,
+  initials,
   children,
 }: {
   musicUrl: string | null;
-  /** Above the fruit (title, names). */
+  /** On the seal, e.g. "J·M". */
+  initials: string;
+  /** Above the seal (bough, title, names). */
   children: ReactNode;
 }) {
   const t = useTranslations("Invitation");
@@ -112,17 +115,15 @@ export default function FruitCover({
               {children}
             </div>
 
-            <div className="relative mt-10 size-56">
-              <div className="anor-glow absolute -inset-10 rounded-full" />
-              <div className="absolute inset-x-[18%] bottom-[-2%] h-[10%] rounded-[50%] bg-[#1a0307]/45 blur-md" />
-              <FruitHeart className="absolute inset-0 size-full" />
+            <div className="relative mt-12 size-44">
+              <div className="anor-glow absolute -inset-12 rounded-full" />
               <div className="anor-burst absolute inset-0">
                 {BURST.map((s, i) => (
                   <svg
                     key={i}
                     aria-hidden
                     viewBox="0 0 10 12"
-                    className="absolute top-[58%] left-1/2"
+                    className="absolute top-1/2 left-1/2"
                     style={
                       {
                         width: `${s.size}%`,
@@ -137,20 +138,18 @@ export default function FruitCover({
                 ))}
               </div>
               {(["left", "right"] as const).map((half) => (
-                <svg
+                <div
                   key={half}
-                  aria-hidden
-                  viewBox="0 0 100 110"
-                  className={`anor-half anor-half-${half} absolute inset-0 size-full`}
+                  className={`anor-half anor-half-${half} absolute inset-0 drop-shadow-[0_14px_18px_rgba(20,2,6,0.5)]`}
                 >
-                  <use href="#anor-fruit" width="100" height="110" />
-                </svg>
+                  <WaxSeal initials={initials} className="size-full" />
+                </div>
               ))}
               <button
                 type="button"
                 tabIndex={state === "closed" ? 0 : -1}
                 aria-label={t("cover.open")}
-                className="absolute inset-[12%] rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e9c98f]"
+                className="absolute inset-0 rounded-full focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#e9c98f]"
               />
             </div>
 
@@ -158,7 +157,7 @@ export default function FruitCover({
               data-font-reveal
               className="anor-cover-hint mt-12 text-[11px] font-semibold tracking-[0.35em] text-[#ecd0bd] uppercase"
             >
-              {t("anor.fruitHint")}
+              {t("anor.sealHint")}
             </p>
           </div>
         </div>

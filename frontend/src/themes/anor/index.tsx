@@ -14,9 +14,9 @@ import ScrollHint from "../shared/scroll-hint";
 import VenueMap from "../shared/venue-map";
 import type { ThemeProps } from "../types";
 import "./anor.css";
-import { AnorDefs, Bough, Fruit, SeedRule } from "./art";
+import { AnorDefs, Blossom, Bough, SeedRule } from "./art";
 import { spectral, viaoda } from "./fonts";
-import FruitCover from "./fruit-cover";
+import SealCover from "./seal-cover";
 
 // A pomegranate orchard at dusk: deep garnet for the cover, hero and
 // closing, cream paper between, ruby seeds, sage leaves and thin antique
@@ -33,10 +33,11 @@ const NIGHT_MUTED = "text-[#ecd0bd]";
 const NIGHT_GOLD = "text-[#e0bd78]";
 
 /**
- * Anor: a ripe pomegranate splits open and scatters its seeds; under a
- * gold arch on garnet, a bough with the fruit crowns the couple's names.
+ * Anor: a garnet wax seal breaks open and scatters pomegranate seeds;
+ * under a gold arch on garnet, a blossoming pomegranate bough crowns the
+ * couple's names.
  * Below, on cream paper, the letter, the date on a month calendar marked
- * with a pomegranate, the countdown, the venue and the guests' replies;
+ * with a garnet ring, the countdown, the venue and the guests' replies;
  * the closing words return to the garnet night.
  */
 export default async function AnorTheme({
@@ -65,7 +66,11 @@ export default async function AnorTheme({
   return (
     <div className={spectral.className}>
       <AnorDefs />
-      <FruitCover musicUrl={taklif.music?.file.url ?? null}>
+      <SealCover
+        musicUrl={taklif.music?.file.url ?? null}
+        initials={`${taklif.groomName[0]}·${taklif.brideName[0]}`}
+      >
+        <Bough className="mx-auto mb-8 w-full max-w-[17rem]" />
         <p className={`${LABEL} ${NIGHT_MUTED}`}>{t("cover.eyebrow")}</p>
         <p
           className={`${viaoda.className} mt-5 text-[2.6rem] leading-[1.1] text-[#f6e4d3]`}
@@ -74,7 +79,7 @@ export default async function AnorTheme({
           <span className={`mx-2 ${NIGHT_GOLD}`}>&amp;</span>
           {taklif.brideName}
         </p>
-      </FruitCover>
+      </SealCover>
 
       <article
         className={`anor-paper mx-auto max-w-md overflow-clip text-center lining-nums ${INK} md:shadow-2xl md:shadow-[#3b1d20]/20`}
@@ -121,11 +126,13 @@ export default async function AnorTheme({
           </div>
         </section>
 
-        {/* The letter, on a card with a pomegranate at its head. */}
+        {/* The letter, on a card with a pomegranate blossom at its head. */}
         <section className="px-5 pt-20">
           <div className="anor-reveal relative rounded-[1.75rem] bg-[#fffaf3] px-6 pt-14 pb-10 shadow-lg shadow-[#3b1d20]/10 ring-1 ring-[#b08a45]/45">
             <div className="pointer-events-none absolute inset-2 rounded-[1.4rem] border border-[#8c1c2c]/15" />
-            <Fruit className="absolute -top-9 left-1/2 w-16 -translate-x-1/2 drop-shadow-md" />
+            <span className="absolute -top-8 left-1/2 flex size-16 -translate-x-1/2 items-center justify-center rounded-full bg-[#fffaf3] shadow-md ring-1 ring-[#b08a45]/45">
+              <Blossom className="h-9" />
+            </span>
             <h2
               className={`${viaoda.className} text-[2rem] leading-tight ${GARNET}`}
             >
@@ -299,7 +306,7 @@ function Section({ title, children }: { title: string; children: ReactNode }) {
 
 /**
  * The event's month, Monday first (as in `Dates.weekdaysShort`), with the
- * day set on a small pomegranate.
+ * day in a garnet ring.
  */
 function Calendar({
   year,
@@ -335,12 +342,10 @@ function Calendar({
         ))}
         {cells.map((n, i) =>
           n === day ? (
-            <span
-              key={i}
-              className="relative flex h-9 items-center justify-center font-semibold text-[#fbefe6] [text-shadow:0_1px_2px_rgb(60_8_16/0.5)]"
-            >
-              <Fruit className="absolute -top-2 h-11" />
-              <span className="relative mt-1.5">{n}</span>
+            <span key={i} className="flex h-9 items-center justify-center">
+              <span className="flex size-9 items-center justify-center rounded-full bg-[#8c1c2c] font-semibold text-[#fbefe6] ring-1 ring-[#b08a45] ring-offset-2 ring-offset-[#fffaf3]">
+                {n}
+              </span>
             </span>
           ) : (
             <span

@@ -1,5 +1,5 @@
 /* The "anor" theme: deep garnet night for the cover, hero and closing,
-   cream paper between, the fruit's opening and the page's entrances.
+   cream paper between, the seal's opening and the page's entrances.
    Animations are off for visitors who prefer reduced motion, and content
    is never hidden without them. */
 
@@ -44,14 +44,14 @@
   );
 }
 
-/* The two halves of the fruit, cut down the middle; the heart and seeds
-   wait behind them until it opens. */
+/* The two halves of the seal, cut down the middle (with room for its
+   shadow); the seeds wait behind them until it opens. */
 .anor-half-left {
-  clip-path: inset(0 50% 0 0);
+  clip-path: inset(-30% 50% -30% -30%);
   transform-origin: 50% 100%;
 }
 .anor-half-right {
-  clip-path: inset(0 0 0 50%);
+  clip-path: inset(-30% -30% -30% 50%);
   transform-origin: 50% 100%;
 }
 [data-anor-cover] .anor-burst svg {
@@ -149,7 +149,7 @@
     animation: anor-fade-out 0.5s ease-out both;
   }
 
-  /* The hero comes in as the cover fades (FruitCover adds the class). */
+  /* The hero comes in as the cover fades (SealCover adds the class). */
   .anor-opened .anor-rise {
     animation: anor-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
     animation-delay: calc(var(--i, 0) * 160ms + 200ms);
