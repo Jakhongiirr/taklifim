@@ -16,6 +16,7 @@ const ORDER = [
   "classic",
   "violet",
   "paris",
+  "anor",
 ];
 const rank = (theme: Theme) => ORDER.indexOf(theme.themeId);
 

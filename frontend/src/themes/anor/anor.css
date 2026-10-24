@@ -1,0 +1,164 @@
+/* The "anor" theme: deep garnet night for the cover, hero and closing,
+   cream paper between, the fruit's opening and the page's entrances.
+   Animations are off for visitors who prefer reduced motion, and content
+   is never hidden without them. */
+
+/* Deep pomegranate red with a warm glow in the middle. */
+.anor-night {
+  background-color: #4a0e19;
+  background-image:
+    radial-gradient(ellipse at 50% 45%, #7a1a2a 0%, transparent 65%),
+    radial-gradient(ellipse at 50% 120%, #2a0610 0%, transparent 60%);
+}
+
+/* Cream paper like the other themes, warmed with a faint rosy light. */
+.anor-paper {
+  background-color: #f9ecdb;
+  background-image:
+    radial-gradient(ellipse at 50% 0%, #fcefe6 0%, transparent 70%),
+    radial-gradient(
+      circle at 20% 30%,
+      rgb(176 42 58 / 0.035) 0 1.5px,
+      transparent 2px
+    );
+  background-size:
+    auto,
+    28px 28px;
+}
+
+/* A tall pointed arch in thin gold, like a portal's niche. */
+.anor-arch {
+  border: 1px solid rgb(217 178 106 / 0.45);
+  border-radius: 999px 999px 1.25rem 1.25rem;
+  box-shadow:
+    inset 0 0 0 5px rgb(74 14 25 / 1),
+    inset 0 0 0 6px rgb(217 178 106 / 0.25);
+}
+
+.anor-glow {
+  background: radial-gradient(
+    circle,
+    rgb(255 120 120 / 0.32) 0%,
+    rgb(255 120 120 / 0.1) 40%,
+    transparent 68%
+  );
+}
+
+/* The two halves of the fruit, cut down the middle; the heart and seeds
+   wait behind them until it opens. */
+.anor-half-left {
+  clip-path: inset(0 50% 0 0);
+  transform-origin: 50% 100%;
+}
+.anor-half-right {
+  clip-path: inset(0 0 0 50%);
+  transform-origin: 50% 100%;
+}
+[data-anor-cover] .anor-burst svg {
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes anor-split-left {
+  to {
+    transform: translateX(-34%) rotate(-16deg);
+  }
+}
+@keyframes anor-split-right {
+  to {
+    transform: translateX(34%) rotate(16deg);
+  }
+}
+@keyframes anor-burst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.4);
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.9;
+    transform: translate(calc(-50% + var(--x)), calc(-50% + var(--y)))
+      rotate(var(--turn)) scale(1);
+  }
+}
+@keyframes anor-fade-out {
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}
+@keyframes anor-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.04);
+  }
+}
+@keyframes anor-pulse {
+  0%,
+  100% {
+    opacity: 0.75;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes anor-rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes anor-reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-anor-cover][data-state="closed"] .anor-half {
+    animation: anor-breathe 2.6s ease-in-out infinite;
+  }
+  [data-anor-cover][data-state="closed"] .anor-glow {
+    animation: anor-pulse 2.6s ease-in-out infinite;
+  }
+  [data-anor-cover]:not([data-state="closed"]) .anor-half-left {
+    animation: anor-split-left 0.9s cubic-bezier(0.45, 0, 0.2, 1) 0.1s both;
+  }
+  [data-anor-cover]:not([data-state="closed"]) .anor-half-right {
+    animation: anor-split-right 0.9s cubic-bezier(0.45, 0, 0.2, 1) 0.1s both;
+  }
+  [data-anor-cover]:not([data-state="closed"]) .anor-burst svg {
+    animation: anor-burst 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.45s both;
+  }
+  [data-anor-cover]:not([data-state="closed"]) .anor-cover-words,
+  [data-anor-cover]:not([data-state="closed"]) .anor-cover-hint {
+    animation: anor-fade-out 0.5s ease-out both;
+  }
+
+  /* The hero comes in as the cover fades (FruitCover adds the class). */
+  .anor-opened .anor-rise {
+    animation: anor-rise 1.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: calc(var(--i, 0) * 160ms + 200ms);
+  }
+  @supports (animation-timeline: view()) {
+    .anor-reveal {
+      animation: anor-reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 100%;
+    }
+  }
+}

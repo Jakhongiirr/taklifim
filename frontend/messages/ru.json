@@ -530,6 +530,12 @@
       "dayMonth": "{day} {month}, {weekday}",
       "startTime": "Начало торжества"
     },
+    "anor": {
+      "tagline": "Как зёрна граната — тесно друг к другу, на всю жизнь вместе",
+      "fruitHint": "Нажмите на гранат, чтобы открыть",
+      "dayMonth": "{day} {month}, {weekday}",
+      "startTime": "Начало"
+    },
     "music": {
       "play": "Включить музыку",
       "pause": "Выключить музыку"
