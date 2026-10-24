@@ -20,8 +20,9 @@ const MAX_STALL_MS = 1200;
 
 /**
  * A theme's opening video, bundled with the theme in public/themes/<id>/:
- * opening.mp4 (H.264, no audio track, about 1 Mbit/s so slow phone
- * connections keep up, under 2 MB) and its first frame as
+ * opening.mp4 (H.264, no audio track, 30 fps, encoded from the source
+ * with -preset slower at CRF 22-25, about 2-5 MB; it is downloaded whole
+ * while the cover shows) and its first frame as
  * opening-start.jpg. The theme's hero uses the last frame (opening-end.jpg)
  * as its background, so the end of the video turns into the page.
  */
